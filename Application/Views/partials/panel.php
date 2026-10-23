@@ -1,5 +1,5 @@
 <?php
-/** Paneel-frame (QEVANTO-ALMA-opbouw): navy sidebar, witte topbar, titelcard met sectietabs eronder. */
+/** Paneel-frame (QEVANTO-ALMA-opbouw): horizontale navy menubalk, witte topbar, titelcard met sectietabs eronder. */
 $user = auth_user();
 $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
 $path = substr($path, strlen(base_path_url())) ?: '/';
@@ -22,19 +22,18 @@ $initial = mb_strtoupper(mb_substr((string) ($user?->Voornaam ?: $user?->Email),
 <head><?= $partial('partials.head', ['sheet' => 'beheer']) ?></head>
 <body>
 <div class="app">
-    <aside class="nav" id="nav">
-        <a class="nav-brand" href="<?= e(url($home)) ?>"><?php $logo = branding_url(branding_url('logo_licht') !== '' ? 'logo_licht' : 'logo'); ?><?php if ($logo !== ''): ?><img src="<?= e($logo) ?>" alt="<?= e(company_name()) ?>"><?php else: ?><span class="brand-mark"><?= icon('server') ?></span><span><?= e(company_name()) ?><small><?= e($tagline) ?></small></span><?php endif; ?></a>
-        <?php foreach ($navSections as $s): ?>
-            <div class="nav-group"><a href="<?= e(url($s['items'][0][0])) ?>" class="nav-title<?= ($current['key'] ?? '') === $s['key'] ? ' active' : '' ?>"><?= icon($s['icon']) ?><span><?= e($s['label']) ?></span><?php if (($s['count'] ?? 0) > 0): ?><span class="nav-count"><?= (int) $s['count'] ?></span><?php endif; ?></a></div>
-        <?php endforeach; ?>
-        <div class="nav-foot">
-            <?php foreach ($footLinks as [$href, $ico, $text, $blank]): ?><a class="nav-link" href="<?= e(url($href)) ?>"<?= $blank ? ' target="_blank"' : '' ?>><?= icon($ico) ?><?= e($text) ?></a><?php endforeach; ?>
-            <form method="post" action="<?= e(url('/uitloggen')) ?>"><?= csrf_field() ?><button type="submit" class="nav-link"><?= icon('logout') ?>Uitloggen</button></form>
+    <header class="nav" id="nav">
+        <div class="nav-in">
+            <a class="nav-brand" href="<?= e(url($home)) ?>"><?php $logo = branding_url(branding_url('logo_licht') !== '' ? 'logo_licht' : 'logo'); ?><?php if ($logo !== ''): ?><img src="<?= e($logo) ?>" alt="<?= e(company_name()) ?>"><?php else: ?><span class="brand-mark"><?= icon('server') ?></span><span><?= e(company_name()) ?><small><?= e($tagline) ?></small></span><?php endif; ?></a>
+            <button type="button" class="tb-icon menu-btn" data-menu-toggle="#nav" aria-label="Menu"><?= icon('layout') ?></button>
+            <nav class="nav-links">
+                <?php foreach ($navSections as $s): ?><a href="<?= e(url($s['items'][0][0])) ?>" class="nav-title<?= ($current['key'] ?? '') === $s['key'] ? ' active' : '' ?>"><?= icon($s['icon']) ?><span><?= e($s['label']) ?></span><?php if (($s['count'] ?? 0) > 0): ?><span class="nav-count"><?= (int) $s['count'] ?></span><?php endif; ?></a><?php endforeach; ?>
+            </nav>
+            <div class="nav-foot"><?php foreach ($footLinks as [$href, $ico, $text, $blank]): ?><a class="nav-link" href="<?= e(url($href)) ?>"<?= $blank ? ' target="_blank"' : '' ?>><?= icon($ico) ?><?= e($text) ?></a><?php endforeach; ?></div>
         </div>
-    </aside>
+    </header>
     <div class="main">
         <header class="topbar2">
-            <button type="button" class="tb-icon menu-btn" data-menu-toggle="#nav" aria-label="Menu"><?= icon('layout') ?></button>
             <div class="crumbs"><span><?= e($current['label'] ?? 'Account') ?></span><?= icon('chevron-right') ?><strong><?= e($crumb ?? ($title ?? '')) ?></strong></div>
             <div class="tb-right">
                 <span class="role-pill role-<?= e($roleKey) ?>"><?= e(\App\Models\User::ROLES[$roleKey] ?? '') ?></span>
