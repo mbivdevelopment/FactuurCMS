@@ -1,6 +1,6 @@
 <?php $isQ = $kind === 'offerte'; $t = $isQ ? 'Offertes' : 'Facturen'; $base = $isQ ? '/beheer/offertes' : '/beheer/facturen'; $extend('beheer', ['title' => $t]);
 $statuses = $isQ ? \App\Models\Document::QUOTE_STATUSES : \App\Models\Document::INVOICE_STATUSES; ?>
-<div class="page-head"><div><h1><?= icon($isQ ? 'quote' : 'file') ?> <?= e($t) ?></h1><div class="sub">Totaal <?= e(money((int) $totals['Totaal'])) ?> · <?= $isQ ? 'in afwachting' : 'openstaand' ?> <?= e(money((int) $totals['Open'])) ?></div></div>
+<div class="page-head"><div class="ph-icon"><?= icon($isQ ? 'quote' : 'file') ?></div><div class="ph-text"><h1><?= e($t) ?></h1><div class="sub">Totaal <?= e(money((int) $totals['Totaal'])) ?> · <?= $isQ ? 'in afwachting' : 'openstaand' ?> <?= e(money((int) $totals['Open'])) ?></div></div>
     <div class="row"><form class="search" method="get"><?= icon('search') ?><input name="q" value="<?= e($q) ?>" placeholder="Zoeken…"><select name="status" onchange="this.form.submit()"><option value="">Alle statussen</option><?php foreach ($statuses as $k => $v): ?><option value="<?= e($k) ?>" <?= $status === $k ? 'selected' : '' ?>><?= e($v) ?></option><?php endforeach; ?></select></form>
     <a class="btn" href="<?= e(url($base . '/nieuw')) ?>"><?= icon('plus', 'icon icon-sm') ?> Nieuwe <?= $isQ ? 'offerte' : 'factuur' ?></a></div></div>
 <div class="card"><?php if ($page['rows'] === []): ?><div class="empty">Geen <?= strtolower($t) ?> gevonden.</div><?php else: ?>

@@ -1,5 +1,5 @@
 <?php $extend('beheer', ['title' => 'Diensten']); ?>
-<div class="page-head"><div><h1><?= icon('server') ?> Diensten</h1><div class="sub"><?= (int) $page['total'] ?> diensten</div></div>
+<div class="page-head"><div class="ph-icon"><?= icon('server') ?></div><div class="ph-text"><h1>Diensten</h1><div class="sub"><?= (int) $page['total'] ?> diensten</div></div>
     <div class="row"><form class="search" method="get"><?= icon('search') ?><input name="q" value="<?= e($q) ?>" placeholder="Zoeken…"><select name="status" onchange="this.form.submit()"><option value="">Alle statussen</option><?php foreach (\App\Models\Service::STATUSES as $k => $v): ?><option value="<?= e($k) ?>" <?= $status === $k ? 'selected' : '' ?>><?= e($v) ?></option><?php endforeach; ?></select></form>
     <a class="btn" href="<?= e(url('/beheer/diensten/nieuw')) ?>"><?= icon('plus', 'icon icon-sm') ?> Nieuwe dienst</a></div></div>
 <div class="card"><?php if ($page['rows'] === []): ?><div class="empty">Geen diensten gevonden.</div><?php else: ?>

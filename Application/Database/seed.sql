@@ -51,7 +51,7 @@ INSERT INTO Instellingen (Sleutel, Waarde) VALUES
 ('bedrijf.kvk', '"12345678"'),
 ('bedrijf.btw', '"NL001234567B01"'),
 ('bedrijf.iban', '"NL00BANK0123456789"'),
-('branding.kleur', '"#4f46e5"'),
+('branding.kleur', '"#ff5a1f"'),
 ('facturatie.betaaltermijn', '14'),
 ('facturatie.offerte_geldig', '30'),
 ('facturatie.btw', '21'),

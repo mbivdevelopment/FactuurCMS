@@ -1,5 +1,5 @@
 <?php $extend('klant', ['title' => 'Nieuw ticket']); $opts = ['' => 'Geen specifieke dienst']; foreach ($services as $s) { $opts[$s->id()] = $s->Naam . ($s->Omschrijving ? ' - ' . $s->Omschrijving : ''); } ?>
-<div class="page-head"><h1><?= icon('ticket') ?> Nieuw ticket</h1></div>
+<div class="page-head"><div class="ph-icon"><?= icon('ticket') ?></div><div class="ph-text"><h1>Nieuw ticket</h1></div></div>
 <form class="card" method="post" action="<?= e(url('/klant/tickets')) ?>"><?= csrf_field() ?>
     <div class="card-body form-grid">
         <?= field('Onderwerp', 'Onderwerp', 'tag', '', 'text', [], 'required') ?>

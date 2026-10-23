@@ -1,5 +1,5 @@
 <?php $extend('beheer', ['title' => 'Updates']); ?>
-<div class="page-head"><div><h1><?= icon('refresh') ?> Updates</h1><div class="sub">Versie <?= e(\App\Services\Updater::localVersion()) ?><?php if ($c = \App\Services\Updater::installedCommit()): ?> · commit <span class="mono"><?= e(substr($c, 0, 7)) ?></span> · <?= e(nl_date((string) setting('updater.bijgewerkt'), true)) ?><?php endif; ?></div></div>
+<div class="page-head"><div class="ph-icon"><?= icon('refresh') ?></div><div class="ph-text"><h1>Updates</h1><div class="sub">Versie <?= e(\App\Services\Updater::localVersion()) ?><?php if ($c = \App\Services\Updater::installedCommit()): ?> · commit <span class="mono"><?= e(substr($c, 0, 7)) ?></span> · <?= e(nl_date((string) setting('updater.bijgewerkt'), true)) ?><?php endif; ?></div></div>
     <a class="btn" href="<?= e(url('/beheer/updates?controleren=1')) ?>"><?= icon('search', 'icon icon-sm') ?> Controleren op updates</a></div>
 <div class="grid grid-side">
     <div class="stack">

@@ -1,5 +1,5 @@
 <?php $new = !$product->id(); $extend('beheer', ['title' => $new ? 'Nieuw product' : $product->Naam]); $groups = array_combine(array_keys(\App\Models\Product::GROUPS), array_keys(\App\Models\Product::GROUPS)); ?>
-<div class="page-head"><h1><?= icon('box') ?> <?= e($new ? 'Nieuw product' : $product->Naam) ?></h1><a class="btn btn-ghost" href="<?= e(url('/beheer/producten')) ?>">Terug</a></div>
+<div class="page-head"><div class="ph-icon"><?= icon('box') ?></div><div class="ph-text"><h1><?= e($new ? 'Nieuw product' : $product->Naam) ?></h1></div><a class="btn btn-ghost" href="<?= e(url('/beheer/producten')) ?>">Terug</a></div>
 <form class="card" method="post" action="<?= e(url($new ? '/beheer/producten' : '/beheer/producten/' . $product->id())) ?>"><?= csrf_field() ?>
     <div class="card-body form-grid">
         <?= field('Naam', 'Naam', 'tag', $product->Naam, 'text', [], 'required') ?>

@@ -19,7 +19,7 @@ document.addEventListener('submit', ev => {
     ev.preventDefault();
     const dlg = document.createElement('dialog');
     dlg.className = 'confirm';
-    dlg.innerHTML = '<p></p><div class="confirm-actions"><button type="button" class="btn btn-ghost" value="no">Annuleren</button><button type="button" class="btn btn-danger" value="yes">Bevestigen</button></div>';
+    dlg.innerHTML = '<div class="modal-h">Weet je het zeker?</div><p></p><div class="confirm-actions"><button type="button" class="btn btn-ghost" value="no">Annuleren</button><button type="button" class="btn btn-danger" value="yes">Bevestigen</button></div>';
     dlg.querySelector('p').textContent = form.dataset.confirm;
     document.body.appendChild(dlg);
     dlg.addEventListener('click', e => {
@@ -89,3 +89,6 @@ document.addEventListener('change', ev => {
     const img = document.querySelector(input.dataset.preview);
     if (img) { img.src = URL.createObjectURL(input.files[0]); img.hidden = false; }
 });
+
+/* Meldingen rechtsboven verdwijnen na 4 seconden. */
+document.addEventListener('DOMContentLoaded', () => document.querySelectorAll('[data-toasts] .toast').forEach(t => setTimeout(() => { t.classList.add('hide'); setTimeout(() => t.remove(), 400); }, 4000)));

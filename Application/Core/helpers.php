@@ -287,6 +287,7 @@ function icon(string $name, string $class = 'icon'): string
         'shield' => '<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/>',
         'zap' => '<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
         'headset' => '<path d="M4 14v-2a8 8 0 0 1 16 0v2M4 14h3v6H5a1 1 0 0 1-1-1zM20 14h-3v6h2a1 1 0 0 0 1-1z"/>',
+        'chevron-right' => '<path d="m9 6 6 6-6 6"/>',
         'arrow-right' => '<path d="M5 12h14M13 6l6 6-6 6"/>',
         'cart' => '<circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/><path d="M3 4h2l2.5 11h11L21 8H6.2"/>',
         'copy' => '<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/>',

@@ -40,7 +40,7 @@ final class Mailer
     /** Mail in huisstijl: logo/naam bovenaan, platte tekst met regeleinden, bedrijfsgegevens onderaan. */
     private static function wrap(string $subject, string $body): string
     {
-        $primary = e((string) setting('branding.kleur', '#4f46e5'));
+        $primary = e((string) setting('branding.kleur', '#ff5a1f'));
         $name = e((string) setting('bedrijf.naam', config('app.name')));
         $logo = branding_url('logo');
         $head = $logo !== '' && !str_ends_with($logo, '.svg')

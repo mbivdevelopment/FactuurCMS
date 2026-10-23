@@ -1,5 +1,5 @@
 <?php $extend('beheer', ['title' => $customer->display()]); $cid = $customer->id(); ?>
-<div class="page-head"><div><h1><?= icon('user') ?> <?= e($customer->display()) ?></h1><div class="sub"><?= e($customer->Nummer) ?> · <?= e($customer->Email) ?> · klant sinds <?= e(nl_date((string) $customer->AangemaaktOp)) ?></div></div>
+<div class="page-head"><div class="ph-icon"><?= icon('user') ?></div><div class="ph-text"><h1><?= e($customer->display()) ?></h1><div class="sub"><?= e($customer->Nummer) ?> · <?= e($customer->Email) ?> · klant sinds <?= e(nl_date((string) $customer->AangemaaktOp)) ?></div></div>
     <div class="row">
         <form method="post" action="<?= e(url('/beheer/klanten/' . $cid . '/inloggen')) ?>"><?= csrf_field() ?><button class="btn btn-ghost"><?= icon('login', 'icon icon-sm') ?> Inloggen als klant</button></form>
         <a class="btn btn-ghost" href="<?= e(url('/beheer/diensten/nieuw?klant=' . $cid)) ?>"><?= icon('server', 'icon icon-sm') ?> Dienst</a>

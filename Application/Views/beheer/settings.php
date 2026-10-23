@@ -1,5 +1,5 @@
 <?php $extend('beheer', ['title' => 'Instellingen']); $s = static fn (string $k, mixed $d = ''): mixed => setting($k, $d); $f = static fn (string $k): string => str_replace('.', '_', $k); ?>
-<div class="page-head"><h1><?= icon('settings') ?> Instellingen</h1></div>
+<div class="page-head"><div class="ph-icon"><?= icon('settings') ?></div><div class="ph-text"><h1>Instellingen</h1></div></div>
 <div class="card" data-tabs>
     <nav class="tab-nav">
         <a href="#bedrijf" class="tab-link" data-tab="bedrijf"><?= icon('building', 'icon icon-sm') ?> Bedrijfsgegevens</a>
@@ -28,7 +28,7 @@
             <?php endforeach; ?>
         </div>
         <form method="post" action="<?= e(url('/beheer/instellingen')) ?>"><?= csrf_field() ?><input type="hidden" name="tab" value="branding">
-            <div class="card-body form-grid"><div class="field"><label for="branding_kleur">Primaire kleur (beheer, website en PDF)</label><div class="row"><input type="color" id="branding_kleur" name="branding_kleur" value="<?= e($s('branding.kleur', '#4f46e5')) ?>" style="width:60px;height:38px;padding:2px"><span class="small muted">PNG/JPG/WEBP/SVG/ICO, max 2 MB. Logo verschijnt in beheer, website, e-mails en PDF's.</span></div></div></div>
+            <div class="card-body form-grid"><div class="field"><label for="branding_kleur">Primaire kleur (beheer, website en PDF)</label><div class="row"><input type="color" id="branding_kleur" name="branding_kleur" value="<?= e($s('branding.kleur', '#ff5a1f')) ?>" style="width:60px;height:38px;padding:2px"><span class="small muted">PNG/JPG/WEBP/SVG/ICO, max 2 MB. Logo verschijnt in beheer, website, e-mails en PDF's.</span></div></div></div>
             <div class="card-foot"><button class="btn"><?= icon('check', 'icon icon-sm') ?> Kleur opslaan</button></div></form>
     </div>
     <div class="tab-pane" data-pane="facturatie"><form method="post" action="<?= e(url('/beheer/instellingen')) ?>"><?= csrf_field() ?><input type="hidden" name="tab" value="facturatie">

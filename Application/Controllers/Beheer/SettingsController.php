@@ -46,7 +46,7 @@ final class SettingsController extends Controller
             Setting::setSecret('mail.wachtwoord', $request->string('mail_wachtwoord'));
         }
         if ($tab === 'branding' && !preg_match('/^#[0-9a-f]{6}$/i', (string) setting('branding.kleur', ''))) {
-            Setting::set('branding.kleur', '#4f46e5');
+            Setting::set('branding.kleur', '#ff5a1f');
         }
 
         return $this->redirect('/beheer/instellingen#' . $tab)->with('success', 'Instellingen opgeslagen.');

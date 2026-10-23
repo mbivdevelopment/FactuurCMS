@@ -1,5 +1,5 @@
 <?php $extend('klant', ['title' => 'Overzicht']); ?>
-<div class="page-head"><div><h1><?= icon('dashboard') ?> Welkom, <?= e(auth_user()?->Voornaam) ?></h1><div class="sub">Hier zie je je diensten, facturen en supportvragen.</div></div><a class="btn" href="<?= e(url('/diensten')) ?>"><?= icon('cart', 'icon icon-sm') ?> Nieuwe dienst bestellen</a></div>
+<div class="page-head"><div class="ph-icon"><?= icon('dashboard') ?></div><div class="ph-text"><h1>Welkom, <?= e(auth_user()?->Voornaam) ?></h1><div class="sub">Hier zie je je diensten, facturen en supportvragen.</div></div><a class="btn" href="<?= e(url('/diensten')) ?>"><?= icon('cart', 'icon icon-sm') ?> Nieuwe dienst bestellen</a></div>
 <div class="grid grid-4" style="margin-bottom:16px">
     <a class="card stat is-ok" href="<?= e(url('/klant/diensten')) ?>" style="color:inherit"><div class="stat-icon"><?= icon('server') ?></div><div><div class="stat-value"><?= $activeCount ?></div><div class="stat-label">Actieve diensten</div></div></a>
     <a class="card stat <?= $openAmount > 0 ? 'is-warn' : '' ?>" href="<?= e(url('/klant/facturen')) ?>" style="color:inherit"><div class="stat-icon"><?= icon('wallet') ?></div><div><div class="stat-value"><?= e(money($openAmount)) ?></div><div class="stat-label">Openstaand</div></div></a>

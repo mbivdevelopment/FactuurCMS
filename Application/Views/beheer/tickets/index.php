@@ -1,5 +1,5 @@
 <?php $extend('beheer', ['title' => 'Tickets']); $tabs = ['actief' => 'Actief', 'open' => 'Open', 'beantwoord' => 'Beantwoord', 'gesloten' => 'Gesloten', 'alle' => 'Alle']; ?>
-<div class="page-head"><div><h1><?= icon('ticket') ?> Tickets</h1><div class="sub"><?= (int) $page['total'] ?> tickets</div></div><a class="btn" href="<?= e(url('/beheer/tickets/nieuw')) ?>"><?= icon('plus', 'icon icon-sm') ?> Nieuw ticket</a></div>
+<div class="page-head"><div class="ph-icon"><?= icon('ticket') ?></div><div class="ph-text"><h1>Tickets</h1><div class="sub"><?= (int) $page['total'] ?> tickets</div></div><a class="btn" href="<?= e(url('/beheer/tickets/nieuw')) ?>"><?= icon('plus', 'icon icon-sm') ?> Nieuw ticket</a></div>
 <div class="filters"><?php foreach ($tabs as $k => $v): ?><a href="<?= e(url('/beheer/tickets?status=' . $k)) ?>" class="<?= $status === $k ? 'active' : '' ?>"><?= e($v) ?></a><?php endforeach; ?></div>
 <div class="card"><?php if ($page['rows'] === []): ?><div class="empty">Geen tickets.</div><?php else: ?>
 <div class="table-wrap"><table class="table"><thead><tr><th>Nummer</th><th>Onderwerp</th><th>Klant</th><th>Afdeling</th><th>Prioriteit</th><th>Laatste reactie</th><th>Status</th></tr></thead><tbody>

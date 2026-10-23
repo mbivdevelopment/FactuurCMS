@@ -1,5 +1,5 @@
 <?php $extend('klant', ['title' => $doc->label() . ' ' . $doc->Nummer]); ?>
-<div class="page-head"><h1><?= icon($doc->isQuote() ? 'quote' : 'file') ?> <?= e($doc->label() . ' ' . $doc->Nummer) ?></h1>
+<div class="page-head"><div class="ph-icon"><?= icon($doc->isQuote() ? 'quote' : 'file') ?></div><div class="ph-text"><h1><?= e($doc->label() . ' ' . $doc->Nummer) ?></h1></div>
     <div class="row">
         <?php if ($doc->isQuote() && $doc->status() === 'verzonden'): ?>
             <form method="post" action="<?= e(url('/klant/offertes/' . $doc->id() . '/afwijzen')) ?>" data-confirm="Weet je zeker dat je deze offerte wilt afwijzen?"><?= csrf_field() ?><button class="btn btn-danger-ghost"><?= icon('x', 'icon icon-sm') ?> Afwijzen</button></form>

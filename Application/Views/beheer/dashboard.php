@@ -1,5 +1,5 @@
 <?php $extend('beheer', ['title' => 'Dashboard']); $max = max(1, ...array_values($months)); $cust = static fn (array|object $r): string => (string) (is_array($r) ? ($r['Bedrijfsnaam'] ?: trim($r['Voornaam'] . ' ' . $r['Achternaam'])) : ($r->Bedrijfsnaam ?: trim($r->Voornaam . ' ' . $r->Achternaam))); ?>
-<div class="page-head"><div><h1><?= icon('dashboard') ?> Dashboard</h1><div class="sub">Overzicht van <?= e(company_name()) ?></div></div>
+<div class="page-head"><div class="ph-icon"><?= icon('dashboard') ?></div><div class="ph-text"><h1>Dashboard</h1><div class="sub">Overzicht van <?= e(company_name()) ?></div></div>
     <div class="row"><a class="btn btn-ghost" href="<?= e(url('/beheer/offertes/nieuw')) ?>"><?= icon('quote', 'icon icon-sm') ?> Nieuwe offerte</a><a class="btn" href="<?= e(url('/beheer/facturen/nieuw')) ?>"><?= icon('plus', 'icon icon-sm') ?> Nieuwe factuur</a></div></div>
 <div class="grid grid-4" style="margin-bottom:16px">
     <div class="card stat"><div class="stat-icon"><?= icon('users') ?></div><div><div class="stat-value"><?= $stats['customers'] ?></div><div class="stat-label">Klanten</div></div></div>

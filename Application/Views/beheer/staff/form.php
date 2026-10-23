@@ -1,5 +1,5 @@
 <?php $new = !$member->id(); $extend('beheer', ['title' => $new ? 'Nieuwe medewerker' : $member->name()]); ?>
-<div class="page-head"><h1><?= icon('shield') ?> <?= e($new ? 'Nieuwe medewerker' : $member->name()) ?></h1><a class="btn btn-ghost" href="<?= e(url('/beheer/medewerkers')) ?>">Terug</a></div>
+<div class="page-head"><div class="ph-icon"><?= icon('shield') ?></div><div class="ph-text"><h1><?= e($new ? 'Nieuwe medewerker' : $member->name()) ?></h1></div><a class="btn btn-ghost" href="<?= e(url('/beheer/medewerkers')) ?>">Terug</a></div>
 <form class="card" method="post" action="<?= e(url($new ? '/beheer/medewerkers' : '/beheer/medewerkers/' . $member->id())) ?>"><?= csrf_field() ?>
     <div class="card-body form-grid">
         <?= field('Voornaam', 'Voornaam', 'user', $member->Voornaam, 'text', [], 'required') ?>

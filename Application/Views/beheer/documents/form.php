@@ -2,7 +2,7 @@
 $extend('beheer', ['title' => $new ? 'Nieuwe ' . $label : ucfirst($label) . ' ' . $doc->Nummer]);
 $custOpts = ['' => 'Kies een klant…']; foreach ($customers as $c) { $custOpts[$c->id()] = $c->display() . ' (' . $c->Nummer . ')'; }
 $action = $new ? ($isQ ? '/beheer/offertes' : '/beheer/facturen') : '/beheer/documenten/' . $doc->id(); ?>
-<div class="page-head"><h1><?= icon($isQ ? 'quote' : 'file') ?> <?= e($new ? 'Nieuwe ' . $label : ucfirst($label) . ' ' . $doc->Nummer . ' bewerken') ?></h1><a class="btn btn-ghost" href="<?= e(url($new ? $action : $action)) ?>">Annuleren</a></div>
+<div class="page-head"><div class="ph-icon"><?= icon($isQ ? 'quote' : 'file') ?></div><div class="ph-text"><h1><?= e($new ? 'Nieuwe ' . $label : ucfirst($label) . ' ' . $doc->Nummer . ' bewerken') ?></h1></div><a class="btn btn-ghost" href="<?= e(url($new ? $action : $action)) ?>">Annuleren</a></div>
 <form method="post" action="<?= e(url($action)) ?>" data-document><?= csrf_field() ?>
     <div class="card" style="margin-bottom:16px"><div class="card-body form-grid">
         <?= field('KlantId', 'Klant', 'user', $doc->KlantId, 'select', $custOpts, 'required') ?>

@@ -13,7 +13,7 @@ final class DocumentPdf
     public static function render(Document $doc): string
     {
         $customer = $doc->customer();
-        $primary = (string) setting('branding.kleur', '#4f46e5');
+        $primary = (string) setting('branding.kleur', '#ff5a1f');
         $label = $doc->label();
         $pdf = new Pdf($label . ' ' . $doc->Nummer);
         $footer = static function (Pdf $pdf): void {

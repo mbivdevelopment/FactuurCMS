@@ -1,5 +1,5 @@
 <?php $extend('klant', ['title' => 'Mijn gegevens']); ?>
-<div class="page-head"><h1><?= icon('user') ?> Mijn gegevens</h1></div>
+<div class="page-head"><div class="ph-icon"><?= icon('user') ?></div><div class="ph-text"><h1>Mijn gegevens</h1></div></div>
 <form class="card" method="post" action="<?= e(url('/klant/profiel')) ?>"><?= csrf_field() ?>
     <div class="card-body form-grid">
         <?= field('Voornaam', 'Voornaam', 'user', $user->Voornaam, 'text', [], 'required') ?>

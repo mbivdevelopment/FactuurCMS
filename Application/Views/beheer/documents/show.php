@@ -1,5 +1,5 @@
 <?php $isQ = $doc->isQuote(); $id = $doc->id(); $extend('beheer', ['title' => $doc->label() . ' ' . $doc->Nummer]); $statuses = $isQ ? \App\Models\Document::QUOTE_STATUSES : \App\Models\Document::INVOICE_STATUSES; ?>
-<div class="page-head"><div><h1><?= icon($isQ ? 'quote' : 'file') ?> <?= e($doc->label() . ' ' . $doc->Nummer) ?></h1><div class="sub"><a href="<?= e(url('/beheer/klanten/' . $doc->KlantId)) ?>"><?= e($doc->customer()?->display()) ?></a><?= $doc->VerzondenOp ? ' · verzonden ' . e(nl_date($doc->VerzondenOp, true)) : '' ?></div></div>
+<div class="page-head"><div class="ph-icon"><?= icon($isQ ? 'quote' : 'file') ?></div><div class="ph-text"><h1><?= e($doc->label() . ' ' . $doc->Nummer) ?></h1><div class="sub"><a href="<?= e(url('/beheer/klanten/' . $doc->KlantId)) ?>"><?= e($doc->customer()?->display()) ?></a><?= $doc->VerzondenOp ? ' · verzonden ' . e(nl_date($doc->VerzondenOp, true)) : '' ?></div></div>
     <div class="row">
         <a class="btn btn-ghost" href="<?= e(url('/beheer/documenten/' . $id . '/bewerken')) ?>"><?= icon('edit', 'icon icon-sm') ?> Bewerken</a>
         <a class="btn btn-ghost" target="_blank" href="<?= e(url('/beheer/documenten/' . $id . '/pdf')) ?>"><?= icon('download', 'icon icon-sm') ?> PDF</a>
