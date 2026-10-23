@@ -133,7 +133,7 @@ dl.details dd { margin: 0; }
 .alert-info { background: var(--primary-soft); color: var(--primary); }
 
 /* Tabs */
-.tab-nav { display: flex; gap: 2px; border-bottom: 1px solid var(--line); padding: 0 12px; overflow-x: auto; }
+.tab-nav { display: flex; gap: 2px; border-bottom: 1px solid var(--line); padding: 0 12px; overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; }
 .tab-link { display: inline-flex; align-items: center; gap: 6px; padding: 12px 14px; color: var(--muted); font-weight: 600; border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
 .tab-link:hover { color: var(--text); text-decoration: none; }
 .tab-link.active { color: var(--primary); border-color: var(--primary); }
