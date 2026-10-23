@@ -1,0 +1,13 @@
+Options -Indexes
+RewriteEngine On
+
+# Thema-assets en branding (logo/favicon) worden rechtstreeks geserveerd.
+RewriteRule ^assets/(.*)$ Application/Theme/assets/$1 [L]
+RewriteRule ^Application/Theme/assets/ - [L]
+
+# Al het andere binnen public_html afschermen.
+RewriteRule ^(Application|storage)(/|$) - [F,L]
+RewriteRule ^(VERSION|\.git.*)$ - [F,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [QSA,L]

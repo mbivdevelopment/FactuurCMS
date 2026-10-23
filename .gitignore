@@ -1,0 +1,7 @@
+storage/logs/*
+storage/sessions/*
+storage/cache/*
+storage/sleutel.php
+Application/Theme/assets/branding/*
+!.gitkeep
+!.htaccess

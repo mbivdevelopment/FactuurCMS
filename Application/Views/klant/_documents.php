@@ -1,0 +1,4 @@
+<?php if ($docs === []): ?><div class="empty">Geen documenten.</div><?php else: ?>
+<div class="table-wrap"><table class="table"><thead><tr><th>Nummer</th><th>Datum</th><th>Omschrijving</th><th class="right">Bedrag</th><th>Status</th><th></th></tr></thead><tbody>
+<?php foreach ($docs as $d): ?><tr><td><a href="<?= e(url('/klant/documenten/' . $d->id())) ?>"><strong><?= e($d->Nummer) ?></strong></a></td><td><?= e(nl_date((string) $d->Datum)) ?></td><td><?= e($d->Onderwerp) ?></td><td class="right nowrap"><?= e(money((int) $d->Totaal)) ?></td><td><?= badge($d->status(), $d->statusLabel()) ?></td><td class="actions"><a class="btn btn-ghost btn-sm" href="<?= e(url('/klant/documenten/' . $d->id() . '/pdf')) ?>" target="_blank"><?= icon('download', 'icon icon-sm') ?> PDF</a></td></tr><?php endforeach; ?>
+</tbody></table></div><?php endif; ?>

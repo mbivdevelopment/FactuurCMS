@@ -1,0 +1,4 @@
+# Alleen thema-assets zijn publiek; de rest van Application/ is afgeschermd.
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>

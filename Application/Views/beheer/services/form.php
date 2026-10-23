@@ -1,0 +1,22 @@
+<?php $new = !$service->id(); $extend('beheer', ['title' => $new ? 'Nieuwe dienst' : $service->Naam]);
+$custOpts = ['' => 'Kies een klant…']; foreach ($customers as $c) { $custOpts[$c->id()] = $c->display() . ' (' . $c->Nummer . ')'; }
+$prodOpts = ['' => 'Geen / handmatig']; foreach ($products as $p) { $prodOpts[$p->id()] = $p->Groep . ' · ' . $p->Naam; } ?>
+<div class="page-head"><div><h1><?= icon('server') ?> <?= e($new ? 'Nieuwe dienst' : $service->Naam) ?></h1><?php if (!$new): ?><div class="sub"><?= e($service->Nummer) ?></div><?php endif; ?></div>
+    <div class="row"><?php if (!$new): ?><form method="post" action="<?= e(url('/beheer/diensten/' . $service->id() . '/factureren')) ?>" data-confirm="Nu een factuur maken voor de volgende periode?"><?= csrf_field() ?><button class="btn btn-ghost"><?= icon('file', 'icon icon-sm') ?> Nu factureren</button></form><?php endif; ?><a class="btn btn-ghost" href="<?= e(url('/beheer/diensten')) ?>">Terug</a></div></div>
+<form class="card" method="post" action="<?= e(url($new ? '/beheer/diensten' : '/beheer/diensten/' . $service->id())) ?>"><?= csrf_field() ?>
+    <div class="card-body form-grid">
+        <?= field('KlantId', 'Klant', 'user', $service->KlantId, 'select', $custOpts, 'required') ?>
+        <?= field('ProductId', 'Product', 'box', $service->ProductId, 'select', $prodOpts) ?>
+        <?= field('Naam', 'Naam', 'tag', $service->Naam, 'text', [], 'required') ?>
+        <?= field('Omschrijving', 'Omschrijving / domein', 'globe', $service->Omschrijving) ?>
+        <?= field('Prijs', 'Prijs excl. btw (€)', 'euro', cents_input((int) $service->Prijs)) ?>
+        <?= field('BtwTarief', 'Btw-tarief (%)', 'hash', (string) (float) $service->BtwTarief) ?>
+        <?= field('Periode', 'Factuurperiode', 'refresh', $service->Periode, 'select', \App\Models\Product::PERIODS) ?>
+        <?= field('Status', 'Status', 'check', $service->Status, 'select', \App\Models\Service::STATUSES) ?>
+        <?= field('StartDatum', 'Startdatum', 'calendar', $service->StartDatum, 'date') ?>
+        <?= field('VolgendeFactuur', 'Volgende factuurdatum', 'calendar', $service->VolgendeFactuur, 'date') ?>
+        <?= field('EindDatum', 'Einddatum', 'calendar', $service->EindDatum, 'date') ?>
+    </div>
+    <div class="card-foot"><?php if (!$new): ?><span style="margin-right:auto"></span><?php endif; ?><button class="btn"><?= icon('check', 'icon icon-sm') ?> Opslaan</button></div>
+</form>
+<?php if (!$new): ?><div style="margin-top:16px"><?= delete_button(url('/beheer/diensten/' . $service->id()), 'Dienst ' . $service->Naam . ' verwijderen?') ?></div><?php endif; ?>

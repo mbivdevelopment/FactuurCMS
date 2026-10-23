@@ -1,0 +1,4 @@
+<?php if ($services === []): ?><div class="empty">Nog geen diensten. <a href="<?= e(url('/diensten')) ?>">Bekijk ons aanbod</a>.</div><?php else: ?>
+<div class="table-wrap"><table class="table"><thead><tr><th>Dienst</th><th>Prijs</th><th>Volgende factuur</th><th>Status</th></tr></thead><tbody>
+<?php foreach ($services as $s): ?><tr><td><strong><?= e($s->Naam) ?></strong><div class="small muted"><?= e($s->Nummer) ?><?= $s->Omschrijving ? ' · ' . e($s->Omschrijving) : '' ?></div></td><td class="nowrap"><?= e(money((int) $s->Prijs)) ?> <span class="small muted"><?= e(period_label((string) $s->Periode)) ?></span></td><td><?= e(nl_date($s->VolgendeFactuur)) ?></td><td><?= badge((string) $s->Status, \App\Models\Service::STATUSES[$s->Status] ?? $s->Status) ?></td></tr><?php endforeach; ?>
+</tbody></table></div><?php endif; ?>

@@ -1,0 +1,122 @@
+<?php
+
+declare(strict_types=1);
+
+/** @var \App\Core\Router $router */
+
+// Frontend
+$router->group('', ['csrf'], static function ($router): void {
+    $router->get('/', 'Frontend\\SiteController@home');
+    $router->get('/diensten', 'Frontend\\SiteController@services');
+    $router->get('/diensten/{slug}', 'Frontend\\SiteController@product');
+    $router->post('/diensten/{slug}/bestellen', 'Frontend\\SiteController@order', ['throttle:bestellen,10,60']);
+    $router->get('/contact', 'Frontend\\SiteController@contact');
+    $router->post('/contact', 'Frontend\\SiteController@sendContact', ['throttle:contact,5,60']);
+    $router->get('/cron/{key}', 'Frontend\\SiteController@cron');
+});
+
+// Inloggen / registreren / wachtwoord
+$router->group('', ['csrf', 'guest'], static function ($router): void {
+    $router->get('/login', 'Auth\\AuthController@loginForm');
+    $router->post('/login', 'Auth\\AuthController@login', ['throttle:login,10,15']);
+    $router->get('/registreren', 'Auth\\AuthController@registerForm');
+    $router->post('/registreren', 'Auth\\AuthController@register', ['throttle:registreren,5,60']);
+    $router->get('/wachtwoord-vergeten', 'Auth\\AuthController@forgotForm');
+    $router->post('/wachtwoord-vergeten', 'Auth\\AuthController@forgot', ['throttle:wachtwoord,5,60']);
+    $router->get('/wachtwoord-herstellen/{token}', 'Auth\\AuthController@resetForm');
+    $router->post('/wachtwoord-herstellen/{token}', 'Auth\\AuthController@reset');
+});
+$router->post('/uitloggen', 'Auth\\AuthController@logout', ['csrf']);
+
+// Klantportaal
+$router->group('klant', ['csrf', 'auth', 'klant'], static function ($router): void {
+    $router->get('/', 'Klant\\PortalController@dashboard');
+    $router->get('/diensten', 'Klant\\PortalController@services');
+    $router->get('/facturen', 'Klant\\PortalController@invoices');
+    $router->get('/offertes', 'Klant\\PortalController@quotes');
+    $router->get('/documenten/{id}', 'Klant\\PortalController@document');
+    $router->get('/documenten/{id}/pdf', 'Klant\\PortalController@pdf');
+    $router->post('/offertes/{id}/akkoord', 'Klant\\PortalController@acceptQuote');
+    $router->post('/offertes/{id}/afwijzen', 'Klant\\PortalController@rejectQuote');
+    $router->get('/tickets', 'Klant\\PortalController@tickets');
+    $router->get('/tickets/nieuw', 'Klant\\PortalController@newTicket');
+    $router->post('/tickets', 'Klant\\PortalController@storeTicket');
+    $router->get('/tickets/{id}', 'Klant\\PortalController@ticket');
+    $router->post('/tickets/{id}', 'Klant\\PortalController@replyTicket');
+    $router->get('/profiel', 'Klant\\PortalController@profile');
+    $router->post('/profiel', 'Klant\\PortalController@updateProfile');
+});
+$router->post('/klant/terug', 'Beheer\\CustomerController@stopImpersonating', ['csrf', 'auth']);
+
+// Beheer
+$router->group('beheer', ['csrf', 'auth', 'staff'], static function ($router): void {
+    $router->get('/', 'Beheer\\DashboardController@index');
+
+    $router->get('/klanten', 'Beheer\\CustomerController@index');
+    $router->get('/klanten/nieuw', 'Beheer\\CustomerController@create');
+    $router->post('/klanten', 'Beheer\\CustomerController@store');
+    $router->get('/klanten/{id}', 'Beheer\\CustomerController@show');
+    $router->post('/klanten/{id}', 'Beheer\\CustomerController@update');
+    $router->delete('/klanten/{id}', 'Beheer\\CustomerController@destroy', ['admin']);
+    $router->post('/klanten/{id}/inloggen', 'Beheer\\CustomerController@impersonate');
+
+    $router->get('/diensten', 'Beheer\\ServiceController@index');
+    $router->get('/diensten/nieuw', 'Beheer\\ServiceController@create');
+    $router->post('/diensten', 'Beheer\\ServiceController@store');
+    $router->get('/diensten/{id}', 'Beheer\\ServiceController@edit');
+    $router->post('/diensten/{id}', 'Beheer\\ServiceController@update');
+    $router->delete('/diensten/{id}', 'Beheer\\ServiceController@destroy');
+    $router->post('/diensten/{id}/factureren', 'Beheer\\ServiceController@invoiceNow');
+
+    foreach (['facturen' => 'factuur', 'offertes' => 'offerte'] as $plural => $kind) {
+        $router->get('/' . $plural, static fn ($r) => (new \App\Controllers\Beheer\DocumentController())->index($r, $kind));
+        $router->get('/' . $plural . '/nieuw', static fn ($r) => (new \App\Controllers\Beheer\DocumentController())->create($r, $kind));
+        $router->post('/' . $plural, static fn ($r) => (new \App\Controllers\Beheer\DocumentController())->store($r, $kind));
+    }
+    $router->get('/documenten/{id}', 'Beheer\\DocumentController@show');
+    $router->get('/documenten/{id}/bewerken', 'Beheer\\DocumentController@edit');
+    $router->post('/documenten/{id}', 'Beheer\\DocumentController@update');
+    $router->delete('/documenten/{id}', 'Beheer\\DocumentController@destroy');
+    $router->get('/documenten/{id}/pdf', 'Beheer\\DocumentController@pdf');
+    $router->post('/documenten/{id}/versturen', 'Beheer\\DocumentController@send');
+    $router->post('/documenten/{id}/status', 'Beheer\\DocumentController@status');
+    $router->post('/documenten/{id}/betaling', 'Beheer\\DocumentController@payment');
+    $router->post('/documenten/{id}/naar-factuur', 'Beheer\\DocumentController@toInvoice');
+    $router->post('/documenten/{id}/crediteren', 'Beheer\\DocumentController@credit');
+    $router->post('/documenten/{id}/kopie', 'Beheer\\DocumentController@duplicate');
+
+    $router->get('/tickets', 'Beheer\\TicketController@index');
+    $router->get('/tickets/nieuw', 'Beheer\\TicketController@create');
+    $router->post('/tickets', 'Beheer\\TicketController@store');
+    $router->get('/tickets/{id}', 'Beheer\\TicketController@show');
+    $router->post('/tickets/{id}', 'Beheer\\TicketController@reply');
+    $router->post('/tickets/{id}/status', 'Beheer\\TicketController@status');
+    $router->delete('/tickets/{id}', 'Beheer\\TicketController@destroy');
+
+    $router->get('/producten', 'Beheer\\ProductController@index');
+    $router->get('/producten/nieuw', 'Beheer\\ProductController@create');
+    $router->post('/producten', 'Beheer\\ProductController@store');
+    $router->get('/producten/{id}', 'Beheer\\ProductController@edit');
+    $router->post('/producten/{id}', 'Beheer\\ProductController@update');
+    $router->delete('/producten/{id}', 'Beheer\\ProductController@destroy');
+});
+
+$router->group('beheer', ['csrf', 'auth', 'admin'], static function ($router): void {
+    $router->get('/medewerkers', 'Beheer\\StaffController@index');
+    $router->get('/medewerkers/nieuw', 'Beheer\\StaffController@create');
+    $router->post('/medewerkers', 'Beheer\\StaffController@store');
+    $router->get('/medewerkers/{id}', 'Beheer\\StaffController@edit');
+    $router->post('/medewerkers/{id}', 'Beheer\\StaffController@update');
+    $router->delete('/medewerkers/{id}', 'Beheer\\StaffController@destroy');
+
+    $router->get('/instellingen', 'Beheer\\SettingsController@index');
+    $router->post('/instellingen', 'Beheer\\SettingsController@update');
+    $router->post('/instellingen/branding', 'Beheer\\SettingsController@branding');
+    $router->post('/instellingen/branding/verwijderen', 'Beheer\\SettingsController@removeBranding');
+    $router->post('/instellingen/testmail', 'Beheer\\SettingsController@testMail');
+
+    $router->get('/updates', 'Beheer\\UpdateController@index');
+    $router->post('/updates', 'Beheer\\UpdateController@save');
+    $router->post('/updates/installeren', 'Beheer\\UpdateController@install');
+    $router->post('/updates/migraties', 'Beheer\\UpdateController@migrate');
+});
