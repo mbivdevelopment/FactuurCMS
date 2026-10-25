@@ -983,3 +983,6 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .ck-title .pk-i{width:44px;height:44px;border-radius:12px;background:rgba(245,158,11,.16);border:1px solid rgba(245,158,11,.35);color:var(--primary,#f59e0b)}
 .ck-kind{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.6);display:block;margin-bottom:2px}
 .ck-title h1{margin:0}
+
+/* checkout: oranje bovenrand + radius 8px zoals pakketkaarten */
+.ck-sec .card{border-radius:8px;border-top:3px solid var(--primary,#f59e0b);overflow:hidden}
