@@ -949,3 +949,12 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .pk-dlg-x:hover { background: var(--line); }
 .pk-dlg .pk-specs { margin: 0; }
 .pk-specs .pk-seg { margin-top: 2px; }
+/* Specs compact in twee kolommen */
+.pk-specs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 10px; margin: 16px -8px 14px; padding: 8px; }
+.pk-spec { padding: 5px 8px; gap: 9px; }
+.pk-spec-wide { grid-column: 1 / -1; }
+.pk-si { width: 30px; height: 30px; border-radius: 8px; }
+.pk-si .icon { width: 15px; height: 15px; }
+.pk-sl { font-size: 11px; }
+.pk-sv { font-size: 13px; }
+.pk-segs { width: 17px; height: 11px; }
