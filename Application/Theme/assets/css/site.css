@@ -958,3 +958,13 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .pk-sl { font-size: 11px; }
 .pk-sv { font-size: 13px; }
 .pk-segs { width: 17px; height: 11px; }
+/* Prijs strakker + kenmerken met zebra en icoontjes */
+.pk-price { display: flex; align-items: baseline; gap: 6px; margin-top: 10px; }
+.pk-per { color: var(--muted); font-size: 13.5px; font-weight: 600; }
+.pk-vat { color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+.pk-feats { display: grid; gap: 4px; margin: 0 -8px; padding: 4px 8px 8px; }
+.pk-feats li { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: 8px; font-size: 13.5px; }
+.pk-feats li:nth-child(odd) { background: rgba(15, 27, 61, .035); }
+.pk-fi { flex: none; width: 26px; height: 26px; border-radius: 7px; background: #fff; box-shadow: inset 0 0 0 1px var(--line); color: var(--primary); display: grid; place-items: center; }
+.pk-fi .icon { width: 14px; height: 14px; }
+.pk-feats li.pk-plus { background: transparent; padding-left: 10px; }
