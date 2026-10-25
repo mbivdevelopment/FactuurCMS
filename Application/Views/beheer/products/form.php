@@ -4,7 +4,7 @@
     <div class="card-body form-grid">
         <?= field('Naam', 'Naam', 'tag', $product->Naam, 'text', [], 'required') ?>
         <?= field('Groep', 'Groep', 'layout', $product->Groep, 'select', $groups) ?>
-        <?php $soorten = ['' => 'Geen dienstsoort']; foreach (\App\Models\Product::SOORTEN as $kol => $items) { foreach ($items as $naam => $ic) { $soorten[$naam] = $kol . ' › ' . $naam; } } ?>
+        <?php $soorten = ['' => 'Geen dienstsoort']; foreach (\App\Models\Product::SOORTEN as $kol => $items) { foreach ($items as $naam => $ic) { $soorten[$naam] = $kol . ' › ' . \App\Models\Product::soortLabel($naam); } } ?>
         <?= field('Dienstsoort', 'Dienstsoort', 'tag', (string) $product->Dienstsoort, 'select', $soorten) ?>
         <?= field('Slug', 'URL-naam (leeg = automatisch)', 'link', $product->Slug) ?>
         <?= field('Periode', 'Periode', 'refresh', $product->Periode, 'select', \App\Models\Product::PERIODS) ?>

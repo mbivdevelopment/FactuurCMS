@@ -21,6 +21,12 @@ final class Product extends Model
     public const PERIODS = ['eenmalig' => 'Eenmalig', 'maand' => 'Per maand', 'kwartaal' => 'Per kwartaal', 'jaar' => 'Per jaar'];
 
     protected static string $table = 'Producten';
+    /** Weergavenaam van een dienstsoort bij producten: een domeinproduct is een extensie. */
+    public static function soortLabel(?string $soort): string
+    {
+        return $soort === 'Domeinnamen' ? 'Domeinextensies' : (string) $soort;
+    }
+
     protected static ?string $prefix = 'A';
     protected static array $json = ['Kenmerken'];
 
