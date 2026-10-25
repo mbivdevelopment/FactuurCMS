@@ -14,12 +14,14 @@ final class ProductController extends Controller
 {
     public function index(Request $request): Response
     {
-        return $this->view('beheer.products.index', ['products' => Product::where([], 'Groep, Volgorde, Id')]);
+        $kind = $request->string('soort');
+
+        return $this->view('beheer.products.index', ['products' => Product::where($kind !== '' ? ['Dienstsoort' => $kind] : [], 'Groep, Volgorde, Id'), 'kind' => $kind]);
     }
 
     public function create(Request $request): Response
     {
-        return $this->view('beheer.products.form', ['product' => new Product(['Groep' => 'Hosting', 'Periode' => 'maand', 'BtwTarief' => setting('facturatie.btw', 21), 'Zichtbaar' => 1, 'Prijs' => 0, 'Instelkosten' => 0, 'Volgorde' => Product::count() + 1])]);
+        return $this->view('beheer.products.form', ['product' => new Product(['Groep' => 'Hosting', 'Dienstsoort' => in_array($request->string('soort'), array_merge(...array_map('array_keys', array_values(Product::SOORTEN))), true) ? $request->string('soort') : null, 'Periode' => 'maand', 'BtwTarief' => setting('facturatie.btw', 21), 'Zichtbaar' => 1, 'Prijs' => 0, 'Instelkosten' => 0, 'Volgorde' => Product::count() + 1])]);
     }
 
     public function store(Request $request): Response
