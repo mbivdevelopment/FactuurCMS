@@ -367,3 +367,4 @@ img[data-white] { filter: brightness(0) invert(1); }
 .drop-foot a { display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px; border-radius: 8px; font-weight: 600; font-size: 13.5px; color: var(--text); }
 .drop-foot a:hover { background: var(--accent-soft); color: var(--accent); }
 .drop-foot .drop-foot-action { margin-left: auto; color: var(--accent); }
+.nav-item:hover .nav-drop.cols, .nav-item:focus-within .nav-drop.cols, .nav-item.open .nav-drop.cols { row-gap: 18px; }

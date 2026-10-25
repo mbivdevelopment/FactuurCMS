@@ -31,7 +31,7 @@ $initial = mb_strtoupper(mb_substr((string) ($user?->Voornaam ?: $user?->Email),
                     <div class="nav-item<?= $drop ? ' has-drop' : '' ?>">
                         <a href="<?= e(url($s['href'] ?? $s['items'][0][0])) ?>" class="nav-title<?= $isActive ? ' active' : '' ?>"<?= $drop ? ' aria-haspopup="true"' : '' ?>><?= icon($s['icon']) ?><span><?= e($s['label']) ?></span><?php if (($s['count'] ?? 0) > 0): ?><span class="nav-count"><?= (int) $s['count'] ?></span><?php endif; ?><?php if ($drop): ?><?= icon('chevron-down', 'icon caret') ?><?php endif; ?></a>
                         <?php if ($drop): ?>
-                            <div class="nav-drop<?= !empty($s['wide']) ? ' wide' : '' ?><?= !empty($s['columns']) ? ' cols' : '' ?>"<?= !empty($s['columns']) ? ' style="--cols:' . count($s['columns']) . '"' : '' ?>>
+                            <div class="nav-drop<?= !empty($s['wide']) ? ' wide' : '' ?><?= !empty($s['columns']) ? ' cols' : '' ?>"<?= !empty($s['columns']) ? ' style="--cols:' . ($s['cols'] ?? count($s['columns'])) . '"' : '' ?>>
                                 <?php $colsDef = $s['columns'] ?? ['' => array_keys($s['items'])]; ?>
                                 <?php foreach ($colsDef as $colTitle => $idx): $colItems = array_map(static fn ($n) => $s['items'][$n], $idx); ?>
                                 <?php if ($colTitle !== ''): ?><div class="drop-col"><div class="drop-h"><?= e($colTitle) ?></div><?php endif; ?>
