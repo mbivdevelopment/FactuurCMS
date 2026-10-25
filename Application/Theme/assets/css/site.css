@@ -40,7 +40,7 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .mi-caret { border: 0; background: none; color: inherit; padding: 4px 0 4px 2px; cursor: pointer; display: grid; place-items: center; }
 .mi-caret .icon { transition: transform .15s; }
 .mi.has-mega:hover .mi-caret .icon, .mi.open .mi-caret .icon { transform: rotate(180deg); }
-.mega { display: none; position: absolute; left: 50%; top: 100%; width: min(1600px, 100%); transform: translateX(-50%); background: #fff; border-top: 3px solid var(--primary); border-radius: 0 0 14px 14px; box-shadow: var(--shadow-lg); }
+.mega { display: none; position: absolute; left: 0; right: 0; top: 100%; background: #fff; border-top: 3px solid var(--primary); box-shadow: var(--shadow-lg); }
 @media (hover: hover) and (min-width: 1001px) { .mi.has-mega:hover .mega { display: block; } }
 .mi.open .mega { display: block; }
 .mega-in { display: grid; gap: 28px; padding-top: 30px; padding-bottom: 30px; }
@@ -331,7 +331,7 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
     .mi-link { padding: 12px 28px; justify-content: space-between; border-bottom: 0; }
     .mi-link.active { border-left: 3px solid var(--primary); }
     .mi-caret { width: 36px; height: 36px; }
-    .mega { position: static; width: auto; transform: none; border-radius: 0; box-shadow: none; border-top: 0; background: var(--soft); }
+    .mega { position: static; box-shadow: none; border-top: 0; background: var(--soft); }
     .mega-in, .mega-cloud, .mega-ict { grid-template-columns: 1fr; gap: 14px; padding-top: 14px; padding-bottom: 14px; }
     .mega-grid { grid-template-columns: 1fr; }
     .mega-aside { display: none; }
