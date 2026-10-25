@@ -70,7 +70,7 @@ img { max-width: 100%; }
 .drop-i .icon { width: 17px; height: 17px; }
 .drop-link:hover .drop-i, .drop-link.active .drop-i { background: var(--accent); }
 .drop-t { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
-.drop-t strong { font-size: 14px; font-weight: 700; text-transform: capitalize; }
+.drop-t strong { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
 .drop-t small { font-size: 12px; color: var(--muted); }
 .drop-link.active strong { color: var(--accent); }
 .drop-action { display: flex; align-items: center; gap: 8px; margin: 6px -6px -6px; padding: 10px 16px; border-top: 1px solid var(--line); background: var(--soft); border-radius: 0 0 var(--radius) var(--radius); color: var(--accent); font-weight: 600; font-size: 13.5px; }
