@@ -225,3 +225,17 @@ document.querySelectorAll('[data-features]').forEach(function (list) {
     });
     if (!n) { field.querySelector('[data-feature-add]').click(); }
 });
+
+/* Pakketspecificaties in een popup (dialog). */
+document.addEventListener('click', ev => {
+    const open = ev.target.closest('[data-specs-open]');
+    if (open) {
+        ev.preventDefault();
+        const dlg = open.parentElement.querySelector('dialog.pk-dlg');
+        if (dlg) dlg.showModal();
+        return;
+    }
+    const dlg = ev.target.closest('dialog.pk-dlg');
+    if (!dlg) return;
+    if (ev.target.closest('[data-specs-close]') || ev.target === dlg) dlg.close();
+});

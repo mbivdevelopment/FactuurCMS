@@ -938,3 +938,14 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .pk-vat { margin-bottom: 14px; }
 .pk-btn { margin-top: 4px; }
 .pk-desc { min-height: 2.4em; }
+/* Pakketkaart: specificaties in popup */
+.pk-specs-link { display: inline-flex; align-items: center; gap: 7px; margin-top: 14px; font-size: 13.5px; font-weight: 600; color: var(--primary); text-decoration: none; }
+.pk-specs-link:hover { text-decoration: underline; }
+.pk-dlg { border: 0; border-radius: 18px; padding: 22px 24px; width: min(420px, calc(100vw - 32px)); box-shadow: 0 30px 80px rgba(15, 27, 61, .35); }
+.pk-dlg::backdrop { background: rgba(15, 27, 61, .45); }
+.pk-dlg .modal-h { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.pk-dlg .modal-h strong { display: block; font-size: 18px; }
+.pk-dlg-x { border: 0; background: var(--soft); width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; cursor: pointer; color: var(--navy); }
+.pk-dlg-x:hover { background: var(--line); }
+.pk-dlg .pk-specs { margin: 0; }
+.pk-specs .pk-seg { margin-top: 2px; }
