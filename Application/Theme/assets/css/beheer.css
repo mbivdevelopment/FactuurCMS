@@ -342,3 +342,10 @@ img[data-white] { filter: brightness(0) invert(1); }
     .nav-drop.cols, .nav-item:hover .nav-drop.cols, .nav-item.open .nav-drop.cols { display: block; min-width: 0; padding: 0 0 6px 28px; }
     .drop-h { color: rgba(255,255,255,.5); border-bottom-color: rgba(255,255,255,.1); }
 }
+
+/* Klanten-megamenu over de volle breedte van de menubalk (max. 1600px) */
+@media (min-width: 1101px) {
+    .nav-in { position: relative; }
+    .nav-item:has(> .nav-drop.cols) { position: static; }
+    .nav-drop.cols { left: 32px; right: 32px; min-width: 0; }
+}
