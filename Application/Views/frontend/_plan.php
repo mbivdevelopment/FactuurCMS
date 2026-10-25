@@ -39,7 +39,7 @@ if ($max > 0 && count($rest) > $max) {
     </div>
     <div class="pk-price"><span class="pk-eur"><?= $price ?></span><span class="pk-per">/ <?= e(ltrim($per, '/ ')) ?></span></div>
     <?php if ((int) $p->Instelkosten > 0): ?><div class="pk-vat">+ <?= e(money((int) $p->Instelkosten)) ?> instelkosten</div><?php endif; ?>
-    <a class="btn btn-lg pk-btn" href="<?= e(url($p->path())) ?>"><?= icon('cart', 'icon icon-sm') ?> Bestellen</a>
+    <a class="btn btn-lg pk-btn" href="<?= e(url($p->path() . '/bestellen')) ?>"><?= icon('cart', 'icon icon-sm') ?> Bestellen</a>
         <?php if ($specs !== []): ?><?php $specIcons = ['CPU' => 'cpu', 'Geheugen' => 'box', 'Schijfruimte' => 'server', 'Dataverkeer' => 'trend', 'Netwerk' => 'globe']; ?>
     <div class="pk-specs">
         <div class="pk-spec pk-spec-wide"><span class="pk-si"><?= icon('zap', 'icon icon-sm') ?></span><span class="pk-st"><span class="pk-sl">Snelheid</span><span class="pk-seg"><?php for ($i = 0; $i < 8; $i++): ?><span class="pk-segs<?= $i < $segs ? ' on' : '' ?>"></span><?php endfor; ?></span></span></div>

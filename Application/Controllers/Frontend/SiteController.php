@@ -8,13 +8,16 @@ use App\Core\Auth;
 use App\Core\Controller;
 use App\Core\Database;
 use App\Core\HttpException;
+use App\Core\Log;
 use App\Core\Mailer;
 use App\Core\Request;
 use App\Core\Response;
 use App\Core\Session;
 use App\Models\Product;
+use App\Models\User;
 use App\Services\Billing;
 use App\Services\DomainCheck;
+use App\Services\OnlinePayment;
 
 final class SiteController extends Controller
 {
@@ -184,26 +187,49 @@ final class SiteController extends Controller
         ]);
     }
 
+    public function checkout(Request $request): Response
+    {
+        $product = $this->findProduct($request);
+        return $this->view('frontend.checkout', ['product' => $product, 'methods' => OnlinePayment::enabled()]);
+    }
+
     public function order(Request $request): Response
     {
         $product = $this->findProduct($request);
         $user = Auth::user();
+        if ($user?->isStaff()) {
+            return Response::back($product->path())->with('error', 'Log in als klant om te bestellen (of maak de dienst aan in het beheer).');
+        }
+        $rules = ['Akkoord' => 'required'];
         if ($user === null) {
-            Session::set('intended', $product->path());
-
-            return $this->redirect('/registreren')->with('success', 'Maak een account aan of log in om ' . $product->Naam . ' te bestellen.');
+            $rules += ['Voornaam' => 'required|max:80', 'Achternaam' => 'required|max:80', 'Email' => 'required|email|max:190|unique:Gebruikers,Email', 'Wachtwoord' => 'required|min:8|confirmed'];
         }
-        if ($user->isStaff()) {
-            return Response::back('/diensten')->with('error', 'Log in als klant om te bestellen (of maak de dienst aan in het beheer).');
-        }
-        if ($request->string('Akkoord') === '') {
-            return Response::back('/diensten')->with('error', 'Ga akkoord met de voorwaarden om te bestellen.');
+        $data = $this->validate($request, $rules);
+        if ($user === null) {
+            $user = User::create([
+                'Rol' => 'klant', 'Voornaam' => trim((string) $data['Voornaam']), 'Achternaam' => trim((string) $data['Achternaam']),
+                'Email' => strtolower(trim((string) $data['Email'])), 'Wachtwoord' => Auth::hash((string) $data['Wachtwoord']), 'Actief' => 1,
+            ]);
+            Log::db('registratie', $user->Email, $user->id());
+            [$sub, $body] = Mailer::tpl('welkom', ['voornaam' => $user->Voornaam, 'klantnummer' => $user->Nummer, 'link' => absolute_url('/login')]);
+            Mailer::send((string) $user->Email, $sub, $body);
+            Auth::login($user);
+            Session::forget('intended');
         }
         $doc = Billing::order($user, $product, $request->string('Notitie'));
         Billing::send($doc);
         $admin = (string) setting('bedrijf.email', '');
         if ($admin !== '') {
             Mailer::send($admin, 'Nieuwe bestelling: ' . $product->Naam, "Klant {$user->display()} ({$user->Nummer}) heeft {$product->Naam} besteld.\nFactuur: {$doc->Nummer}\n" . absolute_url('/beheer/documenten/' . $doc->id()));
+        }
+
+        $method = $request->string('Betaalmethode');
+        if (isset(OnlinePayment::enabled()[$method])) {
+            try {
+                return Response::redirect(OnlinePayment::start($doc, $method), 303);
+            } catch (\Throwable $e) {
+                return $this->redirect('/klant/documenten/' . $doc->id())->with('error', 'Je bestelling is geplaatst, maar online betalen lukt nu niet: ' . $e->getMessage());
+            }
         }
 
         return $this->redirect('/klant/documenten/' . $doc->id())->with('success', 'Bedankt voor je bestelling! De dienst wordt geactiveerd zodra de factuur is betaald.');

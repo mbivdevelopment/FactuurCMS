@@ -21,8 +21,7 @@ $per = ['maand' => '/ maand', 'kwartaal' => '/ kwartaal', 'jaar' => '/ jaar'][(s
                 </div>
                 <?= $partial('frontend._usps') ?>
             </div>
-            <form class="card order-card" method="post" action="<?= e(url($product->path() . '/bestellen')) ?>">
-                <?= csrf_field() ?>
+            <div class="card order-card">
                 <div class="card-head"><h2><?= icon('cart') ?> Bestellen</h2></div>
                 <div class="card-body stack">
                     <div class="totals" style="width:100%">
@@ -31,12 +30,10 @@ $per = ['maand' => '/ maand', 'kwartaal' => '/ kwartaal', 'jaar' => '/ jaar'][(s
                         <div><span>Btw <?= e(rtrim(rtrim((string) $vat, '0'), '.')) ?>%</span><span><?= e(money((int) round($first * $vat / 100))) ?></span></div>
                         <div class="grand"><span>Eerste factuur</span><span><?= e(money($first + (int) round($first * $vat / 100))) ?></span></div>
                     </div>
-                    <?= field('Notitie', $product->Groep === 'Domeinen' ? 'Gewenste domeinnaam' : 'Domeinnaam / opmerking', 'globe', (string) ($_GET['domein'] ?? ''), 'text', [], 'placeholder="bijv. mijnbedrijf.nl"') ?>
-                    <label class="switch"><input type="checkbox" name="Akkoord" value="1" required> Ik ga akkoord met de algemene voorwaarden</label>
-                    <button class="btn btn-lg" type="submit" style="justify-content:center"><?= icon('check') ?> <?= auth_user() ? 'Bestelling plaatsen' : 'Verder naar account' ?></button>
-                    <p class="small muted" style="margin:0">Je ontvangt direct een factuur; de dienst wordt na betaling geactiveerd.</p>
+                    <a class="btn btn-lg" href="<?= e(url($product->path() . '/bestellen')) ?>" style="justify-content:center"><?= icon('cart') ?> Bestellen</a>
+                    <p class="small muted" style="margin:0"><?= icon('lock', 'icon icon-sm') ?> Veilig bestellen en direct betalen.</p>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </section>
