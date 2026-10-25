@@ -102,6 +102,20 @@ $router->group('beheer', ['csrf', 'auth', 'staff'], static function ($router): v
     $router->post('/tickets/{id}/status', 'Beheer\\TicketController@status');
     $router->delete('/tickets/{id}', 'Beheer\\TicketController@destroy');
 
+    $router->get('/projecten', 'Beheer\\ContentController@index');
+    $router->get('/projecten/nieuw', 'Beheer\\ContentController@create');
+    $router->post('/projecten', 'Beheer\\ContentController@store');
+    $router->get('/projecten/{id}', 'Beheer\\ContentController@edit');
+    $router->post('/projecten/{id}', 'Beheer\\ContentController@update');
+    $router->delete('/projecten/{id}', 'Beheer\\ContentController@destroy');
+
+    $router->get('/afspraken', 'Beheer\\ContentController@index');
+    $router->get('/afspraken/nieuw', 'Beheer\\ContentController@create');
+    $router->post('/afspraken', 'Beheer\\ContentController@store');
+    $router->get('/afspraken/{id}', 'Beheer\\ContentController@edit');
+    $router->post('/afspraken/{id}', 'Beheer\\ContentController@update');
+    $router->delete('/afspraken/{id}', 'Beheer\\ContentController@destroy');
+
     $router->get('/website/{type}', 'Beheer\\ContentController@index');
     $router->get('/website/{type}/nieuw', 'Beheer\\ContentController@create');
     $router->post('/website/{type}', 'Beheer\\ContentController@store');

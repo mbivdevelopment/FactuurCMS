@@ -154,7 +154,7 @@ INSERT IGNORE INTO Instellingen (Sleutel, Waarde) VALUES
 INSERT IGNORE INTO PortfolioCategorieen (Naam, Volgorde, AangemaaktOp) VALUES ('Development', 1, NOW()), ('Marketing', 2, NOW()), ('ICT', 3, NOW());
 
 -- De inhoud van deze migraties zit al in deze seed; zo worden ze niet nog eens uitgevoerd.
-INSERT IGNORE INTO Migraties (Naam, UitgevoerdOp) VALUES ('2026_10_23_001_website_basisinhoud.sql', NOW()), ('2026_10_23_002_ict_kolommen.sql', NOW()), ('2026_10_23_003_portfolio_categorieen_budget.sql', NOW()), ('2026_10_23_004_menu_indeling.sql', NOW());
+INSERT IGNORE INTO Migraties (Naam, UitgevoerdOp) VALUES ('2026_10_23_001_website_basisinhoud.sql', NOW()), ('2026_10_23_002_ict_kolommen.sql', NOW()), ('2026_10_23_003_portfolio_categorieen_budget.sql', NOW()), ('2026_10_23_004_menu_indeling.sql', NOW()), ('2026_10_23_005_projecten_afspraken.sql', NOW());
 
 -- Nieuwe indeling van de megamenu's. Pagina's die niet meer in het menu staan blijven bereikbaar (Categorie 'overig').
 UPDATE Paginas SET Categorie = 'overig' WHERE Slug IN ('domein-verhuizen', 'dns-beheer', 'wordpress-hosting', 'cloud-servers');
@@ -179,3 +179,10 @@ INSERT IGNORE INTO Paginas (Categorie, Groep, Titel, Slug, Icoon, Samenvatting, 
 ('ict', 'Connectiviteit', 'Licenties', 'licenties', 'file', 'Microsoft 365 en andere licenties.', 'Wij regelen en beheren je softwarelicenties, zoals Microsoft 365, zodat je altijd de juiste licenties hebt en niet te veel betaalt.', NULL, 4, NOW()),
 ('ict', 'Development', 'API Koppelingen', 'api-koppelingen', 'code', 'Systemen die automatisch samenwerken.', 'Wij koppelen je website, webshop, boekhouding en andere systemen via API''s, zodat gegevens automatisch worden uitgewisseld.', NULL, 3, NOW()),
 ('ict', 'Marketing', 'Social Media Onderhoud', 'social-media-onderhoud', 'chat', 'Wij houden je socials actief.', 'Wij plaatsen regelmatig berichten op je social media en reageren op je volgers, in jouw stijl en met jouw boodschap.', NULL, 2, NOW());
+
+INSERT IGNORE INTO Projecten (Id, KlantId, Naam, Status, StartDatum, EindDatum, Budget, Omschrijving, AangemaaktOp) VALUES
+(1, 3, 'Nieuwe website Bakkerij Jansen', 'actief', DATE_SUB(CURDATE(), INTERVAL 10 DAY), DATE_ADD(CURDATE(), INTERVAL 20 DAY), 79500, 'Ontwerp en bouw van de nieuwe website met bestelmodule.', NOW()),
+(2, 2, 'Hostingmigratie De Vries Webdesign', 'gepland', DATE_ADD(CURDATE(), INTERVAL 5 DAY), DATE_ADD(CURDATE(), INTERVAL 7 DAY), 15000, 'Verhuizen van 12 websites naar onze servers.', NOW());
+INSERT IGNORE INTO Afspraken (Id, KlantId, Onderwerp, Datum, Tijd, Locatie, Status, Notities, AangemaaktOp) VALUES
+(1, 3, 'Kick-off website', DATE_ADD(CURDATE(), INTERVAL 2 DAY), '10:00', 'Bij de klant', 'gepland', 'Huisstijl en teksten meenemen.', NOW()),
+(2, 2, 'Evaluatie hosting', DATE_ADD(CURDATE(), INTERVAL 9 DAY), '14:30', 'Online (Teams)', 'gepland', NULL, NOW());

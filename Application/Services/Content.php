@@ -18,6 +18,30 @@ final class Content
     public static function types(): array
     {
         return [
+            'projecten' => [
+                'table' => 'Projecten', 'label' => 'Projecten', 'single' => 'project', 'icon' => 'layout', 'title' => 'Naam', 'base' => '/beheer/projecten', 'section' => 'beheer',
+                'desc' => 'Lopende en geplande projecten per klant', 'order' => "FIELD(Status, 'actief', 'gepland', 'offerte', 'afgerond', 'geannuleerd'), StartDatum, Id DESC", 'public' => null,
+                'fields' => [
+                    'Naam' => ['Projectnaam', 'tag', 'text', true], 'KlantId' => ['Klant', 'user', 'customer'],
+                    'Status' => ['Status', 'flag', 'select', true, ['offerte' => 'Offerte', 'gepland' => 'Gepland', 'actief' => 'Actief', 'afgerond' => 'Afgerond', 'geannuleerd' => 'Geannuleerd']],
+                    'Budget' => ['Budget excl. btw (€)', 'euro', 'money'],
+                    'StartDatum' => ['Startdatum', 'calendar', 'date'], 'EindDatum' => ['Opleverdatum', 'calendar', 'date'],
+                    'Omschrijving' => ['Omschrijving', 'note', 'textarea'],
+                ],
+                'columns' => ['Naam' => 'title', 'KlantId' => 'customer', 'Status' => 'badge', 'StartDatum' => 'date', 'EindDatum' => 'date', 'Budget' => 'money'],
+            ],
+            'afspraken' => [
+                'table' => 'Afspraken', 'label' => 'Afspraken', 'single' => 'afspraak', 'icon' => 'calendar', 'title' => 'Onderwerp', 'base' => '/beheer/afspraken', 'section' => 'beheer',
+                'desc' => 'Afspraken met klanten, de eerstvolgende bovenaan', 'order' => "FIELD(Status, 'gepland', 'afgerond', 'geannuleerd'), Datum, Tijd", 'public' => null,
+                'fields' => [
+                    'Onderwerp' => ['Onderwerp', 'tag', 'text', true], 'KlantId' => ['Klant', 'user', 'customer'],
+                    'Datum' => ['Datum', 'calendar', 'date', true], 'Tijd' => ['Tijd (uu:mm)', 'clock', 'time'],
+                    'Locatie' => ['Locatie', 'map', 'text'],
+                    'Status' => ['Status', 'flag', 'select', true, ['gepland' => 'Gepland', 'afgerond' => 'Afgerond', 'geannuleerd' => 'Geannuleerd']],
+                    'Notities' => ['Notities', 'note', 'textarea'],
+                ],
+                'columns' => ['Datum' => 'date', 'Tijd' => 'text', 'Onderwerp' => 'title', 'KlantId' => 'customer', 'Locatie' => 'text', 'Status' => 'badge'],
+            ],
             'paginas' => [
                 'table' => 'Paginas', 'label' => "Pagina's", 'single' => 'pagina', 'icon' => 'layout', 'title' => 'Titel',
                 'desc' => 'Pagina\'s in het megamenu (Cloudoplossingen en ICT & Development)', 'order' => "FIELD(Categorie, 'cloud', 'ict', 'overig'), Groep, Volgorde, Id", 'public' => '/oplossingen/',
@@ -143,5 +167,22 @@ final class Content
         }
 
         return ['' => '- Kies een categorie -'] + array_combine($names, $names);
+    }
+
+    /** @return array<int|string, string> klanten voor een keuzelijst */
+    public static function customers(): array
+    {
+        $list = ['' => '- Geen klant -'];
+        foreach (\App\Core\Database::all("SELECT Id, Nummer, Voornaam, Achternaam, Bedrijfsnaam FROM Gebruikers WHERE Rol = 'klant' ORDER BY COALESCE(NULLIF(Bedrijfsnaam, ''), Achternaam), Voornaam") as $u) {
+            $list[(int) $u['Id']] = trim(($u['Bedrijfsnaam'] ?: trim($u['Voornaam'] . ' ' . $u['Achternaam'])) . ' (' . $u['Nummer'] . ')');
+        }
+
+        return $list;
+    }
+
+    /** Basis-URL in het beheer voor een type. */
+    public static function base(array $type): string
+    {
+        return $type['base'] ?? '/beheer/website/' . $type['key'];
     }
 }

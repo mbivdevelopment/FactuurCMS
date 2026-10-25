@@ -27,7 +27,7 @@ final class ContentController extends Controller
     public function create(Request $request): Response
     {
         $type = $this->type($request);
-        $row = ['Zichtbaar' => 1, 'Volgorde' => (int) Database::scalar('SELECT COUNT(*) FROM `' . $type['table'] . '`') + 1, 'PublicatieDatum' => date('Y-m-d'), 'Icoon' => 'server', 'Status' => 'actief', 'Soort' => 'mijlpaal'];
+        $row = ['Datum' => date('Y-m-d'), 'Status' => in_array($type['key'], ['projecten', 'afspraken'], true) ? 'gepland' : 'actief', 'Zichtbaar' => 1, 'Volgorde' => (int) Database::scalar('SELECT COUNT(*) FROM `' . $type['table'] . '`') + 1, 'PublicatieDatum' => date('Y-m-d'), 'Icoon' => 'server', 'Soort' => 'mijlpaal'];
 
         return $this->view('beheer.content.form', ['type' => $type, 'row' => array_intersect_key($row, $type['fields'])]);
     }
@@ -39,7 +39,7 @@ final class ContentController extends Controller
         $data['AangemaaktOp'] = now();
         Database::insert($type['table'], $data);
 
-        return $this->redirect('/beheer/website/' . $type['key'])->with('success', ucfirst($type['single']) . ' is aangemaakt.');
+        return $this->redirect(Content::base($type))->with('success', ucfirst($type['single']) . ' is aangemaakt.');
     }
 
     public function edit(Request $request): Response
@@ -57,7 +57,7 @@ final class ContentController extends Controller
         $data['BijgewerktOp'] = now();
         Database::update($type['table'], $data, ['Id' => (int) $row['Id']]);
 
-        return $this->redirect('/beheer/website/' . $type['key'])->with('success', 'Opgeslagen.');
+        return $this->redirect(Content::base($type))->with('success', 'Opgeslagen.');
     }
 
     public function destroy(Request $request): Response
@@ -67,7 +67,7 @@ final class ContentController extends Controller
         $this->removeUpload((string) ($row['Afbeelding'] ?? ''));
         Database::delete($type['table'], ['Id' => (int) $row['Id']]);
 
-        return $this->redirect('/beheer/website/' . $type['key'])->with('success', ucfirst($type['single']) . ' verwijderd.');
+        return $this->redirect(Content::base($type))->with('success', ucfirst($type['single']) . ' verwijderd.');
     }
 
     /**
@@ -99,9 +99,12 @@ final class ContentController extends Controller
                 'number' => (int) $value,
                 'decimal' => (float) str_replace(',', '.', $value),
                 'select' => array_key_exists($value, $def[4]) ? $value : (string) array_key_first($def[4]),
+                'customer' => isset(Content::customers()[(int) $value]) && $value !== '' ? (int) $value : null,
+                'money' => parse_money($value),
+                'time' => preg_match('/^([01]\d|2[0-3]):[0-5]\d$/', $value) ? $value : null,
                 'lookup' => array_key_exists($value, Content::lookup($def[4], (string) ($row[$name] ?? ''))) ? $value : '',
                 'icon' => in_array($value, Content::ICONS, true) ? $value : 'server',
-                'date' => preg_match('/^\d{4}-\d{2}-\d{2}$/', $value) ? $value : date('Y-m-d'),
+                'date' => preg_match('/^\d{4}-\d{2}-\d{2}$/', $value) ? $value : (($def[3] ?? false) || $name === 'PublicatieDatum' ? date('Y-m-d') : null),
                 'image' => $this->image($request, $name, $type['key'], (string) ($row[$name] ?? '')),
                 default => $value === '' ? null : mb_substr($value, 0, $kind === 'textarea' ? 60000 : 255),
             };
@@ -158,7 +161,14 @@ final class ContentController extends Controller
     /** @return array<string, mixed> */
     private function type(Request $request): array
     {
-        return Content::type((string) $request->param('type')) ?? throw new HttpException(404, 'Onbekend onderdeel.');
+        $key = (string) $request->param('type');
+        foreach (['projecten', 'afspraken'] as $fixed) {
+            if ($key === '' && $request->is('/beheer/' . $fixed)) {
+                $key = $fixed;
+            }
+        }
+
+        return Content::type($key) ?? throw new HttpException(404, 'Onbekend onderdeel.');
     }
 
     /**

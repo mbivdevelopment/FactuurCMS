@@ -31,9 +31,14 @@ $initial = mb_strtoupper(mb_substr((string) ($user?->Voornaam ?: $user?->Email),
                     <div class="nav-item<?= $drop ? ' has-drop' : '' ?>">
                         <a href="<?= e(url($s['items'][0][0])) ?>" class="nav-title<?= $isActive ? ' active' : '' ?>"<?= $drop ? ' aria-haspopup="true"' : '' ?>><?= icon($s['icon']) ?><span><?= e($s['label']) ?></span><?php if (($s['count'] ?? 0) > 0): ?><span class="nav-count"><?= (int) $s['count'] ?></span><?php endif; ?><?php if ($drop): ?><?= icon('chevron-down', 'icon caret') ?><?php endif; ?></a>
                         <?php if ($drop): ?>
-                            <div class="nav-drop<?= !empty($s['wide']) ? ' wide' : '' ?>">
-                                <?php foreach ($s['items'] as $it): ?>
+                            <div class="nav-drop<?= !empty($s['wide']) ? ' wide' : '' ?><?= !empty($s['columns']) ? ' cols' : '' ?>">
+                                <?php $colsDef = $s['columns'] ?? ['' => array_keys($s['items'])]; ?>
+                                <?php foreach ($colsDef as $colTitle => $idx): $colItems = array_map(static fn ($n) => $s['items'][$n], $idx); ?>
+                                <?php if ($colTitle !== ''): ?><div class="drop-col"><div class="drop-h"><?= e($colTitle) ?></div><?php endif; ?>
+                                <?php foreach ($colItems as $it): ?>
                                     <a href="<?= e(url($it[0])) ?>" class="drop-link<?= $matches($it[0]) || ($isActive && $crumb === $it[2]) ? ' active' : '' ?>"><span class="drop-i"><?= icon($it[1]) ?></span><span class="drop-t"><strong><?= e($it[2]) ?></strong><?php if (($it[3] ?? '') !== ''): ?><small><?= e($it[3]) ?></small><?php endif; ?></span><?php if (($it[4] ?? 0) > 0): ?><span class="nav-count drop-count"><?= (int) $it[4] ?></span><?php endif; ?></a>
+                                <?php endforeach; ?>
+                                <?php if ($colTitle !== ''): ?></div><?php endif; ?>
                                 <?php endforeach; ?>
                                 <?php if (isset($s['action'])): ?><a href="<?= e(url($s['action'][0])) ?>" class="drop-action"><?= icon('plus', 'icon icon-sm') ?><?= e($s['action'][1]) ?></a><?php endif; ?>
                             </div>

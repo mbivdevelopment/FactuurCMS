@@ -1,6 +1,6 @@
 <?php
 $new = empty($row['Id']);
-$base = '/beheer/website/' . $type['key'];
+$base = \App\Services\Content::base($type);
 $heading = $new ? 'Nieuw ' . $type['single'] : (string) ($row[$type['title']] ?? $type['single']);
 $extend('beheer', ['title' => $heading]);
 $groups = ['' => '- Geen pakketten -'] + array_combine(array_keys(\App\Models\Product::GROUPS), array_keys(\App\Models\Product::GROUPS));
@@ -24,6 +24,12 @@ $groups = ['' => '- Geen pakketten -'] + array_combine(array_keys(\App\Models\Pr
                 <?= field($name, $label, $ico, (string) $value, 'select', $def[4]) ?>
             <?php elseif ($kind === 'icon'): ?>
                 <?= field($name, $label, $ico, (string) $value, 'select', array_combine(\App\Services\Content::ICONS, \App\Services\Content::ICONS)) ?>
+            <?php elseif ($kind === 'customer'): ?>
+                <?= field($name, $label, $ico, (string) $value, 'select', \App\Services\Content::customers()) ?>
+            <?php elseif ($kind === 'money'): ?>
+                <?= field($name, $label, $ico, cents_input((int) $value), 'text', [], 'inputmode="decimal"') ?>
+            <?php elseif ($kind === 'time'): ?>
+                <?= field($name, $label, $ico, (string) $value, 'time') ?>
             <?php elseif ($kind === 'lookup'): ?>
                 <?= field($name, $label, $ico, (string) $value, 'select', \App\Services\Content::lookup($def[4], (string) $value), $req) ?>
             <?php elseif ($kind === 'productgroup'): ?>
