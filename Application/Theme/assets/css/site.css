@@ -897,3 +897,6 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .why-t { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .why-t small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 @media (max-width: 640px) { .why-grid { grid-template-columns: minmax(0, 1fr); } }
+.pk-plus { list-style: none; margin-top: 2px; }
+.pk-plus a { display: inline-flex; align-items: center; gap: 6px; color: var(--primary); font-weight: 600; font-size: 13.5px; text-decoration: none; padding: 4px 0; }
+.pk-plus a:hover { text-decoration: underline; }
