@@ -19,14 +19,14 @@
         <div>
             <span class="eyebrow"><?= icon('building', 'icon icon-sm') ?> Over <?= e(company_name()) ?></span>
             <h2 class="h-xl"><?= e((string) setting('over.titel', 'Over ons')) ?></h2>
-            <div class="prose"><?= rich_text((string) setting('over.tekst', '')) ?></div>
+            <div class="prose"><?= rich_text((string) setting('over.tekst', '') ?: (string) setting('website.intro', '')) ?></div>
             <div class="row" style="margin-top:22px"><a class="btn btn-lg" href="<?= e(url('/over-ons')) ?>">Meer over ons <?= icon('arrow-right', 'icon icon-sm') ?></a><a class="btn btn-lg btn-ghost" href="<?= e(url('/contact')) ?>"><?= icon('chat', 'icon icon-sm') ?> Kennismaken</a></div>
         </div>
         <div class="about-visual<?= $overImg !== '' ? ' has-img' : '' ?>">
             <?php if ($overImg !== ''): ?><img src="<?= e($overImg) ?>" alt="<?= e(company_name()) ?>"><?php else: ?>
                 <div class="av-card">
                     <div class="av-rack"><?php for ($i = 0; $i < 4; $i++): ?><span><i></i><i></i><i></i><b></b></span><?php endfor; ?></div>
-                    <div class="av-stats"><div><strong>99,9%</strong><small>uptime</small></div><div><strong>24/7</strong><small>monitoring</small></div><div><strong><?= count($datacenters) ?></strong><small>datacenters</small></div></div>
+                    <div class="av-stats"><div><strong>99,9%</strong><small>uptime</small></div><div><strong>24/7</strong><small>monitoring</small></div><?php if ($datacenters !== []): ?><div><strong><?= count($datacenters) ?></strong><small>datacenter<?= count($datacenters) === 1 ? '' : 's' ?></small></div><?php else: ?><div><strong>NVMe</strong><small>opslag</small></div><?php endif; ?></div>
                 </div>
             <?php endif; ?>
             <div class="av-badge"><?= icon('shield') ?><div><strong>Ijzersterk verbonden</strong><small>Eigen netwerk en datacenters</small></div></div>

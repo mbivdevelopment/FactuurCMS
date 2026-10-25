@@ -39,9 +39,9 @@ $colIcons = ['Domeinen' => 'globe', 'Hosting' => 'server', 'Servers' => 'cpu'];
         <a class="site-logo" href="<?= e(url('/')) ?>"><?= $partial('partials.brand') ?></a>
         <nav class="mnav" aria-label="Hoofdmenu">
             <div class="mi"><a class="mi-link<?= $is('/') ? ' active' : '' ?>" href="<?= e(url('/')) ?>">Home</a></div>
-            <div class="mi has-mega">
-                <a class="mi-link<?= $activeCat === 'cloud' || $is('/diensten') || $is('/domeinen') ? ' active' : '' ?>" href="<?= e(url('/diensten')) ?>">Cloudoplossing <button type="button" class="mi-caret" data-mega-toggle aria-label="Submenu"><?= icon('chevron-down', 'icon icon-sm') ?></button></a>
-                <div class="mega">
+            <div class="mi<?= $menu['cloud'] !== [] ? ' has-mega' : '' ?>">
+                <a class="mi-link<?= $activeCat === 'cloud' || $is('/diensten') || $is('/domeinen') ? ' active' : '' ?>" href="<?= e(url('/diensten')) ?>">Cloudoplossing <?php if ($menu['cloud'] !== []): ?><button type="button" class="mi-caret" data-mega-toggle aria-label="Submenu"><?= icon('chevron-down', 'icon icon-sm') ?></button><?php endif; ?></a>
+                <?php if ($menu['cloud'] !== []): ?><div class="mega">
                     <div class="container mega-in mega-cloud">
                         <?php foreach ($menu['cloud'] as $group => $items): ?>
                             <div class="mega-col">
@@ -57,11 +57,11 @@ $colIcons = ['Domeinen' => 'globe', 'Hosting' => 'server', 'Servers' => 'cpu'];
                             <a href="<?= e(url('/diensten')) ?>" class="mega-more">Alle pakketten en prijzen <?= icon('arrow-right', 'icon icon-sm') ?></a>
                         </div>
                     </div>
-                </div>
+                </div><?php endif; ?>
             </div>
-            <div class="mi has-mega">
-                <a class="mi-link<?= $activeCat === 'ict' ? ' active' : '' ?>" href="<?= e(url('/oplossingen/' . ($menu['ict'] !== [] ? array_values($menu['ict'])[0][0]['Slug'] : ''))) ?>">ICT &amp; Development <button type="button" class="mi-caret" data-mega-toggle aria-label="Submenu"><?= icon('chevron-down', 'icon icon-sm') ?></button></a>
-                <div class="mega">
+            <div class="mi<?= $menu['ict'] !== [] ? ' has-mega' : '' ?>">
+                <a class="mi-link<?= $activeCat === 'ict' ? ' active' : '' ?>" href="<?= e(url($menu['ict'] !== [] ? '/oplossingen/' . array_values($menu['ict'])[0][0]['Slug'] : '/contact')) ?>">ICT &amp; Development <?php if ($menu['ict'] !== []): ?><button type="button" class="mi-caret" data-mega-toggle aria-label="Submenu"><?= icon('chevron-down', 'icon icon-sm') ?></button><?php endif; ?></a>
+                <?php if ($menu['ict'] !== []): ?><div class="mega">
                     <div class="container mega-in mega-ict">
                         <div class="mega-grid">
                             <?php foreach ($menu['ict'] as $items): foreach ($items as $mp): ?>
@@ -74,7 +74,7 @@ $colIcons = ['Domeinen' => 'globe', 'Hosting' => 'server', 'Servers' => 'cpu'];
                             <a href="<?= e(url('/portfolio')) ?>" class="btn btn-sm">Naar portfolio <?= icon('arrow-right', 'icon icon-sm') ?></a>
                         </div>
                     </div>
-                </div>
+                </div><?php endif; ?>
             </div>
             <div class="mi"><a class="mi-link<?= $is('/portfolio') ? ' active' : '' ?>" href="<?= e(url('/portfolio')) ?>">Portfolio</a></div>
             <div class="mi"><a class="mi-link<?= $is('/contact') ? ' active' : '' ?>" href="<?= e(url('/contact')) ?>">Contact</a></div>
