@@ -59,6 +59,21 @@ final class RealtimeRegister
         return $out;
     }
 
+    /** Alleen gewone extensies (nl, com, co.uk); geen varianten als .centralnic, .legacy, _sld, .month of xn--. */
+    public static function isRegularTld(string $tld): bool
+    {
+        if (preg_match('/^[a-z]{2,}(\.[a-z]{2,})*$/', $tld) !== 1) {
+            return false;
+        }
+        foreach (explode('.', $tld) as $label) {
+            if (in_array($label, ['centralnic', 'legacy', 'slb', 'sld', 'month', 'year', 'premium', 'promo'], true) || preg_match('/(month|year)s?$/', $label) === 1) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /** Inkoopprijzen per extensie. @return array<string, array{create: int, renew: int, transfer: int}> */
     public static function tldPrices(): array
     {
@@ -74,6 +89,9 @@ final class RealtimeRegister
                 continue;
             }
             $tld = strtolower(substr($product, 7));
+            if (!self::isRegularTld($tld)) {
+                continue;
+            }
             $out[$tld] ??= ['create' => 0, 'renew' => 0, 'transfer' => 0];
             $out[$tld][$action] = (int) ($price['price'] ?? 0);
         }
