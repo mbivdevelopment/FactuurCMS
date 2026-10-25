@@ -888,3 +888,6 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .kb-item:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(15, 27, 61, .1); }
 .pc { border: 1px solid var(--line); }
 @media (max-width: 900px) { .dc-side .dc-list { grid-template-columns: minmax(0, 1fr); } }
+.dc-perks { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 10px; }
+.dc-perks li { display: flex; align-items: center; gap: 10px; font-size: 15px; color: var(--navy); font-weight: 600; }
+.dc-perks .icon { color: #16a34a; flex: none; }

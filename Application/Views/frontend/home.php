@@ -91,7 +91,16 @@ $homeText = (string) (setting('home.tekst', '') ?: 'Bij ' . company_name() . ' d
         <div>
             <span class="eyebrow"><?= icon('pin', 'icon icon-sm') ?> Netwerk</span>
             <h2 class="h-xl">Onze datacenters</h2>
-            <div class="prose"><p>Jouw diensten draaien in moderne datacenters met redundante stroom en verbindingen, dichtbij in Nederland en met partners wereldwijd. Dankzij 24/7-monitoring, dagelijkse back-ups en ons eigen netwerk sta jij er nooit alleen voor.</p></div>
+            <div class="prose">
+                <p>Jouw diensten draaien in moderne datacenters met redundante stroom en verbindingen, dichtbij in Nederland en met partners wereldwijd. Valt er iets uit, dan neemt een onderdeel het automatisch over. Daardoor blijft je website, webshop of applicatie gewoon bereikbaar.</p>
+                <p>Dankzij 24/7-monitoring, dagelijkse back-ups en ons eigen netwerk sta jij er nooit alleen voor. Wij houden de infrastructuur veilig en snel, zodat jij je niet druk hoeft te maken over de techniek.</p>
+                <ul class="dc-perks">
+                    <li><?= icon('check', 'icon icon-sm') ?> Redundante stroom, koeling en verbindingen</li>
+                    <li><?= icon('check', 'icon icon-sm') ?> Dichtbij: Nederlandse datacenters en lage ping</li>
+                    <li><?= icon('check', 'icon icon-sm') ?> 24/7-monitoring en storingbestrijding</li>
+                    <li><?= icon('check', 'icon icon-sm') ?> Dagelijkse back-ups op een aparte locatie</li>
+                </ul>
+            </div>
             <div class="row" style="margin-top:22px"><a class="btn btn-lg" href="<?= e(url('/contact')) ?>">Vraag advies <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
         </div>
     </div>
