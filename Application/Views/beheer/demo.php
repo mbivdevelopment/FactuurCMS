@@ -1,6 +1,6 @@
 <?php $extend('beheer', ['title' => 'Demo-data opruimen']);
 $customers = $demo['customers'];
-$empty = $customers === [] && $demo['suppliers'] === [] && $demo['leads'] === [];
+$empty = $customers === [] && $demo['suppliers'] === [] && $demo['leads'] === [] && $demo['products'] === [];
 $person = static fn (array $r): string => trim((string) ($r['Bedrijfsnaam'] ?: trim($r['Voornaam'] . ' ' . $r['Achternaam']))); ?>
 <div class="page-head"><div class="ph-icon"><?= icon('trash') ?></div><div class="ph-text"><h1>Demo-data opruimen</h1><div class="sub">Verwijdert de voorbeeldgegevens van de installatie; je echte klanten en facturen blijven staan</div></div></div>
 <div class="grid grid-side">
@@ -16,6 +16,7 @@ $person = static fn (array $r): string => trim((string) ($r['Bedrijfsnaam'] ?: t
                 <?php foreach ($demo['counts'] as $label => $n): ?><tr><td><?= e($label) ?></td><td><?= (int) $n ?> van de demoklanten</td></tr><?php endforeach; ?>
                 <?php foreach ($demo['suppliers'] as $s): ?><tr><td>Crediteur</td><td><?= e($s['Bedrijfsnaam']) ?> · <?= e($s['Email']) ?></td></tr><?php endforeach; ?>
                 <?php foreach ($demo['leads'] as $l): ?><tr><td>Lead</td><td><?= e($l['Naam']) ?><?= $l['Bedrijf'] ? ' · ' . e($l['Bedrijf']) : '' ?></td></tr><?php endforeach; ?>
+                <?php foreach ($demo['products'] as $pr): ?><tr><td>Product <span class="mono"><?= e($pr['Nummer']) ?></span></td><td><?= e($pr['Naam']) ?> · <?= e($pr['Groep']) ?></td></tr><?php endforeach; ?>
                 </tbody>
             </table></div>
             <form class="card-foot" method="post" action="<?= e(url('/beheer/demo-data')) ?>" data-confirm="Alle demo-data definitief verwijderen? Maak bij voorkeur eerst een back-up."><?= csrf_field() ?>
@@ -29,7 +30,8 @@ $person = static fn (array $r): string => trim((string) ($r['Bedrijfsnaam'] ?: t
             <div class="card-body">
                 <?php if ($others): ?><dl class="details"><?php foreach ($others as $o): ?><dt class="mono"><?= e($o['Nummer']) ?></dt><dd><?= e($person($o)) ?></dd><?php endforeach; ?></dl>
                 <?php else: ?><p class="muted">Nog geen andere klanten.</p><?php endif; ?>
-                <p class="muted" style="margin-top:12px">Ook medewerkers, producten, website-content, instellingen en de facturen van deze klanten blijven staan. Nieuwe klanten krijgen het laagste vrije klantnummer.</p>
+                <?php if ($demo['productsKept']): ?><p class="small" style="margin-top:12px"><strong>Demoproducten die een echte klant gebruikt:</strong></p><dl class="details"><?php foreach ($demo['productsKept'] as $pr): ?><dt class="mono"><?= e($pr['Nummer']) ?></dt><dd><?= e($pr['Naam']) ?> · <?= (int) $pr['InGebruik'] ?> dienst(en)</dd><?php endforeach; ?></dl><?php endif; ?>
+                <p class="muted" style="margin-top:12px">Ook medewerkers, je eigen en gekoppelde producten, website-content, instellingen en de facturen van deze klanten blijven staan. Nieuwe klanten krijgen het laagste vrije klantnummer.</p>
             </div>
         </div>
     </div>
