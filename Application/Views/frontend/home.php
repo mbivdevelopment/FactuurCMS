@@ -46,12 +46,7 @@ $homeText = (string) (setting('home.tekst', '') ?: 'Bij ' . company_name() . ' d
 <section class="sec sec-alt">
     <div class="container">
         <div class="sec-head"><div><span class="eyebrow"><?= icon('server', 'icon icon-sm') ?> Shared hosting</span><h2>Onze hostingpakketten</h2><p>Snelle NVMe-servers in Nederlandse datacenters; upgraden kan altijd.</p></div><a class="btn btn-ghost" href="<?= e(url('/oplossingen/webhosting')) ?>">Alle hostingpakketten <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
-        <div class="car" data-carousel>
-            <div class="car-track">
-                <?php foreach ($packages as $p): ?><div class="car-item"><?= $partial('frontend._plan', ['p' => $p, 'max' => 5]) ?></div><?php endforeach; ?>
-            </div>
-            <div class="car-nav"><button type="button" class="car-btn" data-car-prev aria-label="Vorige"><?= icon('chevron-left') ?></button><span class="car-dots"></span><button type="button" class="car-btn" data-car-next aria-label="Volgende"><?= icon('chevron-right') ?></button></div>
-        </div>
+        <div class="pk-grid pk-n4"><?php foreach ($packages as $p): ?><?= $partial('frontend._plan', ['p' => $p, 'max' => 4]) ?><?php endforeach; ?></div>
     </div>
 </section>
 <?php endif; ?>
