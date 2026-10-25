@@ -37,7 +37,7 @@ if ($max > 0 && count($rest) > $max) {
         <span class="pk-i"><?= icon(\App\Models\Product::soortIcon($p->Dienstsoort, $p->Groep)) ?></span>
         <div><span class="pk-kind"><?= e($kind) ?></span><h3><a href="<?= e(url($p->path())) ?>"><?= e($p->Naam) ?></a></h3></div>
     </div>
-    <div class="pk-price"><span class="pk-eur"><?= $price ?></span><span class="pk-per"><?= e($per) ?></span></div>
+    <div class="pk-price"><span class="pk-eur"><?= $price ?></span><span class="pk-per">per <?= e(ltrim($per, '/ ')) ?></span></div>
     <?php if ((int) $p->Instelkosten > 0): ?><div class="pk-vat">+ <?= e(money((int) $p->Instelkosten)) ?> instelkosten</div><?php endif; ?>
     <a class="btn btn-lg pk-btn" href="<?= e(url($p->path())) ?>"><?= icon('cart', 'icon icon-sm') ?> Bestellen</a>
         <?php if ($specs !== []): ?><?php $specIcons = ['CPU' => 'cpu', 'Geheugen' => 'box', 'Schijfruimte' => 'server', 'Dataverkeer' => 'trend', 'Netwerk' => 'globe']; ?>
@@ -45,6 +45,4 @@ if ($max > 0 && count($rest) > $max) {
         <div class="pk-spec pk-spec-wide"><span class="pk-si"><?= icon('zap', 'icon icon-sm') ?></span><span class="pk-st"><span class="pk-sl">Snelheid</span><span class="pk-seg"><?php for ($i = 0; $i < 8; $i++): ?><span class="pk-segs<?= $i < $segs ? ' on' : '' ?>"></span><?php endfor; ?></span></span></div>
     </div><?php endif; ?>
     <?php if ($rest !== [] || $extra > 0): ?><ul class="pk-feats"><?php foreach ($rest as $f): ?><li><span class="pk-fi"><?= icon($f['icoon'], 'icon icon-sm') ?></span><span><?= e($f['tekst']) ?></span></li><?php endforeach; ?><?php if ($extra > 0): ?><li class="pk-plus"><a href="<?= e(url($p->path())) ?>">+ <?= $extra ?> meer <?= icon('arrow-right', 'icon icon-sm') ?></a></li><?php endif; ?></ul><?php endif; ?>
-    <?php if ($badges !== []): ?><div class="pk-tags"><?php foreach ($badges as [$bic, $cls, $bt]): ?><span class="pk-tag <?= $cls ?>"><?= icon($bic, 'icon icon-sm') ?> <?= e($bt) ?></span><?php endforeach; ?></div><?php endif; ?>
-    <a class="pk-more" href="<?= e(url($p->path())) ?>">Meer informatie <?= icon('arrow-right', 'icon icon-sm') ?></a>
 </article>
