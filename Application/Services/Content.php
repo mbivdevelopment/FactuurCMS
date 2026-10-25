@@ -12,7 +12,7 @@ final class Content
 {
     public const BUDGETS = ['' => 'Geen indicatie', 'Tot € 1.000' => 'Tot € 1.000', '€ 1.000 – € 2.500' => '€ 1.000 – € 2.500', '€ 2.500 – € 5.000' => '€ 2.500 – € 5.000', '€ 5.000 – € 10.000' => '€ 5.000 – € 10.000', 'Vanaf € 10.000' => 'Vanaf € 10.000'];
 
-    public const ICONS = ['globe', 'server', 'cloud', 'cpu', 'mail', 'layout', 'cart', 'lock', 'shield', 'phone', 'trend', 'link', 'code', 'refresh', 'zap', 'box', 'headset', 'target', 'star'];
+    public const ICONS = ['globe', 'server', 'cloud', 'cpu', 'mail', 'layout', 'cart', 'lock', 'shield', 'phone', 'trend', 'link', 'code', 'refresh', 'zap', 'box', 'headset', 'target', 'star', 'users', 'file', 'chat'];
 
     /** @return array<string, array<string, mixed>> */
     public static function types(): array
