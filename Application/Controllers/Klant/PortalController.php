@@ -16,6 +16,7 @@ use App\Models\Service;
 use App\Models\Ticket;
 use App\Services\DocumentPdf;
 use App\Services\OnlinePayment;
+use App\Services\Wallet;
 
 final class PortalController extends Controller
 {
@@ -67,19 +68,53 @@ final class PortalController extends Controller
             return $this->redirect('/klant/documenten/' . $doc->id())->with($type, $message);
         }
 
-        return $this->view('klant.document', ['doc' => $doc, 'methods' => OnlinePayment::payable($doc) ? OnlinePayment::enabled() : []]);
+        return $this->view('klant.document', ['doc' => $doc, 'methods' => OnlinePayment::payable($doc) ? OnlinePayment::enabled() : [], 'tegoed' => Wallet::balance(Auth::user())]);
     }
 
     public function pay(Request $request): Response
     {
         $doc = $this->ownDocument($request);
+        $methode = $request->string('methode');
+        if ($methode === 'tegoed') {
+            $user = Auth::user();
+            $open = $doc->outstanding();
+            if ($open <= 0 || Wallet::balance($user) < $open) {
+                return $this->redirect('/klant/documenten/' . $doc->id())->with('error', 'Je tegoed is niet voldoende; waardeer op of kies een andere betaalmethode.');
+            }
+            Wallet::mutate($user, -$open, 'Betaling ' . $doc->label() . ' ' . $doc->Nummer, $doc->id());
+            Billing::registerPayment($doc, $open, date('Y-m-d'), 'Betaald met tegoed');
+
+            return $this->redirect('/klant/documenten/' . $doc->id())->with('success', 'Betaald met je tegoed.');
+        }
         try {
-            $url = OnlinePayment::start($doc, $request->string('methode'));
+            $url = OnlinePayment::start($doc, $methode);
         } catch (\Throwable $e) {
             return $this->redirect('/klant/documenten/' . $doc->id())->with('error', 'Online betalen lukt nu niet: ' . $e->getMessage());
         }
 
         return Response::redirect($url, 303);
+    }
+
+    /** Tegoedpagina: saldo, opwaarderen en mutaties. */
+    public function wallet(Request $request): Response
+    {
+        $user = Auth::user();
+        $mutaties = Database::all('SELECT * FROM TegoedMutaties WHERE GebruikerId = ? ORDER BY Id DESC LIMIT 50', [$user->id()]);
+
+        return $this->view('klant.tegoed', ['saldo' => Wallet::balance($user), 'mutaties' => $mutaties, 'methods' => OnlinePayment::enabled()]);
+    }
+
+    /** Maakt een opwaardeer-factuur en stuurt door naar de factuur (daar betalen). */
+    public function topup(Request $request): Response
+    {
+        $bedrag = (int) round((float) str_replace(',', '.', trim((string) $request->string('Bedrag'))) * 100);
+        if ($bedrag < 500 || $bedrag > 5000000) {
+            return $this->redirect('/klant/tegoed')->with('error', 'Vul een bedrag in tussen € 5 en € 50.000.');
+        }
+        $doc = Wallet::topupInvoice(Auth::user(), $bedrag);
+        Billing::send($doc);
+
+        return $this->redirect('/klant/documenten/' . $doc->id())->with('success', 'Factuur aangemaakt — betaal om je tegoed op te waarderen.');
     }
 
     public function pdf(Request $request): Response

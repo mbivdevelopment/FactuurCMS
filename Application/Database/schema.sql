@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS Gebruikers (
     Voornaam VARCHAR(80) NOT NULL DEFAULT '',
     Achternaam VARCHAR(80) NOT NULL DEFAULT '',
     Bedrijfsnaam VARCHAR(150) NULL,
+    Tegoed INT NOT NULL DEFAULT 0,
     Telefoon VARCHAR(40) NULL,
     Adres VARCHAR(150) NULL,
     Postcode VARCHAR(12) NULL,
@@ -453,3 +454,13 @@ CREATE TABLE IF NOT EXISTS OnlineBetalingen (
     KEY IxExtern (Provider, ExternId),
     CONSTRAINT FkOnlineDocument FOREIGN KEY (DocumentId) REFERENCES Documenten (Id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS TegoedMutaties (
+    Id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    GebruikerId INT UNSIGNED NOT NULL,
+    DocumentId INT UNSIGNED NULL,
+    Bedrag INT NOT NULL,
+    Reden VARCHAR(255) NOT NULL DEFAULT '',
+    AangemaaktOp DATETIME NOT NULL,
+    INDEX IDX_TegoedMutaties_Gebruiker (GebruikerId)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

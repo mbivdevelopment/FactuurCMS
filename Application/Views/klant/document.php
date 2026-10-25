@@ -8,6 +8,9 @@
         <?php foreach ($methods ?? [] as $method => $text): ?>
             <form method="post" action="<?= e(url('/klant/documenten/' . $doc->id() . '/betalen')) ?>"><?= csrf_field() ?><input type="hidden" name="methode" value="<?= e($method) ?>"><button class="btn"><?= icon($method === 'mollie' ? 'wallet' : 'zap', 'icon icon-sm') ?> <?= e($text) ?></button></form>
         <?php endforeach; ?>
+        <?php if (($methods ?? []) !== [] && ($tegoed ?? 0) > 0): ?>
+            <form method="post" action="<?= e(url('/klant/documenten/' . $doc->id() . '/betalen')) ?>"<?= $tegoed < $doc->outstanding() ? ' data-confirm="Je tegoed (' . e(money($tegoed)) . ') is lager dan het open bedrag — toch doorgaan?"' : '' ?>><?= csrf_field() ?><input type="hidden" name="methode" value="tegoed"><button class="btn"><?= icon('wallet', 'icon icon-sm') ?> Betaal met tegoed (<?= e(money($tegoed)) ?>)</button></form>
+        <?php endif; ?>
         <a class="btn btn-ghost" href="<?= e(url('/klant/documenten/' . $doc->id() . '/pdf')) ?>" target="_blank"><?= icon('download', 'icon icon-sm') ?> Download PDF</a>
     </div></div>
 <?= $partial('shared.document', ['doc' => $doc]) ?>

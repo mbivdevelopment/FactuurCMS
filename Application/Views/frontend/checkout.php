@@ -57,6 +57,7 @@ $user = auth_user(); ?>
             <div class="card"><div class="card-head"><h2><?= icon('wallet') ?> Betaalmethode</h2></div><div class="card-body">
                 <div class="dopts">
                     <?php $firstMethod = true; foreach ($methods as $key => $label): ?><label class="dopt"><input type="radio" name="Betaalmethode" value="<?= e($key) ?>"<?= $firstMethod ? ' checked' : '' ?>><span class="dopt-b"><strong><?= e($label) ?></strong><small><?= $key === 'mollie' ? 'Direct betalen, direct actief.' : 'Bitcoin, USDT en meer.' ?></small></span></label><?php $firstMethod = false; endforeach; ?>
+                    <?php if ($user !== null): ?><label class="dopt"><input type="radio" name="Betaalmethode" value="tegoed"><span class="dopt-b"><strong>Tegoed (<?= e(money(\App\Services\Wallet::balance($user))) ?>)</strong><small>Betaal direct van je saldo; <a href="<?= e(url('/klant/tegoed')) ?>">opwaarderen</a> kan in het klantportaal.</small></span></label><?php endif; ?>
                     <label class="dopt"><input type="radio" name="Betaalmethode" value="factuur"<?= $methods === [] ? ' checked' : '' ?>><span class="dopt-b"><strong>Factuur</strong><small>Je betaalt later via de factuur; activering na betaling.</small></span></label>
                 </div>
             </div></div>

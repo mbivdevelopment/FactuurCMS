@@ -234,6 +234,9 @@ final class Billing
         if ((int) $doc->Betaald >= (int) $doc->Totaal) {
             $doc->Status = 'betaald';
             $doc->BetaaldOp = $date . ' ' . date('H:i:s');
+            if ((string) $doc->Onderwerp === Wallet::TOPUP_SUBJECT && ($customer = $doc->customer()) !== null) {
+                Wallet::mutate($customer, (int) $doc->Totaal, Wallet::TOPUP_SUBJECT . ' (' . $doc->Nummer . ')', $doc->id());
+            }
             foreach ($doc->lines() as $line) {
                 if ($line['DienstId'] !== null) {
                     Database::run("UPDATE Diensten SET Status = 'actief' WHERE Id = ? AND Status = 'in_afwachting'", [$line['DienstId']]);

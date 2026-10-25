@@ -248,6 +248,16 @@ final class SiteController extends Controller
         }
 
         $method = $request->string('Betaalmethode');
+        if ($method === 'tegoed') {
+            $total = (int) $doc->Totaal;
+            if (\App\Services\Wallet::balance($user) >= $total) {
+                \App\Services\Wallet::mutate($user, -$total, 'Betaling ' . $doc->Nummer, $doc->id());
+                Billing::registerPayment($doc, $total, date('Y-m-d'), 'Betaald met tegoed');
+
+                return $this->redirect('/klant/documenten/' . $doc->id())->with('success', 'Betaald met je tegoed!');
+            }
+            return $this->redirect('/klant/documenten/' . $doc->id())->with('error', 'Je tegoed is niet voldoende; betaal de factuur online of per factuur.');
+        }
         if (isset(OnlinePayment::enabled()[$method])) {
             try {
                 return Response::redirect(OnlinePayment::start($doc, $method), 303);
