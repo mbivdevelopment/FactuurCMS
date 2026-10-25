@@ -400,3 +400,19 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 /* Megamenu precies zo breed als de header-inhoud (1600px min. container-padding) */
 .mega { width: min(1536px, calc(100% - 64px)); }
 @media (max-width: 1000px) { .mega { width: auto; } }
+
+/* Megamenu: oranje verloop links, iconen bij links, dezelfde indeling voor beide menu's */
+.mega-aside { background: radial-gradient(260px 200px at 100% 0%, rgba(255, 255, 255, .22), transparent 70%), linear-gradient(150deg, #ff7a2f 0%, var(--primary) 45%, #d9420f 100%); color: #fff; }
+.mega-aside p { color: rgba(255, 255, 255, .9); }
+.mega-aside-t .icon { color: #fff; }
+.mega-aside .btn, .mini-search .btn { background: #111; border-color: #111; color: #fff; }
+.mega-aside .btn:hover, .mini-search .btn:hover { background: #000; }
+.mega-more { color: #fff; }
+.mega-more:hover { color: #111; }
+.mega-link { display: flex; align-items: flex-start; gap: 12px; padding: 9px 12px; }
+.ml-i { width: 34px; height: 34px; flex: none; border-radius: 8px; background: var(--accent-soft); color: var(--primary); display: grid; place-items: center; margin-top: 1px; }
+.ml-i .icon { width: 17px; height: 17px; }
+.ml-t { min-width: 0; }
+.mega-link strong { display: block; line-height: 1.25; }
+.mega-link small { display: block; line-height: 1.35; margin-top: 2px; }
+.mega-link:hover .ml-i { background: var(--primary); color: #fff; }

@@ -15,7 +15,7 @@ $tel = (string) setting('topbar.telefoon', (string) setting('bedrijf.telefoon', 
 $mail = (string) setting('topbar.email', (string) setting('bedrijf.email', ''));
 $webmail = (string) setting('links.webmail', '');
 $paneel = (string) setting('links.paneel', '');
-$colIcons = ['Domeinen' => 'globe', 'Hosting' => 'server', 'Servers' => 'cpu'];
+$colIcons = ['Domeinen' => 'globe', 'Hosting' => 'server', 'Servers' => 'cpu', 'Connectiviteit' => 'lock', 'Development' => 'code', 'Marketing' => 'trend'];
 ?>
 <!doctype html>
 <html lang="nl">
@@ -43,36 +43,39 @@ $colIcons = ['Domeinen' => 'globe', 'Hosting' => 'server', 'Servers' => 'cpu'];
                 <a class="mi-link<?= $activeCat === 'cloud' || $is('/diensten') || $is('/domeinen') ? ' active' : '' ?>" href="<?= e(url('/diensten')) ?>">Cloudoplossing <?php if ($menu['cloud'] !== []): ?><button type="button" class="mi-caret" data-mega-toggle aria-label="Submenu"><?= icon('chevron-down', 'icon icon-sm') ?></button><?php endif; ?></a>
                 <?php if ($menu['cloud'] !== []): ?><div class="mega">
                     <div class="container mega-in mega-cloud">
-                        <?php foreach ($menu['cloud'] as $group => $items): ?>
-                            <div class="mega-col">
-                                <div class="mega-h"><span><?= icon($colIcons[$group] ?? $items[0]['Icoon']) ?></span><?= e($group) ?></div>
-                                <?php foreach ($items as $mp): ?>
-                                    <a class="mega-link" href="<?= e(url('/oplossingen/' . $mp['Slug'])) ?>"><strong><?= e($mp['Titel']) ?></strong><small><?= e((string) $mp['Samenvatting']) ?></small></a>
-                                <?php endforeach; ?>
-                            </div>
-                        <?php endforeach; ?>
                         <div class="mega-aside">
                             <div class="mega-aside-t"><?= icon('globe') ?> Zoek je domeinnaam</div>
                             <form action="<?= e(url('/domeinen')) ?>" method="get" class="mini-search"><input name="domein" placeholder="jouwbedrijf.nl" aria-label="Domeinnaam"><button class="btn btn-sm" type="submit"><?= icon('search', 'icon icon-sm') ?></button></form>
                             <a href="<?= e(url('/diensten')) ?>" class="mega-more">Alle pakketten en prijzen <?= icon('arrow-right', 'icon icon-sm') ?></a>
                         </div>
+                        <?php foreach ($menu['cloud'] as $group => $items): ?>
+                            <div class="mega-col">
+                                <div class="mega-h"><span><?= icon($colIcons[$group] ?? $items[0]['Icoon']) ?></span><?= e($group) ?></div>
+                                <?php foreach ($items as $mp): ?>
+                                    <a class="mega-link" href="<?= e(url('/oplossingen/' . $mp['Slug'])) ?>"><span class="ml-i"><?= icon($mp['Icoon']) ?></span><span class="ml-t"><strong><?= e($mp['Titel']) ?></strong><small><?= e((string) $mp['Samenvatting']) ?></small></span></a>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div><?php endif; ?>
             </div>
             <div class="mi<?= $menu['ict'] !== [] ? ' has-mega' : '' ?>">
                 <a class="mi-link<?= $activeCat === 'ict' ? ' active' : '' ?>" href="<?= e(url($menu['ict'] !== [] ? '/oplossingen/' . array_values($menu['ict'])[0][0]['Slug'] : '/contact')) ?>">ICT &amp; Development <?php if ($menu['ict'] !== []): ?><button type="button" class="mi-caret" data-mega-toggle aria-label="Submenu"><?= icon('chevron-down', 'icon icon-sm') ?></button><?php endif; ?></a>
                 <?php if ($menu['ict'] !== []): ?><div class="mega">
-                    <div class="container mega-in mega-ict">
-                        <div class="mega-grid">
-                            <?php foreach ($menu['ict'] as $items): foreach ($items as $mp): ?>
-                                <a class="mega-tile" href="<?= e(url('/oplossingen/' . $mp['Slug'])) ?>"><span class="mt-i"><?= icon($mp['Icoon']) ?></span><span><strong><?= e($mp['Titel']) ?></strong><small><?= e((string) $mp['Samenvatting']) ?></small></span></a>
-                            <?php endforeach; endforeach; ?>
-                        </div>
+                    <div class="container mega-in mega-cloud">
                         <div class="mega-aside">
                             <div class="mega-aside-t"><?= icon('image') ?> Benieuwd naar ons werk?</div>
                             <p>Bekijk projecten die we voor andere ondernemers realiseerden.</p>
                             <a href="<?= e(url('/portfolio')) ?>" class="btn btn-sm">Naar portfolio <?= icon('arrow-right', 'icon icon-sm') ?></a>
                         </div>
+                        <?php foreach ($menu['ict'] as $group => $items): ?>
+                            <div class="mega-col">
+                                <div class="mega-h"><span><?= icon($colIcons[$group] ?? $items[0]['Icoon']) ?></span><?= e($group) ?></div>
+                                <?php foreach ($items as $mp): ?>
+                                    <a class="mega-link" href="<?= e(url('/oplossingen/' . $mp['Slug'])) ?>"><span class="ml-i"><?= icon($mp['Icoon']) ?></span><span class="ml-t"><strong><?= e($mp['Titel']) ?></strong><small><?= e((string) $mp['Samenvatting']) ?></small></span></a>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div><?php endif; ?>
             </div>
