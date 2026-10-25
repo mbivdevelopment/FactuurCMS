@@ -39,7 +39,7 @@ final class DocumentController extends Controller
             $sql .= ' AND (d.Nummer LIKE ? OR d.Onderwerp LIKE ? OR g.Bedrijfsnaam LIKE ? OR CONCAT(g.Voornaam, " ", g.Achternaam) LIKE ?)';
             array_push($params, ...array_fill(0, 4, '%' . $q . '%'));
         }
-        $page = Database::page($sql, $params, 'd.Datum DESC, d.Id DESC', 15);
+        $page = Database::page($sql, $params, 'd.Nummer ASC', 15);
         $page['rows'] = array_map(static fn (array $r): Document => new Document($r), $page['rows']);
         $totals = Database::first("SELECT COALESCE(SUM(Totaal), 0) AS Totaal, COALESCE(SUM(CASE WHEN Status IN ('open','verzonden') THEN Totaal - Betaald ELSE 0 END), 0) AS Open FROM Documenten WHERE Soort = ? AND Status <> 'concept'", [$kind]);
 

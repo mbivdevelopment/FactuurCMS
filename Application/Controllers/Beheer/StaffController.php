@@ -15,7 +15,7 @@ final class StaffController extends Controller
 {
     public function index(Request $request): Response
     {
-        return $this->view('beheer.staff.index', ['staff' => User::query("SELECT * FROM Gebruikers WHERE Rol IN ('beheerder','medewerker') ORDER BY Voornaam")]);
+        return $this->view('beheer.staff.index', ['staff' => User::query("SELECT * FROM Gebruikers WHERE Rol IN ('beheerder','medewerker') ORDER BY Nummer")]);
     }
 
     public function create(Request $request): Response

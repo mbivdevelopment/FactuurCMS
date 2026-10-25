@@ -46,7 +46,7 @@ final class ServiceController extends Controller
             array_push($params, ...array_fill(0, 4, '%' . $q . '%'));
         }
 
-        return $this->view('beheer.services.index', ['page' => Database::page($sql, $params, 's.Id DESC', 15), 'status' => $status, 'q' => $q, 'group' => $group, 'kind' => $kind, 'due' => $due]);
+        return $this->view('beheer.services.index', ['page' => Database::page($sql, $params, 's.Nummer ASC', 15), 'status' => $status, 'q' => $q, 'group' => $group, 'kind' => $kind, 'due' => $due]);
     }
 
     public function create(Request $request): Response

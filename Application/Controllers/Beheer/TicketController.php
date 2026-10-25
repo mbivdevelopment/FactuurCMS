@@ -29,7 +29,7 @@ final class TicketController extends Controller
             $params[] = $status;
         }
 
-        return $this->view('beheer.tickets.index', ['page' => Database::page($sql, $params, "t.Status = 'open' DESC, t.Prioriteit = 'hoog' DESC, COALESCE(t.LaatsteReactie, t.AangemaaktOp) DESC", 20), 'status' => $status]);
+        return $this->view('beheer.tickets.index', ['page' => Database::page($sql, $params, 't.Nummer ASC', 20), 'status' => $status]);
     }
 
     public function create(Request $request): Response

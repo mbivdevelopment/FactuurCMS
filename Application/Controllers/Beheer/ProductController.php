@@ -16,7 +16,7 @@ final class ProductController extends Controller
     {
         $kind = Product::soortFromSlug(basename($request->path), true) ?? $request->string('soort');
 
-        return $this->view('beheer.products.index', ['products' => Product::where($kind !== '' ? ['Dienstsoort' => $kind] : [], 'Groep, Volgorde, Id'), 'kind' => $kind]);
+        return $this->view('beheer.products.index', ['products' => Product::where($kind !== '' ? ['Dienstsoort' => $kind] : [], 'Nummer'), 'kind' => $kind]);
     }
 
     public function create(Request $request): Response

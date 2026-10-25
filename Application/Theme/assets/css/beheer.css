@@ -400,3 +400,7 @@ img[data-white] { filter: brightness(0) invert(1); }
 .import-filter { width: 240px; max-width: 100%; padding: 9px 12px; border: 1px solid var(--line, #e2e6ee); border-radius: 10px; background: #fff; font: inherit; }
 .integration-note { margin: 0 0 14px; color: var(--muted); font-size: 13px; line-height: 1.55; }
 .integration-note code { font-size: 12px; }
+.cell-product { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.cell-product > span:last-child { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.cell-tile { flex: none; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; background: var(--navy, #14213d); color: #fff; }
+.table tr:hover .cell-tile { background: var(--accent); }
