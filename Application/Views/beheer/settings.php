@@ -68,6 +68,9 @@
             <?= field('links_webmail', 'Link webmail (rechts)', 'webmail', $s('links.webmail'), 'url') ?>
             <?= field('links_paneel', 'Link hostingpaneel (rechts)', 'server', $s('links.paneel'), 'url') ?>
             <div class="field-full set-title"><?= icon('globe', 'icon icon-sm') ?> Homepage</div>
+            <?= field('home_label', 'Hero: label boven de titel', 'tag', $s('home.label', 'Hosting & cloud uit Nederland')) ?>
+            <?= field('home_titel', 'Hero: titel (woord tussen {} wordt oranje)', 'server', $s('home.titel', 'Hosting die gewoon {werkt}.')) ?>
+            <?= field('home_tekst', 'Hero: tekst (foto via Branding)', 'note', $s('home.tekst'), 'textarea', [], 'rows="3"') ?>
             <?= field('hero_titel', 'Titel domeinbanner', 'globe', $s('hero.titel')) ?>
             <?= field('hero_extensies', 'Extensies in de domeinzoeker (komma-gescheiden)', 'hash', $s('hero.extensies', '.nl,.com,.eu,.be,.net,.org')) ?>
             <?= field('hero_tekst', 'Tekst domeinbanner', 'note', $s('hero.tekst'), 'textarea', [], 'rows="2"') ?>
