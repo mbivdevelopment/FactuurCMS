@@ -14,14 +14,14 @@ final class DemoController extends Controller
 {
     public function index(Request $request): Response
     {
-        return $this->view('beheer.demo', ['demo' => DemoData::summary(), 'others' => DemoData::otherCustomers(), 'next' => User::nextNumber('K')]);
+        return $this->redirect('/beheer/updates#demo');
     }
 
     public function destroy(Request $request): Response
     {
         $n = DemoData::remove();
 
-        return $this->redirect('/beheer/demo-data')->with('success', $n > 0
+        return $this->redirect('/beheer/updates#demo')->with('success', $n > 0
             ? 'Demo-data verwijderd (' . $n . ' records). De volgende nieuwe klant krijgt nummer ' . User::nextNumber('K') . '.'
             : 'Er stond geen demo-data meer.');
     }

@@ -10,6 +10,8 @@ use App\Core\Migrator;
 use App\Core\Request;
 use App\Core\Response;
 use App\Models\Setting;
+use App\Models\User;
+use App\Services\DemoData;
 use App\Services\Updater;
 
 final class UpdateController extends Controller
@@ -26,7 +28,7 @@ final class UpdateController extends Controller
             }
         }
 
-        return $this->view('beheer.updates', ['latest' => $latest, 'error' => $error, 'hasToken' => Setting::getSecret('updater.token') !== '']);
+        return $this->view('beheer.updates', ['latest' => $latest, 'error' => $error, 'hasToken' => Setting::getSecret('updater.token') !== '', 'demo' => DemoData::summary(), 'others' => DemoData::otherCustomers(), 'next' => User::nextNumber('K')]);
     }
 
     public function save(Request $request): Response

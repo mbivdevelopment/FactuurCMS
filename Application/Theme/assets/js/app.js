@@ -186,3 +186,11 @@ document.querySelectorAll('[data-check-all]').forEach(function (box) {
         });
     });
 });
+
+/* Popups openen met data-dialog="id" en sluiten met data-close. */
+document.addEventListener('click', function (e) {
+    var open = e.target.closest('[data-dialog]');
+    if (open) { var dlg = document.getElementById(open.dataset.dialog); if (dlg && dlg.showModal) { dlg.showModal(); } return; }
+    var close = e.target.closest('[data-close]');
+    if (close) { var d = close.closest('dialog'); if (d) { d.close(); } }
+});

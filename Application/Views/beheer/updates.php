@@ -13,6 +13,36 @@
             <ul style="margin:0;padding-left:18px"><li><span class="mono">Application/Config/database.php</span> (databasegegevens)</li><li><span class="mono">Application/Config/app.php</span></li><li><span class="mono">.htaccess</span></li><li><span class="mono">storage/</span> (logs, cache, sessies)</li><li>Geüploade branding (logo/favicon)</li></ul>
             <p class="muted">Na het bijwerken worden <span class="mono">schema.sql</span> en nieuwe bestanden uit <span class="mono">Application/Database/Migrations</span> automatisch uitgevoerd. Instellingen (SMTP, bedrijfsgegevens) staan in de database en blijven behouden.</p></div>
             <form class="card-foot" method="post" action="<?= e(url('/beheer/updates/migraties')) ?>"><?= csrf_field() ?><button class="btn btn-ghost btn-sm"><?= icon('database', 'icon icon-sm') ?> Alleen migraties uitvoeren</button></form></div>
+        <?php $customers = $demo['customers']; $demoEmpty = $customers === [] && $demo['suppliers'] === [] && $demo['leads'] === [] && $demo['products'] === [];
+        $person = static fn (array $r): string => trim((string) ($r['Bedrijfsnaam'] ?: trim($r['Voornaam'] . ' ' . $r['Achternaam']))); ?>
+        <div class="card" id="demo"><div class="card-head"><h2><?= icon('trash') ?> Demo-data</h2><?= badge($demoEmpty ? 'actief' : 'open', $demoEmpty ? 'Opgeruimd' : 'Aanwezig') ?></div>
+            <div class="card-body small"><?php if ($demoEmpty): ?><p class="muted" style="margin:0">Er staat geen demo-data meer in het systeem. De volgende nieuwe klant krijgt nummer <strong class="mono"><?= e($next) ?></strong>.</p>
+            <?php else: ?><p class="muted" style="margin:0">Voorbeeldgegevens van de installatie: <?= count($customers) ?> demoklant(en), <?= array_sum($demo['counts']) ?> gekoppelde records, <?= count($demo['suppliers']) + count($demo['leads']) ?> crediteuren/leads en <?= count($demo['products']) ?> producten. Je echte klanten en facturen blijven staan.</p><?php endif; ?></div>
+            <?php if (!$demoEmpty): ?><div class="card-foot"><button type="button" class="btn btn-danger btn-sm" data-dialog="demo-dialog"><?= icon('trash', 'icon icon-sm') ?> Demo-data verwijderen…</button></div><?php endif; ?>
+        </div>
+        <?php if (!$demoEmpty): ?>
+        <dialog class="confirm demo-dialog" id="demo-dialog">
+            <div class="modal-h"><?= icon('trash') ?> Demo-data verwijderen</div>
+            <div class="demo-cols">
+                <div><h3>Wordt verwijderd</h3><ul>
+                    <?php foreach ($customers as $c): ?><li>Demoklant <span class="mono"><?= e($c['Nummer']) ?></span> · <?= e($person($c)) ?></li><?php endforeach; ?>
+                    <?php foreach ($demo['counts'] as $label => $n): ?><li><?= (int) $n ?> × <?= e(strtolower($label)) ?> van de demoklanten</li><?php endforeach; ?>
+                    <?php foreach ($demo['suppliers'] as $s): ?><li>Crediteur · <?= e($s['Bedrijfsnaam']) ?></li><?php endforeach; ?>
+                    <?php foreach ($demo['leads'] as $l): ?><li>Lead · <?= e($l['Naam']) ?></li><?php endforeach; ?>
+                    <?php foreach ($demo['products'] as $pr): ?><li>Product <span class="mono"><?= e($pr['Nummer']) ?></span> · <?= e($pr['Naam']) ?></li><?php endforeach; ?>
+                </ul></div>
+                <div><h3>Blijft staan</h3><ul>
+                    <?php foreach ($others as $o): ?><li>Klant <span class="mono"><?= e($o['Nummer']) ?></span> · <?= e($person($o)) ?></li><?php endforeach; ?>
+                    <?php foreach ($demo['productsKept'] as $pr): ?><li>Product <span class="mono"><?= e($pr['Nummer']) ?></span> · <?= e($pr['Naam']) ?> (in gebruik bij <?= (int) $pr['InGebruik'] ?> dienst(en))</li><?php endforeach; ?>
+                    <li>Medewerkers, je eigen en gekoppelde producten, website-content en instellingen</li>
+                </ul><p class="muted">Nieuwe klanten krijgen daarna het laagste vrije klantnummer.</p></div>
+            </div>
+            <form class="confirm-actions" method="post" action="<?= e(url('/beheer/demo-data')) ?>"><?= csrf_field() ?>
+                <button type="button" class="btn btn-ghost" data-close>Annuleren</button>
+                <button class="btn btn-danger"><?= icon('trash', 'icon icon-sm') ?> Definitief verwijderen</button>
+            </form>
+        </dialog>
+        <?php endif; ?>
     </div>
     <form class="card" method="post" action="<?= e(url('/beheer/updates')) ?>"><?= csrf_field() ?>
         <div class="card-head"><h2><?= icon('github') ?> GitHub</h2></div>
