@@ -29,6 +29,46 @@ final class QevantoPaneel
         return self::get('/api/packages');
     }
 
+    private const FEATURES = [
+        'websites' => '%s websites', 'diskGb' => '%s GB opslag', 'bandwidthGb' => '%s GB dataverkeer', 'mailboxes' => '%s mailboxen',
+        'databases' => '%s databases', 'ftpAccounts' => '%s FTP-accounts', 'cronJobs' => '%s cronjobs', 'memoryMb' => '%s MB geheugen',
+        'phpWorkers' => '%s PHP-workers', 'cpuPercent' => '%s%% CPU', 'netMbit' => '%s Mbit/s internetsnelheid', 'cacheMb' => '%s MB Redis-cache',
+        'customers' => '%s klanten', 'subscriptions' => '%s abonnementen', 'peers' => '%s apparaten', 'workplaces' => '%s werkplekken',
+    ];
+
+    /** Pakketlimieten als kenmerken, één per regel. @param array<string, mixed> $limits @return list<string> */
+    public static function features(array $limits): array
+    {
+        $out = [];
+        foreach (self::FEATURES as $key => $format) {
+            if (isset($limits[$key]) && is_numeric($limits[$key])) {
+                $out[] = (int) $limits[$key] === 0 ? 'Onbeperkt ' . trim(str_replace(['%s%%', '%s'], '', $format)) : sprintf($format, (int) $limits[$key]);
+            }
+        }
+        if (!empty($limits['backups'])) {
+            $out[] = 'Dagelijkse back-ups';
+        }
+        if (!empty($limits['ssh'])) {
+            $out[] = 'SSH-toegang';
+        }
+
+        return $out;
+    }
+
+    /** @param array<string, mixed> $body @return array<mixed> */
+    public static function post(string $path, array $body): array
+    {
+        [$url, $token] = self::credentials();
+
+        return Http::json('POST', $url . $path, ['Authorization: Bearer ' . $token], (string) json_encode($body, JSON_UNESCAPED_UNICODE));
+    }
+
+    /** @return list<array<string, mixed>> */
+    public static function customers(string $q): array
+    {
+        return self::get('/api/customers?' . http_build_query(['q' => $q]));
+    }
+
     public static function kindLabel(string $kind): string
     {
         return self::KINDS[$kind][0] ?? ucfirst($kind);
@@ -37,13 +77,21 @@ final class QevantoPaneel
     /** @return list<array<string, mixed>> */
     private static function get(string $path): array
     {
+        [$url, $token] = self::credentials();
+
+        return array_values(array_filter(Http::json('GET', $url . $path, ['Authorization: Bearer ' . $token]), 'is_array'));
+    }
+
+    /** @return array{0: string, 1: string} */
+    private static function credentials(): array
+    {
         $url = rtrim(trim((string) setting('qevanto.url', '')), '/');
         $token = Setting::getSecret('qevanto.token');
         if ($url === '' || $token === '') {
             throw new \RuntimeException('Stel eerst de URL en API-sleutel van het Qevanto hostingpaneel in.');
         }
 
-        return array_values(array_filter(Http::json('GET', $url . $path, ['Authorization: Bearer ' . $token]), 'is_array'));
+        return [$url, $token];
     }
 
     public static function test(): string

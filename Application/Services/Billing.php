@@ -153,6 +153,7 @@ final class Billing
             foreach ($doc->lines() as $line) {
                 if ($line['DienstId'] !== null) {
                     Database::run("UPDATE Diensten SET Status = 'actief' WHERE Id = ? AND Status = 'in_afwachting'", [$line['DienstId']]);
+                    Provisioning::run((int) $line['DienstId']);
                 }
             }
         }

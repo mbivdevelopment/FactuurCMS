@@ -393,8 +393,11 @@ final class IntegrationController extends Controller
             $period = in_array($periods[$id] ?? '', ['maand', 'kwartaal', 'jaar'], true) ? (string) $periods[$id] : 'maand';
             $existing = Database::first("SELECT Id FROM Producten WHERE Bron = 'qevanto' AND ExternId = ?", ['pakket-' . $id])
                 ?? Database::first('SELECT Id FROM Producten WHERE LOWER(Naam) = ? AND Bron IS NULL', [strtolower($name)]);
+            $features = QevantoPaneel::features((array) ($pkg['limits'] ?? []));
             if ($existing !== null) {
-                Database::update('Producten', ['Prijs' => $price, 'Periode' => $period, 'Bron' => 'qevanto', 'ExternId' => 'pakket-' . $id, 'BijgewerktOp' => now()], ['Id' => $existing['Id']]);
+                $current = (string) Database::scalar('SELECT Kenmerken FROM Producten WHERE Id = ?', [$existing['Id']]);
+                $keep = json_decode($current, true);
+                Database::update('Producten', ['Prijs' => $price, 'Periode' => $period, 'Bron' => 'qevanto', 'ExternId' => 'pakket-' . $id, 'Kenmerken' => json_encode(is_array($keep) && $keep !== [] ? $keep : $features, JSON_UNESCAPED_UNICODE), 'BijgewerktOp' => now()], ['Id' => $existing['Id']]);
                 $updated++;
                 continue;
             }
@@ -404,7 +407,7 @@ final class IntegrationController extends Controller
                 'Naam' => $name,
                 'Slug' => self::uniqueSlug(slugify($name) ?: 'pakket-' . $id),
                 'Omschrijving' => QevantoPaneel::kindLabel((string) ($pkg['kind'] ?? '')) . '-pakket uit het Qevanto hostingpaneel.',
-                'Kenmerken' => '[]',
+                'Kenmerken' => json_encode($features, JSON_UNESCAPED_UNICODE),
                 'Prijs' => $price,
                 'Periode' => $period,
                 'BtwTarief' => 21,

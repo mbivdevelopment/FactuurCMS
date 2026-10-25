@@ -39,7 +39,16 @@ final class SiteController extends Controller
     public function page(Request $request): Response
     {
         $page = Database::first('SELECT * FROM Paginas WHERE Slug = ? AND Zichtbaar = 1', [(string) $request->param('slug')]) ?? throw new HttpException(404, 'Deze pagina bestaat niet (meer).');
-        $products = (string) $page['ProductGroep'] !== '' ? Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 AND Groep = ? ORDER BY Volgorde, Id', [$page['ProductGroep']]) : [];
+        $soort = null;
+        foreach (Product::SOORTEN as $kinds) {
+            foreach (array_keys($kinds) as $kind) {
+                if (strcasecmp($kind, (string) $page['Titel']) === 0 || Product::soortSlug($kind) === $page['Slug']) {
+                    $soort = $kind;
+                }
+            }
+        }
+        $products = $soort !== null ? Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 AND Dienstsoort = ? ORDER BY Volgorde, Prijs, Id', [$soort]) : [];
+        $products = $products !== [] ? $products : ((string) $page['ProductGroep'] !== '' ? Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 AND Groep = ? ORDER BY Volgorde, Id', [$page['ProductGroep']]) : []);
 
         return $this->view('frontend.page', [
             'page' => $page,
