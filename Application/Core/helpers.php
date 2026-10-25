@@ -209,9 +209,9 @@ function period_label(string $period): string
 function badge(string $status, string $label): string
 {
     $tone = match ($status) {
-        'actief', 'betaald', 'geaccepteerd', 'beantwoord', 'ja' => 'ok',
+        'actief', 'betaald', 'geaccepteerd', 'beantwoord', 'ja', 'klaar' => 'ok',
         'vervallen', 'afgewezen', 'opgezegd', 'hoog', 'nee' => 'bad',
-        'open', 'in_afwachting', 'verzonden', 'opgeschort' => 'warn',
+        'open', 'in_afwachting', 'verzonden', 'opgeschort', 'bezig' => 'warn',
         default => 'off',
     };
 

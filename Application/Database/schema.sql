@@ -305,9 +305,11 @@ CREATE TABLE IF NOT EXISTS Projecten (
     KlantId INT UNSIGNED NULL,
     Naam VARCHAR(150) NOT NULL,
     Status ENUM('offerte','gepland','actief','afgerond','geannuleerd') NOT NULL DEFAULT 'gepland',
+    Facturatie ENUM('budget','uurloon') NOT NULL DEFAULT 'budget',
     StartDatum DATE NULL,
     EindDatum DATE NULL,
     Budget INT NOT NULL DEFAULT 0,
+    Uurtarief INT NOT NULL DEFAULT 0,
     Omschrijving TEXT NULL,
     AangemaaktOp DATETIME NOT NULL,
     BijgewerktOp DATETIME NULL,
@@ -412,4 +414,19 @@ CREATE TABLE IF NOT EXISTS Leads (
     AangemaaktOp DATETIME NOT NULL,
     BijgewerktOp DATETIME NULL,
     KEY IxStatus (Status)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS ProjectTaken (
+    Id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    ProjectId INT UNSIGNED NOT NULL,
+    Titel VARCHAR(150) NOT NULL,
+    Omschrijving TEXT NULL,
+    Status ENUM('open','bezig','klaar') NOT NULL DEFAULT 'open',
+    MedewerkerId INT UNSIGNED NULL,
+    Deadline DATE NULL,
+    GeschatteUren DECIMAL(7,2) NOT NULL DEFAULT 0,
+    GewerkteUren DECIMAL(7,2) NOT NULL DEFAULT 0,
+    AangemaaktOp DATETIME NOT NULL,
+    BijgewerktOp DATETIME NULL,
+    KEY IxProject (ProjectId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

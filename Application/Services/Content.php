@@ -19,16 +19,18 @@ final class Content
     {
         return [
             'projecten' => [
-                'table' => 'Projecten', 'label' => 'Projecten', 'single' => 'project', 'icon' => 'layout', 'title' => 'Naam', 'base' => '/beheer/projecten', 'section' => 'beheer',
+                'table' => 'Projecten', 'label' => 'Projecten', 'single' => 'project', 'icon' => 'layout', 'title' => 'Naam', 'base' => '/beheer/projecten', 'section' => 'beheer', 'detail' => '/taken',
                 'desc' => 'Lopende en geplande projecten per klant', 'order' => "FIELD(Status, 'actief', 'gepland', 'offerte', 'afgerond', 'geannuleerd'), StartDatum, Id DESC", 'public' => null,
                 'fields' => [
                     'Naam' => ['Projectnaam', 'tag', 'text', true], 'KlantId' => ['Klant', 'user', 'customer'],
                     'Status' => ['Status', 'flag', 'select', true, ['offerte' => 'Offerte', 'gepland' => 'Gepland', 'actief' => 'Actief', 'afgerond' => 'Afgerond', 'geannuleerd' => 'Geannuleerd']],
-                    'Budget' => ['Budget excl. btw (€)', 'euro', 'money'],
+                    'Facturatie' => ['Facturatie', 'wallet', 'select', true, ['budget' => 'Vast budget', 'uurloon' => 'Op uurbasis (uurloon)']],
+                    'Uurtarief' => ['Uurtarief excl. btw (€)', 'clock', 'money'],
+                    'Budget' => ['Budget excl. btw (€), vaste prijs of maximum', 'euro', 'money'],
                     'StartDatum' => ['Startdatum', 'calendar', 'date'], 'EindDatum' => ['Opleverdatum', 'calendar', 'date'],
                     'Omschrijving' => ['Omschrijving', 'note', 'textarea'],
                 ],
-                'columns' => ['Naam' => 'title', 'KlantId' => 'customer', 'Status' => 'badge', 'StartDatum' => 'date', 'EindDatum' => 'date', 'Budget' => 'money'],
+                'columns' => ['Naam' => 'title', 'KlantId' => 'customer', 'Status' => 'badge', 'Facturatie' => 'badge', 'Uurtarief' => 'money', 'Budget' => 'money', 'EindDatum' => 'date'],
             ],
             'afspraken' => [
                 'table' => 'Afspraken', 'label' => 'Afspraken', 'single' => 'afspraak', 'icon' => 'calendar', 'title' => 'Onderwerp', 'base' => '/beheer/afspraken', 'section' => 'beheer',

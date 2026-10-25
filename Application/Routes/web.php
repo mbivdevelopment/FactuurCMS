@@ -105,6 +105,10 @@ $router->group('beheer', ['csrf', 'auth', 'staff'], static function ($router): v
     $router->get('/projecten', 'Beheer\\ContentController@index');
     $router->get('/projecten/nieuw', 'Beheer\\ContentController@create');
     $router->post('/projecten', 'Beheer\\ContentController@store');
+    $router->get('/projecten/{id}/taken', 'Beheer\\ProjectController@show');
+    $router->post('/projecten/{id}/taken', 'Beheer\\ProjectController@storeTask');
+    $router->post('/projecten/{id}/taken/{taak}', 'Beheer\\ProjectController@updateTask');
+    $router->delete('/projecten/{id}/taken/{taak}', 'Beheer\\ProjectController@destroyTask');
     $router->get('/projecten/{id}', 'Beheer\\ContentController@edit');
     $router->post('/projecten/{id}', 'Beheer\\ContentController@update');
     $router->delete('/projecten/{id}', 'Beheer\\ContentController@destroy');

@@ -5,7 +5,7 @@ $heading = $new ? 'Nieuw ' . $type['single'] : (string) ($row[$type['title']] ??
 $extend('beheer', ['title' => $heading]);
 $groups = ['' => '- Geen pakketten -'] + array_combine(array_keys(\App\Models\Product::GROUPS), array_keys(\App\Models\Product::GROUPS));
 ?>
-<div class="page-head"><div class="ph-icon"><?= icon($type['icon']) ?></div><div class="ph-text"><h1><?= e($heading) ?></h1><div class="sub"><?= e($type['label']) ?></div></div><a class="btn btn-ghost" href="<?= e(url($base)) ?>">Terug</a></div>
+<div class="page-head"><div class="ph-icon"><?= icon($type['icon']) ?></div><div class="ph-text"><h1><?= e($heading) ?></h1><div class="sub"><?= e($type['label']) ?></div></div><?php if (!$new && !empty($type['detail'])): ?><a class="btn btn-ghost" href="<?= e(url($base . '/' . $row['Id'] . $type['detail'])) ?>"><?= icon('check', 'icon icon-sm') ?> Taken</a> <?php endif; ?><a class="btn btn-ghost" href="<?= e(url($base)) ?>">Terug</a></div>
 <form class="card" method="post" enctype="multipart/form-data" action="<?= e(url($new ? $base : $base . '/' . $row['Id'])) ?>"><?= csrf_field() ?>
     <div class="card-body form-grid">
         <?php foreach ($type['fields'] as $name => $def): [$label, $ico, $kind] = $def; $value = $row[$name] ?? ''; $req = ($def[3] ?? false) ? 'required' : ''; ?>
