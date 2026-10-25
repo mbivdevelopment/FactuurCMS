@@ -15,7 +15,7 @@ if ($recurring) {
 $user = auth_user(); ?>
 <section class="ck-band"><div class="container">
     <div class="ck-band-in">
-        <div><h1><?= e($product->Naam) ?></h1></div>
+        <div class="ck-title"><span class="pk-i"><?= icon(\App\Models\Product::soortIcon($product->Dienstsoort, $product->Groep), 'icon icon-sm') ?></span><div><span class="ck-kind"><?= e($kind) ?></span><h1><?= e($product->Naam) ?></h1></div></div>
         <span class="ck-secure"><?= icon('lock', 'icon icon-sm') ?> Veilig bestellen</span>
     </div>
 </div></section>
