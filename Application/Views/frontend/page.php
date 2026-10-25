@@ -1,6 +1,5 @@
 <?php $extend('frontend', ['title' => $page['Titel']]); $img = media_url((string) $page['Afbeelding']); $catLabel = ['cloud' => 'Cloudoplossingen', 'ict' => 'ICT & Development', 'overig' => 'Oplossingen'][$page['Categorie']] ?? 'Oplossingen'; $isDomain = $page['ProductGroep'] === 'Domeinen' || $page['Groep'] === 'Domeinen'; ?>
 <?= $partial('frontend._hero', ['title' => $page['Titel'], 'intro' => $page['Samenvatting'], 'icon' => $page['Icoon'], 'crumbs' => [[null, $catLabel], [null, $page['Titel']]]]) ?>
-<?php if ($isDomain): ?><div class="container phero-search"><?= $partial('frontend._domain-search', ['extensions' => $extensions]) ?></div><?php endif; ?>
 <?php if ($products !== []): ?>
 <section class="sec sec-plans"><div class="container">
     <div class="sec-head center"><div><span class="eyebrow"><?= icon('box', 'icon icon-sm') ?> Pakketten</span><h2>Kies het pakket dat bij je past</h2><p>Alle prijzen zijn exclusief btw. Bestel direct online; na betaling is het geregeld.</p></div></div>

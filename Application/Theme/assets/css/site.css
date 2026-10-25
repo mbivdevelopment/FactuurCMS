@@ -731,3 +731,23 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .dother-in input { border: 0; outline: 0; font: inherit; font-weight: 700; color: var(--primary); flex: 1; min-width: 0; height: 40px; padding-left: 1px; }
 .dother small { color: var(--muted); width: 100%; }
 .mega-link strong, .mega-tile strong { text-transform: uppercase; font-size: 13.5px; letter-spacing: .05em; font-weight: 800; }
+
+/* Compacte subpagina-hero met domeinzoeker */
+.phero { padding: 30px 0 34px; }
+.phero-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 470px); gap: 40px; align-items: center; }
+.phero:not(.has-search) .phero-grid { grid-template-columns: minmax(0, 1fr); }
+.phero .crumbs { margin-bottom: 12px; }
+.phero-row { gap: 16px; }
+.phero-i { width: 52px; height: 52px; border-radius: 12px; }
+.phero-i .icon { width: 26px; height: 26px; }
+.phero h1 { font-size: clamp(26px, 3vw, 36px); line-height: 1.15; }
+.phero p { font-size: 15.5px; }
+.phero-r { display: grid; gap: 8px; }
+.phero-sl { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: rgba(255, 255, 255, .7); }
+.phero-sl .icon { color: var(--primary); }
+.dsearch.dsearch-sm { max-width: none; margin: 0; padding: 6px; border-radius: 12px; box-shadow: 0 16px 40px rgba(0, 0, 0, .28); }
+.dsearch-sm input { height: 44px; font-size: 15.5px; }
+.site .dsearch-sm .btn { height: 44px; padding: 0 16px; }
+@media (max-width: 1000px) { .phero-grid { grid-template-columns: minmax(0, 1fr); gap: 18px; } }
+@media (max-width: 640px) { .phero { padding: 22px 0 26px; } .dsearch-sm { flex-wrap: nowrap; } .dsearch-sm input { flex-basis: auto; } .dsearch-sm .btn { flex: none; } }
+.phero-grid > * { min-width: 0; }

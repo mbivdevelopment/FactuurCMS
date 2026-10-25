@@ -1,8 +1,7 @@
 <?php $extend('frontend', ['title' => $name !== '' ? 'Domeinnaam ' . $name : 'Domeinnaam zoeken']);
 $inCart = array_column($cart, 'actie', 'domein'); $total = array_sum(array_map(static fn (array $i): int => (int) $i['product']->Prijs, $cart));
 ?>
-<?= $partial('frontend._hero', ['title' => $name !== '' ? 'Domeinnaam "' . $name . '"' : 'Registreren of verhuizen', 'intro' => 'Typ je domeinnaam; wij laten per extensie zien of je hem kunt registreren of verhuizen.', 'icon' => 'globe', 'crumbs' => [['/oplossingen/domeinnaam-registreren', 'Domeinen'], [null, 'Zoeken']]]) ?>
-<div class="container phero-search"><?= $partial('frontend._domain-search', ['value' => $name]) ?></div>
+<?= $partial('frontend._hero', ['title' => $name !== '' ? 'Domeinnaam "' . $name . '"' : 'Registreren of verhuizen', 'intro' => 'Typ je domeinnaam; wij laten per extensie zien of je hem kunt registreren of verhuizen.', 'icon' => 'globe', 'crumbs' => [['/oplossingen/domeinnaam-registreren', 'Domeinen'], [null, 'Zoeken']], 'searchValue' => $name]) ?>
 <section class="sec"><div class="container">
 <?php if ($name === '' || $main === null): ?>
     <div class="sec-head center"><div><span class="eyebrow"><?= icon('globe', 'icon icon-sm') ?> Domeinextensies</span><h2>Kies je domeinnaam</h2><p>Typ alleen de naam, de extensies controleren wij. Prijzen per jaar, exclusief btw.</p></div></div>

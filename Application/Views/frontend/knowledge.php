@@ -1,5 +1,5 @@
 <?php $extend('frontend', ['title' => 'Kennisbank']); ?>
-<?= $partial('frontend._hero', ['title' => 'Kennisbank', 'intro' => 'Handleidingen en antwoorden op veelgestelde vragen.', 'icon' => 'book', 'crumbs' => [[null, 'Kennisbank']]]) ?>
+<?= $partial('frontend._hero', ['title' => 'Kennisbank', 'intro' => 'Handleidingen en antwoorden op veelgestelde vragen.', 'icon' => 'book', 'crumbs' => [[null, 'Kennisbank']], 'search' => false]) ?>
 <div class="container phero-search"><form class="kb-search big" action="<?= e(url('/kennisbank')) ?>" method="get"><?= icon('search') ?><input name="q" value="<?= e($q) ?>" placeholder="Waar kunnen we je mee helpen?" aria-label="Zoeken"><button class="btn">Zoeken</button></form></div>
 <section class="sec"><div class="container read-split">
     <div>
