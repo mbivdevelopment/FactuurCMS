@@ -23,7 +23,7 @@ $initial = mb_strtoupper(mb_substr((string) ($user?->Voornaam ?: $user?->Email),
 <div class="app">
     <header class="nav" id="nav">
         <div class="nav-in">
-            <a class="nav-brand" href="<?= e(url($home)) ?>"><?php $logo = branding_url(branding_url('logo_licht') !== '' ? 'logo_licht' : 'logo'); ?><?php if ($logo !== ''): ?><img src="<?= e($logo) ?>" alt="<?= e(company_name()) ?>"><?php else: ?><span class="brand-mark"><?= icon('server') ?></span><span><?= e(company_name()) ?><small><?= e($tagline) ?></small></span><?php endif; ?></a>
+            <a class="nav-brand" href="<?= e(url($home)) ?>"><?php $logo = branding_url(branding_url('logo_licht') !== '' ? 'logo_licht' : 'logo'); ?><?php if ($logo !== ''): ?><img src="<?= e($logo) ?>"<?= branding_url('logo_licht') === '' ? ' data-white' : '' ?> alt="<?= e(company_name()) ?>"><?php else: ?><span class="brand-mark"><?= icon('server') ?></span><span><?= e(company_name()) ?><small><?= e($tagline) ?></small></span><?php endif; ?></a>
             <button type="button" class="tb-icon menu-btn" data-menu-toggle="#nav" aria-label="Menu"><?= icon('layout') ?></button>
             <nav class="nav-links">
                 <?php foreach ($navSections as $s): ?>

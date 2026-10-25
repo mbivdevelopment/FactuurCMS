@@ -4,7 +4,7 @@
 <body>
 <div class="login-wrap">
     <div class="login-side">
-        <?php $logo = branding_url(branding_url('logo_licht') !== '' ? 'logo_licht' : 'logo'); ?><?php if ($logo !== ''): ?><img src="<?= e($logo) ?>" alt="<?= e(company_name()) ?>" class="login-logo"><?php endif; ?>
+        <?php $logo = branding_url(branding_url('logo_licht') !== '' ? 'logo_licht' : 'logo'); ?><?php if ($logo !== ''): ?><img src="<?= e($logo) ?>"<?= branding_url('logo_licht') === '' ? ' data-white' : '' ?> alt="<?= e(company_name()) ?>" class="login-logo"><?php endif; ?>
         <h1><?= e(company_name()) ?></h1>
         <p>Klantportaal en beheer voor je hosting, domeinen en facturen.</p>
         <ul>

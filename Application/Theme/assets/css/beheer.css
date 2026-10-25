@@ -313,3 +313,6 @@ dialog.confirm p { margin: 0; padding: 18px 18px 0; }
 .upload-preview { max-height: 90px; max-width: 220px; border: 1px dashed var(--line); border-radius: 8px; padding: 6px; background: var(--soft); }
 .set-title { display: flex; align-items: center; gap: 8px; padding-top: 14px; border-top: 1px solid var(--line); font-weight: 700; color: var(--navy); }
 .set-title .icon { color: var(--accent); }
+
+/* Donker logo op navy: wit filter (alleen als er geen lichte logovariant is) */
+img[data-white] { filter: brightness(0) invert(1); }
