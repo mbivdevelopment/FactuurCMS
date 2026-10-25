@@ -320,9 +320,10 @@ img[data-white] { filter: brightness(0) invert(1); }
 /* Geen tussenruimte/scheidingslijn tussen logo en menu */
 .nav-brand { padding-right: 0; margin-right: 0; border-right: 0; }
 
-/* Menubalk: menu in het midden */
-@media (min-width: 1101px) {
-    .nav-in { display: grid; grid-template-columns: 1fr auto 1fr; align-items: stretch; }
+/* Menubalk: menu in het midden (op smallere schermen gewoon links, zodat het op één regel blijft) */
+@media (min-width: 1400px) {
+    .nav-in { display: grid; grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr); align-items: stretch; }
+    .nav-in > .nav-links { flex-wrap: nowrap; }
     .nav-in > .nav-brand { justify-self: start; }
     .nav-in > .nav-links { justify-self: center; }
     .nav-in > .nav-foot { justify-self: end; margin-left: 0; }
