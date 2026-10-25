@@ -46,18 +46,10 @@ $initial = mb_strtoupper(mb_substr((string) ($user?->Voornaam ?: $user?->Email),
                     </div>
                 <?php endforeach; ?>
             </nav>
-            <div class="nav-foot"><?php foreach ($footLinks as [$href, $ico, $text, $blank]): ?><a class="nav-link" href="<?= e(url($href)) ?>"<?= $blank ? ' target="_blank"' : '' ?>><?= icon($ico) ?><?= e($text) ?></a><?php endforeach; ?></div>
+            <div class="nav-foot"><?php foreach ($footLinks as [$href, $ico, $text, $blank]): ?><a class="nav-link" href="<?= e(url($href)) ?>"<?= $blank ? ' target="_blank"' : '' ?>><?= icon($ico) ?><?= e($text) ?></a><?php endforeach; ?><a href="<?= e(url($profile)) ?>" class="nav-user" title="<?= e($user?->Email) ?>"><span class="avatar"><?= e($initial) ?></span><span class="nav-user-text"><strong><?= e($user?->name()) ?></strong><small><?= e(\App\Models\User::ROLES[$roleKey] ?? '') ?></small></span></a><form method="post" action="<?= e(url('/uitloggen')) ?>"><?= csrf_field() ?><button type="submit" class="nav-logout" title="Uitloggen" aria-label="Uitloggen"><?= icon('logout') ?></button></form></div>
         </div>
     </header>
     <div class="main">
-        <header class="topbar2">
-            <div class="crumbs"><span><?= e($current['label'] ?? 'Account') ?></span><?= icon('chevron-right') ?><strong><?= e($crumb ?? ($title ?? '')) ?></strong></div>
-            <div class="tb-right">
-                <span class="role-pill role-<?= e($roleKey) ?>"><?= e(\App\Models\User::ROLES[$roleKey] ?? '') ?></span>
-                <a href="<?= e(url($profile)) ?>" class="tb-user2" title="<?= e($user?->Email) ?>"><span class="avatar"><?= e($initial) ?></span><span class="tb-user-text"><strong><?= e($user?->name()) ?></strong><small><?= e($user?->Email) ?></small></span></a>
-                <form method="post" action="<?= e(url('/uitloggen')) ?>"><?= csrf_field() ?><button type="submit" class="tb-icon" title="Uitloggen" aria-label="Uitloggen"><?= icon('logout') ?></button></form>
-            </div>
-        </header>
         <?php if (\App\Core\Auth::impersonator()): ?>
             <div class="impersonate"><span>Je bekijkt het portaal als <b><?= e($user?->display()) ?></b> (<?= e($user?->Email) ?>).</span>
                 <form method="post" action="<?= e(url('/klant/terug')) ?>"><?= csrf_field() ?><button class="btn btn-ghost btn-sm"><?= icon('arrow-right', 'icon icon-sm') ?> Terug naar beheer</button></form></div>

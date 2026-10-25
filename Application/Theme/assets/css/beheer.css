@@ -368,3 +368,15 @@ img[data-white] { filter: brightness(0) invert(1); }
 .drop-foot a:hover { background: var(--accent-soft); color: var(--accent); }
 .drop-foot .drop-foot-action { margin-left: auto; color: var(--accent); }
 .nav-item:hover .nav-drop.cols, .nav-item:focus-within .nav-drop.cols, .nav-item.open .nav-drop.cols { row-gap: 18px; }
+
+/* Gebruiker + uitloggen in de navy menubalk */
+.nav-foot { gap: 6px; }
+.nav-user { display: flex; align-items: center; gap: 9px; padding: 5px 10px 5px 5px; margin-left: 6px; border-radius: 12px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.06); color: #fff; }
+.nav-user:hover { background: rgba(255,255,255,.12); }
+.nav-user .avatar { width: 32px; height: 32px; font-size: 13px; }
+.nav-user-text { display: flex; flex-direction: column; line-height: 1.15; }
+.nav-user-text strong { font-size: 13px; color: #fff; }
+.nav-user-text small { font-size: 11px; color: rgba(255,255,255,.6); }
+.nav-logout { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; border: 1px solid rgba(255,255,255,.14); background: transparent; color: #fff; cursor: pointer; }
+.nav-logout:hover { background: var(--accent); border-color: var(--accent); }
+.nav-foot form { margin: 0; }
