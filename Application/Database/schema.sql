@@ -45,10 +45,14 @@ CREATE TABLE IF NOT EXISTS Producten (
     Uitgelicht TINYINT(1) NOT NULL DEFAULT 0,
     Zichtbaar TINYINT(1) NOT NULL DEFAULT 1,
     Volgorde INT NOT NULL DEFAULT 0,
+    Inkoopprijs INT NOT NULL DEFAULT 0,
+    Bron VARCHAR(30) NULL,
+    ExternId VARCHAR(150) NULL,
     AangemaaktOp DATETIME NOT NULL,
     BijgewerktOp DATETIME NULL,
     UNIQUE KEY UkSlug (Slug),
-    UNIQUE KEY UkNummer (Nummer)
+    UNIQUE KEY UkNummer (Nummer),
+    KEY IxExtern (Bron, ExternId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS Diensten (
@@ -66,10 +70,13 @@ CREATE TABLE IF NOT EXISTS Diensten (
     VolgendeFactuur DATE NULL,
     EindDatum DATE NULL,
     Gegevens JSON NULL,
+    Bron VARCHAR(30) NULL,
+    ExternId VARCHAR(150) NULL,
     AangemaaktOp DATETIME NOT NULL,
     BijgewerktOp DATETIME NULL,
     UNIQUE KEY UkNummer (Nummer),
     KEY IxKlant (KlantId),
+    KEY IxExtern (Bron, ExternId),
     KEY IxStatus (Status, VolgendeFactuur),
     CONSTRAINT FkDienstKlant FOREIGN KEY (KlantId) REFERENCES Gebruikers (Id) ON DELETE CASCADE,
     CONSTRAINT FkDienstProduct FOREIGN KEY (ProductId) REFERENCES Producten (Id) ON DELETE SET NULL
@@ -429,4 +436,20 @@ CREATE TABLE IF NOT EXISTS ProjectTaken (
     AangemaaktOp DATETIME NOT NULL,
     BijgewerktOp DATETIME NULL,
     KEY IxProject (ProjectId)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS OnlineBetalingen (
+    Id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    DocumentId INT UNSIGNED NOT NULL,
+    Provider VARCHAR(20) NOT NULL,
+    ExternId VARCHAR(120) NULL,
+    Bedrag INT NOT NULL DEFAULT 0,
+    Status ENUM('open','betaald','mislukt') NOT NULL DEFAULT 'open',
+    ProviderStatus VARCHAR(40) NULL,
+    Url VARCHAR(500) NULL,
+    AangemaaktOp DATETIME NOT NULL,
+    BijgewerktOp DATETIME NULL,
+    KEY IxDocument (DocumentId),
+    KEY IxExtern (Provider, ExternId),
+    CONSTRAINT FkOnlineDocument FOREIGN KEY (DocumentId) REFERENCES Documenten (Id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

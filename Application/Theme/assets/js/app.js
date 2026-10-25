@@ -168,3 +168,21 @@ const markHashLinks = () => document.querySelectorAll('.drop-link[href*="#"], .d
 });
 document.addEventListener('DOMContentLoaded', markHashLinks);
 window.addEventListener('hashchange', markHashLinks);
+
+/* Importtabellen: filteren en alles (zichtbaar) selecteren. */
+document.querySelectorAll('[data-filter]').forEach(function (input) {
+    input.addEventListener('input', function () {
+        var q = input.value.trim().toLowerCase();
+        document.querySelectorAll('[data-filter-table] tbody tr').forEach(function (row) {
+            row.style.display = row.textContent.toLowerCase().indexOf(q) > -1 ? '' : 'none';
+        });
+    });
+});
+document.querySelectorAll('[data-check-all]').forEach(function (box) {
+    box.addEventListener('change', function () {
+        box.closest('table').querySelectorAll('tbody tr').forEach(function (row) {
+            var check = row.querySelector('input[type=checkbox]');
+            if (check && row.style.display !== 'none') { check.checked = box.checked; }
+        });
+    });
+});

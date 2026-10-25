@@ -15,6 +15,7 @@ use App\Models\Document;
 use App\Models\Service;
 use App\Models\Ticket;
 use App\Services\DocumentPdf;
+use App\Services\OnlinePayment;
 
 final class PortalController extends Controller
 {
@@ -49,7 +50,36 @@ final class PortalController extends Controller
 
     public function document(Request $request): Response
     {
-        return $this->view('klant.document', ['doc' => $this->ownDocument($request)]);
+        $doc = $this->ownDocument($request);
+        $paymentId = $request->int('betaling');
+        if ($paymentId > 0 && ($row = Database::first('SELECT * FROM OnlineBetalingen WHERE Id = ? AND DocumentId = ?', [$paymentId, $doc->id()])) !== null) {
+            try {
+                $status = OnlinePayment::sync($row);
+            } catch (\Throwable) {
+                $status = (string) $row['Status'];
+            }
+            [$type, $message] = match ($status) {
+                'betaald' => ['success', 'Bedankt, je betaling is ontvangen.'],
+                'mislukt' => ['error', 'De betaling is niet gelukt of geannuleerd.'],
+                default => ['success', 'Je betaling wordt verwerkt. Zodra die binnen is, staat de factuur op betaald.'],
+            };
+
+            return $this->redirect('/klant/documenten/' . $doc->id())->with($type, $message);
+        }
+
+        return $this->view('klant.document', ['doc' => $doc, 'methods' => OnlinePayment::payable($doc) ? OnlinePayment::enabled() : []]);
+    }
+
+    public function pay(Request $request): Response
+    {
+        $doc = $this->ownDocument($request);
+        try {
+            $url = OnlinePayment::start($doc, $request->string('methode'));
+        } catch (\Throwable $e) {
+            return $this->redirect('/klant/documenten/' . $doc->id())->with('error', 'Online betalen lukt nu niet: ' . $e->getMessage());
+        }
+
+        return Response::redirect($url, 303);
     }
 
     public function pdf(Request $request): Response

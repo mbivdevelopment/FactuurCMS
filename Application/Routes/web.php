@@ -45,6 +45,7 @@ $router->group('klant', ['csrf', 'auth', 'klant'], static function ($router): vo
     $router->get('/offertes', 'Klant\\PortalController@quotes');
     $router->get('/documenten/{id}', 'Klant\\PortalController@document');
     $router->get('/documenten/{id}/pdf', 'Klant\\PortalController@pdf');
+    $router->post('/documenten/{id}/betalen', 'Klant\\PortalController@pay');
     $router->post('/offertes/{id}/akkoord', 'Klant\\PortalController@acceptQuote');
     $router->post('/offertes/{id}/afwijzen', 'Klant\\PortalController@rejectQuote');
     $router->get('/tickets', 'Klant\\PortalController@tickets');
@@ -199,4 +200,18 @@ $router->group('beheer', ['csrf', 'auth', 'admin'], static function ($router): v
 
     $router->get('/demo-data', 'Beheer\\DemoController@index');
     $router->post('/demo-data', 'Beheer\\DemoController@destroy');
+
+    $router->get('/koppelingen', 'Beheer\\IntegrationController@index');
+    $router->get('/koppelingen/realtimeregister/domeinen', 'Beheer\\IntegrationController@rrDomains');
+    $router->post('/koppelingen/realtimeregister/domeinen', 'Beheer\\IntegrationController@rrImportDomains');
+    $router->get('/koppelingen/realtimeregister/extensies', 'Beheer\\IntegrationController@rrTlds');
+    $router->post('/koppelingen/realtimeregister/extensies', 'Beheer\\IntegrationController@rrImportTlds');
+    $router->get('/koppelingen/qevanto/diensten', 'Beheer\\IntegrationController@qevanto');
+    $router->post('/koppelingen/qevanto/diensten', 'Beheer\\IntegrationController@qevantoImport');
+    $router->post('/koppelingen/{naam}', 'Beheer\\IntegrationController@save');
+    $router->post('/koppelingen/{naam}/test', 'Beheer\\IntegrationController@test');
 });
+
+// Betaal-webhooks (zonder CSRF; verificatie bij de provider of via handtekening)
+$router->post('/betalen/mollie/webhook', 'Frontend\\WebhookController@mollie');
+$router->post('/betalen/cryptomus/webhook', 'Frontend\\WebhookController@cryptomus');
