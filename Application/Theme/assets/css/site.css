@@ -431,3 +431,8 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .mega-aside .mini-search { border: 1px solid #ffd2b8; box-shadow: 0 8px 20px rgba(255, 90, 31, .12); }
 .mega-more { color: var(--navy); }
 .mega-more:hover { color: var(--primary); }
+
+/* Megamenu: omschrijvingen op één regel */
+.mega-link .ml-t { min-width: 0; flex: 1; overflow: hidden; }
+.mega-link small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 1000px) { .mega-link small { white-space: normal; } }

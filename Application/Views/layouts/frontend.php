@@ -52,7 +52,7 @@ $colIcons = ['Domeinen' => 'globe', 'Hosting' => 'server', 'Servers' => 'cpu', '
                             <div class="mega-col">
                                 <div class="mega-h"><span><?= icon($colIcons[$group] ?? $items[0]['Icoon']) ?></span><?= e($group) ?></div>
                                 <?php foreach ($items as $mp): ?>
-                                    <a class="mega-link" href="<?= e(url('/oplossingen/' . $mp['Slug'])) ?>"><span class="ml-i"><?= icon($mp['Icoon']) ?></span><span class="ml-t"><strong><?= e($mp['Titel']) ?></strong><small><?= e((string) $mp['Samenvatting']) ?></small></span></a>
+                                    <a class="mega-link" href="<?= e(url('/oplossingen/' . $mp['Slug'])) ?>"><span class="ml-i"><?= icon($mp['Icoon']) ?></span><span class="ml-t"><strong><?= e($mp['Titel']) ?></strong><small title="<?= e((string) $mp['Samenvatting']) ?>"><?= e((string) $mp['Samenvatting']) ?></small></span></a>
                                 <?php endforeach; ?>
                             </div>
                         <?php endforeach; ?>
@@ -72,7 +72,7 @@ $colIcons = ['Domeinen' => 'globe', 'Hosting' => 'server', 'Servers' => 'cpu', '
                             <div class="mega-col">
                                 <div class="mega-h"><span><?= icon($colIcons[$group] ?? $items[0]['Icoon']) ?></span><?= e($group) ?></div>
                                 <?php foreach ($items as $mp): ?>
-                                    <a class="mega-link" href="<?= e(url('/oplossingen/' . $mp['Slug'])) ?>"><span class="ml-i"><?= icon($mp['Icoon']) ?></span><span class="ml-t"><strong><?= e($mp['Titel']) ?></strong><small><?= e((string) $mp['Samenvatting']) ?></small></span></a>
+                                    <a class="mega-link" href="<?= e(url('/oplossingen/' . $mp['Slug'])) ?>"><span class="ml-i"><?= icon($mp['Icoon']) ?></span><span class="ml-t"><strong><?= e($mp['Titel']) ?></strong><small title="<?= e((string) $mp['Samenvatting']) ?>"><?= e((string) $mp['Samenvatting']) ?></small></span></a>
                                 <?php endforeach; ?>
                             </div>
                         <?php endforeach; ?>
