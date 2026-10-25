@@ -906,3 +906,18 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .pk-spec .pk-sv { color: var(--navy); font-weight: 700; text-align: right; min-width: 64px; }
 .pk-sb { display: block; height: 7px; border-radius: 99px; background: var(--soft); overflow: hidden; }
 .pk-sf { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--primary), #ff7a45); }
+/* Pakketkaart: Vimexx-stijl specs + badges */
+.pk-specs { display: grid; gap: 12px; margin: 20px 0 16px; padding-top: 18px; border-top: 1px solid var(--line); }
+.pk-spec { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+.pk-spec .pk-sl { color: var(--muted); font-size: 12.5px; }
+.pk-spec .pk-sv { color: var(--navy); font-weight: 700; font-size: 15px; text-align: left; }
+.pk-seg { display: flex; gap: 3px; }
+.pk-segs { width: 22px; height: 14px; background: var(--soft); clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 50%, calc(100% - 7px) 100%, 0 100%, 7px 50%); }
+.pk-segs.on { background: var(--primary); }
+.pk-btn { width: 100%; justify-content: center; margin-top: 18px; }
+.pk-tags { display: grid; gap: 8px; margin-top: 16px; }
+.pk-tag { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; padding: 9px 12px; border-radius: 10px; }
+.pk-tag-ssl { background: #fef3e2; color: #b45309; }
+.pk-tag-bak { background: #e7f8ec; color: #15803d; }
+.pk-more { display: block; text-align: center; margin-top: 14px; }
+.pk-specs + .pk-feats { margin-top: 4px; }
