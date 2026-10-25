@@ -45,8 +45,8 @@ $colIcons = ['Domeinen' => 'globe', 'Hosting' => 'server', 'Servers' => 'cpu', '
                     <div class="container mega-in mega-cloud">
                         <div class="mega-aside">
                             <div class="mega-aside-t"><?= icon('globe') ?> Zoek je domeinnaam</div>
-                            <form action="<?= e(url('/domeinen')) ?>" method="get" class="mini-search"><input name="domein" placeholder="jouwbedrijf.nl" aria-label="Domeinnaam"><button class="btn btn-sm" type="submit"><?= icon('search', 'icon icon-sm') ?></button></form>
-                            <a href="<?= e(url('/diensten')) ?>" class="mega-more">Alle pakketten en prijzen <?= icon('arrow-right', 'icon icon-sm') ?></a>
+                            <p>Check direct of jouw domeinnaam nog vrij is en claim hem binnen een minuut.</p>
+                            <a href="<?= e(url('/domeinen')) ?>" class="btn btn-sm">Domein zoeken <?= icon('arrow-right', 'icon icon-sm') ?></a>
                         </div>
                         <?php foreach ($menu['cloud'] as $group => $items): ?>
                             <div class="mega-col">
