@@ -751,3 +751,6 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 @media (max-width: 1000px) { .phero-grid { grid-template-columns: minmax(0, 1fr); gap: 18px; } }
 @media (max-width: 640px) { .phero { padding: 22px 0 26px; } .dsearch-sm { flex-wrap: nowrap; } .dsearch-sm input { flex-basis: auto; } .dsearch-sm .btn { flex: none; } }
 .phero-grid > * { min-width: 0; }
+.phero-r { grid-template-columns: minmax(0, 1fr); }
+.dsearch-sm input { width: 0; flex: 1 1 auto; }
+@media (max-width: 640px) { .site .dsearch-sm .btn { padding: 0 12px; } }
