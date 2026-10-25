@@ -75,6 +75,11 @@ $router->group('beheer', ['csrf', 'auth', 'staff'], static function ($router): v
     $router->get('/diensten', 'Beheer\\ServiceController@index');
     $router->get('/diensten/nieuw', 'Beheer\\ServiceController@create');
     $router->post('/diensten', 'Beheer\\ServiceController@store');
+    foreach (\App\Models\Product::SOORTEN as $soorten) {
+        foreach (array_keys($soorten) as $soort) {
+            $router->get('/diensten/' . \App\Models\Product::soortSlug($soort), 'Beheer\\ServiceController@index');
+        }
+    }
     $router->get('/diensten/{id}', 'Beheer\\ServiceController@edit');
     $router->post('/diensten/{id}', 'Beheer\\ServiceController@update');
     $router->delete('/diensten/{id}', 'Beheer\\ServiceController@destroy');
@@ -176,6 +181,11 @@ $router->group('beheer', ['csrf', 'auth', 'staff'], static function ($router): v
     $router->get('/producten', 'Beheer\\ProductController@index');
     $router->get('/producten/nieuw', 'Beheer\\ProductController@create');
     $router->post('/producten', 'Beheer\\ProductController@store');
+    foreach (\App\Models\Product::SOORTEN as $soorten) {
+        foreach (array_keys($soorten) as $soort) {
+            $router->get('/producten/' . \App\Models\Product::soortSlug($soort, true), 'Beheer\\ProductController@index');
+        }
+    }
     $router->get('/producten/{id}', 'Beheer\\ProductController@edit');
     $router->post('/producten/{id}', 'Beheer\\ProductController@update');
     $router->delete('/producten/{id}', 'Beheer\\ProductController@destroy');

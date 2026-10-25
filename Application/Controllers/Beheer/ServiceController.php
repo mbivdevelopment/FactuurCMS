@@ -21,7 +21,7 @@ final class ServiceController extends Controller
         $status = $request->string('status');
         $q = $request->string('q');
         $group = $request->string('groep');
-        $kind = $request->string('soort');
+        $kind = Product::soortFromSlug(basename($request->path)) ?? $request->string('soort');
         $due = $request->int('verloopt');
         $sql = 'SELECT s.*, g.Bedrijfsnaam, g.Voornaam, g.Achternaam FROM Diensten s JOIN Gebruikers g ON g.Id = s.KlantId LEFT JOIN Producten p ON p.Id = s.ProductId WHERE 1 = 1';
         $params = [];

@@ -35,6 +35,26 @@ final class Product extends Model
         return ($extension ? '/extensies/' : '/diensten/') . $slug;
     }
 
+    /** Slug van een dienstsoort in het beheer (bv. ssl-certificaten); bij producten op de weergavenaam (domeinextensies). */
+    public static function soortSlug(string $soort, bool $products = false): string
+    {
+        return slugify($products ? self::soortLabel($soort) : $soort);
+    }
+
+    /** Dienstsoort bij een slug, of null. */
+    public static function soortFromSlug(string $slug, bool $products = false): ?string
+    {
+        foreach (self::SOORTEN as $kinds) {
+            foreach (array_keys($kinds) as $soort) {
+                if (self::soortSlug($soort, $products) === $slug) {
+                    return $soort;
+                }
+            }
+        }
+
+        return null;
+    }
+
     public function path(): string
     {
         return self::pathFor((string) $this->Slug, $this->Dienstsoort, $this->Groep);
