@@ -36,7 +36,7 @@ final class CustomerController extends Controller
             $params = array_fill(0, 5, '%' . $q . '%');
         }
 
-        return $this->view('beheer.customers.index', ['page' => Database::page($sql, $params, 'g.Id DESC', 15), 'q' => $q]);
+        return $this->view('beheer.customers.index', ['page' => Database::page($sql, $params, 'g.Nummer ASC', 15), 'q' => $q]);
     }
 
     public function create(Request $request): Response
