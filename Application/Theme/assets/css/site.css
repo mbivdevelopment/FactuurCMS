@@ -921,3 +921,7 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .pk-tag-bak { background: #e7f8ec; color: #15803d; }
 .pk-more { display: block; text-align: center; margin-top: 14px; }
 .pk-specs + .pk-feats { margin-top: 4px; }
+.pk-specs { text-align: left; }
+.pk-spec { display: flex; flex-direction: row; align-items: center; gap: 12px; }
+.pk-si { flex: none; width: 38px; height: 38px; border-radius: 10px; background: var(--soft); color: var(--primary); display: grid; place-items: center; }
+.pk-st { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
