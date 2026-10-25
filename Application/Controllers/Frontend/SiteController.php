@@ -190,7 +190,12 @@ final class SiteController extends Controller
     public function checkout(Request $request): Response
     {
         $product = $this->findProduct($request);
-        return $this->view('frontend.checkout', ['product' => $product, 'methods' => OnlinePayment::enabled()]);
+        $extPrijzen = [];
+        foreach (DomainCheck::products() as $ext => $extProduct) {
+            $extPrijzen[$ext] = ['prijs' => (int) $extProduct->Prijs, 'btw' => (float) $extProduct->BtwTarief];
+        }
+
+        return $this->view('frontend.checkout', ['product' => $product, 'methods' => OnlinePayment::enabled(), 'extPrijzen' => $extPrijzen]);
     }
 
     public function order(Request $request): Response
@@ -200,7 +205,11 @@ final class SiteController extends Controller
         if ($user?->isStaff()) {
             return Response::back($product->path())->with('error', 'Log in als klant om te bestellen (of maak de dienst aan in het beheer).');
         }
+        $hosting = $product->Periode !== 'eenmalig' && $product->Groep !== 'Domeinen' && $product->Dienstsoort !== 'Domeinnamen';
         $rules = ['Akkoord' => 'required'];
+        if ($hosting) {
+            $rules += ['Domeinnaam' => 'required|max:200', 'DomeinActie' => 'required|in:hebik,registreren'];
+        }
         if ($user === null) {
             $rules += ['Voornaam' => 'required|max:80', 'Achternaam' => 'required|max:80', 'Email' => 'required|email|max:190|unique:Gebruikers,Email', 'Wachtwoord' => 'required|min:8|confirmed'];
         }
@@ -216,7 +225,22 @@ final class SiteController extends Controller
             Auth::login($user);
             Session::forget('intended');
         }
-        $doc = Billing::order($user, $product, $request->string('Notitie'));
+        $domain = null;
+        if ($hosting) {
+            $domein = strtolower(trim((string) $data['Domeinnaam']));
+            if (!preg_match('/^(?=.{4,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\\.)+[a-z]{2,}$/', $domein)) {
+                return Response::back($product->path() . '/bestellen')->withInput($request->all())->with('error', 'Vul een geldige domeinnaam in, bijvoorbeeld mijnbedrijf.nl.');
+            }
+            if ($data['DomeinActie'] === 'registreren') {
+                $ext = strtolower(substr((string) strrchr('.' . $domein, '.'), 1));
+                $extProduct = DomainCheck::products()[$ext] ?? null;
+                if ($extProduct === null) {
+                    return Response::back($product->path() . '/bestellen')->withInput($request->all())->with('error', 'De extensie .' . $ext . ' kunnen we niet registreren; kies "Ik heb deze domeinnaam al".');
+                }
+                $domain = ['domein' => $domein, 'product' => $extProduct];
+            }
+        }
+        $doc = Billing::order($user, $product, $hosting ? $domein : $request->string('Notitie'), $request->string('Termijn'), $domain);
         Billing::send($doc);
         $admin = (string) setting('bedrijf.email', '');
         if ($admin !== '') {

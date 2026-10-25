@@ -66,25 +66,57 @@ final class Billing
     }
 
     /** Bestelling vanuit de frontend: dienst (in afwachting) + direct een open factuur. */
-    public static function order(User $customer, Product $product, string $note): Document
+    /** Termijnen met korting voor terugkerende diensten: sleutel => [maanden, korting%]. */
+    public const TERMIJNEN = ['maand' => [1, 0], 'kwartaal' => [3, 0], 'jaar' => [12, 0], '2jaar' => [24, 10], '4jaar' => [48, 25]];
+
+    /** Prijs voor een termijn op basis van de maandprijs van het product. */
+    public static function termijnPrijs(Product $product, string $termijn): int
     {
+        [$months, $discount] = self::TERMIJNEN[$termijn] ?? [1, 0];
+        $base = ['maand' => 1, 'kwartaal' => 3, 'jaar' => 12, '2jaar' => 24, '4jaar' => 48][(string) $product->Periode] ?? 1;
+        $monthly = (int) $product->Prijs / $base;
+
+        return (int) round($monthly * $months * (100 - $discount) / 100);
+    }
+
+    /** @param array{domein: string, product: Product}|null $domain te registreren domeinnaam */
+    public static function order(User $customer, Product $product, string $note, string $termijn = '', ?array $domain = null): Document
+    {
+        $periode = isset(self::TERMIJNEN[$termijn]) && $product->Periode !== 'eenmalig' ? $termijn : (string) $product->Periode;
         $service = Service::create([
             'KlantId' => $customer->id(),
             'ProductId' => $product->id(),
             'Naam' => $product->Naam,
             'Omschrijving' => $note !== '' ? mb_substr($note, 0, 255) : null,
-            'Prijs' => (int) $product->Prijs,
+            'Prijs' => $periode === (string) $product->Periode ? (int) $product->Prijs : self::termijnPrijs($product, $periode),
             'BtwTarief' => (float) $product->BtwTarief,
-            'Periode' => $product->Periode,
+            'Periode' => $periode,
             'Status' => 'in_afwachting',
             'StartDatum' => date('Y-m-d'),
             'VolgendeFactuur' => date('Y-m-d'),
         ]);
+        $services = [$service];
+        if ($domain !== null) {
+            $ext = $domain['product'];
+            $services[] = Service::create([
+                'KlantId' => $customer->id(),
+                'ProductId' => $ext->id(),
+                'Naam' => $domain['domein'],
+                'Omschrijving' => 'Registratie',
+                'Prijs' => (int) $ext->Prijs,
+                'BtwTarief' => (float) $ext->BtwTarief,
+                'Periode' => $ext->Periode === 'eenmalig' ? 'jaar' : $ext->Periode,
+                'Status' => 'in_afwachting',
+                'StartDatum' => date('Y-m-d'),
+                'VolgendeFactuur' => date('Y-m-d'),
+                'Gegevens' => ['domein' => ['naam' => $domain['domein'], 'actie' => 'registreren']],
+            ]);
+        }
         $extra = (int) $product->Instelkosten > 0
             ? [['Omschrijving' => 'Eenmalige instelkosten ' . $product->Naam, 'Aantal' => 1.0, 'Prijs' => (int) $product->Instelkosten, 'BtwTarief' => (float) $product->BtwTarief]]
             : [];
-        $doc = self::invoiceServices($customer, [$service], $extra, 'Bestelling ' . $product->Naam);
-        if ($product->Periode === 'eenmalig') {
+        $doc = self::invoiceServices($customer, $services, $extra, 'Bestelling ' . $product->Naam);
+        if ($periode === 'eenmalig') {
             $service->VolgendeFactuur = null;
             $service->save();
         }
