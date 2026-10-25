@@ -4,6 +4,8 @@
     <div class="card-body form-grid">
         <?= field('Naam', 'Naam', 'tag', $product->Naam, 'text', [], 'required') ?>
         <?= field('Groep', 'Groep', 'layout', $product->Groep, 'select', $groups) ?>
+        <?php $soorten = ['' => 'Geen dienstsoort']; foreach (\App\Models\Product::SOORTEN as $kol => $items) { foreach ($items as $naam => $ic) { $soorten[$naam] = $kol . ' › ' . $naam; } } ?>
+        <?= field('Dienstsoort', 'Dienstsoort (Diensten-megamenu)', 'tag', (string) $product->Dienstsoort, 'select', $soorten) ?>
         <?= field('Slug', 'URL-naam (leeg = automatisch)', 'link', $product->Slug) ?>
         <?= field('Periode', 'Periode', 'refresh', $product->Periode, 'select', \App\Models\Product::PERIODS) ?>
         <?= field('Prijs', 'Prijs excl. btw (€)', 'euro', cents_input((int) $product->Prijs)) ?>

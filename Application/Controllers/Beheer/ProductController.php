@@ -64,6 +64,7 @@ final class ProductController extends Controller
 
         return $data + [
             'Slug' => $slug,
+            'Dienstsoort' => in_array($request->string('Dienstsoort'), array_merge(...array_map('array_keys', array_values(Product::SOORTEN))), true) ? $request->string('Dienstsoort') : null,
             'Kenmerken' => array_values(array_filter(array_map('trim', preg_split('/\R/', $request->string('Kenmerken')) ?: []))),
             'Prijs' => parse_money($request->string('Prijs')),
             'Instelkosten' => parse_money($request->string('Instelkosten')),

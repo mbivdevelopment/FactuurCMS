@@ -361,3 +361,9 @@ img[data-white] { filter: brightness(0) invert(1); }
 .btw-table .btw-group td { background: var(--soft, #f7f8fb); }
 .btw-table .btw-total td { border-top: 2px solid var(--navy, #0f1b3d); font-size: 16px; }
 @media print { .nav, .topbar, .btw-period, .page-head .btn, .toasts { display: none !important; } }
+
+/* Megamenu-voetbalk met snelkoppelingen */
+.drop-foot { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin: 6px -14px -14px; padding: 8px 10px; border-top: 1px solid var(--line); background: var(--soft); border-radius: 0 0 var(--radius) var(--radius); }
+.drop-foot a { display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px; border-radius: 8px; font-weight: 600; font-size: 13.5px; color: var(--text); }
+.drop-foot a:hover { background: var(--accent-soft); color: var(--accent); }
+.drop-foot .drop-foot-action { margin-left: auto; color: var(--accent); }

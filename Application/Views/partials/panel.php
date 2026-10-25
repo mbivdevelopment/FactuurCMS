@@ -29,7 +29,7 @@ $initial = mb_strtoupper(mb_substr((string) ($user?->Voornaam ?: $user?->Email),
                 <?php foreach ($navSections as $s): ?>
                     <?php $drop = count($s['items']) > 1; $isActive = ($current['key'] ?? '') === $s['key']; ?>
                     <div class="nav-item<?= $drop ? ' has-drop' : '' ?>">
-                        <a href="<?= e(url($s['items'][0][0])) ?>" class="nav-title<?= $isActive ? ' active' : '' ?>"<?= $drop ? ' aria-haspopup="true"' : '' ?>><?= icon($s['icon']) ?><span><?= e($s['label']) ?></span><?php if (($s['count'] ?? 0) > 0): ?><span class="nav-count"><?= (int) $s['count'] ?></span><?php endif; ?><?php if ($drop): ?><?= icon('chevron-down', 'icon caret') ?><?php endif; ?></a>
+                        <a href="<?= e(url($s['href'] ?? $s['items'][0][0])) ?>" class="nav-title<?= $isActive ? ' active' : '' ?>"<?= $drop ? ' aria-haspopup="true"' : '' ?>><?= icon($s['icon']) ?><span><?= e($s['label']) ?></span><?php if (($s['count'] ?? 0) > 0): ?><span class="nav-count"><?= (int) $s['count'] ?></span><?php endif; ?><?php if ($drop): ?><?= icon('chevron-down', 'icon caret') ?><?php endif; ?></a>
                         <?php if ($drop): ?>
                             <div class="nav-drop<?= !empty($s['wide']) ? ' wide' : '' ?><?= !empty($s['columns']) ? ' cols' : '' ?>"<?= !empty($s['columns']) ? ' style="--cols:' . count($s['columns']) . '"' : '' ?>>
                                 <?php $colsDef = $s['columns'] ?? ['' => array_keys($s['items'])]; ?>
@@ -40,7 +40,7 @@ $initial = mb_strtoupper(mb_substr((string) ($user?->Voornaam ?: $user?->Email),
                                 <?php endforeach; ?>
                                 <?php if ($colTitle !== ''): ?></div><?php endif; ?>
                                 <?php endforeach; ?>
-                                <?php if (isset($s['action'])): ?><a href="<?= e(url($s['action'][0])) ?>" class="drop-action"><?= icon('plus', 'icon icon-sm') ?><?= e($s['action'][1]) ?></a><?php endif; ?>
+                                <?php if (isset($s['footer'])): ?><div class="drop-foot"><?php foreach ($s['footer'] as [$fh, $fi, $fl]): ?><a href="<?= e(url($fh)) ?>"><?= icon($fi, 'icon icon-sm') ?><?= e($fl) ?></a><?php endforeach; ?><?php if (isset($s['action'])): ?><a href="<?= e(url($s['action'][0])) ?>" class="drop-foot-action"><?= icon('plus', 'icon icon-sm') ?><?= e($s['action'][1]) ?></a><?php endif; ?></div><?php elseif (isset($s['action'])): ?><a href="<?= e(url($s['action'][0])) ?>" class="drop-action"><?= icon('plus', 'icon icon-sm') ?><?= e($s['action'][1]) ?></a><?php endif; ?>
                             </div>
                         <?php endif; ?>
                     </div>

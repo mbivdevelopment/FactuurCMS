@@ -154,7 +154,8 @@ INSERT IGNORE INTO Instellingen (Sleutel, Waarde) VALUES
 INSERT IGNORE INTO PortfolioCategorieen (Naam, Volgorde, AangemaaktOp) VALUES ('Development', 1, NOW()), ('Marketing', 2, NOW()), ('ICT', 3, NOW());
 
 -- De inhoud van deze migraties zit al in deze seed; zo worden ze niet nog eens uitgevoerd.
-INSERT IGNORE INTO Migraties (Naam, UitgevoerdOp) VALUES ('2026_10_23_001_website_basisinhoud.sql', NOW()), ('2026_10_23_002_ict_kolommen.sql', NOW()), ('2026_10_23_003_portfolio_categorieen_budget.sql', NOW()), ('2026_10_23_004_menu_indeling.sql', NOW()), ('2026_10_23_005_projecten_afspraken.sql', NOW()), ('2026_10_23_006_contracten_inkoop_storingen_antwoorden.sql', NOW());
+UPDATE Producten SET Dienstsoort = CASE Groep WHEN 'Hosting' THEN 'Webhosting' WHEN 'Domeinen' THEN 'Domeinnamen' WHEN 'VPS' THEN 'Cloud VPS' WHEN 'E-mail' THEN 'E-mail Hosting' WHEN 'Websites' THEN 'Informatieve Websites' ELSE NULL END WHERE Dienstsoort IS NULL;
+INSERT IGNORE INTO Migraties (Naam, UitgevoerdOp) VALUES ('2026_10_23_001_website_basisinhoud.sql', NOW()), ('2026_10_23_002_ict_kolommen.sql', NOW()), ('2026_10_23_003_portfolio_categorieen_budget.sql', NOW()), ('2026_10_23_004_menu_indeling.sql', NOW()), ('2026_10_23_005_projecten_afspraken.sql', NOW()), ('2026_10_23_006_contracten_inkoop_storingen_antwoorden.sql', NOW()), ('2026_10_23_007_dienstsoort.sql', NOW());
 
 -- Nieuwe indeling van de megamenu's. Pagina's die niet meer in het menu staan blijven bereikbaar (Categorie 'overig').
 UPDATE Paginas SET Categorie = 'overig' WHERE Slug IN ('domein-verhuizen', 'dns-beheer', 'wordpress-hosting', 'cloud-servers');
