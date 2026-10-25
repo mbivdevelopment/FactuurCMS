@@ -14,6 +14,90 @@ final class Mailer
 {
     public const METHODS = ['log' => 'Alleen loggen (test)', 'mail' => 'PHP mail() van de server', 'smtp' => 'SMTP-server'];
 
+    /**
+     * Aanpasbare mails naar klanten (Beheer → Instellingen → E-mailtemplates).
+     * Per sleutel: onderwerp/tekst met {variabelen}; overschrijven via mailtpl.<sleutel>.onderwerp en mailtpl.<sleutel>.tekst.
+     */
+    public const TEMPLATES = [
+        'welkom' => [
+            'naam' => 'Welkom / account aangemaakt',
+            'onderwerp' => 'Welkom bij {bedrijf}',
+            'tekst' => "Beste {voornaam},
+
+Je account is aangemaakt. Je klantnummer is {klantnummer}.
+Inloggen kan via {link}
+
+Met vriendelijke groet,
+{bedrijf}",
+            'vars' => ['voornaam', 'klantnummer', 'link', 'bedrijf'],
+        ],
+        'wachtwoord' => [
+            'naam' => 'Wachtwoord vergeten',
+            'onderwerp' => 'Wachtwoord herstellen',
+            'tekst' => "Beste {voornaam},
+
+Via deze link stel je een nieuw wachtwoord in (1 uur geldig):
+{link}
+
+Heb je dit niet aangevraagd? Dan kun je deze mail negeren.",
+            'vars' => ['voornaam', 'link', 'bedrijf'],
+        ],
+        'factuur' => [
+            'naam' => 'Factuur verzonden',
+            'onderwerp' => 'Factuur {nummer} van {bedrijf}',
+            'tekst' => "Beste {voornaam},
+
+In de bijlage vind je factuur {nummer} van {bedrag}.
+Graag ontvangen we de betaling vóór {vervaldatum} op {iban} t.n.v. {bedrijf} o.v.v. {nummer}.
+
+Online bekijken: {link}
+
+Met vriendelijke groet,
+{bedrijf}",
+            'vars' => ['voornaam', 'nummer', 'bedrag', 'vervaldatum', 'iban', 'link', 'bedrijf'],
+        ],
+        'offerte' => [
+            'naam' => 'Offerte verzonden',
+            'onderwerp' => 'Offerte {nummer} van {bedrijf}',
+            'tekst' => "Beste {voornaam},
+
+In de bijlage vind je offerte {nummer} van {bedrag} (geldig t/m {vervaldatum}).
+Je kunt de offerte online bekijken en accepteren via {link}
+
+Met vriendelijke groet,
+{bedrijf}",
+            'vars' => ['voornaam', 'nummer', 'bedrag', 'vervaldatum', 'link', 'bedrijf'],
+        ],
+        'ticket' => [
+            'naam' => 'Antwoord op ticket',
+            'onderwerp' => '[{nummer}] {onderwerp}',
+            'tekst' => "Beste {voornaam},
+
+{bericht}
+
+Reageren kan via {link}
+
+Met vriendelijke groet,
+{medewerker}
+{bedrijf}",
+            'vars' => ['voornaam', 'nummer', 'onderwerp', 'bericht', 'link', 'medewerker', 'bedrijf'],
+        ],
+    ];
+
+    /** Onderwerp + tekst van een klant-mail ophalen (aangepast of standaard) en {variabelen} invullen. */
+    public static function tpl(string $key, array $vars = []): array
+    {
+        $t = self::TEMPLATES[$key] ?? ['onderwerp' => '', 'tekst' => ''];
+        $subject = (string) Setting::get('mailtpl.' . $key . '.onderwerp', (string) $t['onderwerp']);
+        $body = (string) Setting::get('mailtpl.' . $key . '.tekst', (string) $t['tekst']);
+        $vars += ['bedrijf' => company_name()];
+        $map = [];
+        foreach ($vars as $k => $v) {
+            $map['{' . $k . '}'] = (string) $v;
+        }
+        return [strtr($subject, $map), strtr($body, $map)];
+    }
+
     public static ?string $lastError = null;
 
     /** @param list<array{name: string, content: string, type?: string}> $attachments */

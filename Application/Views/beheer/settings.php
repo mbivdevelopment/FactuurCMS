@@ -6,6 +6,7 @@
         <a href="#branding" class="tab-link" data-tab="branding"><?= icon('image', 'icon icon-sm') ?> Branding</a>
         <a href="#facturatie" class="tab-link" data-tab="facturatie"><?= icon('file', 'icon icon-sm') ?> Facturatie</a>
         <a href="#email" class="tab-link" data-tab="email"><?= icon('mail', 'icon icon-sm') ?> E-mail</a>
+        <a href="#mailtemplates" class="tab-link" data-tab="mailtemplates"><?= icon('send', 'icon icon-sm') ?> E-mailtemplates</a>
         <a href="#website" class="tab-link" data-tab="website"><?= icon('globe', 'icon icon-sm') ?> Website</a>
     </nav>
     <div class="tab-pane" data-pane="bedrijf"><form method="post" action="<?= e(url('/beheer/instellingen')) ?>"><?= csrf_field() ?><input type="hidden" name="tab" value="bedrijf">
@@ -56,7 +57,19 @@
             <?= field('mail_wachtwoord', 'Wachtwoord' . ($hasMailPassword ? ' (ingesteld, leeg = ongewijzigd)' : ''), 'lock', '', 'password', [], 'autocomplete="new-password"') ?>
         </div><div class="card-foot"><button class="btn"><?= icon('check', 'icon icon-sm') ?> Opslaan</button></div></form>
         <form method="post" action="<?= e(url('/beheer/instellingen/testmail')) ?>" class="card-body row" style="border-top:1px solid var(--line)"><?= csrf_field() ?><input name="naar" type="email" placeholder="<?= e(auth_user()?->Email) ?>" style="max-width:300px"><button class="btn btn-ghost"><?= icon('send', 'icon icon-sm') ?> Testmail versturen</button><span class="small muted">In de modus "Alleen loggen" komen mails in storage/logs/mail.log.</span></form></div>
-    <div class="tab-pane" data-pane="website"><form method="post" action="<?= e(url('/beheer/instellingen')) ?>"><?= csrf_field() ?><input type="hidden" name="tab" value="website">
+        <div class="tab-pane" data-pane="mailtemplates"><form method="post" action="<?= e(url('/beheer/instellingen')) ?>"><?= csrf_field() ?><input type="hidden" name="tab" value="mailtemplates">
+        <div class="card-body"><p class="muted" style="margin:0 0 18px">Deze mails gaan automatisch naar klanten. Vul bij onderwerp en tekst de variabelen met {accolades} in; een leeg veld valt terug op de standaard.</p>
+        <?php foreach (\App\Core\Mailer::TEMPLATES as $tk => $t): ?>
+        <div class="mailtpl">
+            <div class="mailtpl-h"><?= icon('mail', 'icon icon-sm') ?> <strong><?= e($t['naam']) ?></strong><span class="mailtpl-vars"><?php foreach ($t['vars'] as $var): ?><code>{<?= e($var) ?>}</code><?php endforeach; ?></span></div>
+            <div class="form-grid">
+                <?= field('mailtpl_' . $tk . '_onderwerp', 'Onderwerp', 'mail', $s('mailtpl.' . $tk . '.onderwerp', $t['onderwerp'])) ?>
+                <?= field('mailtpl_' . $tk . '_tekst', 'Berichttekst', 'note', $s('mailtpl.' . $tk . '.tekst', $t['tekst']), 'textarea', [], 'rows="7"') ?>
+            </div>
+        </div>
+        <?php endforeach; ?>
+        </div><div class="card-foot"><button class="btn"><?= icon('check', 'icon icon-sm') ?> Opslaan</button></div></form></div>
+<div class="tab-pane" data-pane="website"><form method="post" action="<?= e(url('/beheer/instellingen')) ?>"><?= csrf_field() ?><input type="hidden" name="tab" value="website">
         <div class="card-body form-grid">
             <?= field('website_titel', 'Titel homepage', 'layout', $s('website.titel')) ?>
             <?= field('app_url', 'Website-URL (voor links in e-mail/PDF)', 'link', $s('app.url'), 'url', [], 'placeholder="https://www.jouwdomein.nl"') ?>

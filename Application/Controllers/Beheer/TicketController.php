@@ -101,7 +101,8 @@ final class TicketController extends Controller
     {
         $customer = User::find((int) $ticket->KlantId);
         if ($customer !== null) {
-            Mailer::send((string) $customer->Email, '[' . $ticket->Nummer . '] ' . $ticket->Onderwerp, "Beste {$customer->Voornaam},\n\n" . $message . "\n\nReageren kan via " . absolute_url('/klant/tickets/' . $ticket->id()) . "\n\nMet vriendelijke groet,\n" . Auth::user()?->name() . "\n" . company_name());
+            [$sub, $body] = Mailer::tpl('ticket', ['voornaam' => $customer->Voornaam, 'nummer' => $ticket->Nummer, 'onderwerp' => $ticket->Onderwerp, 'bericht' => $message, 'link' => absolute_url('/klant/tickets/' . $ticket->id()), 'medewerker' => Auth::user()?->name()]);
+            Mailer::send((string) $customer->Email, $sub, $body);
         }
     }
 

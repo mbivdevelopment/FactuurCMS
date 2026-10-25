@@ -170,10 +170,15 @@ final class Billing
             return false;
         }
         $label = $doc->label();
-        $body = $doc->isQuote()
-            ? "Beste {$customer->Voornaam},\n\nIn de bijlage vind je offerte {$doc->Nummer} van " . money((int) $doc->Totaal) . " (geldig t/m " . nl_date((string) $doc->VervalDatum) . ").\nJe kunt de offerte online bekijken en accepteren via " . absolute_url('/klant/documenten/' . $doc->id()) . "\n\nMet vriendelijke groet,\n" . company_name()
-            : "Beste {$customer->Voornaam},\n\nIn de bijlage vind je {$label} {$doc->Nummer} van " . money((int) $doc->Totaal) . ".\nGraag ontvangen we de betaling vóór " . nl_date((string) $doc->VervalDatum) . " op " . setting('bedrijf.iban', '-') . " t.n.v. " . company_name() . " o.v.v. {$doc->Nummer}.\n\nOnline bekijken: " . absolute_url('/klant/documenten/' . $doc->id()) . "\n\nMet vriendelijke groet,\n" . company_name();
-        $ok = Mailer::send((string) $customer->Email, $label . ' ' . $doc->Nummer . ' van ' . company_name(), $body, [
+        [$subject, $body] = Mailer::tpl($doc->isQuote() ? 'offerte' : 'factuur', [
+            'voornaam' => $customer->Voornaam,
+            'nummer' => $doc->Nummer,
+            'bedrag' => money((int) $doc->Totaal),
+            'vervaldatum' => nl_date((string) $doc->VervalDatum),
+            'iban' => setting('bedrijf.iban', '-'),
+            'link' => absolute_url('/klant/documenten/' . $doc->id()),
+        ]);
+        $ok = Mailer::send((string) $customer->Email, $subject, $body, [
             ['name' => $label . '-' . $doc->Nummer . '.pdf', 'content' => DocumentPdf::render($doc), 'type' => 'application/pdf'],
         ]);
         if ($ok) {

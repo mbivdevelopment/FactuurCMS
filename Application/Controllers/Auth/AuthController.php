@@ -63,7 +63,8 @@ final class AuthController extends Controller
             'Actief' => 1,
         ]);
         Log::db('registratie', $user->Email, $user->id());
-        Mailer::send((string) $user->Email, 'Welkom bij ' . company_name(), "Beste {$user->Voornaam},\n\nJe account is aangemaakt. Je klantnummer is {$user->Nummer}.\nInloggen kan via " . absolute_url('/login') . "\n\nMet vriendelijke groet,\n" . company_name());
+        [$sub, $body] = Mailer::tpl('welkom', ['voornaam' => $user->Voornaam, 'klantnummer' => $user->Nummer, 'link' => absolute_url('/login')]);
+        Mailer::send((string) $user->Email, $sub, $body);
         Auth::login($user);
         $intended = (string) Session::get('intended', '');
         Session::forget('intended');
@@ -83,7 +84,8 @@ final class AuthController extends Controller
         if ($user !== null) {
             $token = bin2hex(random_bytes(32));
             Database::update('Gebruikers', ['ResetToken' => hash('sha256', $token), 'ResetVerloopt' => date('Y-m-d H:i:s', time() + 3600)], ['Id' => $user->id()]);
-            Mailer::send((string) $user->Email, 'Wachtwoord herstellen', "Beste {$user->Voornaam},\n\nVia deze link stel je een nieuw wachtwoord in (1 uur geldig):\n" . absolute_url('/wachtwoord-herstellen/' . $token) . "\n\nHeb je dit niet aangevraagd? Dan kun je deze mail negeren.");
+            [$sub, $body] = Mailer::tpl('wachtwoord', ['voornaam' => $user->Voornaam, 'link' => absolute_url('/wachtwoord-herstellen/' . $token)]);
+            Mailer::send((string) $user->Email, $sub, $body);
         }
 
         return Response::back('/login')->with('success', 'Als dit e-mailadres bekend is, ontvang je een mail met een herstellink.');

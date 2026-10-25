@@ -173,7 +173,8 @@ final class DomainController extends Controller
         if ($user === null) {
             $user = User::create($holder + ['Rol' => 'klant', 'Email' => strtolower(trim((string) $data['Email'])), 'Wachtwoord' => Auth::hash((string) $data['Wachtwoord']), 'Actief' => 1]);
             Log::db('registratie', $user->Email, $user->id());
-            Mailer::send((string) $user->Email, 'Welkom bij ' . company_name(), "Beste {$user->Voornaam},\n\nJe account is aangemaakt. Je klantnummer is {$user->Nummer}.\nInloggen kan via " . absolute_url('/login') . "\n\nMet vriendelijke groet,\n" . company_name());
+            [$sub, $body] = Mailer::tpl('welkom', ['voornaam' => $user->Voornaam, 'klantnummer' => $user->Nummer, 'link' => absolute_url('/login')]);
+            Mailer::send((string) $user->Email, $sub, $body);
             Auth::login($user);
             Session::forget('intended');
         } else {
