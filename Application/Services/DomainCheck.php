@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Core\Session;
 use App\Models\Product;
 
 /** Controleert of een domeinnaam vrij is (Realtime Register of WHOIS) en welke extensies te bestellen zijn. */
@@ -68,6 +69,22 @@ final class DomainCheck
 
     /** Is een domeinnaam vrij? Via Realtime Register als dat is ingesteld, anders via WHOIS. @return array{status: string, premium: bool} status: vrij|bezet|onbekend */
     public static function status(string $domain): array
+    {
+        $cache = (array) Session::get('domeincheck', []);
+        if (isset($cache[$domain]) && (int) $cache[$domain]['t'] > time() - 900) {
+            return $cache[$domain]['r'];
+        }
+        $result = self::lookup($domain);
+        if ($result['status'] !== 'onbekend') {
+            $cache[$domain] = ['t' => time(), 'r' => $result];
+            Session::set('domeincheck', array_slice($cache, -200, null, true));
+        }
+
+        return $result;
+    }
+
+    /** @return array{status: string, premium: bool} */
+    private static function lookup(string $domain): array
     {
         if (RealtimeRegister::configured()) {
             try {

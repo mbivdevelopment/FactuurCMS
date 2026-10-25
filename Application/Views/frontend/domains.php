@@ -1,8 +1,6 @@
 <?php $extend('frontend', ['title' => $name !== '' ? 'Domeinnaam ' . $name : 'Domeinnaam zoeken']);
 $inCart = array_column($cart, 'actie', 'domein'); $total = array_sum(array_map(static fn (array $i): int => (int) $i['product']->Prijs, $cart));
-$popular = array_slice(array_keys($products), 0, 8); $cats = ['populair' => 'Populair', 'europa' => 'Europa', 'generiek' => 'Generiek', 'nieuw' => 'Nieuwe extensies', 'alle' => 'Alle'];
-$rowCats = []; foreach (array_keys($products) as $x) { $rowCats[$x] = array_merge(in_array($x, $popular, true) ? ['populair'] : [], [\App\Services\DomainCheck::category((string) $x), 'alle']); }
-$counts = array_count_values(array_merge(...array_values($rowCats ?: [[]]))); ?>
+?>
 <?= $partial('frontend._hero', ['title' => $name !== '' ? 'Domeinnaam "' . $name . '"' : 'Registreren of verhuizen', 'intro' => 'Typ je domeinnaam; wij laten per extensie zien of je hem kunt registreren of verhuizen.', 'icon' => 'globe', 'crumbs' => [['/oplossingen/domeinnaam-registreren', 'Domeinen'], [null, 'Zoeken']]]) ?>
 <div class="container phero-search"><?= $partial('frontend._domain-search', ['value' => $name]) ?></div>
 <section class="sec"><div class="container">
@@ -23,10 +21,9 @@ $counts = array_count_values(array_merge(...array_values($rowCats ?: [[]]))); ?>
                     <div class="dres-act"><?= $partial('frontend._domain-actions', ['domain' => $mainDomain, 'big' => true]) ?></div>
                 </div>
             </div>
-            <div class="dtabs" role="tablist"><?php foreach ($cats as $key => $label): if (empty($counts[$key])) { continue; } ?><button type="button" class="<?= $key === 'populair' ? 'active' : '' ?>" data-tab="<?= e($key) ?>"><?= e($label) ?> <span><?= (int) $counts[$key] - ($key === 'alle' || in_array('populair', $rowCats[$main], true) && $key === 'populair' || in_array($key, $rowCats[$main], true) ? 1 : 0) ?></span></button><?php endforeach; ?></div>
             <div class="dres">
-                <?php foreach ($products as $ext => $p): if ($ext === $main) { continue; } $domain = $name . '.' . $ext; $show = in_array('populair', $rowCats[$ext], true); ?>
-                <div class="dres-row is-laden<?= isset($inCart[$domain]) ? ' in-cart' : '' ?>" data-row data-domain="<?= e($domain) ?>" data-cat="<?= e(implode(' ', $rowCats[$ext])) ?>"<?= $show ? '' : ' hidden' ?>>
+                <?php foreach ($popular as $ext): $p = $products[$ext]; $domain = $name . '.' . $ext; ?>
+                <div class="dres-row is-laden<?= isset($inCart[$domain]) ? ' in-cart' : '' ?>" data-row data-domain="<?= e($domain) ?>">
                     <span class="dres-i"><span class="dres-spin"></span><?= icon('check') ?><?= icon('refresh') ?><?= icon('globe') ?></span>
                     <div class="dres-name"><strong><?= e($name) ?><b>.<?= e($ext) ?></b></strong><small data-msg>Controleren…</small></div>
                     <div class="dres-price"><?= e(money((int) $p->Prijs)) ?><small> /jaar</small></div>
@@ -34,6 +31,16 @@ $counts = array_count_values(array_merge(...array_values($rowCats ?: [[]]))); ?>
                 </div>
                 <?php endforeach; ?>
             </div>
+            <?php if (count($products) > count($popular) + 1): ?>
+            <form class="dother" method="get" action="<?= e(url('/domeinen')) ?>">
+                <span><?= icon('search', 'icon icon-sm') ?> Andere extensie?</span>
+                <input type="hidden" name="domein" value="<?= e($name) ?>">
+                <div class="dother-in"><b><?= e($name) ?></b><input name="ext" list="dext" placeholder=".shop" aria-label="Extensie" required autocomplete="off"></div>
+                <datalist id="dext"><?php foreach (array_keys($products) as $x): ?><option value=".<?= e($x) ?>"><?php endforeach; ?></datalist>
+                <button class="btn btn-ghost">Controleren</button>
+                <small><?= count($products) ?> extensies beschikbaar</small>
+            </form>
+            <?php endif; ?>
         </div>
         <aside class="card dcart" id="mand" data-cart>
             <div class="card-head"><h2><?= icon('cart') ?> Winkelwagen <span class="dcart-n" data-cart-count><?= count($cart) ?></span></h2></div>
@@ -57,25 +64,25 @@ $counts = array_count_values(array_merge(...array_values($rowCats ?: [[]]))); ?>
     var main = box.querySelector('.dmain');
     var msgs = { vrij: 'Is nog vrij!', bezet: 'Al geregistreerd. Van jou? Verhuis hem hierheen.', onbekend: 'Kon niet worden gecontroleerd' };
     var mainMsgs = { vrij: 'Gefeliciteerd, deze domeinnaam is nog vrij!', bezet: 'Deze domeinnaam is al bezet. Is hij van jou? Verhuis hem dan naar ons.', onbekend: 'We konden deze naam nu niet controleren.' };
+    var queue = [], busy = 0;
     function check(row) {
         if (row.dataset.checked) { return; }
-        row.dataset.checked = '1';
+        row.dataset.checked = '1'; queue.push(row); next();
+    }
+    function next() {
+        if (busy >= 3 || !queue.length) { return; }
+        var row = queue.shift(); busy++;
         fetch(<?= json_encode(url('/domeinen/check')) ?> + '?domein=' + encodeURIComponent(row.dataset.domain), { headers: { Accept: 'application/json' } })
             .then(function (r) { return r.json(); }).catch(function () { return { status: 'onbekend' }; })
             .then(function (d) {
                 var s = msgs[d.status] ? d.status : 'onbekend';
                 row.classList.remove('is-laden'); row.classList.add('is-' + s);
                 row.querySelector('[data-msg]').textContent = (row === main ? mainMsgs[s] : msgs[s]) + (d.premium ? ' (premium)' : '');
-            });
+            })
+            .then(function () { busy--; next(); });
     }
     var rows = box.querySelectorAll('[data-row]');
-    rows.forEach(function (r) { if (!r.hidden) { check(r); } });
-    box.querySelectorAll('[data-tab]').forEach(function (tab) {
-        tab.addEventListener('click', function () {
-            box.querySelectorAll('[data-tab]').forEach(function (t) { t.classList.toggle('active', t === tab); });
-            box.querySelectorAll('.dres [data-row]').forEach(function (r) { r.hidden = (' ' + r.dataset.cat + ' ').indexOf(' ' + tab.dataset.tab + ' ') < 0; if (!r.hidden) { check(r); } });
-        });
-    });
+    rows.forEach(check);
     var trash = document.querySelector('[data-trash]').innerHTML;
     function render(cart) {
         var list = document.querySelector('[data-cart-items]'); list.innerHTML = '';

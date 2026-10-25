@@ -25,11 +25,25 @@ final class DomainController extends Controller
 
     public function search(Request $request): Response
     {
-        [$name, $ext] = DomainCheck::parse($request->string('domein'));
+        $raw = $request->string('domein');
+        if ($request->string('ext') !== '') {
+            $raw = DomainCheck::parse($raw)[0] . '.' . ltrim(strtolower(trim($request->string('ext'))), '.');
+        }
+        [$name, $ext] = DomainCheck::parse($raw);
         $products = DomainCheck::products();
         $main = $ext !== null && isset($products[$ext]) ? $ext : array_key_first($products);
+        $preferred = DomainCheck::extensions();
+        $popular = array_values(array_filter(array_keys($products), static fn ($x): bool => in_array((string) $x, $preferred, true) && $x !== $main));
+        foreach (array_keys($products) as $x) {
+            if (count($popular) >= 4) {
+                break;
+            }
+            if ($x !== $main && !in_array($x, $popular, true)) {
+                $popular[] = $x;
+            }
+        }
 
-        return $this->view('frontend.domains', ['name' => $name, 'typedExt' => $ext, 'main' => $main, 'products' => $products, 'cart' => self::cart()]);
+        return $this->view('frontend.domains', ['name' => $name, 'typedExt' => $ext, 'main' => $main, 'popular' => array_slice($popular, 0, 8), 'products' => $products, 'cart' => self::cart()]);
     }
 
     public function check(Request $request): Response

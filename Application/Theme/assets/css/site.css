@@ -723,3 +723,10 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .ck-sec .card-foot.dcheck-nav { padding: 14px 22px; }
 .ck-sec .dauth-login .btn { width: 100%; }
 .ck-sec .dauth-login .small { text-align: center; }
+.dother { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 18px; border: 1px dashed var(--line); border-radius: 12px; background: var(--soft); }
+.dother > span { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--navy); }
+.dother-in { display: flex; align-items: center; flex: 1; min-width: 200px; height: 42px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+.dother-in:focus-within { border-color: var(--primary); }
+.dother-in b { color: var(--muted); font-weight: 600; }
+.dother-in input { border: 0; outline: 0; font: inherit; font-weight: 700; color: var(--primary); flex: 1; min-width: 0; height: 40px; padding-left: 1px; }
+.dother small { color: var(--muted); width: 100%; }
