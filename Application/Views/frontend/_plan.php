@@ -37,9 +37,8 @@ if ($max > 0 && count($rest) > $max) {
         <span class="pk-i"><?= icon(\App\Models\Product::soortIcon($p->Dienstsoort, $p->Groep)) ?></span>
         <div><span class="pk-kind"><?= e($kind) ?></span><h3><a href="<?= e(url($p->path())) ?>"><?= e($p->Naam) ?></a></h3></div>
     </div>
-    <?php if ((string) $p->Omschrijving !== ''): ?><p class="pk-desc"><?= e($p->Omschrijving) ?></p><?php endif; ?>
     <div class="pk-price"><span class="pk-eur"><?= $price ?></span><span class="pk-per"><?= e($per) ?></span></div>
-    <div class="pk-vat">excl. btw<?php if ((int) $p->Instelkosten > 0): ?> · + <?= e(money((int) $p->Instelkosten)) ?> instelkosten<?php endif; ?></div>
+    <?php if ((int) $p->Instelkosten > 0): ?><div class="pk-vat">+ <?= e(money((int) $p->Instelkosten)) ?> instelkosten</div><?php endif; ?>
     <a class="btn btn-lg pk-btn" href="<?= e(url($p->path())) ?>"><?= icon('cart', 'icon icon-sm') ?> Bestellen</a>
         <?php if ($specs !== []): ?><?php $specIcons = ['CPU' => 'cpu', 'Geheugen' => 'box', 'Schijfruimte' => 'server', 'Dataverkeer' => 'trend', 'Netwerk' => 'globe']; ?>
     <a class="pk-specs-link" href="#" data-specs-open><?= icon('cpu', 'icon icon-sm') ?> Alle specificaties</a>
