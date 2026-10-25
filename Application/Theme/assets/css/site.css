@@ -642,3 +642,84 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
     .dcheck-nav { flex-direction: column-reverse; align-items: stretch; }
     .dcheck-nav .btn { justify-content: center; }
 }
+
+/* Checkout: strakker */
+.ck-band { background: linear-gradient(160deg, var(--navy-2), var(--navy)); color: #fff; padding: 26px 0 0; }
+.ck-band-in { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
+.ck-band .crumbs { margin-bottom: 6px; }
+.ck-band h1 { font-size: 28px; margin: 0; color: #fff; }
+.ck-secure { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: rgba(255, 255, 255, .75); padding: 6px 12px; border: 1px solid rgba(255, 255, 255, .18); border-radius: 99px; }
+.ck-secure .icon { color: #4ade80; }
+.ck-steps { list-style: none; margin: 22px 0 0; padding: 0 0 22px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); position: relative; }
+.ck-steps::before, .ck-steps::after { content: ''; position: absolute; top: 15px; left: 12.5%; height: 2px; border-radius: 2px; }
+.ck-steps::before { right: 12.5%; background: rgba(255, 255, 255, .16); }
+.ck-steps::after { width: calc(75% * var(--ck-progress) / 100); background: var(--primary); }
+.ck-steps li { position: relative; z-index: 1; display: flex; justify-content: center; }
+.ck-steps li > a, .ck-steps li > span { display: flex; flex-direction: column; align-items: center; gap: 8px; color: rgba(255, 255, 255, .55); font-size: 13.5px; font-weight: 600; }
+.ck-dot { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--navy); border: 2px solid rgba(255, 255, 255, .22); color: rgba(255, 255, 255, .7); font-weight: 800; font-size: 13px; }
+.ck-steps li.done > a { color: rgba(255, 255, 255, .85); }
+.ck-steps li.done .ck-dot { background: var(--primary); border-color: var(--primary); color: #fff; }
+.ck-steps li.done > a:hover .ck-label { color: #fff; text-decoration: underline; }
+.ck-steps li.active > span { color: #fff; }
+.ck-steps li.active .ck-dot { background: #fff; border-color: #fff; color: var(--primary); box-shadow: 0 0 0 5px rgba(255, 90, 31, .35); }
+.ck-sec { padding: 34px 0 72px; background: var(--soft); }
+.ck-sec .dcheck { grid-template-columns: minmax(0, 1fr) 330px; gap: 24px; }
+.ck-sec .dcheck-main { gap: 16px; }
+.ck-sec .card { border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 1px 2px rgba(15, 27, 61, .04); }
+.ck-sec .card-head { padding: 18px 22px 0; border-bottom: 0; min-height: 0; }
+.ck-sec .card-head h2 { font-size: 16px; gap: 10px; }
+.ck-sec .card-head h2 .icon { width: 30px; height: 30px; padding: 6px; border-radius: 8px; background: var(--accent-soft); color: var(--primary); }
+.ck-sec .card-body { padding: 16px 22px 22px; }
+.ck-sec .card-foot { padding: 16px 22px; background: transparent; border-top: 1px solid var(--line); }
+.ck-sec .dcheck-nav .btn-ghost { border-color: transparent; background: transparent; color: var(--muted); padding-left: 4px; }
+.ck-sec .dcheck-nav .btn-ghost:hover { color: var(--navy); }
+.ck-sec .row.dcheck-nav { padding: 2px 0; }
+/* velden */
+.ck-sec .form-grid { gap: 14px 14px; }
+.ck-sec .field label { font-size: 12.5px; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
+.ck-sec .field-control { height: 46px; padding: 0 12px; gap: 10px; border: 1px solid var(--line); border-radius: 10px; background: #fff; transition: border-color .15s, box-shadow .15s; }
+.ck-sec .field-control:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255, 90, 31, .12); }
+.ck-sec .field-control > .icon { color: var(--muted); width: 16px; height: 16px; }
+.ck-sec .field.has-error .field-control { border-color: #dc2626; }
+/* regels */
+.ck-sec .dline { padding: 14px 0; border-bottom: 1px solid var(--line); }
+.ck-sec .dline:first-child { padding-top: 0; }
+.ck-sec .dline .pk-i { width: 40px; height: 40px; border-radius: 10px; }
+.ck-sec .dline-code { height: 40px; border-radius: 10px; background: var(--soft); border-color: transparent; }
+.ck-sec .dline-code input { background: transparent; height: 38px; }
+.ck-sec .dline-code:focus-within { background: #fff; border-color: var(--primary); }
+/* keuzes */
+.ck-sec .dopts { gap: 10px; }
+.ck-sec .dopt-b { padding: 16px 16px 16px 46px; border-width: 1px; border-radius: 12px; position: relative; }
+.ck-sec .dopt-b::before { content: ''; position: absolute; left: 16px; top: 18px; width: 18px; height: 18px; border-radius: 50%; border: 2px solid #c8cfdc; background: #fff; transition: border-color .15s, box-shadow .15s; }
+.ck-sec .dopt input:checked + .dopt-b { border-color: var(--primary); box-shadow: 0 0 0 1px var(--primary); background: #fff; }
+.ck-sec .dopt input:checked + .dopt-b::before { border-color: var(--primary); box-shadow: inset 0 0 0 4px #fff; background: var(--primary); }
+.ck-sec .dopt-b strong { font-size: 15px; }
+.ck-sec .dopt-b em { position: absolute; top: -9px; right: 12px; }
+.ck-sec .dopt-b b { font-size: 16px; }
+/* overzicht rechts */
+.ck-sec .dsummary { background: #fff; }
+.ck-sec .dsummary .card-body { gap: 0; }
+.ck-sec .dsum-row { padding: 10px 0; border-bottom: 1px dashed var(--line); font-size: 14.5px; }
+.ck-sec .dsum-row strong { font-weight: 600; }
+.ck-sec .dsum-row small { font-size: 12.5px; }
+.ck-sec .dsummary .totals { margin-top: 12px; font-size: 14.5px; }
+.ck-sec .dsummary .totals .grand { font-size: 18px; padding-top: 10px; margin-top: 6px; border-top: 1px solid var(--line); }
+.ck-sec .dsummary .dcart-usps { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+.ck-sec .dauth { gap: 16px; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); }
+.ck-sec .dauth-login { background: linear-gradient(160deg, #fff, var(--soft)); }
+.ck-sec .alert { margin: 0; }
+@media (max-width: 1100px) { .ck-sec .dauth { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 1000px) { .ck-sec .dcheck { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 640px) {
+    .ck-band h1 { font-size: 23px; }
+    .ck-secure { display: none; }
+    .ck-steps li > a, .ck-steps li > span { font-size: 12px; }
+    .ck-sec { padding-top: 22px; }
+    .ck-sec .card-head { padding: 16px 16px 0; }
+    .ck-sec .card-body { padding: 14px 16px 18px; }
+    .ck-sec .card-foot { padding: 14px 16px; }
+}
+.ck-sec .card-foot.dcheck-nav { padding: 14px 22px; }
+.ck-sec .dauth-login .btn { width: 100%; }
+.ck-sec .dauth-login .small { text-align: center; }

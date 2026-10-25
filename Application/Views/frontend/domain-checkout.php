@@ -1,9 +1,14 @@
 <?php $extend('frontend', ['title' => 'Domeinen bestellen']);
 $steps = [1 => ['Winkelwagen', '/domeinen/winkelwagen'], 2 => ["Extra's", '/domeinen/extras'], 3 => ['Gegevens', '/domeinen/gegevens'], 4 => ['Overzicht', '/domeinen/overzicht']];
 $guest = $user === null; $staff = $user !== null && $user->isStaff(); $u = static fn (string $k): string => $user !== null ? (string) $user->{$k} : ''; ?>
-<?= $partial('frontend._hero', ['title' => 'Domeinen bestellen', 'intro' => 'In vier stappen geregeld. Na betaling leggen we je domeinnamen direct vast.', 'icon' => 'cart', 'crumbs' => [['/domeinen', 'Domeinen'], [null, $steps[$step][0]]]]) ?>
-<section class="sec dcheck-sec"><div class="container">
-    <ol class="dsteps"><?php foreach ($steps as $n => [$label, $href]): ?><li class="<?= $n === $step ? 'active' : ($n < $step ? 'done' : '') ?>"><?php if ($n < $step): ?><a href="<?= e(url($href)) ?>"><?php endif; ?><span class="ds-n"><?= $n < $step ? icon('check', 'icon icon-sm') : $n ?></span><span class="ds-l"><?= e($label) ?></span><?php if ($n < $step): ?></a><?php endif; ?></li><?php endforeach; ?></ol>
+<section class="ck-band"><div class="container">
+    <div class="ck-band-in">
+        <div><nav class="crumbs"><a href="<?= e(url('/')) ?>">Home</a> <?= icon('chevron-right', 'icon icon-sm') ?> <a href="<?= e(url('/domeinen')) ?>">Domeinen</a> <?= icon('chevron-right', 'icon icon-sm') ?> <span>Bestellen</span></nav><h1>Bestellen</h1></div>
+        <span class="ck-secure"><?= icon('lock', 'icon icon-sm') ?> Veilig bestellen</span>
+    </div>
+    <ol class="ck-steps" style="--ck-progress: <?= ($step - 1) / 3 * 100 ?>%"><?php foreach ($steps as $n => [$label, $href]): ?><li class="<?= $n === $step ? 'active' : ($n < $step ? 'done' : '') ?>"><?php if ($n < $step): ?><a href="<?= e(url($href)) ?>"><?php else: ?><span><?php endif; ?><span class="ck-dot"><?= $n < $step ? icon('check', 'icon icon-sm') : $n ?></span><span class="ck-label"><?= e($label) ?></span><?= $n < $step ? '</a>' : '</span>' ?></li><?php endforeach; ?></ol>
+</div></section>
+<section class="ck-sec"><div class="container">
     <div class="dcheck">
         <div class="dcheck-main">
         <?php if ($step === 1): ?>
