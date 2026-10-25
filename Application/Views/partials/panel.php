@@ -6,9 +6,11 @@ $path = substr($path, strlen(base_path_url())) ?: '/';
 $path = rtrim($path, '/') ?: '/';
 $matches = static fn (string $to): bool => $path === $to || (substr_count($to, '/') > 1 && str_starts_with($path, $to . '/'));
 $current = null;
-foreach ($navSections as $s) {
-    foreach (array_merge(array_column(array_filter($s['items'], static fn ($i) => empty($i[5])), 0), $s['also'] ?? []) as $to) {
-        if ($matches($to)) { $current = $s; break 2; }
+foreach ([false, true] as $useAlso) {
+    foreach ($navSections as $s) {
+        foreach ($useAlso ? $s['also'] ?? [] : array_column(array_filter($s['items'], static fn ($i) => empty($i[5])), 0) as $to) {
+            if ($matches($to)) { $current = $s; break 3; }
+        }
     }
 }
 $crumb = null;
