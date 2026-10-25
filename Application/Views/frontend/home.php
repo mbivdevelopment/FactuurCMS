@@ -17,7 +17,6 @@ $homeText = (string) (setting('home.tekst', '') ?: 'Bij ' . company_name() . ' d
             <h1><?= $homeTitle ?></h1>
             <p><?= e($homeText) ?></p>
             <div class="hh-btns"><a class="btn btn-lg" href="<?= e(url('/diensten')) ?>"><?= icon('box', 'icon icon-sm') ?> Bekijk pakketten</a><a class="btn btn-lg btn-ghost" href="<?= e(url('/domeinen')) ?>"><?= icon('globe', 'icon icon-sm') ?> Domein zoeken</a></div>
-            <div class="hh-pills"><span><?= icon('zap', 'icon icon-sm') ?> Snelle NVMe-servers</span><span><?= icon('headset', 'icon icon-sm') ?> Persoonlijke support</span><span><?= icon('globe', 'icon icon-sm') ?> Datacenters in Nederland</span></div>
         </div>
     </div>
 </section>
