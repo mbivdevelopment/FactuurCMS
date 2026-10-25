@@ -54,6 +54,9 @@ final class IntegrationController extends Controller
                 Setting::set('rr.customer', trim($request->string('rr_customer')));
                 Setting::set('rr.url', $request->string('rr_url') === RealtimeRegister::OTE ? RealtimeRegister::OTE : RealtimeRegister::LIVE);
                 Setting::set('rr.marge', max(0, min(500, $request->int('rr_marge'))));
+                Setting::set('rr.contact', trim($request->string('rr_contact')));
+                Setting::set('rr.ns', trim($request->string('rr_ns')));
+                Setting::set('rr.auto', $request->string('rr_auto') === '1' ? '1' : '0');
                 break;
             case 'mollie':
                 $secret('mollie.apikey', 'mollie_apikey');

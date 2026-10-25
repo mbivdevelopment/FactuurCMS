@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Core\Crypt;
 use App\Core\Database;
 use App\Core\Log;
 use App\Core\Mailer;
@@ -88,6 +89,33 @@ final class Billing
             $service->save();
         }
         Log::db('bestelling', $customer->Email . ' · ' . $product->Naam, $customer->id());
+
+        return $doc;
+    }
+
+    /** Bestelling van domeinnamen (registreren of verhuizen): per domein een dienst, samen op één factuur.
+     * @param list<array{domein: string, actie: string, product: Product, authcode: string}> $items */
+    public static function orderDomains(User $customer, array $items): Document
+    {
+        $services = [];
+        foreach ($items as $item) {
+            $product = $item['product'];
+            $services[] = Service::create([
+                'KlantId' => $customer->id(),
+                'ProductId' => $product->id(),
+                'Naam' => $item['domein'],
+                'Omschrijving' => $item['actie'] === 'verhuizen' ? 'Verhuizing' : 'Registratie',
+                'Prijs' => (int) $product->Prijs,
+                'BtwTarief' => (float) $product->BtwTarief,
+                'Periode' => $product->Periode === 'eenmalig' ? 'jaar' : $product->Periode,
+                'Status' => 'in_afwachting',
+                'StartDatum' => date('Y-m-d'),
+                'VolgendeFactuur' => date('Y-m-d'),
+                'Gegevens' => ['domein' => ['naam' => $item['domein'], 'actie' => $item['actie'], 'authcode' => $item['authcode'] !== '' ? Crypt::encrypt($item['authcode']) : null]],
+            ]);
+        }
+        $doc = self::invoiceServices($customer, $services, [], 'Bestelling domeinnamen');
+        Log::db('bestelling', $customer->Email . ' · ' . implode(', ', array_column($items, 'domein')), $customer->id());
 
         return $doc;
     }

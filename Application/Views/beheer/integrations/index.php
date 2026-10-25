@@ -13,6 +13,9 @@ $test = static fn (string $name): string => '<button class="btn btn-ghost" forma
                 <?= field('rr_customer', 'Klanthandle (customer)', 'user', (string) setting('rr.customer', '')) ?>
                 <?= field('rr_url', 'Omgeving', 'server', (string) setting('rr.url', \App\Services\RealtimeRegister::LIVE), 'select', [\App\Services\RealtimeRegister::LIVE => 'Live (api.yoursrs.com)', \App\Services\RealtimeRegister::OTE => 'Test / OT&E (api.yoursrs-ote.com)']) ?>
                 <?= field('rr_marge', 'Marge op inkoopprijs (%)', 'trend', (string) setting('rr.marge', 30), 'number', [], 'min="0" max="500"') ?>
+                <?= field('rr_contact', 'Eigen contacthandle (admin, tech, billing)', 'users', (string) setting('rr.contact', ''), 'text', [], 'placeholder="Leeg = de klant zelf"') ?>
+                <?= field('rr_ns', 'Nameservers bij registratie', 'server', (string) setting('rr.ns', ''), 'text', [], 'placeholder="ns1.jouwdomein.nl, ns2.jouwdomein.nl"') ?>
+                <label class="switch field-full"><input type="checkbox" name="rr_auto" value="1"<?= (string) setting('rr.auto', '1') === '1' ? ' checked' : '' ?>> Domeinen na betaling automatisch registreren of verhuizen</label>
             </div>
         </div>
         <div class="card-foot row">

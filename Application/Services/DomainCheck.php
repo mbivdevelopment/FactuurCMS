@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Core\Database;
+use App\Models\Product;
 
-/** Controleert via WHOIS (poort 43) of een domeinnaam vrij is en koppelt het bijbehorende Domeinen-product. */
+/** Controleert of een domeinnaam vrij is (Realtime Register of WHOIS) en welke extensies te bestellen zijn. */
 final class DomainCheck
 {
     private const SERVERS = [
@@ -24,7 +24,7 @@ final class DomainCheck
         return array_values(array_unique(array_filter($list, static fn (string $x): bool => isset(self::SERVERS[$x]))));
     }
 
-    /** Splitst invoer als "mijnbedrijf", "www.mijnbedrijf.nl" of "mijnbedrijf.com" in [naam, extensie]. */
+    /** Splitst invoer als "mijnbedrijf", "www.mijnbedrijf.nl" of "mijnbedrijf.co.uk" in [naam, extensie]. @return array{0: string, 1: ?string} */
     public static function parse(string $input): array
     {
         $input = strtolower(trim($input));
@@ -33,16 +33,41 @@ final class DomainCheck
         $parts = explode('.', $input, 2);
         $name = (string) preg_replace('/[^a-z0-9-]/', '', $parts[0]);
         $name = trim(substr($name, 0, 63), '-');
+        $ext = isset($parts[1]) && preg_match('/^[a-z0-9]+(\.[a-z0-9]+)?$/', $parts[1]) ? $parts[1] : null;
 
-        return [$name, isset($parts[1]) && isset(self::SERVERS[$parts[1]]) ? $parts[1] : null];
+        return [$name, $ext];
     }
 
-    /** @return array{domain: string, ext: string, status: string, product: ?array<string, mixed>} status: vrij|bezet|onbekend */
-    public static function check(string $name, string $ext): array
+    /** Domeinextensies die je kunt bestellen, populairste eerst. @return array<string, Product> extensie => product */
+    public static function products(): array
     {
-        $domain = $name . '.' . $ext;
+        $rr = RealtimeRegister::configured();
+        $out = [];
+        foreach (Product::query("SELECT * FROM Producten WHERE Zichtbaar = 1 AND (Dienstsoort = 'Domeinnamen' OR (Dienstsoort IS NULL AND Groep = 'Domeinen')) ORDER BY Bron = 'realtimeregister' DESC, Volgorde, Id") as $p) {
+            $x = ltrim($p->extensionLabel(), '.');
+            if (!isset($out[$x]) && ($rr || isset(self::SERVERS[$x]))) {
+                $out[$x] = $p;
+            }
+        }
+        $rank = array_flip(self::extensions());
+        uksort($out, static fn (string $a, string $b): int => [$rank[$a] ?? 999, $a] <=> [$rank[$b] ?? 999, $b]);
+
+        return $out;
+    }
+
+    /** Is een domeinnaam vrij? Via Realtime Register als dat is ingesteld, anders via WHOIS. @return array{status: string, premium: bool} status: vrij|bezet|onbekend */
+    public static function status(string $domain): array
+    {
+        if (RealtimeRegister::configured()) {
+            try {
+                return RealtimeRegister::check($domain);
+            } catch (\Throwable) {
+                return ['status' => 'onbekend', 'premium' => false];
+            }
+        }
+        [, $ext] = explode('.', $domain, 2) + [1 => ''];
         $status = 'onbekend';
-        $socket = @fsockopen(self::SERVERS[$ext], 43, $errno, $errstr, 4);
+        $socket = isset(self::SERVERS[$ext]) ? @fsockopen(self::SERVERS[$ext], 43, $errno, $errstr, 4) : false;
         if ($socket !== false) {
             stream_set_timeout($socket, 4);
             fwrite($socket, ($ext === 'de' ? '-T dn ' : '') . $domain . "\r\n");
@@ -62,8 +87,7 @@ final class DomainCheck
         if ($status === 'onbekend' && function_exists('checkdnsrr') && @checkdnsrr($domain, 'NS')) {
             $status = 'bezet';
         }
-        $product = Database::first("SELECT * FROM Producten WHERE Groep = 'Domeinen' AND Zichtbaar = 1 AND (Slug LIKE ? OR Naam LIKE ?) ORDER BY Volgorde LIMIT 1", [$ext . '-%', '.' . $ext . '%']);
 
-        return ['domain' => $domain, 'ext' => $ext, 'status' => $status, 'product' => $product];
+        return ['status' => $status, 'premium' => false];
     }
 }

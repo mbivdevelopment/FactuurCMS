@@ -14,6 +14,10 @@ $router->group('', ['csrf'], static function ($router): void {
     $router->post('/extensies/{slug}/bestellen', 'Frontend\\SiteController@order', ['throttle:bestellen,10,60']);
     $router->get('/oplossingen/{slug}', 'Frontend\\SiteController@page');
     $router->get('/domeinen', 'Frontend\\SiteController@domains', ['throttle:domein,30,60']);
+    $router->get('/domeinen/check', 'Frontend\\SiteController@domainCheck', ['throttle:domeincheck,240,60']);
+    $router->post('/domeinen/mand', 'Frontend\\SiteController@domainCartAdd', ['throttle:domeinmand,60,60']);
+    $router->post('/domeinen/mand/verwijderen', 'Frontend\\SiteController@domainCartRemove');
+    $router->post('/domeinen/bestellen', 'Frontend\\SiteController@domainOrder', ['throttle:bestellen,10,60']);
     $router->get('/blog', 'Frontend\\SiteController@blog');
     $router->get('/blog/{slug}', 'Frontend\\SiteController@blogPost');
     $router->get('/portfolio', 'Frontend\\SiteController@portfolio');

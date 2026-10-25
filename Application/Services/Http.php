@@ -45,7 +45,7 @@ final class Http
                     break;
                 }
             }
-            throw new \RuntimeException($host . ': ' . ($message !== '' ? $message : 'HTTP ' . $status));
+            throw new \RuntimeException($host . ': ' . ($message !== '' ? $message : 'HTTP ' . $status), $status);
         }
 
         return is_array($data) ? $data : [];
