@@ -148,3 +148,12 @@ document.addEventListener('DOMContentLoaded', () => {
         box.querySelectorAll('[data-logo-pane]').forEach(p => p.classList.toggle('active', p.dataset.logoPane === b.dataset.logoTab));
     }));
 });
+
+/* Ticket: snel antwoord invoegen in de reactie. */
+document.addEventListener('change', ev => {
+    const sel = ev.target.closest('[data-quick-reply]');
+    if (!sel || !sel.value) return;
+    const ta = document.querySelector(sel.dataset.quickReply);
+    if (ta) { ta.value = (ta.value.trim() ? ta.value.trimEnd() + '\n\n' : '') + sel.value; ta.focus(); }
+    sel.selectedIndex = 0;
+});

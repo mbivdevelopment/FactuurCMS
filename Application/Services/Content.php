@@ -42,6 +42,47 @@ final class Content
                 ],
                 'columns' => ['Datum' => 'date', 'Tijd' => 'text', 'Onderwerp' => 'title', 'KlantId' => 'customer', 'Locatie' => 'text', 'Status' => 'badge'],
             ],
+            'contracten' => [
+                'table' => 'Contracten', 'label' => 'Contracten', 'single' => 'contract', 'icon' => 'file', 'title' => 'Naam', 'base' => '/beheer/contracten',
+                'desc' => 'Lopende afspraken en abonnementen met klanten', 'order' => "FIELD(Status, 'actief', 'concept', 'opgezegd', 'beeindigd'), EindDatum, Id DESC", 'public' => null,
+                'fields' => [
+                    'Naam' => ['Contractnaam', 'tag', 'text', true], 'KlantId' => ['Klant', 'user', 'customer'], 'Soort' => ['Soort (bv. SLA, onderhoud)', 'layout', 'text'],
+                    'Status' => ['Status', 'flag', 'select', true, ['concept' => 'Concept', 'actief' => 'Actief', 'opgezegd' => 'Opgezegd', 'beeindigd' => 'Beëindigd']],
+                    'StartDatum' => ['Ingangsdatum', 'calendar', 'date', true], 'EindDatum' => ['Einddatum', 'calendar', 'date'],
+                    'Bedrag' => ['Bedrag excl. btw (€)', 'euro', 'money'], 'Periode' => ['Periode', 'refresh', 'select', true, ['maand' => 'Per maand', 'kwartaal' => 'Per kwartaal', 'jaar' => 'Per jaar', 'eenmalig' => 'Eenmalig']],
+                    'Opzegtermijn' => ['Opzegtermijn', 'clock', 'text'], 'Notities' => ['Notities', 'note', 'textarea'],
+                ],
+                'columns' => ['Naam' => 'title', 'KlantId' => 'customer', 'Status' => 'badge', 'StartDatum' => 'date', 'EindDatum' => 'date', 'Bedrag' => 'money'],
+            ],
+            'inkoopfacturen' => [
+                'table' => 'Inkoopfacturen', 'label' => 'Inkoopfacturen', 'single' => 'inkoopfactuur', 'icon' => 'wallet', 'title' => 'Leverancier', 'base' => '/beheer/inkoopfacturen',
+                'desc' => 'Facturen van leveranciers, openstaande bovenaan', 'order' => "FIELD(Status, 'open', 'betaald'), Datum DESC", 'public' => null,
+                'fields' => [
+                    'Leverancier' => ['Leverancier', 'building', 'text', true], 'Factuurnummer' => ['Factuurnummer', 'hash', 'text'],
+                    'Datum' => ['Factuurdatum', 'calendar', 'date', true], 'VervalDatum' => ['Vervaldatum', 'calendar', 'date'],
+                    'Bedrag' => ['Bedrag excl. btw (€)', 'euro', 'money'], 'BtwBedrag' => ['Btw (€)', 'euro', 'money'],
+                    'Status' => ['Status', 'flag', 'select', true, ['open' => 'Open', 'betaald' => 'Betaald']], 'Omschrijving' => ['Omschrijving', 'note', 'textarea'],
+                ],
+                'columns' => ['Datum' => 'date', 'Leverancier' => 'title', 'Factuurnummer' => 'text', 'Bedrag' => 'money', 'BtwBedrag' => 'money', 'Status' => 'badge'],
+            ],
+            'storingen' => [
+                'table' => 'Storingen', 'label' => 'Storingen', 'single' => 'storing', 'icon' => 'zap', 'title' => 'Titel', 'base' => '/beheer/storingen',
+                'desc' => 'Storingen en gepland onderhoud', 'order' => "FIELD(Status, 'onderzoek', 'onderhoud', 'opgelost'), StartDatum DESC", 'public' => null,
+                'fields' => [
+                    'Titel' => ['Titel', 'tag', 'text', true],
+                    'Status' => ['Status', 'flag', 'select', true, ['onderzoek' => 'In onderzoek', 'onderhoud' => 'Gepland onderhoud', 'opgelost' => 'Opgelost']],
+                    'Ernst' => ['Ernst', 'zap', 'select', true, ['laag' => 'Laag', 'middel' => 'Middel', 'hoog' => 'Hoog']],
+                    'StartDatum' => ['Begonnen op', 'calendar', 'date', true], 'EindDatum' => ['Opgelost op', 'calendar', 'date'],
+                    'Omschrijving' => ['Omschrijving en updates', 'note', 'textarea'],
+                ],
+                'columns' => ['StartDatum' => 'date', 'Titel' => 'title', 'Ernst' => 'badge', 'Status' => 'badge', 'EindDatum' => 'date'],
+            ],
+            'snelle-antwoorden' => [
+                'table' => 'SnelleAntwoorden', 'label' => 'Snelle antwoorden', 'single' => 'snel antwoord', 'icon' => 'chat', 'title' => 'Titel', 'base' => '/beheer/snelle-antwoorden',
+                'desc' => 'Standaardteksten die je met één klik in een ticketreactie invoegt', 'order' => 'Volgorde, Titel', 'public' => null,
+                'fields' => ['Titel' => ['Titel', 'tag', 'text', true], 'Volgorde' => ['Volgorde', 'hash', 'number'], 'Tekst' => ['Tekst', 'note', 'textarea', true]],
+                'columns' => ['Titel' => 'title', 'Volgorde' => 'text'],
+            ],
             'paginas' => [
                 'table' => 'Paginas', 'label' => "Pagina's", 'single' => 'pagina', 'icon' => 'layout', 'title' => 'Titel',
                 'desc' => 'Pagina\'s in het megamenu (Cloudoplossingen en ICT & Development)', 'order' => "FIELD(Categorie, 'cloud', 'ict', 'overig'), Groep, Volgorde, Id", 'public' => '/oplossingen/',

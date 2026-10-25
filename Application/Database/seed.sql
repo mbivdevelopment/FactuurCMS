@@ -154,7 +154,7 @@ INSERT IGNORE INTO Instellingen (Sleutel, Waarde) VALUES
 INSERT IGNORE INTO PortfolioCategorieen (Naam, Volgorde, AangemaaktOp) VALUES ('Development', 1, NOW()), ('Marketing', 2, NOW()), ('ICT', 3, NOW());
 
 -- De inhoud van deze migraties zit al in deze seed; zo worden ze niet nog eens uitgevoerd.
-INSERT IGNORE INTO Migraties (Naam, UitgevoerdOp) VALUES ('2026_10_23_001_website_basisinhoud.sql', NOW()), ('2026_10_23_002_ict_kolommen.sql', NOW()), ('2026_10_23_003_portfolio_categorieen_budget.sql', NOW()), ('2026_10_23_004_menu_indeling.sql', NOW()), ('2026_10_23_005_projecten_afspraken.sql', NOW());
+INSERT IGNORE INTO Migraties (Naam, UitgevoerdOp) VALUES ('2026_10_23_001_website_basisinhoud.sql', NOW()), ('2026_10_23_002_ict_kolommen.sql', NOW()), ('2026_10_23_003_portfolio_categorieen_budget.sql', NOW()), ('2026_10_23_004_menu_indeling.sql', NOW()), ('2026_10_23_005_projecten_afspraken.sql', NOW()), ('2026_10_23_006_contracten_inkoop_storingen_antwoorden.sql', NOW());
 
 -- Nieuwe indeling van de megamenu's. Pagina's die niet meer in het menu staan blijven bereikbaar (Categorie 'overig').
 UPDATE Paginas SET Categorie = 'overig' WHERE Slug IN ('domein-verhuizen', 'dns-beheer', 'wordpress-hosting', 'cloud-servers');
@@ -186,3 +186,9 @@ INSERT IGNORE INTO Projecten (Id, KlantId, Naam, Status, StartDatum, EindDatum, 
 INSERT IGNORE INTO Afspraken (Id, KlantId, Onderwerp, Datum, Tijd, Locatie, Status, Notities, AangemaaktOp) VALUES
 (1, 3, 'Kick-off website', DATE_ADD(CURDATE(), INTERVAL 2 DAY), '10:00', 'Bij de klant', 'gepland', 'Huisstijl en teksten meenemen.', NOW()),
 (2, 2, 'Evaluatie hosting', DATE_ADD(CURDATE(), INTERVAL 9 DAY), '14:30', 'Online (Teams)', 'gepland', NULL, NOW());
+
+INSERT INTO SnelleAntwoorden (Titel, Tekst, Volgorde, AangemaaktOp)
+SELECT * FROM (SELECT 'Bedankt, we kijken ernaar' AS Titel, 'Bedankt voor je bericht. We gaan er direct mee aan de slag en laten je zo snel mogelijk weten wat de status is.' AS Tekst, 1 AS Volgorde, NOW() AS AangemaaktOp
+UNION ALL SELECT 'Opgelost', 'Het probleem is opgelost. Kun je bevestigen dat alles weer naar behoren werkt? Dan sluiten we het ticket.', 2, NOW()
+UNION ALL SELECT 'Meer informatie nodig', 'Om je goed te kunnen helpen hebben we wat meer informatie nodig. Kun je een screenshot sturen en aangeven wanneer het probleem begon?', 3, NOW()) d
+WHERE NOT EXISTS (SELECT 1 FROM SnelleAntwoorden);

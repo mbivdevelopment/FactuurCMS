@@ -116,6 +116,34 @@ $router->group('beheer', ['csrf', 'auth', 'staff'], static function ($router): v
     $router->post('/afspraken/{id}', 'Beheer\\ContentController@update');
     $router->delete('/afspraken/{id}', 'Beheer\\ContentController@destroy');
 
+    $router->get('/contracten', 'Beheer\\ContentController@index');
+    $router->get('/contracten/nieuw', 'Beheer\\ContentController@create');
+    $router->post('/contracten', 'Beheer\\ContentController@store');
+    $router->get('/contracten/{id}', 'Beheer\\ContentController@edit');
+    $router->post('/contracten/{id}', 'Beheer\\ContentController@update');
+    $router->delete('/contracten/{id}', 'Beheer\\ContentController@destroy');
+
+    $router->get('/inkoopfacturen', 'Beheer\\ContentController@index');
+    $router->get('/inkoopfacturen/nieuw', 'Beheer\\ContentController@create');
+    $router->post('/inkoopfacturen', 'Beheer\\ContentController@store');
+    $router->get('/inkoopfacturen/{id}', 'Beheer\\ContentController@edit');
+    $router->post('/inkoopfacturen/{id}', 'Beheer\\ContentController@update');
+    $router->delete('/inkoopfacturen/{id}', 'Beheer\\ContentController@destroy');
+
+    $router->get('/storingen', 'Beheer\\ContentController@index');
+    $router->get('/storingen/nieuw', 'Beheer\\ContentController@create');
+    $router->post('/storingen', 'Beheer\\ContentController@store');
+    $router->get('/storingen/{id}', 'Beheer\\ContentController@edit');
+    $router->post('/storingen/{id}', 'Beheer\\ContentController@update');
+    $router->delete('/storingen/{id}', 'Beheer\\ContentController@destroy');
+
+    $router->get('/snelle-antwoorden', 'Beheer\\ContentController@index');
+    $router->get('/snelle-antwoorden/nieuw', 'Beheer\\ContentController@create');
+    $router->post('/snelle-antwoorden', 'Beheer\\ContentController@store');
+    $router->get('/snelle-antwoorden/{id}', 'Beheer\\ContentController@edit');
+    $router->post('/snelle-antwoorden/{id}', 'Beheer\\ContentController@update');
+    $router->delete('/snelle-antwoorden/{id}', 'Beheer\\ContentController@destroy');
+
     $router->get('/website/{type}', 'Beheer\\ContentController@index');
     $router->get('/website/{type}/nieuw', 'Beheer\\ContentController@create');
     $router->post('/website/{type}', 'Beheer\\ContentController@store');
