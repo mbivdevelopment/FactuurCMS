@@ -3,9 +3,9 @@
     <div class="row"><form class="search" method="get"><?= icon('search') ?><input name="q" value="<?= e($q) ?>" placeholder="Zoeken…"><?php if ($group !== ''): ?><input type="hidden" name="groep" value="<?= e($group) ?>"><?php endif; ?><?php if ($due > 0): ?><input type="hidden" name="verloopt" value="<?= (int) $due ?>"><?php endif; ?><select name="status" onchange="this.form.submit()"><option value="">Alle statussen</option><?php foreach (\App\Models\Service::STATUSES as $k => $v): ?><option value="<?= e($k) ?>" <?= $status === $k ? 'selected' : '' ?>><?= e($v) ?></option><?php endforeach; ?></select></form>
     <a class="btn" href="<?= e(url('/beheer/diensten/nieuw')) ?>"><?= icon('plus', 'icon icon-sm') ?> Nieuwe dienst</a></div></div>
 <div class="card"><?php if ($page['rows'] === []): ?><div class="empty">Geen diensten gevonden.</div><?php else: ?>
-<div class="table-wrap"><table class="table"><thead><tr><th>Nummer</th><th>Dienst</th><th>Klant</th><th>Prijs</th><th>Volgende factuur</th><th>Status</th><th></th></tr></thead><tbody>
+<div class="table-wrap"><table class="table"><thead><tr><th>Nummer</th><th>Dienst</th><th>Klant</th><th>Prijs</th><th>Volgende factuur</th><th>Status</th></tr></thead><tbody>
 <?php foreach ($page['rows'] as $s): ?><tr><td class="mono"><?= e($s['Nummer']) ?></td><td><a href="<?= e(url('/beheer/diensten/' . $s['Id'])) ?>"><strong><?= e($s['Naam']) ?></strong></a><div class="small muted"><?= e($s['Omschrijving']) ?></div></td>
 <td><a href="<?= e(url('/beheer/klanten/' . $s['KlantId'])) ?>"><?= e($s['Bedrijfsnaam'] ?: trim($s['Voornaam'] . ' ' . $s['Achternaam'])) ?></a></td>
 <td class="nowrap"><?= e(money((int) $s['Prijs'])) ?> <span class="small muted"><?= e(period_label($s['Periode'])) ?></span></td><td><?= e(nl_date($s['VolgendeFactuur'])) ?></td>
-<td><?= badge($s['Status'], \App\Models\Service::STATUSES[$s['Status']] ?? '') ?></td><td class="actions"><a class="btn btn-ghost btn-sm" href="<?= e(url('/beheer/diensten/' . $s['Id'])) ?>"><?= icon('edit', 'icon icon-sm') ?> Bewerken</a></td></tr><?php endforeach; ?>
+<td><?= badge($s['Status'], \App\Models\Service::STATUSES[$s['Status']] ?? '') ?></td></tr><?php endforeach; ?>
 </tbody></table></div><?= pagination($page) ?><?php endif; ?></div>

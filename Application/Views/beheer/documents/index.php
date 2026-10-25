@@ -8,5 +8,5 @@ $statuses = $isQ ? \App\Models\Document::QUOTE_STATUSES : \App\Models\Document::
 <?php foreach ($page['rows'] as $d): ?><tr><td><a href="<?= e(url('/beheer/documenten/' . $d->id())) ?>"><strong><?= e($d->Nummer) ?></strong></a></td>
 <td><a href="<?= e(url('/beheer/klanten/' . $d->KlantId)) ?>"><?= e($d->Bedrijfsnaam ?: trim($d->Voornaam . ' ' . $d->Achternaam)) ?></a></td><td><?= e($d->Onderwerp) ?></td>
 <td><?= e(nl_date((string) $d->Datum)) ?></td><td><?= e(nl_date($d->VervalDatum)) ?></td><td class="right nowrap"><?= e(money((int) $d->Totaal)) ?></td><td><?= badge($d->status(), $d->statusLabel()) ?></td>
-<td class="actions"><a class="btn btn-ghost btn-sm" target="_blank" href="<?= e(url('/beheer/documenten/' . $d->id() . '/pdf')) ?>" data-tip="PDF"><?= icon('download', 'icon icon-sm') ?></a> <a class="btn btn-ghost btn-sm" href="<?= e(url('/beheer/documenten/' . $d->id())) ?>"><?= icon('eye', 'icon icon-sm') ?> Bekijken</a></td></tr><?php endforeach; ?>
+<td class="actions"><a class="btn btn-ghost btn-sm" target="_blank" href="<?= e(url('/beheer/documenten/' . $d->id() . '/pdf')) ?>" data-tip="PDF"><?= icon('download', 'icon icon-sm') ?></a></td></tr><?php endforeach; ?>
 </tbody></table></div><?= pagination($page) ?><?php endif; ?></div>

@@ -13,6 +13,6 @@
         <?php elseif ($kind === 'date'): ?><td class="nowrap"><?= e(nl_date((string) $v)) ?></td>
         <?php else: ?><td><?= e($v === '' || $v === null ? '-' : $v) ?></td><?php endif; ?>
     <?php endforeach; ?>
-    <td class="actions"><?php if ($type['public'] && !empty($r['Slug'])): ?><a class="btn btn-ghost btn-sm" target="_blank" href="<?= e(url($type['public'] . $r['Slug'])) ?>"><?= icon('eye', 'icon icon-sm') ?></a> <?php endif; ?><?php if (!empty($type['detail'])): ?><a class="btn btn-ghost btn-sm" href="<?= e($open) ?>"><?= icon('check', 'icon icon-sm') ?> Taken</a> <?php endif; ?><a class="btn btn-ghost btn-sm" href="<?= e($edit) ?>"><?= icon('edit', 'icon icon-sm') ?> Bewerken</a></td>
+    <td class="actions"><?php if ($type['public'] && !empty($r['Slug'])): ?><a class="btn btn-ghost btn-sm" target="_blank" href="<?= e(url($type['public'] . $r['Slug'])) ?>"><?= icon('eye', 'icon icon-sm') ?></a> <?php endif; ?><?php if (!empty($type['detail'])): ?><a class="btn btn-ghost btn-sm" href="<?= e($open) ?>"><?= icon('check', 'icon icon-sm') ?> Taken</a> <?php endif; ?></td>
 </tr><?php endforeach; ?>
 </tbody></table></div><?php endif; ?></div>
