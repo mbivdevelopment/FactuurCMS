@@ -84,7 +84,8 @@ final class RealtimeRegister
     }
 
     /** Registreert een domein, of verhuist het als er een authcode is. @return array<mixed> antwoord van Realtime Register */
-    public static function register(string $domain, string $registrant, ?string $authcode = null): array
+    /** @param list<string> $nameservers eigen nameservers van de klant; leeg = die uit de instellingen */
+    public static function register(string $domain, string $registrant, ?string $authcode = null, array $nameservers = []): array
     {
         $contact = trim((string) setting('rr.contact', '')) ?: $registrant;
         $payload = [
@@ -94,7 +95,7 @@ final class RealtimeRegister
             'autoRenew' => true,
             'contacts' => [['role' => 'ADMIN', 'handle' => $contact], ['role' => 'BILLING', 'handle' => $contact], ['role' => 'TECH', 'handle' => $contact]],
         ];
-        $ns = array_values(array_filter(array_map('trim', preg_split('/[\s,]+/', (string) setting('rr.ns', '')) ?: [])));
+        $ns = count($nameservers) >= 2 ? array_values($nameservers) : array_values(array_filter(array_map('trim', preg_split('/[\s,]+/', (string) setting('rr.ns', '')) ?: [])));
         if (count($ns) >= 2) {
             $payload['ns'] = $ns;
         }

@@ -73,7 +73,7 @@ final class Provisioning
                 throw new \RuntimeException('Klant niet gevonden.');
             }
             $authcode = !empty($info['authcode']) ? Crypt::decrypt((string) $info['authcode']) : null;
-            $result = RealtimeRegister::register($domain, RealtimeRegister::ensureContact($customer), $info['actie'] === 'verhuizen' ? $authcode : null);
+            $result = RealtimeRegister::register($domain, RealtimeRegister::ensureContact($customer), $info['actie'] === 'verhuizen' ? $authcode : null, array_map('strval', (array) ($info['ns'] ?? [])));
             unset($info['authcode']);
             Database::update('Diensten', [
                 'Bron' => 'realtimeregister',

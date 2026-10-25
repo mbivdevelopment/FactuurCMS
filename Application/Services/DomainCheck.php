@@ -55,6 +55,17 @@ final class DomainCheck
         return $out;
     }
 
+    private const EUROPE = ['nl', 'be', 'eu', 'de', 'fr', 'es', 'it', 'at', 'ch', 'lu', 'uk', 'co.uk', 'dk', 'se', 'no', 'pl', 'pt', 'ie', 'fi', 'cz', 'frl', 'amsterdam', 'brussels', 'vlaanderen'];
+    private const GENERIC = ['com', 'net', 'org', 'info', 'biz', 'io', 'co', 'me', 'tv', 'cc', 'name', 'mobi', 'pro'];
+
+    /** Tabblad op de bestelpagina: europa, generiek of nieuw. */
+    public static function category(string $ext): string
+    {
+        $last = substr((string) strrchr('.' . $ext, '.'), 1);
+
+        return in_array($ext, self::EUROPE, true) || in_array($last, self::EUROPE, true) ? 'europa' : (in_array($ext, self::GENERIC, true) ? 'generiek' : 'nieuw');
+    }
+
     /** Is een domeinnaam vrij? Via Realtime Register als dat is ingesteld, anders via WHOIS. @return array{status: string, premium: bool} status: vrij|bezet|onbekend */
     public static function status(string $domain): array
     {

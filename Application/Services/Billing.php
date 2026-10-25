@@ -94,10 +94,12 @@ final class Billing
     }
 
     /** Bestelling van domeinnamen (registreren of verhuizen): per domein een dienst, samen op één factuur.
-     * @param list<array{domein: string, actie: string, product: Product, authcode: string}> $items */
-    public static function orderDomains(User $customer, array $items): Document
+     * @param list<array{domein: string, actie: string, product: Product, authcode: string}> $items
+     * @param list<string> $nameservers eigen nameservers; leeg = de onze */
+    public static function orderDomains(User $customer, array $items, ?Product $hosting = null, array $nameservers = []): Document
     {
         $services = [];
+        $extra = [];
         foreach ($items as $item) {
             $product = $item['product'];
             $services[] = Service::create([
@@ -111,10 +113,27 @@ final class Billing
                 'Status' => 'in_afwachting',
                 'StartDatum' => date('Y-m-d'),
                 'VolgendeFactuur' => date('Y-m-d'),
-                'Gegevens' => ['domein' => ['naam' => $item['domein'], 'actie' => $item['actie'], 'authcode' => $item['authcode'] !== '' ? Crypt::encrypt($item['authcode']) : null]],
+                'Gegevens' => ['domein' => array_filter(['naam' => $item['domein'], 'actie' => $item['actie'], 'authcode' => $item['authcode'] !== '' ? Crypt::encrypt($item['authcode']) : null, 'ns' => $nameservers !== [] ? array_values($nameservers) : null], static fn ($v): bool => $v !== null)],
             ]);
         }
-        $doc = self::invoiceServices($customer, $services, [], 'Bestelling domeinnamen');
+        if ($hosting !== null) {
+            $services[] = Service::create([
+                'KlantId' => $customer->id(),
+                'ProductId' => $hosting->id(),
+                'Naam' => $hosting->Naam,
+                'Omschrijving' => (string) ($items[0]['domein'] ?? ''),
+                'Prijs' => (int) $hosting->Prijs,
+                'BtwTarief' => (float) $hosting->BtwTarief,
+                'Periode' => $hosting->Periode,
+                'Status' => 'in_afwachting',
+                'StartDatum' => date('Y-m-d'),
+                'VolgendeFactuur' => date('Y-m-d'),
+            ]);
+            if ((int) $hosting->Instelkosten > 0) {
+                $extra[] = ['Omschrijving' => 'Eenmalige instelkosten ' . $hosting->Naam, 'Aantal' => 1.0, 'Prijs' => (int) $hosting->Instelkosten, 'BtwTarief' => (float) $hosting->BtwTarief];
+            }
+        }
+        $doc = self::invoiceServices($customer, $services, $extra, 'Bestelling domeinnamen');
         Log::db('bestelling', $customer->Email . ' · ' . implode(', ', array_column($items, 'domein')), $customer->id());
 
         return $doc;
