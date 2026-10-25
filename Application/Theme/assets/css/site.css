@@ -730,3 +730,4 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .dother-in b { color: var(--muted); font-weight: 600; }
 .dother-in input { border: 0; outline: 0; font: inherit; font-weight: 700; color: var(--primary); flex: 1; min-width: 0; height: 40px; padding-left: 1px; }
 .dother small { color: var(--muted); width: 100%; }
+.mega-link strong, .mega-tile strong { text-transform: uppercase; font-size: 13.5px; letter-spacing: .05em; font-weight: 800; }
