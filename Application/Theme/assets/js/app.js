@@ -92,3 +92,13 @@ document.addEventListener('change', ev => {
 
 /* Meldingen rechtsboven verdwijnen na 4 seconden. */
 document.addEventListener('DOMContentLoaded', () => document.querySelectorAll('[data-toasts] .toast').forEach(t => setTimeout(() => { t.classList.add('hide'); setTimeout(() => t.remove(), 400); }, 4000)));
+
+document.addEventListener('click', (ev) => {
+    const caret = ev.target.closest('.nav-item.has-drop .caret');
+    const item = caret?.closest('.nav-item');
+    document.querySelectorAll('.nav-item.open').forEach((el) => { if (el !== item) el.classList.remove('open'); });
+    if (item) { ev.preventDefault(); item.classList.toggle('open'); }
+});
+document.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Escape') document.querySelectorAll('.nav-item.open').forEach((el) => { el.classList.remove('open'); el.querySelector('.nav-title')?.blur(); });
+});

@@ -1,5 +1,5 @@
 <?php
-/** Paneel-frame (QEVANTO-ALMA-opbouw): horizontale navy menubalk, witte topbar, titelcard met sectietabs eronder. */
+/** Paneel-frame (QEVANTO-ALMA-opbouw): horizontale navy menubalk, dropdowns per sectie, witte topbar, titelcard. */
 $user = auth_user();
 $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
 $path = substr($path, strlen(base_path_url())) ?: '/';
@@ -13,7 +13,6 @@ foreach ($navSections as $s) {
 }
 $crumb = null;
 foreach ($current['items'] ?? [] as $i) { if ($matches($i[0])) { $crumb = $i[2]; } }
-$tabs = $current && count($current['items']) > 1 && in_array($path, array_column($current['items'], 0), true) ? $current['items'] : [];
 $roleKey = (string) $user?->Rol;
 $initial = mb_strtoupper(mb_substr((string) ($user?->Voornaam ?: $user?->Email), 0, 1));
 ?>
@@ -27,7 +26,20 @@ $initial = mb_strtoupper(mb_substr((string) ($user?->Voornaam ?: $user?->Email),
             <a class="nav-brand" href="<?= e(url($home)) ?>"><?php $logo = branding_url(branding_url('logo_licht') !== '' ? 'logo_licht' : 'logo'); ?><?php if ($logo !== ''): ?><img src="<?= e($logo) ?>" alt="<?= e(company_name()) ?>"><?php else: ?><span class="brand-mark"><?= icon('server') ?></span><span><?= e(company_name()) ?><small><?= e($tagline) ?></small></span><?php endif; ?></a>
             <button type="button" class="tb-icon menu-btn" data-menu-toggle="#nav" aria-label="Menu"><?= icon('layout') ?></button>
             <nav class="nav-links">
-                <?php foreach ($navSections as $s): ?><a href="<?= e(url($s['items'][0][0])) ?>" class="nav-title<?= ($current['key'] ?? '') === $s['key'] ? ' active' : '' ?>"><?= icon($s['icon']) ?><span><?= e($s['label']) ?></span><?php if (($s['count'] ?? 0) > 0): ?><span class="nav-count"><?= (int) $s['count'] ?></span><?php endif; ?></a><?php endforeach; ?>
+                <?php foreach ($navSections as $s): ?>
+                    <?php $drop = count($s['items']) > 1; $isActive = ($current['key'] ?? '') === $s['key']; ?>
+                    <div class="nav-item<?= $drop ? ' has-drop' : '' ?>">
+                        <a href="<?= e(url($s['items'][0][0])) ?>" class="nav-title<?= $isActive ? ' active' : '' ?>"<?= $drop ? ' aria-haspopup="true"' : '' ?>><?= icon($s['icon']) ?><span><?= e($s['label']) ?></span><?php if (($s['count'] ?? 0) > 0): ?><span class="nav-count"><?= (int) $s['count'] ?></span><?php endif; ?><?php if ($drop): ?><?= icon('chevron-down', 'icon caret') ?><?php endif; ?></a>
+                        <?php if ($drop): ?>
+                            <div class="nav-drop">
+                                <?php foreach ($s['items'] as $it): ?>
+                                    <a href="<?= e(url($it[0])) ?>" class="drop-link<?= $matches($it[0]) || ($isActive && $crumb === $it[2]) ? ' active' : '' ?>"><span class="drop-i"><?= icon($it[1]) ?></span><span class="drop-t"><strong><?= e($it[2]) ?></strong><?php if (($it[3] ?? '') !== ''): ?><small><?= e($it[3]) ?></small><?php endif; ?></span></a>
+                                <?php endforeach; ?>
+                                <?php if (isset($s['action'])): ?><a href="<?= e(url($s['action'][0])) ?>" class="drop-action"><?= icon('plus', 'icon icon-sm') ?><?= e($s['action'][1]) ?></a><?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
             </nav>
             <div class="nav-foot"><?php foreach ($footLinks as [$href, $ico, $text, $blank]): ?><a class="nav-link" href="<?= e(url($href)) ?>"<?= $blank ? ' target="_blank"' : '' ?>><?= icon($ico) ?><?= e($text) ?></a><?php endforeach; ?></div>
         </div>
@@ -46,7 +58,6 @@ $initial = mb_strtoupper(mb_substr((string) ($user?->Voornaam ?: $user?->Email),
                 <form method="post" action="<?= e(url('/klant/terug')) ?>"><?= csrf_field() ?><button class="btn btn-ghost btn-sm"><?= icon('arrow-right', 'icon icon-sm') ?> Terug naar beheer</button></form></div>
         <?php endif; ?>
         <main class="content">
-            <?php if ($tabs !== []): ?><nav class="tabs section-tabs"><?php foreach ($tabs as [$to, $ico, $text]): ?><a href="<?= e(url($to)) ?>" class="<?= $path === $to ? 'active' : '' ?>"><?= icon($ico, 'icon icon-sm') ?><?= e($text) ?></a><?php endforeach; ?></nav><?php endif; ?>
             <?= $partial('partials.flash', ['toast' => true]) ?>
             <?= $body ?>
         </main>

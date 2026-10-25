@@ -54,6 +54,25 @@ img { max-width: 100%; }
 .nav-title .icon { color: #ffb08f; opacity: .85; }
 .nav-title.active { color: #fff; background: rgba(255,90,31,.2); border-bottom-color: var(--accent-2); }
 .nav-title.active .icon { color: var(--accent-2); opacity: 1; }
+.nav-item { position: relative; display: flex; }
+.nav-title .caret { width: 14px; height: 14px; color: rgba(255,255,255,.5); opacity: 1; }
+.nav-item.has-drop:hover .nav-title, .nav-item.has-drop:focus-within .nav-title { color: #fff; background: rgba(255,255,255,.06); }
+.nav-item.has-drop:hover .caret, .nav-item.has-drop:focus-within .caret { transform: rotate(180deg); color: #fff; }
+.nav-drop { position: absolute; top: 100%; left: 0; z-index: 50; min-width: 300px; padding: 6px; background: #fff; border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 0 0 var(--radius) var(--radius); box-shadow: 0 16px 40px rgba(15,27,61,.18); color: var(--text); display: none; }
+.nav-item:hover .nav-drop, .nav-item:focus-within .nav-drop, .nav-item.open .nav-drop { display: block; }
+.nav-item.open .nav-title { color: #fff; background: rgba(255,255,255,.06); }
+.nav-item.open .caret { transform: rotate(180deg); color: #fff; }
+.drop-link { display: flex; align-items: center; gap: 12px; padding: 9px 10px; border-radius: 6px; color: var(--text); }
+.drop-link:hover { background: var(--accent-soft); color: var(--text); }
+.drop-i { width: 36px; height: 36px; border-radius: var(--radius); display: grid; place-items: center; flex: none; background: var(--navy) var(--stripes); color: #fff; transition: background .15s; }
+.drop-i .icon { width: 17px; height: 17px; }
+.drop-link:hover .drop-i, .drop-link.active .drop-i { background: var(--accent); }
+.drop-t { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+.drop-t strong { font-size: 14px; font-weight: 700; }
+.drop-t small { font-size: 12px; color: var(--muted); }
+.drop-link.active strong { color: var(--accent); }
+.drop-action { display: flex; align-items: center; gap: 8px; margin: 6px -6px -6px; padding: 10px 16px; border-top: 1px solid var(--line); background: var(--soft); border-radius: 0 0 var(--radius) var(--radius); color: var(--accent); font-weight: 600; font-size: 13.5px; }
+.drop-action:hover { background: var(--accent-soft); color: var(--accent); }
 .nav-count { min-width: 20px; padding: 0 6px; border-radius: 99px; background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; text-align: center; }
 .nav-foot { margin-left: auto; display: flex; align-items: center; }
 .nav-link { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 6px; color: rgba(255,255,255,.66); font-size: 13.5px; font-weight: 500; white-space: nowrap; }
@@ -94,11 +113,22 @@ img { max-width: 100%; }
     .nav.open .nav-links, .nav.open .nav-foot { display: flex; }
     .nav-title { padding: 11px 12px; margin: 0; border-bottom: 0; border-left: 3px solid transparent; border-radius: 0; }
     .nav-title.active { border-left-color: var(--accent); }
+    .nav-item { flex-direction: column; }
+    .nav-title .caret { display: none; }
+    .nav-drop { display: block; position: static; min-width: 0; padding: 0 0 6px 28px; background: none; border: 0; box-shadow: none; }
+    .drop-link { padding: 7px 10px; color: rgba(255,255,255,.75); }
+    .drop-link:hover { background: rgba(255,255,255,.06); color: #fff; }
+    .drop-i { width: 28px; height: 28px; background: rgba(255,255,255,.08); }
+    .drop-t small { display: none; }
+    .drop-link.active strong { color: #fff; }
+    .drop-action { display: none; }
     .nav-foot { align-items: stretch; border-top: 1px solid rgba(255,255,255,.1); padding-top: 8px; }
     .topbar2 { padding: 0 16px; height: 56px; }
     .tb-user-text, .role-pill { display: none; }
     .tb-user2 { padding: 4px; }
     .content { padding: 20px 16px; }
+    .page-head > .row { width: 100%; }
+    .search { min-width: 0; flex: 1 1 100%; }
     .impersonate { width: calc(100% - 32px); margin: 16px auto 0; }
     .footer2 { padding: 14px 16px; flex-wrap: wrap; }
 }
