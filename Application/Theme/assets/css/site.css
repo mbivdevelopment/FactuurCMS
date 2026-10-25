@@ -986,3 +986,6 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 
 /* checkout: oranje bovenrand + radius 8px zoals pakketkaarten */
 .ck-sec .card{border-radius:8px;border-top:3px solid var(--primary,#f59e0b);overflow:hidden}
+
+/* pk: bestelknop onderaan de kaart, uitgelijnd over de rij */
+.pk .pk-btn{margin-top:auto}
