@@ -94,11 +94,11 @@ INSERT IGNORE INTO BlogBerichten (Id, Titel, Slug, Categorie, Auteur, Publicatie
 (5, 'Linkbuilding in 2026: kwaliteit boven kwantiteit', 'linkbuilding-in-2026', 'Marketing', 'Team Qevanto', DATE_SUB(CURDATE(), INTERVAL 40 DAY), 'Waar je op let bij duurzame linkbuilding.', 'Relevante links van betrouwbare sites wegen zwaarder dan ooit.', NOW());
 
 INSERT IGNORE INTO PortfolioItems (Id, Titel, Slug, Klant, Categorie, Url, Samenvatting, Inhoud, Volgorde, AangemaaktOp) VALUES
-(1, 'Webshop voor Bakkerij Jansen', 'webshop-bakkerij-jansen', 'Bakkerij Jansen', 'Webshop', NULL, 'Online bestellen en afhalen, gekoppeld aan de kassa.', 'Een WooCommerce-webshop met afhaalmomenten, iDEAL en koppeling met het kassasysteem.', 1, NOW()),
-(2, 'Nieuwe website De Vries Webdesign', 'website-de-vries-webdesign', 'De Vries Webdesign', 'Website', NULL, 'Strakke portfolio-site met snelle hosting.', 'Een snelle, goed vindbare website op onze WordPress hosting.', 2, NOW()),
-(3, 'VoIP-telefonie voor Autobedrijf Smit', 'voip-autobedrijf-smit', 'Autobedrijf Smit', 'VoIP', NULL, 'Telefonie met keuzemenu voor drie vestigingen.', 'Alle vestigingen bellen nu via één centrale met wachtrijen en voicemail naar e-mail.', 3, NOW()),
-(4, 'VPN-netwerk voor Accountantskantoor Bos', 'vpn-accountantskantoor-bos', 'Accountantskantoor Bos', 'VPN', NULL, 'Veilig thuiswerken voor 25 medewerkers.', 'Een beheerde VPN met tweestapsverificatie voor alle medewerkers.', 4, NOW()),
-(5, 'SEO-traject voor Fietsenwinkel Rijwiel', 'seo-fietsenwinkel-rijwiel', 'Fietsenwinkel Rijwiel', 'Marketing & SEO', NULL, '+140% organisch verkeer in zes maanden.', 'Technische SEO, nieuwe content en linkbuilding zorgden voor groei.', 5, NOW());
+(1, 'Webshop voor Bakkerij Jansen', 'webshop-bakkerij-jansen', 'Bakkerij Jansen', 'Development', NULL, 'Online bestellen en afhalen, gekoppeld aan de kassa.', 'Een WooCommerce-webshop met afhaalmomenten, iDEAL en koppeling met het kassasysteem.', 1, NOW()),
+(2, 'Nieuwe website De Vries Webdesign', 'website-de-vries-webdesign', 'De Vries Webdesign', 'Development', NULL, 'Strakke portfolio-site met snelle hosting.', 'Een snelle, goed vindbare website op onze WordPress hosting.', 2, NOW()),
+(3, 'VoIP-telefonie voor Autobedrijf Smit', 'voip-autobedrijf-smit', 'Autobedrijf Smit', 'ICT', NULL, 'Telefonie met keuzemenu voor drie vestigingen.', 'Alle vestigingen bellen nu via één centrale met wachtrijen en voicemail naar e-mail.', 3, NOW()),
+(4, 'VPN-netwerk voor Accountantskantoor Bos', 'vpn-accountantskantoor-bos', 'Accountantskantoor Bos', 'ICT', NULL, 'Veilig thuiswerken voor 25 medewerkers.', 'Een beheerde VPN met tweestapsverificatie voor alle medewerkers.', 4, NOW()),
+(5, 'SEO-traject voor Fietsenwinkel Rijwiel', 'seo-fietsenwinkel-rijwiel', 'Fietsenwinkel Rijwiel', 'Marketing', NULL, '+140% organisch verkeer in zes maanden.', 'Technische SEO, nieuwe content en linkbuilding zorgden voor groei.', 5, NOW());
 
 INSERT IGNORE INTO KennisbankArtikelen (Id, Categorie, Titel, Slug, Samenvatting, Inhoud, Volgorde, AangemaaktOp) VALUES
 (1, 'E-mail', 'E-mail instellen op je telefoon', 'e-mail-instellen-op-je-telefoon', 'Stap voor stap je zakelijke mail op iPhone of Android.', '## Gegevens\n- Inkomende server: mail.jouwdomein.nl (IMAP, poort 993)\n- Uitgaande server: mail.jouwdomein.nl (SMTP, poort 465)\n- Gebruikersnaam: je volledige e-mailadres', 1, NOW()),
@@ -150,3 +150,8 @@ INSERT IGNORE INTO Instellingen (Sleutel, Waarde) VALUES
 ('over.hoe', '"Wij zijn eerlijk, bereikbaar en no-nonsense. Je krijgt altijd iemand aan de lijn die je kent en die meedenkt."'),
 ('over.missie', '"Ondernemers ontzorgen met ICT die vlot geregeld en ijzersterk verbonden is, zodat zij zich kunnen richten op hun eigen werk."'),
 ('footer.tekst', '"Hosting, domeinen, servers en ICT voor ondernemers. Vlot geregeld, ijzersterk verbonden."');
+
+INSERT IGNORE INTO PortfolioCategorieen (Naam, Volgorde, AangemaaktOp) VALUES ('Development', 1, NOW()), ('Marketing', 2, NOW()), ('ICT', 3, NOW());
+
+-- De inhoud van deze migraties zit al in deze seed; zo worden ze niet nog eens uitgevoerd.
+INSERT IGNORE INTO Migraties (Naam, UitgevoerdOp) VALUES ('2026_10_23_001_website_basisinhoud.sql', NOW()), ('2026_10_23_002_ict_kolommen.sql', NOW()), ('2026_10_23_003_portfolio_categorieen_budget.sql', NOW());

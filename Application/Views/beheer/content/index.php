@@ -1,5 +1,5 @@
 <?php $extend('beheer', ['title' => $type['label']]); $base = '/beheer/website/' . $type['key']; ?>
-<div class="page-head"><div class="ph-icon"><?= icon($type['icon']) ?></div><div class="ph-text"><h1><?= e($type['label']) ?></h1><div class="sub"><?= e($type['desc']) ?></div></div><a class="btn" href="<?= e(url($base . '/nieuw')) ?>"><?= icon('plus', 'icon icon-sm') ?> Nieuw <?= e($type['single']) ?></a></div>
+<div class="page-head"><div class="ph-icon"><?= icon($type['icon']) ?></div><div class="ph-text"><h1><?= e($type['label']) ?></h1><div class="sub"><?= e($type['desc']) ?></div></div><?php foreach ($type['links'] ?? [] as [$lh, $li, $lt]): ?><a class="btn btn-ghost" href="<?= e(url($lh)) ?>"><?= icon($li, 'icon icon-sm') ?> <?= e($lt) ?></a> <?php endforeach; ?><a class="btn" href="<?= e(url($base . '/nieuw')) ?>"><?= icon('plus', 'icon icon-sm') ?> Nieuw <?= e($type['single']) ?></a></div>
 <div class="card"><?php if ($rows === []): ?><div class="empty">Nog niets toegevoegd.</div><?php else: ?>
 <div class="table-wrap"><table class="table"><thead><tr><?php foreach ($type['columns'] as $col => $kind): ?><th><?= e($kind === 'image' ? '' : ($type['fields'][$col][0] ?? $col)) ?></th><?php endforeach; ?><th></th></tr></thead><tbody>
 <?php foreach ($rows as $r): $edit = url($base . '/' . $r['Id']); ?><tr>

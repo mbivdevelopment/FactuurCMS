@@ -10,6 +10,8 @@ namespace App\Services;
  */
 final class Content
 {
+    public const BUDGETS = ['' => 'Geen indicatie', 'Tot € 1.000' => 'Tot € 1.000', '€ 1.000 – € 2.500' => '€ 1.000 – € 2.500', '€ 2.500 – € 5.000' => '€ 2.500 – € 5.000', '€ 5.000 – € 10.000' => '€ 5.000 – € 10.000', 'Vanaf € 10.000' => 'Vanaf € 10.000'];
+
     public const ICONS = ['globe', 'server', 'cloud', 'cpu', 'mail', 'layout', 'cart', 'lock', 'shield', 'phone', 'trend', 'link', 'code', 'refresh', 'zap', 'box', 'headset', 'target', 'star'];
 
     /** @return array<string, array<string, mixed>> */
@@ -43,16 +45,25 @@ final class Content
                 'columns' => ['Afbeelding' => 'image', 'Titel' => 'title', 'Categorie' => 'badge', 'PublicatieDatum' => 'date', 'Zichtbaar' => 'bool'],
             ],
             'portfolio' => [
-                'table' => 'PortfolioItems', 'label' => 'Portfolio', 'single' => 'portfolio-item', 'icon' => 'image', 'title' => 'Titel',
+                'table' => 'PortfolioItems', 'label' => 'Portfolio', 'single' => 'portfolio-item', 'icon' => 'image', 'title' => 'Titel', 'slug' => true,
                 'desc' => 'Projecten in de portfoliocarrousel en op /portfolio', 'order' => 'Volgorde, Id DESC', 'public' => '/portfolio/',
+                'links' => [['/beheer/website/portfoliocategorieen', 'layout', 'Categorieën beheren']],
                 'fields' => [
-                    'Titel' => ['Titel', 'tag', 'text', true], 'Slug' => ['URL-naam (leeg = automatisch)', 'link', 'text'],
-                    'Klant' => ['Klant', 'building', 'text'], 'Categorie' => ['Categorie (bv. Website, Webshop, Hosting)', 'layout', 'text', true],
+                    'Titel' => ['Titel', 'tag', 'text', true], 'Klant' => ['Klant', 'building', 'text'],
+                    'Categorie' => ['Categorie', 'layout', 'lookup', true, 'PortfolioCategorieen'],
+                    'Budget' => ['Indicatie budget', 'euro', 'select', false, self::BUDGETS],
                     'Url' => ['Link naar project', 'link', 'url'], 'Volgorde' => ['Volgorde', 'hash', 'number'],
-                    'Samenvatting' => ['Samenvatting', 'note', 'textarea'], 'Inhoud' => ['Projectverhaal', 'note', 'textarea'],
+                    'Inhoud' => ['Projectverhaal (eerste alinea = korte tekst op de kaart)', 'note', 'textarea'],
                     'Afbeelding' => ['Afbeelding', 'image', 'image'], 'Zichtbaar' => ['Zichtbaar op de website', 'eye', 'bool'],
                 ],
-                'columns' => ['Afbeelding' => 'image', 'Titel' => 'title', 'Klant' => 'text', 'Categorie' => 'badge', 'Zichtbaar' => 'bool'],
+                'columns' => ['Afbeelding' => 'image', 'Titel' => 'title', 'Klant' => 'text', 'Categorie' => 'badge', 'Budget' => 'text', 'Zichtbaar' => 'bool'],
+            ],
+            'portfoliocategorieen' => [
+                'table' => 'PortfolioCategorieen', 'label' => 'Portfoliocategorieën', 'single' => 'categorie', 'icon' => 'layout', 'title' => 'Naam',
+                'desc' => 'Categorieën om uit te kiezen bij een portfolio-item', 'order' => 'Volgorde, Naam', 'public' => null,
+                'links' => [['/beheer/website/portfolio', 'image', 'Terug naar portfolio']],
+                'fields' => ['Naam' => ['Naam', 'tag', 'text', true], 'Volgorde' => ['Volgorde', 'hash', 'number']],
+                'columns' => ['Naam' => 'title', 'Volgorde' => 'text'],
             ],
             'kennisbank' => [
                 'table' => 'KennisbankArtikelen', 'label' => 'Kennisbank', 'single' => 'artikel', 'icon' => 'book', 'title' => 'Titel',
@@ -118,5 +129,19 @@ final class Content
         $types = self::types();
 
         return isset($types[$key]) ? ['key' => $key] + $types[$key] : null;
+    }
+
+    /**
+     * Keuzes voor een lookup-veld uit een tabel (kolom Naam); de huidige waarde blijft altijd kiesbaar.
+     * @return array<string, string>
+     */
+    public static function lookup(string $table, string $current = ''): array
+    {
+        $names = array_column(\App\Core\Database::all('SELECT Naam FROM `' . $table . '` ORDER BY Volgorde, Naam'), 'Naam');
+        if ($current !== '' && !in_array($current, $names, true)) {
+            $names[] = $current;
+        }
+
+        return ['' => '- Kies een categorie -'] + array_combine($names, $names);
     }
 }

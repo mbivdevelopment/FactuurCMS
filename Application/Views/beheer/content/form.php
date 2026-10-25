@@ -24,6 +24,8 @@ $groups = ['' => '- Geen pakketten -'] + array_combine(array_keys(\App\Models\Pr
                 <?= field($name, $label, $ico, (string) $value, 'select', $def[4]) ?>
             <?php elseif ($kind === 'icon'): ?>
                 <?= field($name, $label, $ico, (string) $value, 'select', array_combine(\App\Services\Content::ICONS, \App\Services\Content::ICONS)) ?>
+            <?php elseif ($kind === 'lookup'): ?>
+                <?= field($name, $label, $ico, (string) $value, 'select', \App\Services\Content::lookup($def[4], (string) $value), $req) ?>
             <?php elseif ($kind === 'productgroup'): ?>
                 <?= field($name, $label, $ico, (string) $value, 'select', $groups) ?>
             <?php elseif ($kind === 'textarea'): ?>
@@ -33,6 +35,6 @@ $groups = ['' => '- Geen pakketten -'] + array_combine(array_keys(\App\Models\Pr
             <?php endif; ?>
         <?php endforeach; ?>
     </div>
-    <div class="card-foot"><button class="btn"><?= icon('check', 'icon icon-sm') ?> Opslaan</button></div>
+    <div class="card-foot"><?php if (!empty($type['slug']) && $type['public']): ?><span class="small muted" style="margin-right:auto"><?= icon('link', 'icon icon-sm') ?> <?= e($type['public']) ?><?= e(!empty($row['Slug']) ? $row['Slug'] : '[titel wordt automatisch de link]') ?></span><?php endif; ?><button class="btn"><?= icon('check', 'icon icon-sm') ?> Opslaan</button></div>
 </form>
 <?php if (!$new): ?><div style="margin-top:16px"><?= delete_button(url($base . '/' . $row['Id']), ucfirst($type['single']) . ' "' . ($row[$type['title']] ?? '') . '" verwijderen?') ?></div><?php endif; ?>

@@ -84,6 +84,11 @@ final class ContentController extends Controller
             }
         }
         $this->validate($request, $rules);
+        foreach ($type['fields'] as $name => $def) {
+            if ($def[2] === 'lookup' && ($def[3] ?? false) && trim($request->string($name)) === '') {
+                throw new \App\Core\ValidationException([$name => 'Kies een categorie.'], $request);
+            }
+        }
 
         $data = [];
         foreach ($type['fields'] as $name => $def) {
@@ -94,13 +99,14 @@ final class ContentController extends Controller
                 'number' => (int) $value,
                 'decimal' => (float) str_replace(',', '.', $value),
                 'select' => array_key_exists($value, $def[4]) ? $value : (string) array_key_first($def[4]),
+                'lookup' => array_key_exists($value, Content::lookup($def[4], (string) ($row[$name] ?? ''))) ? $value : '',
                 'icon' => in_array($value, Content::ICONS, true) ? $value : 'server',
                 'date' => preg_match('/^\d{4}-\d{2}-\d{2}$/', $value) ? $value : date('Y-m-d'),
                 'image' => $this->image($request, $name, $type['key'], (string) ($row[$name] ?? '')),
                 default => $value === '' ? null : mb_substr($value, 0, $kind === 'textarea' ? 60000 : 255),
             };
         }
-        if (isset($type['fields']['Slug'])) {
+        if (isset($type['fields']['Slug']) || !empty($type['slug'])) {
             $slug = slugify((string) ($data['Slug'] ?? '') ?: (string) $data[$type['title']]);
             $taken = Database::scalar('SELECT COUNT(*) FROM `' . $type['table'] . '` WHERE Slug = ? AND Id <> ?', [$slug, (int) ($row['Id'] ?? 0)]);
             $data['Slug'] = $taken ? $slug . '-' . substr(bin2hex(random_bytes(2)), 0, 4) : $slug;

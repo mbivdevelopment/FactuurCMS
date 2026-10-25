@@ -207,6 +207,7 @@ CREATE TABLE IF NOT EXISTS PortfolioItems (
     Klant VARCHAR(150) NULL,
     Categorie VARCHAR(60) NOT NULL DEFAULT 'Website',
     Url VARCHAR(255) NULL,
+    Budget VARCHAR(60) NULL,
     Samenvatting VARCHAR(400) NULL,
     Inhoud MEDIUMTEXT NULL,
     Afbeelding VARCHAR(190) NULL,
@@ -215,6 +216,15 @@ CREATE TABLE IF NOT EXISTS PortfolioItems (
     AangemaaktOp DATETIME NOT NULL,
     BijgewerktOp DATETIME NULL,
     UNIQUE KEY UkSlug (Slug)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS PortfolioCategorieen (
+    Id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Naam VARCHAR(60) NOT NULL,
+    Volgorde INT NOT NULL DEFAULT 0,
+    AangemaaktOp DATETIME NOT NULL,
+    BijgewerktOp DATETIME NULL,
+    UNIQUE KEY UkNaam (Naam)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS Logos (
