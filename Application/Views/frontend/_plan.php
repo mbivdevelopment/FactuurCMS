@@ -12,7 +12,7 @@ foreach ($feats as $f) {
     if (str_contains($t, 'ssl')) {
         $badges[] = ['lock', 'tag-ssl', $f['tekst']];
     } elseif (str_contains($t, 'back-up') || str_contains($t, 'backup')) {
-        $badges[] = ['database', 'tag-bak', $f['tekst']];
+        $badges[] = ['refresh', 'tag-bak', $f['tekst']];
     } else {
         $rest[] = $f;
     }

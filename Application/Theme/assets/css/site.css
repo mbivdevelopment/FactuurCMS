@@ -925,3 +925,16 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .pk-spec { display: flex; flex-direction: row; align-items: center; gap: 12px; }
 .pk-si { flex: none; width: 38px; height: 38px; border-radius: 10px; background: var(--soft); color: var(--primary); display: grid; place-items: center; }
 .pk-st { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+/* Pakketkaart: striped specs + betere verdeling */
+.pk { overflow: hidden; }
+.pk-specs { margin: 20px -10px 16px; padding: 10px 10px; border-top: 0; border-radius: 12px; background: repeating-linear-gradient(-45deg, rgba(15, 27, 61, .028) 0 6px, rgba(15, 27, 61, .008) 6px 12px); gap: 4px; }
+.pk-spec { padding: 7px 10px; border-radius: 8px; }
+.pk-spec:nth-child(odd) { background: rgba(255, 255, 255, .65); }
+.pk-feats { flex: 1 1 auto; }
+.pk-tags { margin-top: auto; padding-top: 14px; }
+.pk-more { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); }
+.pk-si { background: #fff; box-shadow: inset 0 0 0 1px var(--line); }
+.pk-price { margin-top: 14px; }
+.pk-vat { margin-bottom: 14px; }
+.pk-btn { margin-top: 4px; }
+.pk-desc { min-height: 2.4em; }
