@@ -773,3 +773,5 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 @media (max-width: 640px) { .phero-row > div { flex-direction: column; gap: 2px; } .phero h1 { white-space: normal; font-size: 22px; } .phero p { white-space: normal; padding-left: 0; border-left: 0; } }
 .phero:not(.has-search) { padding-bottom: 50px; }
 @media (max-width: 1000px) { .phero-grid { grid-template-columns: minmax(0, 1fr); } }
+.phero { padding: 18px 0; }
+.phero:not(.has-search) { padding-bottom: 50px; }

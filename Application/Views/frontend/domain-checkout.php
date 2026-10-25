@@ -3,7 +3,7 @@ $steps = [1 => ['Winkelwagen', '/domeinen/winkelwagen'], 2 => ["Extra's", '/dome
 $guest = $user === null; $staff = $user !== null && $user->isStaff(); $u = static fn (string $k): string => $user !== null ? (string) $user->{$k} : ''; ?>
 <section class="ck-band"><div class="container">
     <div class="ck-band-in">
-        <div><nav class="crumbs"><a href="<?= e(url('/')) ?>">Home</a> <?= icon('chevron-right', 'icon icon-sm') ?> <a href="<?= e(url('/domeinen')) ?>">Domeinen</a> <?= icon('chevron-right', 'icon icon-sm') ?> <span>Bestellen</span></nav><h1>Bestellen</h1></div>
+        <div><h1>Bestellen</h1></div>
         <span class="ck-secure"><?= icon('lock', 'icon icon-sm') ?> Veilig bestellen</span>
     </div>
     <ol class="ck-steps" style="--ck-progress: <?= ($step - 1) / 3 * 100 ?>%"><?php foreach ($steps as $n => [$label, $href]): ?><li class="<?= $n === $step ? 'active' : ($n < $step ? 'done' : '') ?>"><?php if ($n < $step): ?><a href="<?= e(url($href)) ?>"><?php else: ?><span><?php endif; ?><span class="ck-dot"><?= $n < $step ? icon('check', 'icon icon-sm') : $n ?></span><span class="ck-label"><?= e($label) ?></span><?= $n < $step ? '</a>' : '</span>' ?></li><?php endforeach; ?></ol>
