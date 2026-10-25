@@ -160,7 +160,14 @@ final class SiteController extends Controller
 
     public function product(Request $request): Response
     {
-        return $this->view('frontend.product', ['product' => $this->findProduct($request)]);
+        $product = $this->findProduct($request);
+        if ('/' . trim($request->path, '/') !== $product->path()) {
+            $query = (string) ($_SERVER['QUERY_STRING'] ?? '');
+
+            return Response::redirect($product->path() . ($query !== '' ? '?' . $query : ''), 301);
+        }
+
+        return $this->view('frontend.product', ['product' => $product]);
     }
 
     public function order(Request $request): Response
@@ -168,7 +175,7 @@ final class SiteController extends Controller
         $product = $this->findProduct($request);
         $user = Auth::user();
         if ($user === null) {
-            Session::set('intended', '/diensten/' . $product->Slug);
+            Session::set('intended', $product->path());
 
             return $this->redirect('/registreren')->with('success', 'Maak een account aan of log in om ' . $product->Naam . ' te bestellen.');
         }
@@ -217,7 +224,11 @@ final class SiteController extends Controller
 
     private function findProduct(Request $request): Product
     {
-        $product = Product::firstWhere(['Slug' => (string) $request->param('slug'), 'Zichtbaar' => 1]);
+        $slug = (string) $request->param('slug');
+        $product = Product::firstWhere(['Slug' => $slug, 'Zichtbaar' => 1]);
+        if ($product === null && str_starts_with($slug, 'domein-')) {
+            $product = Product::firstWhere(['Slug' => substr($slug, 7), 'Zichtbaar' => 1]);
+        }
         if ($product === null) {
             throw new HttpException(404, 'Deze dienst bestaat niet (meer).');
         }

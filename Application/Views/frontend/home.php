@@ -7,7 +7,7 @@
         <?= $partial('frontend._domain-search', ['extensions' => $extensions]) ?>
         <div class="dhero-exts">
             <?php foreach (\App\Models\Product::query("SELECT * FROM Producten WHERE Groep = 'Domeinen' AND Zichtbaar = 1 ORDER BY Volgorde LIMIT 5") as $d): ?>
-                <a href="<?= e(url('/diensten/' . $d->Slug)) ?>"><strong><?= e(strtok((string) $d->Naam, '-')) ?></strong> <?= e(money((int) $d->Prijs)) ?><small>/jaar</small></a>
+                <a href="<?= e(url($d->path())) ?>"><strong><?= e(strtok((string) $d->Naam, '-')) ?></strong> <?= e(money((int) $d->Prijs)) ?><small>/jaar</small></a>
             <?php endforeach; ?>
         </div>
         <div class="dhero-usps"><span><?= icon('check', 'icon icon-sm') ?> Direct actief</span><span><?= icon('check', 'icon icon-sm') ?> Gratis DNS-beheer</span><span><?= icon('check', 'icon icon-sm') ?> Gratis SSL</span><span><?= icon('check', 'icon icon-sm') ?> Persoonlijke support</span></div>

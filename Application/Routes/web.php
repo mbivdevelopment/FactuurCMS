@@ -10,6 +10,8 @@ $router->group('', ['csrf'], static function ($router): void {
     $router->get('/diensten', 'Frontend\\SiteController@services');
     $router->get('/diensten/{slug}', 'Frontend\\SiteController@product');
     $router->post('/diensten/{slug}/bestellen', 'Frontend\\SiteController@order', ['throttle:bestellen,10,60']);
+    $router->get('/extensies/{slug}', 'Frontend\\SiteController@product');
+    $router->post('/extensies/{slug}/bestellen', 'Frontend\\SiteController@order', ['throttle:bestellen,10,60']);
     $router->get('/oplossingen/{slug}', 'Frontend\\SiteController@page');
     $router->get('/domeinen', 'Frontend\\SiteController@domains', ['throttle:domein,30,60']);
     $router->get('/blog', 'Frontend\\SiteController@blog');

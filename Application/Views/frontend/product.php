@@ -9,7 +9,7 @@
                 <p class="muted"><?= nl2br(e($product->Omschrijving)) ?></p>
                 <ul class="plan" style="padding:0;list-style:none"><?php foreach ($product->features() as $f): ?><li style="display:flex;gap:8px;padding:5px 0"><span style="color:var(--ok)"><?= icon('check', 'icon icon-sm') ?></span> <?= e($f) ?></li><?php endforeach; ?></ul>
             </div></div>
-            <form class="card" method="post" action="<?= e(url('/diensten/' . $product->Slug . '/bestellen')) ?>">
+            <form class="card" method="post" action="<?= e(url($product->path() . '/bestellen')) ?>">
                 <?= csrf_field() ?>
                 <div class="card-head"><h2><?= icon('cart') ?> Bestellen</h2></div>
                 <div class="card-body stack">

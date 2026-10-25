@@ -27,6 +27,19 @@ final class Product extends Model
         return $soort === 'Domeinnamen' ? 'Domeinextensies' : (string) $soort;
     }
 
+    /** Publieke URL: domeinextensies onder /extensies/{slug}, de rest onder /diensten/{slug}. */
+    public static function pathFor(string $slug, ?string $soort, ?string $groep = null): string
+    {
+        $extension = $soort === 'Domeinnamen' || (($soort === null || $soort === '') && $groep === 'Domeinen');
+
+        return ($extension ? '/extensies/' : '/diensten/') . $slug;
+    }
+
+    public function path(): string
+    {
+        return self::pathFor((string) $this->Slug, $this->Dienstsoort, $this->Groep);
+    }
+
     protected static ?string $prefix = 'A';
     protected static array $json = ['Kenmerken'];
 

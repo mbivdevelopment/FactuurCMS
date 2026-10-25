@@ -206,7 +206,7 @@ final class IntegrationController extends Controller
                 'Groep' => 'Domeinen',
                 'Dienstsoort' => 'Domeinnamen',
                 'Naam' => '.' . $tld,
-                'Slug' => self::uniqueSlug('domein-' . trim((string) preg_replace('/[^a-z0-9]+/', '-', $tld), '-')),
+                'Slug' => self::uniqueSlug(slugify($tld)),
                 'Omschrijving' => 'Registratie of verhuizing van een .' . $tld . '-domeinnaam.',
                 'Kenmerken' => '[]',
                 'Prijs' => $sale,
