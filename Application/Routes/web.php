@@ -124,6 +124,20 @@ $router->group('beheer', ['csrf', 'auth', 'staff'], static function ($router): v
     $router->post('/contracten/{id}', 'Beheer\\ContentController@update');
     $router->delete('/contracten/{id}', 'Beheer\\ContentController@destroy');
 
+    $router->get('/crediteuren', 'Beheer\\ContentController@index');
+    $router->get('/crediteuren/nieuw', 'Beheer\\ContentController@create');
+    $router->post('/crediteuren', 'Beheer\\ContentController@store');
+    $router->get('/crediteuren/{id}', 'Beheer\\ContentController@edit');
+    $router->post('/crediteuren/{id}', 'Beheer\\ContentController@update');
+    $router->delete('/crediteuren/{id}', 'Beheer\\ContentController@destroy');
+
+    $router->get('/leads', 'Beheer\\ContentController@index');
+    $router->get('/leads/nieuw', 'Beheer\\ContentController@create');
+    $router->post('/leads', 'Beheer\\ContentController@store');
+    $router->get('/leads/{id}', 'Beheer\\ContentController@edit');
+    $router->post('/leads/{id}', 'Beheer\\ContentController@update');
+    $router->delete('/leads/{id}', 'Beheer\\ContentController@destroy');
+
     $router->get('/inkoopfacturen', 'Beheer\\ContentController@index');
     $router->get('/inkoopfacturen/nieuw', 'Beheer\\ContentController@create');
     $router->post('/inkoopfacturen', 'Beheer\\ContentController@store');

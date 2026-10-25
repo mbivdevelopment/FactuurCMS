@@ -155,7 +155,7 @@ INSERT IGNORE INTO PortfolioCategorieen (Naam, Volgorde, AangemaaktOp) VALUES ('
 
 -- De inhoud van deze migraties zit al in deze seed; zo worden ze niet nog eens uitgevoerd.
 UPDATE Producten SET Dienstsoort = CASE Groep WHEN 'Hosting' THEN 'Webhosting' WHEN 'Domeinen' THEN 'Domeinnamen' WHEN 'VPS' THEN 'Cloud VPS' WHEN 'E-mail' THEN 'E-mail Hosting' WHEN 'Websites' THEN 'Informatieve Websites' ELSE NULL END WHERE Dienstsoort IS NULL;
-INSERT IGNORE INTO Migraties (Naam, UitgevoerdOp) VALUES ('2026_10_23_001_website_basisinhoud.sql', NOW()), ('2026_10_23_002_ict_kolommen.sql', NOW()), ('2026_10_23_003_portfolio_categorieen_budget.sql', NOW()), ('2026_10_23_004_menu_indeling.sql', NOW()), ('2026_10_23_005_projecten_afspraken.sql', NOW()), ('2026_10_23_006_contracten_inkoop_storingen_antwoorden.sql', NOW()), ('2026_10_23_007_dienstsoort.sql', NOW());
+INSERT IGNORE INTO Migraties (Naam, UitgevoerdOp) VALUES ('2026_10_23_001_website_basisinhoud.sql', NOW()), ('2026_10_23_002_ict_kolommen.sql', NOW()), ('2026_10_23_003_portfolio_categorieen_budget.sql', NOW()), ('2026_10_23_004_menu_indeling.sql', NOW()), ('2026_10_23_005_projecten_afspraken.sql', NOW()), ('2026_10_23_006_contracten_inkoop_storingen_antwoorden.sql', NOW()), ('2026_10_23_007_dienstsoort.sql', NOW()), ('2026_10_23_008_crediteuren_leads.sql', NOW());
 
 -- Nieuwe indeling van de megamenu's. Pagina's die niet meer in het menu staan blijven bereikbaar (Categorie 'overig').
 UPDATE Paginas SET Categorie = 'overig' WHERE Slug IN ('domein-verhuizen', 'dns-beheer', 'wordpress-hosting', 'cloud-servers');
@@ -193,3 +193,11 @@ SELECT * FROM (SELECT 'Bedankt, we kijken ernaar' AS Titel, 'Bedankt voor je ber
 UNION ALL SELECT 'Opgelost', 'Het probleem is opgelost. Kun je bevestigen dat alles weer naar behoren werkt? Dan sluiten we het ticket.', 2, NOW()
 UNION ALL SELECT 'Meer informatie nodig', 'Om je goed te kunnen helpen hebben we wat meer informatie nodig. Kun je een screenshot sturen en aangeven wanneer het probleem begon?', 3, NOW()) d
 WHERE NOT EXISTS (SELECT 1 FROM SnelleAntwoorden);
+
+INSERT INTO Crediteuren (Bedrijfsnaam, Contactpersoon, Email, Telefoon, Iban, KvkNummer, BtwNummer, AangemaaktOp) VALUES
+('Datacenter Partners B.V.', 'Peter de Groot', 'facturen@datacenterpartners.nl', '010 123 4567', 'NL91ABNA0417164300', '12345678', 'NL123456789B01', NOW()),
+('Domeinregistrar Europa', NULL, 'billing@registrar.example', NULL, NULL, NULL, NULL, NOW());
+
+INSERT INTO Leads (Naam, Bedrijf, Email, Telefoon, Bron, Status, Waarde, VolgendeActie, Notities, AangemaaktOp) VALUES
+('Sophie Jansen', 'Jansen Advies', 'sophie@jansenadvies.nl', '06 12345678', 'website', 'nieuw', 150000, CURDATE() + INTERVAL 2 DAY, 'Wil een nieuwe website met hosting.', NOW()),
+('Ruben Bakker', 'Bakker Logistiek', 'ruben@bakkerlogistiek.nl', NULL, 'doorverwijzing', 'offerte', 480000, CURDATE() + INTERVAL 7 DAY, 'Offerte voor VPN en werkplekbeheer verstuurd.', NOW());

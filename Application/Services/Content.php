@@ -54,11 +54,35 @@ final class Content
                 ],
                 'columns' => ['Naam' => 'title', 'KlantId' => 'customer', 'Status' => 'badge', 'StartDatum' => 'date', 'EindDatum' => 'date', 'Bedrag' => 'money'],
             ],
+            'crediteuren' => [
+                'table' => 'Crediteuren', 'label' => 'Crediteuren', 'single' => 'crediteur', 'icon' => 'building', 'title' => 'Bedrijfsnaam', 'base' => '/beheer/crediteuren',
+                'desc' => 'Leveranciers voor je inkoopfacturen', 'order' => 'Bedrijfsnaam', 'public' => null,
+                'fields' => [
+                    'Bedrijfsnaam' => ['Bedrijfsnaam', 'building', 'text', true], 'Contactpersoon' => ['Contactpersoon', 'user', 'text'],
+                    'Email' => ['E-mail', 'mail', 'text'], 'Telefoon' => ['Telefoon', 'phone', 'text'],
+                    'Iban' => ['IBAN', 'wallet', 'text'], 'KvkNummer' => ['KvK-nummer', 'hash', 'text'], 'BtwNummer' => ['Btw-nummer', 'hash', 'text'],
+                    'Notities' => ['Notities', 'note', 'textarea'],
+                ],
+                'columns' => ['Bedrijfsnaam' => 'title', 'Contactpersoon' => 'text', 'Email' => 'text', 'Telefoon' => 'text', 'Iban' => 'text'],
+            ],
+            'leads' => [
+                'table' => 'Leads', 'label' => 'Leads', 'single' => 'lead', 'icon' => 'target', 'title' => 'Naam', 'base' => '/beheer/leads',
+                'desc' => 'Potentiële klanten, de openstaande bovenaan', 'order' => "FIELD(Status, 'nieuw', 'contact', 'offerte', 'gewonnen', 'verloren'), VolgendeActie IS NULL, VolgendeActie, Id DESC", 'public' => null,
+                'fields' => [
+                    'Naam' => ['Naam', 'user', 'text', true], 'Bedrijf' => ['Bedrijf', 'building', 'text'],
+                    'Email' => ['E-mail', 'mail', 'text'], 'Telefoon' => ['Telefoon', 'phone', 'text'],
+                    'Bron' => ['Bron', 'link', 'select', true, ['website' => 'Website', 'telefoon' => 'Telefoon', 'email' => 'E-mail', 'doorverwijzing' => 'Doorverwijzing', 'beurs' => 'Beurs of event', 'overig' => 'Overig']],
+                    'Status' => ['Status', 'flag', 'select', true, ['nieuw' => 'Nieuw', 'contact' => 'In contact', 'offerte' => 'Offerte verstuurd', 'gewonnen' => 'Gewonnen', 'verloren' => 'Verloren']],
+                    'Waarde' => ['Verwachte waarde excl. btw (€)', 'euro', 'money'], 'VolgendeActie' => ['Volgende actie op', 'calendar', 'date'],
+                    'Notities' => ['Notities', 'note', 'textarea'],
+                ],
+                'columns' => ['Naam' => 'title', 'Bedrijf' => 'text', 'Bron' => 'badge', 'Status' => 'badge', 'Waarde' => 'money', 'VolgendeActie' => 'date'],
+            ],
             'inkoopfacturen' => [
                 'table' => 'Inkoopfacturen', 'label' => 'Inkoopfacturen', 'single' => 'inkoopfactuur', 'icon' => 'wallet', 'title' => 'Leverancier', 'base' => '/beheer/inkoopfacturen',
                 'desc' => 'Facturen van leveranciers, openstaande bovenaan', 'order' => "FIELD(Status, 'open', 'betaald'), Datum DESC", 'public' => null,
                 'fields' => [
-                    'Leverancier' => ['Leverancier', 'building', 'text', true], 'Factuurnummer' => ['Factuurnummer', 'hash', 'text'],
+                    'Leverancier' => ['Leverancier (kies of typ een crediteur)', 'building', 'supplier', true], 'Factuurnummer' => ['Factuurnummer', 'hash', 'text'],
                     'Datum' => ['Factuurdatum', 'calendar', 'date', true], 'VervalDatum' => ['Vervaldatum', 'calendar', 'date'],
                     'Bedrag' => ['Bedrag excl. btw (€)', 'euro', 'money'], 'BtwBedrag' => ['Btw (€)', 'euro', 'money'],
                     'Status' => ['Status', 'flag', 'select', true, ['open' => 'Open', 'betaald' => 'Betaald']], 'Omschrijving' => ['Omschrijving', 'note', 'textarea'],
@@ -211,6 +235,12 @@ final class Content
     }
 
     /** @return array<int|string, string> klanten voor een keuzelijst */
+    /** @return list<string> */
+    public static function suppliers(): array
+    {
+        return array_map(static fn (array $r): string => (string) $r['Bedrijfsnaam'], \App\Core\Database::all('SELECT Bedrijfsnaam FROM Crediteuren ORDER BY Bedrijfsnaam'));
+    }
+
     public static function customers(): array
     {
         $list = ['' => '- Geen klant -'];

@@ -24,6 +24,9 @@ $groups = ['' => '- Geen pakketten -'] + array_combine(array_keys(\App\Models\Pr
                 <?= field($name, $label, $ico, (string) $value, 'select', $def[4]) ?>
             <?php elseif ($kind === 'icon'): ?>
                 <?= field($name, $label, $ico, (string) $value, 'select', array_combine(\App\Services\Content::ICONS, \App\Services\Content::ICONS)) ?>
+            <?php elseif ($kind === 'supplier'): ?>
+                <?= field($name, $label, $ico, (string) $value, 'text', [], 'list="lijst-' . e($name) . '" autocomplete="off"' . ($req !== '' ? ' ' . $req : '')) ?>
+                <datalist id="lijst-<?= e($name) ?>"><?php foreach (\App\Services\Content::suppliers() as $sup): ?><option value="<?= e($sup) ?>"><?php endforeach; ?></datalist>
             <?php elseif ($kind === 'customer'): ?>
                 <?= field($name, $label, $ico, (string) $value, 'select', \App\Services\Content::customers()) ?>
             <?php elseif ($kind === 'money'): ?>

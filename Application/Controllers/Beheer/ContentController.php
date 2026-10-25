@@ -27,7 +27,7 @@ final class ContentController extends Controller
     public function create(Request $request): Response
     {
         $type = $this->type($request);
-        $row = ['Datum' => date('Y-m-d'), 'Status' => in_array($type['key'], ['projecten', 'afspraken'], true) ? 'gepland' : 'actief', 'Zichtbaar' => 1, 'Volgorde' => (int) Database::scalar('SELECT COUNT(*) FROM `' . $type['table'] . '`') + 1, 'PublicatieDatum' => date('Y-m-d'), 'Icoon' => 'server', 'Soort' => 'mijlpaal'];
+        $row = ['Datum' => date('Y-m-d'), 'Status' => in_array($type['key'], ['projecten', 'afspraken'], true) ? 'gepland' : ($type['key'] === 'leads' ? 'nieuw' : 'actief'), 'Zichtbaar' => 1, 'Volgorde' => (int) Database::scalar('SELECT COUNT(*) FROM `' . $type['table'] . '`') + 1, 'PublicatieDatum' => date('Y-m-d'), 'Icoon' => 'server', 'Soort' => 'mijlpaal'];
 
         return $this->view('beheer.content.form', ['type' => $type, 'row' => array_intersect_key($row, $type['fields'])]);
     }
@@ -162,7 +162,7 @@ final class ContentController extends Controller
     private function type(Request $request): array
     {
         $key = (string) $request->param('type');
-        foreach (['projecten', 'afspraken', 'contracten', 'inkoopfacturen', 'storingen', 'snelle-antwoorden'] as $fixed) {
+        foreach (['projecten', 'afspraken', 'contracten', 'inkoopfacturen', 'storingen', 'snelle-antwoorden', 'crediteuren', 'leads'] as $fixed) {
             if ($key === '' && $request->is('/beheer/' . $fixed)) {
                 $key = $fixed;
             }
