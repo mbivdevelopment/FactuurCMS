@@ -27,6 +27,7 @@ final class SiteController extends Controller
 
         return $this->view('frontend.home', [
             'featured' => Product::query("SELECT * FROM Producten WHERE Zichtbaar = 1 AND Groep <> 'Domeinen' ORDER BY Uitgelicht DESC, Volgorde, Id LIMIT 4"),
+            'packages' => Product::query("SELECT * FROM Producten WHERE Zichtbaar = 1 AND Dienstsoort = 'Webhosting' ORDER BY Uitgelicht DESC, Prijs, Id LIMIT 9"),
             'posts' => Database::all('SELECT * FROM BlogBerichten WHERE Zichtbaar = 1 AND PublicatieDatum <= CURDATE() ORDER BY PublicatieDatum DESC, Id DESC LIMIT 9'),
             'projects' => Database::all('SELECT * FROM PortfolioItems WHERE Zichtbaar = 1 ORDER BY Volgorde, Id DESC LIMIT 9'),
             'logos' => $logos,
