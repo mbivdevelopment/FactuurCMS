@@ -876,3 +876,15 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .why-red .pk-i { background: #fdeaea; color: #dc2626; }
 @media (max-width: 900px) { .why-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .why-grid { grid-template-columns: minmax(0, 1fr); } }
+/* Homepage: betere verdeling */
+.dc-side .dc { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+.dc-side .dc-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.dc-item { padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: #fff; display: flex; gap: 12px; align-items: flex-start; transition: border-color .15s, box-shadow .15s, transform .15s; }
+.dc-item:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 12px 26px rgba(15, 27, 61, .1); }
+.dc-ic { color: var(--primary); }
+.car-item .pc { border-radius: 16px; box-shadow: 0 2px 10px rgba(15, 27, 61, .05); transition: transform .18s, box-shadow .18s, border-color .18s; }
+.car-item .pc:hover { transform: translateY(-5px); box-shadow: 0 18px 38px rgba(15, 27, 61, .12); border-color: var(--primary); }
+.kb-item { transition: transform .15s, box-shadow .15s, border-color .15s; }
+.kb-item:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(15, 27, 61, .1); }
+.pc { border: 1px solid var(--line); }
+@media (max-width: 900px) { .dc-side .dc-list { grid-template-columns: minmax(0, 1fr); } }

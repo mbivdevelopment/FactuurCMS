@@ -85,14 +85,14 @@ $homeText = (string) (setting('home.tekst', '') ?: 'Bij ' . company_name() . ' d
 
 <section class="sec">
     <div class="container about-split">
+        <div class="dc-side">
+            <?php if ($datacenters !== []): ?><?= $partial('frontend._map', ['datacenters' => $datacenters]) ?><?php endif; ?>
+        </div>
         <div>
             <span class="eyebrow"><?= icon('pin', 'icon icon-sm') ?> Netwerk</span>
             <h2 class="h-xl">Onze datacenters</h2>
             <div class="prose"><p>Jouw diensten draaien in moderne datacenters met redundante stroom en verbindingen, dichtbij in Nederland en met partners wereldwijd. Dankzij 24/7-monitoring, dagelijkse back-ups en ons eigen netwerk sta jij er nooit alleen voor.</p></div>
             <div class="row" style="margin-top:22px"><a class="btn btn-lg" href="<?= e(url('/contact')) ?>">Vraag advies <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
-        </div>
-        <div>
-            <?php if ($datacenters !== []): ?><?= $partial('frontend._map', ['datacenters' => $datacenters]) ?><?php endif; ?>
         </div>
     </div>
 </section>
