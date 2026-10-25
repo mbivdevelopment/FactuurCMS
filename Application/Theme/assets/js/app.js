@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         links.forEach(l => l.addEventListener('click', ev => { ev.preventDefault(); history.replaceState(null, '', '#' + l.dataset.tab); show(l.dataset.tab); }));
         show(location.hash.slice(1));
+        window.addEventListener('hashchange', () => show(location.hash.slice(1)));
     });
 });
 
@@ -157,3 +158,8 @@ document.addEventListener('change', ev => {
     if (ta) { ta.value = (ta.value.trim() ? ta.value.trimEnd() + '\n\n' : '') + sel.value; ta.focus(); }
     sel.selectedIndex = 0;
 });
+
+/* Megamenu: link naar huidige #tab actief markeren. */
+const markHashLinks = () => document.querySelectorAll('.drop-link[href*="#"]').forEach(a => { const u = new URL(a.href); a.classList.toggle('active', u.pathname === location.pathname && u.hash === (location.hash || '#' + (document.querySelector('.tab-pane')?.dataset.pane ?? ''))); });
+document.addEventListener('DOMContentLoaded', markHashLinks);
+window.addEventListener('hashchange', markHashLinks);
