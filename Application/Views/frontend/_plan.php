@@ -37,7 +37,7 @@ if ($max > 0 && count($rest) > $max) {
         <span class="pk-i"><?= icon(\App\Models\Product::soortIcon($p->Dienstsoort, $p->Groep)) ?></span>
         <div><span class="pk-kind"><?= e($kind) ?></span><h3><a href="<?= e(url($p->path())) ?>"><?= e($p->Naam) ?></a></h3></div>
     </div>
-    <div class="pk-price"><span class="pk-eur"><?= $price ?></span><span class="pk-per">per <?= e(ltrim($per, '/ ')) ?></span></div>
+    <div class="pk-price"><span class="pk-eur"><?= $price ?></span><span class="pk-per">· per <?= e(ltrim($per, '/ ')) ?></span></div>
     <?php if ((int) $p->Instelkosten > 0): ?><div class="pk-vat">+ <?= e(money((int) $p->Instelkosten)) ?> instelkosten</div><?php endif; ?>
     <a class="btn btn-lg pk-btn" href="<?= e(url($p->path())) ?>"><?= icon('cart', 'icon icon-sm') ?> Bestellen</a>
         <?php if ($specs !== []): ?><?php $specIcons = ['CPU' => 'cpu', 'Geheugen' => 'box', 'Schijfruimte' => 'server', 'Dataverkeer' => 'trend', 'Netwerk' => 'globe']; ?>

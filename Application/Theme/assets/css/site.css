@@ -973,3 +973,5 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .pk-feats { margin-bottom: 4px; }
 .pk-btn { margin-top: 16px; }
 .pk-price { padding-bottom: 16px; border-bottom: 1px dashed var(--line); }
+.pk { border-top: 3px solid var(--primary); }
+.pk-price { justify-content: center; border-top: 0; padding-top: 6px; }
