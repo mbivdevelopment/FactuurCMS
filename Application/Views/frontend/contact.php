@@ -1,5 +1,6 @@
 <?php $extend('frontend', ['title' => 'Contact']); ?>
-<section class="section">
+<?= $partial('frontend._hero', ['title' => 'Contact', 'intro' => 'Vragen of advies nodig? We helpen je graag verder.', 'icon' => 'chat', 'crumbs' => [[null, 'Contact']]]) ?>
+<section class="sec">
     <div class="container">
         <div class="grid grid-side">
             <form class="card" method="post" action="<?= e(url('/contact')) ?>">

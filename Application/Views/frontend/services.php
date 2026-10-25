@@ -1,7 +1,7 @@
 <?php $extend('frontend', ['title' => $group !== '' ? $group : 'Diensten']); ?>
-<section class="section">
+<?= $partial('frontend._hero', ['title' => $group !== '' ? $group : 'Onze diensten', 'intro' => 'Alle prijzen zijn exclusief btw.', 'icon' => \App\Models\Product::GROUPS[$group] ?? 'server', 'crumbs' => [['/diensten', 'Diensten']]]) ?>
+<section class="sec">
     <div class="container">
-        <div class="section-title"><h2><?= e($group !== '' ? $group : 'Onze diensten') ?></h2><p>Alle prijzen zijn exclusief btw.</p></div>
         <div class="filters">
             <a href="<?= e(url('/diensten')) ?>" class="<?= $group === '' ? 'active' : '' ?>">Alles</a>
             <?php foreach ($groups as $g): ?><a href="<?= e(url('/diensten?groep=' . urlencode($g))) ?>" class="<?= $group === $g ? 'active' : '' ?>"><?= e($g) ?></a><?php endforeach; ?>

@@ -14,14 +14,133 @@ use App\Core\Response;
 use App\Core\Session;
 use App\Models\Product;
 use App\Services\Billing;
+use App\Services\DomainCheck;
 
 final class SiteController extends Controller
 {
     public function home(Request $request): Response
     {
+        $logos = [];
+        foreach (Database::all('SELECT * FROM Logos WHERE Zichtbaar = 1 ORDER BY (SELECT MIN(l2.Id) FROM Logos l2 WHERE l2.Groep = Logos.Groep), Volgorde, Id') as $logo) {
+            $logos[$logo['Groep']][] = $logo;
+        }
+
         return $this->view('frontend.home', [
-            'featured' => Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 ORDER BY Uitgelicht DESC, Volgorde, Id LIMIT 3'),
-            'groups' => Database::all('SELECT Groep, COUNT(*) AS Aantal, MIN(Prijs) AS Vanaf FROM Producten WHERE Zichtbaar = 1 GROUP BY Groep ORDER BY MIN(Volgorde)'),
+            'featured' => Product::query("SELECT * FROM Producten WHERE Zichtbaar = 1 AND Groep <> 'Domeinen' ORDER BY Uitgelicht DESC, Volgorde, Id LIMIT 3"),
+            'posts' => Database::all('SELECT * FROM BlogBerichten WHERE Zichtbaar = 1 AND PublicatieDatum <= CURDATE() ORDER BY PublicatieDatum DESC, Id DESC LIMIT 9'),
+            'projects' => Database::all('SELECT * FROM PortfolioItems WHERE Zichtbaar = 1 ORDER BY Volgorde, Id DESC LIMIT 9'),
+            'logos' => $logos,
+            'datacenters' => Database::all('SELECT * FROM Datacenters WHERE Zichtbaar = 1 ORDER BY Volgorde, Id'),
+            'articles' => Database::all('SELECT * FROM KennisbankArtikelen WHERE Zichtbaar = 1 ORDER BY Weergaven DESC, Volgorde, Id LIMIT 6'),
+            'extensions' => DomainCheck::extensions(),
+        ]);
+    }
+
+    public function page(Request $request): Response
+    {
+        $page = Database::first('SELECT * FROM Paginas WHERE Slug = ? AND Zichtbaar = 1', [(string) $request->param('slug')]) ?? throw new HttpException(404, 'Deze pagina bestaat niet (meer).');
+        $products = (string) $page['ProductGroep'] !== '' ? Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 AND Groep = ? ORDER BY Volgorde, Id', [$page['ProductGroep']]) : [];
+
+        return $this->view('frontend.page', [
+            'page' => $page,
+            'products' => $products,
+            'related' => Database::all('SELECT * FROM Paginas WHERE Zichtbaar = 1 AND Categorie = ? AND Id <> ? ORDER BY Groep, Volgorde LIMIT 6', [$page['Categorie'], $page['Id']]),
+            'extensions' => DomainCheck::extensions(),
+        ]);
+    }
+
+    public function domains(Request $request): Response
+    {
+        [$name, $ext] = DomainCheck::parse($request->string('domein'));
+        $extensions = DomainCheck::extensions();
+        $results = [];
+        if ($name !== '') {
+            $chosen = $ext ?? ($request->string('ext') !== '' ? ltrim($request->string('ext'), '.') : null);
+            $list = $chosen !== null ? array_values(array_unique(array_merge([$chosen], $extensions))) : $extensions;
+            foreach (array_slice($list, 0, 8) as $x) {
+                $results[] = DomainCheck::check($name, $x);
+            }
+        }
+
+        return $this->view('frontend.domains', ['name' => $name, 'results' => $results, 'extensions' => $extensions]);
+    }
+
+    public function blog(Request $request): Response
+    {
+        $category = $request->string('categorie');
+        $where = 'Zichtbaar = 1 AND PublicatieDatum <= CURDATE()' . ($category !== '' ? ' AND Categorie = ?' : '');
+
+        return $this->view('frontend.blog', [
+            'posts' => Database::all("SELECT * FROM BlogBerichten WHERE $where ORDER BY PublicatieDatum DESC, Id DESC", $category !== '' ? [$category] : []),
+            'categories' => array_column(Database::all('SELECT DISTINCT Categorie FROM BlogBerichten WHERE Zichtbaar = 1 ORDER BY Categorie'), 'Categorie'),
+            'category' => $category,
+        ]);
+    }
+
+    public function blogPost(Request $request): Response
+    {
+        $post = Database::first('SELECT * FROM BlogBerichten WHERE Slug = ? AND Zichtbaar = 1', [(string) $request->param('slug')]) ?? throw new HttpException(404, 'Dit bericht bestaat niet (meer).');
+
+        return $this->view('frontend.blog-post', ['post' => $post, 'recent' => Database::all('SELECT * FROM BlogBerichten WHERE Zichtbaar = 1 AND Id <> ? AND PublicatieDatum <= CURDATE() ORDER BY PublicatieDatum DESC LIMIT 4', [$post['Id']])]);
+    }
+
+    public function portfolio(Request $request): Response
+    {
+        $category = $request->string('categorie');
+
+        return $this->view('frontend.portfolio', [
+            'projects' => Database::all('SELECT * FROM PortfolioItems WHERE Zichtbaar = 1' . ($category !== '' ? ' AND Categorie = ?' : '') . ' ORDER BY Volgorde, Id DESC', $category !== '' ? [$category] : []),
+            'categories' => array_column(Database::all('SELECT DISTINCT Categorie FROM PortfolioItems WHERE Zichtbaar = 1 ORDER BY Categorie'), 'Categorie'),
+            'category' => $category,
+        ]);
+    }
+
+    public function portfolioItem(Request $request): Response
+    {
+        $item = Database::first('SELECT * FROM PortfolioItems WHERE Slug = ? AND Zichtbaar = 1', [(string) $request->param('slug')]) ?? throw new HttpException(404, 'Dit project bestaat niet (meer).');
+
+        return $this->view('frontend.portfolio-item', ['item' => $item, 'more' => Database::all('SELECT * FROM PortfolioItems WHERE Zichtbaar = 1 AND Id <> ? ORDER BY Volgorde LIMIT 3', [$item['Id']])]);
+    }
+
+    public function knowledge(Request $request): Response
+    {
+        $q = $request->string('q');
+        $category = $request->string('categorie');
+        $where = ['Zichtbaar = 1'];
+        $params = [];
+        if ($q !== '') {
+            $where[] = '(Titel LIKE ? OR Samenvatting LIKE ? OR Inhoud LIKE ?)';
+            array_push($params, "%$q%", "%$q%", "%$q%");
+        }
+        if ($category !== '') {
+            $where[] = 'Categorie = ?';
+            $params[] = $category;
+        }
+        $articles = [];
+        foreach (Database::all('SELECT * FROM KennisbankArtikelen WHERE ' . implode(' AND ', $where) . ' ORDER BY Categorie, Volgorde, Id', $params) as $a) {
+            $articles[$a['Categorie']][] = $a;
+        }
+
+        return $this->view('frontend.knowledge', [
+            'articles' => $articles, 'q' => $q, 'category' => $category,
+            'categories' => Database::all('SELECT Categorie, COUNT(*) AS Aantal FROM KennisbankArtikelen WHERE Zichtbaar = 1 GROUP BY Categorie ORDER BY Categorie'),
+        ]);
+    }
+
+    public function article(Request $request): Response
+    {
+        $article = Database::first('SELECT * FROM KennisbankArtikelen WHERE Slug = ? AND Zichtbaar = 1', [(string) $request->param('slug')]) ?? throw new HttpException(404, 'Dit artikel bestaat niet (meer).');
+        Database::run('UPDATE KennisbankArtikelen SET Weergaven = Weergaven + 1 WHERE Id = ?', [$article['Id']]);
+
+        return $this->view('frontend.article', ['article' => $article, 'related' => Database::all('SELECT * FROM KennisbankArtikelen WHERE Zichtbaar = 1 AND Categorie = ? AND Id <> ? ORDER BY Volgorde LIMIT 6', [$article['Categorie'], $article['Id']])]);
+    }
+
+    public function about(Request $request): Response
+    {
+        return $this->view('frontend.about', [
+            'team' => Database::all('SELECT * FROM Teamleden WHERE Zichtbaar = 1 ORDER BY Volgorde, Id'),
+            'timeline' => Database::all('SELECT * FROM Tijdlijn WHERE Zichtbaar = 1 ORDER BY Volgorde, Jaar, Id'),
+            'datacenters' => Database::all('SELECT * FROM Datacenters WHERE Zichtbaar = 1 ORDER BY Volgorde, Id'),
         ]);
     }
 

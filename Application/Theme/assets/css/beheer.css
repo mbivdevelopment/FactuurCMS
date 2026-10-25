@@ -62,6 +62,8 @@ img { max-width: 100%; }
 .nav-item:hover .nav-drop, .nav-item:focus-within .nav-drop, .nav-item.open .nav-drop { display: block; }
 .nav-item.open .nav-title { color: #fff; background: rgba(255,255,255,.06); }
 .nav-item.open .caret { transform: rotate(180deg); color: #fff; }
+.nav-drop.wide { min-width: 600px; }
+.nav-item:hover .nav-drop.wide, .nav-item:focus-within .nav-drop.wide, .nav-item.open .nav-drop.wide { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
 .drop-link { display: flex; align-items: center; gap: 12px; padding: 9px 10px; border-radius: 6px; color: var(--text); }
 .drop-link:hover { background: var(--accent-soft); color: var(--text); }
 .drop-i { width: 36px; height: 36px; border-radius: var(--radius); display: grid; place-items: center; flex: none; background: var(--navy) var(--stripes); color: #fff; transition: background .15s; }
@@ -116,6 +118,7 @@ img { max-width: 100%; }
     .nav-item { flex-direction: column; }
     .nav-title .caret { display: none; }
     .nav-drop { display: block; position: static; min-width: 0; padding: 0 0 6px 28px; background: none; border: 0; box-shadow: none; }
+    .nav-drop.wide, .nav-item:hover .nav-drop.wide, .nav-item.open .nav-drop.wide { display: block; min-width: 0; }
     .drop-link { padding: 7px 10px; color: rgba(255,255,255,.75); }
     .drop-link:hover { background: rgba(255,255,255,.06); color: #fff; }
     .drop-i { width: 28px; height: 28px; background: rgba(255,255,255,.08); }
@@ -302,3 +305,11 @@ dialog.confirm p { margin: 0; padding: 18px 18px 0; }
 .login-box h1 { margin: 0; }
 .login-box a:not(.btn) { color: var(--accent); font-weight: 600; }
 @media (max-width: 800px) { .login-wrap { grid-template-columns: 1fr; } .login-side { display: none; } }
+
+/* Website-modules: thumbnails en uploads */
+.thumb { width: 56px; height: 40px; object-fit: contain; border-radius: 6px; border: 1px solid var(--line); background: var(--soft); display: block; padding: 3px; }
+.thumb-empty { display: grid; place-items: center; color: var(--muted); }
+.upload-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding: 8px 0; }
+.upload-preview { max-height: 90px; max-width: 220px; border: 1px dashed var(--line); border-radius: 8px; padding: 6px; background: var(--soft); }
+.set-title { display: flex; align-items: center; gap: 8px; padding-top: 14px; border-top: 1px solid var(--line); font-weight: 700; color: var(--navy); }
+.set-title .icon { color: var(--accent); }

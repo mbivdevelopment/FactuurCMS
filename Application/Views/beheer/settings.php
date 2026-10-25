@@ -60,6 +60,27 @@
         <div class="card-body form-grid">
             <?= field('website_titel', 'Titel homepage', 'layout', $s('website.titel')) ?>
             <?= field('app_url', 'Website-URL (voor links in e-mail/PDF)', 'link', $s('app.url'), 'url', [], 'placeholder="https://www.jouwdomein.nl"') ?>
-            <?= field('website_intro', 'Introtekst homepage', 'note', $s('website.intro'), 'textarea') ?>
+            <?= field('website_intro', 'Korte omschrijving (zoekmachines)', 'note', $s('website.intro'), 'textarea', [], 'rows="2"') ?>
+            <div class="field-full set-title"><?= icon('phone', 'icon icon-sm') ?> Topbar</div>
+            <?= field('topbar_telefoon', 'Telefoonnummer (links)', 'phone', $s('topbar.telefoon')) ?>
+            <?= field('topbar_email', 'E-mailadres (links)', 'mail', $s('topbar.email'), 'email') ?>
+            <?= field('topbar_slogan', 'Slogan (midden)', 'tag', $s('topbar.slogan')) ?>
+            <?= field('links_webmail', 'Link webmail (rechts)', 'webmail', $s('links.webmail'), 'url') ?>
+            <?= field('links_paneel', 'Link hostingpaneel (rechts)', 'server', $s('links.paneel'), 'url') ?>
+            <div class="field-full set-title"><?= icon('globe', 'icon icon-sm') ?> Homepage</div>
+            <?= field('hero_titel', 'Titel domeinbanner', 'globe', $s('hero.titel')) ?>
+            <?= field('hero_extensies', 'Extensies in de domeinzoeker (komma-gescheiden)', 'hash', $s('hero.extensies', '.nl,.com,.eu,.be,.net,.org')) ?>
+            <?= field('hero_tekst', 'Tekst domeinbanner', 'note', $s('hero.tekst'), 'textarea', [], 'rows="2"') ?>
+            <?= field('over_titel', 'Titel blok "Over ons"', 'building', $s('over.titel')) ?>
+            <?= field('over_tekst', 'Tekst blok "Over ons" (afbeelding via Branding)', 'note', $s('over.tekst'), 'textarea') ?>
+            <div class="field-full set-title"><?= icon('users', 'icon icon-sm') ?> Pagina Over ons</div>
+            <?= field('over_wie', 'Wie wij zijn', 'note', $s('over.wie'), 'textarea') ?>
+            <?= field('over_hoe', 'Hoe wij zijn', 'note', $s('over.hoe'), 'textarea') ?>
+            <?= field('over_missie', 'Onze missie', 'target', $s('over.missie'), 'textarea') ?>
+            <div class="field-full set-title"><?= icon('layout', 'icon icon-sm') ?> Footer</div>
+            <?= field('footer_tekst', 'Tekst onder het logo', 'note', $s('footer.tekst'), 'textarea', [], 'rows="2"') ?>
+            <?= field('social_linkedin', 'LinkedIn', 'linkedin', $s('social.linkedin'), 'url') ?>
+            <?= field('social_facebook', 'Facebook', 'facebook', $s('social.facebook'), 'url') ?>
+            <?= field('social_instagram', 'Instagram', 'instagram', $s('social.instagram'), 'url') ?>
         </div><div class="card-foot"><button class="btn"><?= icon('check', 'icon icon-sm') ?> Opslaan</button></div></form></div>
 </div>

@@ -102,3 +102,49 @@ document.addEventListener('click', (ev) => {
 document.addEventListener('keydown', (ev) => {
     if (ev.key === 'Escape') document.querySelectorAll('.nav-item.open').forEach((el) => { el.classList.remove('open'); el.querySelector('.nav-title')?.blur(); });
 });
+
+/* Website: megamenu openen via het pijltje (touch/mobiel) en sluiten met Esc of klik ernaast. */
+document.addEventListener('click', ev => {
+    const toggle = ev.target.closest('[data-mega-toggle]');
+    const item = toggle?.closest('.mi');
+    document.querySelectorAll('.mi.open').forEach(el => { if (el !== item && !el.contains(ev.target)) el.classList.remove('open'); });
+    if (item) { ev.preventDefault(); item.classList.toggle('open'); }
+});
+document.addEventListener('keydown', ev => { if (ev.key === 'Escape') document.querySelectorAll('.mi.open').forEach(el => el.classList.remove('open')); });
+
+/* Website: carrousels met pijlen, bolletjes en optioneel automatisch doorschuiven. */
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-carousel]').forEach(car => {
+        const track = car.querySelector('.car-track'), items = [...track.children], dots = car.querySelector('.car-dots');
+        const perView = () => Math.max(1, Math.round(track.clientWidth / (items[0]?.getBoundingClientRect().width || track.clientWidth)));
+        const pages = () => Math.max(1, Math.ceil(items.length / perView()));
+        const page = () => Math.round(track.scrollLeft / Math.max(1, track.clientWidth));
+        const go = n => { const p = (n + pages()) % pages(); track.scrollTo({ left: p * track.clientWidth, behavior: 'smooth' }); };
+        const drawDots = () => {
+            dots.innerHTML = '';
+            for (let i = 0; i < pages(); i++) { const b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-label', 'Pagina ' + (i + 1)); b.addEventListener('click', () => go(i)); dots.appendChild(b); }
+            mark();
+        };
+        const mark = () => [...dots.children].forEach((b, i) => b.classList.toggle('active', i === Math.min(page(), pages() - 1)));
+        car.querySelector('[data-car-prev]')?.addEventListener('click', () => go(page() - 1));
+        car.querySelector('[data-car-next]')?.addEventListener('click', () => go(page() + 1));
+        track.addEventListener('scroll', () => window.requestAnimationFrame(mark), { passive: true });
+        window.addEventListener('resize', drawDots);
+        drawDots();
+        car.querySelector('.car-nav').hidden = pages() < 2;
+        if (car.dataset.autoplay && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            let paused = false;
+            car.addEventListener('mouseenter', () => { paused = true; });
+            car.addEventListener('mouseleave', () => { paused = false; });
+            setInterval(() => { if (!paused && !document.hidden) go(page() + 1); }, parseInt(car.dataset.autoplay, 10));
+        }
+    });
+
+    /* Website: logo's per groep wisselen. */
+    document.querySelectorAll('[data-logo-tabs]').forEach(box => box.addEventListener('click', ev => {
+        const b = ev.target.closest('[data-logo-tab]');
+        if (!b) return;
+        box.querySelectorAll('[data-logo-tab]').forEach(x => x.classList.toggle('active', x === b));
+        box.querySelectorAll('[data-logo-pane]').forEach(p => p.classList.toggle('active', p.dataset.logoPane === b.dataset.logoTab));
+    }));
+});

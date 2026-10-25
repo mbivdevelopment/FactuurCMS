@@ -78,6 +78,37 @@ function branding_path(string $kind): string
     return $file !== '' && is_file($path) ? $path : '';
 }
 
+/** Geüpload (uploads/...) of meegeleverd (img/...) mediabestand in Application/Theme/assets; leeg = geen. */
+function media_url(?string $path): string
+{
+    $path = ltrim((string) $path, '/');
+
+    return $path !== '' && !str_contains($path, '..') && is_file(App::instance()->path('Application/Theme/assets/' . $path)) ? asset($path) : '';
+}
+
+/** Platte tekst naar veilige HTML: lege regel = alinea, "## " = kop, "- " = opsomming. */
+function rich_text(?string $text): string
+{
+    $html = '';
+    foreach (preg_split('/\R{2,}/', trim((string) $text)) ?: [] as $block) {
+        $lines = preg_split('/\R/', trim($block)) ?: [];
+        if ($lines === [] || $lines[0] === '') {
+            continue;
+        }
+        if (str_starts_with($lines[0], '## ')) {
+            $html .= '<h2>' . e(substr(array_shift($lines), 3)) . '</h2>';
+        }
+        $items = array_filter($lines, static fn (string $l): bool => str_starts_with($l, '- '));
+        if ($lines !== [] && count($items) === count($lines)) {
+            $html .= '<ul>' . implode('', array_map(static fn (string $l): string => '<li>' . e(substr($l, 2)) . '</li>', $lines)) . '</ul>';
+        } elseif ($lines !== []) {
+            $html .= '<p>' . nl2br(e(implode("\n", $lines))) . '</p>';
+        }
+    }
+
+    return $html;
+}
+
 function company_name(): string
 {
     return (string) setting('bedrijf.naam', config('app.name', 'FactuurCMS'));
@@ -295,6 +326,21 @@ function icon(string $name, string $class = 'icon'): string
         'note' => '<path d="M5 4h14v12l-4 4H5zM15 20v-4h4M9 9h6M9 13h4"/>',
         'link' => '<path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1"/>',
         'home' => '<path d="m3 11 9-8 9 8M5 9.5V21h14V9.5"/>',
+        'cloud' => '<path d="M7 18a5 5 0 0 1-.9-9.9A6 6 0 0 1 17.6 7 4.5 4.5 0 0 1 17.5 18z"/>',
+        'code' => '<path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 4l-4 16"/>',
+        'trend' => '<path d="m3 17 6-6 4 4 8-8M15 7h6v6"/>',
+        'book' => '<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5M19 19v2H6"/>',
+        'pin' => '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+        'star' => '<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+        'chevron-left' => '<path d="m15 6-6 6 6 6"/>',
+        'target' => '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+        'heart' => '<path d="M12 20s-7.5-4.6-9-9.3C2 7.3 4.3 4.5 7.3 4.5c2 0 3.6 1.1 4.7 2.7 1.1-1.6 2.7-2.7 4.7-2.7 3 0 5.3 2.8 4.3 6.2C19.5 15.4 12 20 12 20z"/>',
+        'flag' => '<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>',
+        'handshake' => '<path d="m11 17 2 2a1.4 1.4 0 0 0 2-2M14 14l2.5 2.5a1.4 1.4 0 0 0 2-2L15 11M3 13l5-5 3 1 3-3 7 7-2 2M3 13l5 5 1-1M8 8 4 4M18 6l2-2"/>',
+        'linkedin' => '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/>',
+        'facebook' => '<path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/>',
+        'instagram' => '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/>',
+        'webmail' => '<path d="M3 8l9 6 9-6M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M15 15h4"/>',
     ];
     $svg = $icons[$name] ?? '<circle cx="12" cy="12" r="8"/>';
 

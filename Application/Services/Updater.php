@@ -20,7 +20,7 @@ final class Updater
         'Application/Config/app.php',
         '.htaccess',
     ];
-    private const PROTECTED_DIRS = ['storage/', 'Application/Theme/assets/branding/', '.git/'];
+    private const PROTECTED_DIRS = ['storage/', 'Application/Theme/assets/branding/', 'Application/Theme/assets/uploads/', '.git/'];
 
     public static function repo(): string
     {

@@ -162,3 +162,128 @@ CREATE TABLE IF NOT EXISTS Migraties (
     Naam VARCHAR(190) NOT NULL PRIMARY KEY,
     UitgevoerdOp DATETIME NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Website-modules: pagina's (megamenu), blog, portfolio, logo's, kennisbank, team, tijdlijn en datacenters.
+CREATE TABLE IF NOT EXISTS Paginas (
+    Id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Categorie ENUM('cloud','ict','overig') NOT NULL DEFAULT 'cloud',
+    Groep VARCHAR(60) NOT NULL DEFAULT '',
+    Titel VARCHAR(150) NOT NULL,
+    Slug VARCHAR(160) NOT NULL,
+    Icoon VARCHAR(30) NOT NULL DEFAULT 'server',
+    Samenvatting VARCHAR(255) NULL,
+    Inhoud MEDIUMTEXT NULL,
+    Afbeelding VARCHAR(190) NULL,
+    ProductGroep VARCHAR(40) NULL,
+    Zichtbaar TINYINT(1) NOT NULL DEFAULT 1,
+    Volgorde INT NOT NULL DEFAULT 0,
+    AangemaaktOp DATETIME NOT NULL,
+    BijgewerktOp DATETIME NULL,
+    UNIQUE KEY UkSlug (Slug),
+    KEY IxMenu (Categorie, Groep, Volgorde)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS BlogBerichten (
+    Id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Titel VARCHAR(190) NOT NULL,
+    Slug VARCHAR(200) NOT NULL,
+    Categorie VARCHAR(60) NOT NULL DEFAULT 'Nieuws',
+    Auteur VARCHAR(100) NULL,
+    PublicatieDatum DATE NOT NULL,
+    Samenvatting VARCHAR(400) NULL,
+    Inhoud MEDIUMTEXT NULL,
+    Afbeelding VARCHAR(190) NULL,
+    Zichtbaar TINYINT(1) NOT NULL DEFAULT 1,
+    AangemaaktOp DATETIME NOT NULL,
+    BijgewerktOp DATETIME NULL,
+    UNIQUE KEY UkSlug (Slug),
+    KEY IxDatum (Zichtbaar, PublicatieDatum)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS PortfolioItems (
+    Id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Titel VARCHAR(150) NOT NULL,
+    Slug VARCHAR(160) NOT NULL,
+    Klant VARCHAR(150) NULL,
+    Categorie VARCHAR(60) NOT NULL DEFAULT 'Website',
+    Url VARCHAR(255) NULL,
+    Samenvatting VARCHAR(400) NULL,
+    Inhoud MEDIUMTEXT NULL,
+    Afbeelding VARCHAR(190) NULL,
+    Zichtbaar TINYINT(1) NOT NULL DEFAULT 1,
+    Volgorde INT NOT NULL DEFAULT 0,
+    AangemaaktOp DATETIME NOT NULL,
+    BijgewerktOp DATETIME NULL,
+    UNIQUE KEY UkSlug (Slug)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS Logos (
+    Id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Groep VARCHAR(60) NOT NULL DEFAULT 'Webservers',
+    Naam VARCHAR(100) NOT NULL,
+    Url VARCHAR(255) NULL,
+    Afbeelding VARCHAR(190) NULL,
+    Zichtbaar TINYINT(1) NOT NULL DEFAULT 1,
+    Volgorde INT NOT NULL DEFAULT 0,
+    AangemaaktOp DATETIME NOT NULL,
+    BijgewerktOp DATETIME NULL,
+    KEY IxGroep (Groep, Volgorde)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS KennisbankArtikelen (
+    Id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Categorie VARCHAR(60) NOT NULL DEFAULT 'Algemeen',
+    Titel VARCHAR(190) NOT NULL,
+    Slug VARCHAR(200) NOT NULL,
+    Samenvatting VARCHAR(400) NULL,
+    Inhoud MEDIUMTEXT NULL,
+    Weergaven INT UNSIGNED NOT NULL DEFAULT 0,
+    Zichtbaar TINYINT(1) NOT NULL DEFAULT 1,
+    Volgorde INT NOT NULL DEFAULT 0,
+    AangemaaktOp DATETIME NOT NULL,
+    BijgewerktOp DATETIME NULL,
+    UNIQUE KEY UkSlug (Slug),
+    KEY IxCategorie (Categorie)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS Teamleden (
+    Id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Naam VARCHAR(120) NOT NULL,
+    Functie VARCHAR(120) NULL,
+    Bio TEXT NULL,
+    Email VARCHAR(190) NULL,
+    LinkedIn VARCHAR(255) NULL,
+    Afbeelding VARCHAR(190) NULL,
+    Zichtbaar TINYINT(1) NOT NULL DEFAULT 1,
+    Volgorde INT NOT NULL DEFAULT 0,
+    AangemaaktOp DATETIME NOT NULL,
+    BijgewerktOp DATETIME NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS Tijdlijn (
+    Id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Jaar VARCHAR(20) NOT NULL,
+    Titel VARCHAR(150) NOT NULL,
+    Soort ENUM('mijlpaal','lancering','overname') NOT NULL DEFAULT 'mijlpaal',
+    Verhaal TEXT NULL,
+    Afbeelding VARCHAR(190) NULL,
+    Zichtbaar TINYINT(1) NOT NULL DEFAULT 1,
+    Volgorde INT NOT NULL DEFAULT 0,
+    AangemaaktOp DATETIME NOT NULL,
+    BijgewerktOp DATETIME NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS Datacenters (
+    Id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Naam VARCHAR(120) NOT NULL,
+    Stad VARCHAR(100) NOT NULL,
+    Land VARCHAR(100) NOT NULL,
+    Latitude DECIMAL(9,5) NOT NULL DEFAULT 0,
+    Longitude DECIMAL(9,5) NOT NULL DEFAULT 0,
+    Omschrijving VARCHAR(400) NULL,
+    Status ENUM('actief','binnenkort') NOT NULL DEFAULT 'actief',
+    Zichtbaar TINYINT(1) NOT NULL DEFAULT 1,
+    Volgorde INT NOT NULL DEFAULT 0,
+    AangemaaktOp DATETIME NOT NULL,
+    BijgewerktOp DATETIME NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

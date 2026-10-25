@@ -10,6 +10,15 @@ $router->group('', ['csrf'], static function ($router): void {
     $router->get('/diensten', 'Frontend\\SiteController@services');
     $router->get('/diensten/{slug}', 'Frontend\\SiteController@product');
     $router->post('/diensten/{slug}/bestellen', 'Frontend\\SiteController@order', ['throttle:bestellen,10,60']);
+    $router->get('/oplossingen/{slug}', 'Frontend\\SiteController@page');
+    $router->get('/domeinen', 'Frontend\\SiteController@domains', ['throttle:domein,30,60']);
+    $router->get('/blog', 'Frontend\\SiteController@blog');
+    $router->get('/blog/{slug}', 'Frontend\\SiteController@blogPost');
+    $router->get('/portfolio', 'Frontend\\SiteController@portfolio');
+    $router->get('/portfolio/{slug}', 'Frontend\\SiteController@portfolioItem');
+    $router->get('/kennisbank', 'Frontend\\SiteController@knowledge');
+    $router->get('/kennisbank/{slug}', 'Frontend\\SiteController@article');
+    $router->get('/over-ons', 'Frontend\\SiteController@about');
     $router->get('/contact', 'Frontend\\SiteController@contact');
     $router->post('/contact', 'Frontend\\SiteController@sendContact', ['throttle:contact,5,60']);
     $router->get('/cron/{key}', 'Frontend\\SiteController@cron');
@@ -92,6 +101,13 @@ $router->group('beheer', ['csrf', 'auth', 'staff'], static function ($router): v
     $router->post('/tickets/{id}', 'Beheer\\TicketController@reply');
     $router->post('/tickets/{id}/status', 'Beheer\\TicketController@status');
     $router->delete('/tickets/{id}', 'Beheer\\TicketController@destroy');
+
+    $router->get('/website/{type}', 'Beheer\\ContentController@index');
+    $router->get('/website/{type}/nieuw', 'Beheer\\ContentController@create');
+    $router->post('/website/{type}', 'Beheer\\ContentController@store');
+    $router->get('/website/{type}/{id}', 'Beheer\\ContentController@edit');
+    $router->post('/website/{type}/{id}', 'Beheer\\ContentController@update');
+    $router->delete('/website/{type}/{id}', 'Beheer\\ContentController@destroy');
 
     $router->get('/producten', 'Beheer\\ProductController@index');
     $router->get('/producten/nieuw', 'Beheer\\ProductController@create');
