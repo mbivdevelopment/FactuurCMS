@@ -900,3 +900,9 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .pk-plus { list-style: none; margin-top: 2px; }
 .pk-plus a { display: inline-flex; align-items: center; gap: 6px; color: var(--primary); font-weight: 600; font-size: 13.5px; text-decoration: none; padding: 4px 0; }
 .pk-plus a:hover { text-decoration: underline; }
+.pk-specs { display: grid; gap: 10px; margin: 16px 0 4px; }
+.pk-spec { display: grid; grid-template-columns: 96px 1fr auto; align-items: center; gap: 10px; font-size: 13px; }
+.pk-spec .pk-sl { color: var(--muted); font-weight: 600; }
+.pk-spec .pk-sv { color: var(--navy); font-weight: 700; text-align: right; min-width: 64px; }
+.pk-sb { display: block; height: 7px; border-radius: 99px; background: var(--soft); overflow: hidden; }
+.pk-sf { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--primary), #ff7a45); }

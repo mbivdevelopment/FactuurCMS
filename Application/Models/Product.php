@@ -117,6 +117,49 @@ final class Product extends Model
         return $out;
     }
 
+    /**
+     * Bekende prestatie-specificaties uit de kenmerkteksten halen.
+     * @return array{specs: list<array{label:string, num:float, disp:string, max:float}>, rest: list<array{icoon:string, tekst:string}>}
+     */
+    public function specItems(): array
+    {
+        $defs = [
+            'cpu' => ['CPU', 400, '/([\d.,]+)\s*%?\s*cpu/i', 1.0, '%'],
+            'geheugen' => ['Geheugen', 8192, '/([\d.,]+)\s*(mb|gb)\s*(?:werk)?geheugen/i', 1024, 'MB'],
+            'schijf' => ['Schijfruimte', 500, '/([\d.,]+)\s*(gb|mb)\s*(?:nvme\s*)?(?:opslag|schijf|opslagruimte)/i', 1024, 'GB'],
+            'data' => ['Dataverkeer', 2000, '/([\d.,]+)\s*gb\s*dataverkeer/i', 1024, 'GB'],
+            'netwerk' => ['Netwerk', 2000, '/([\d.,]+)\s*mbit\/s/i', 1.0, 'Mbit/s'],
+        ];
+        $specs = [];
+        $rest = [];
+        foreach ($this->featureItems() as $f) {
+            $t = $f['tekst'];
+            $matched = false;
+            foreach ($defs as $key => [$label, $max, $re, $norm, $unit]) {
+                if (isset($specs[$key]) || !preg_match($re, $t, $mm)) {
+                    continue;
+                }
+                $val = (float) str_replace(',', '.', $mm[1]);
+                $kind = strtolower($mm[2] ?? '');
+                if ($key === 'geheugen' && $kind === 'gb') { $val *= 1024; }
+                if ($key === 'schijf' && $kind === 'mb') { $val /= 1024; }
+                $disp = $val >= 1000 && in_array($key, ['geheugen', 'schijf'], true)
+                    ? rtrim(rtrim(number_format($val / 1024, $val % 1024 ? 1 : 0, ',', ''), '0'), ',') . ' ' . ($key === 'geheugen' ? 'GB' : 'TB')
+                    : rtrim(rtrim(number_format($val, $val == (int) $val ? 0 : 1, ',', ''), '0'), ',') . ' ' . $unit;
+                $specs[$key] = ['label' => $label, 'num' => $val, 'disp' => $disp, 'max' => $max];
+                $matched = true;
+                break;
+            }
+            if (!$matched) {
+                $rest[] = $f;
+            }
+        }
+        uasort($specs, fn($a, $b) => 0);
+        $order = array_flip(['cpu', 'geheugen', 'schijf', 'data', 'netwerk']);
+        uksort($specs, fn($a, $b) => $order[$a] <=> $order[$b]);
+        return ['specs' => array_values($specs), 'rest' => $rest];
+    }
+
     /** @return list<string> */
     public function features(): array
     {
