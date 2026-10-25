@@ -316,3 +316,6 @@ dialog.confirm p { margin: 0; padding: 18px 18px 0; }
 
 /* Donker logo op navy: wit filter (alleen als er geen lichte logovariant is) */
 img[data-white] { filter: brightness(0) invert(1); }
+
+/* Geen tussenruimte/scheidingslijn tussen logo en menu */
+.nav-brand { padding-right: 0; margin-right: 0; border-right: 0; }
