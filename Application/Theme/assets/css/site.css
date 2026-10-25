@@ -416,3 +416,18 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .mega-link strong { display: block; line-height: 1.25; }
 .mega-link small { display: block; line-height: 1.35; margin-top: 2px; }
 .mega-link:hover .ml-i { background: var(--primary); color: #fff; }
+
+/* Megamenu: strakke kolomtitels en licht vak links */
+.mega-h { position: relative; gap: 8px; color: var(--navy); font-size: 12px; font-weight: 800; letter-spacing: .14em; padding: 0 12px 12px; margin-bottom: 8px; border-bottom: 1px solid var(--line); }
+.mega-h::after { content: ''; position: absolute; left: 12px; bottom: -1px; width: 28px; height: 2px; border-radius: 2px; background: var(--primary); }
+.mega-h span { width: auto; height: auto; background: none; color: var(--primary); border-radius: 0; }
+.mega-h span .icon { width: 16px; height: 16px; }
+.mega-aside { position: relative; overflow: hidden; color: var(--navy); background: radial-gradient(rgba(255, 90, 31, .16) 1px, transparent 1.2px) 0 0 / 14px 14px, linear-gradient(160deg, #fff7f1 0%, #ffe6d6 100%); border-right: 1px solid #ffd9c4; }
+.mega-aside::after { content: ''; position: absolute; right: -40px; bottom: -40px; width: 190px; height: 190px; opacity: .13; pointer-events: none; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff5a1f' stroke-width='1.4'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18'/%3E%3C/svg%3E") center / contain no-repeat; }
+.mega-aside > * { position: relative; z-index: 1; }
+.mega-aside-t { color: var(--navy); font-size: 18px; font-weight: 800; }
+.mega-aside-t .icon { color: var(--primary); }
+.mega-aside p { color: var(--muted); }
+.mega-aside .mini-search { border: 1px solid #ffd2b8; box-shadow: 0 8px 20px rgba(255, 90, 31, .12); }
+.mega-more { color: var(--navy); }
+.mega-more:hover { color: var(--primary); }
