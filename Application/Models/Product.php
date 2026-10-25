@@ -125,9 +125,9 @@ final class Product extends Model
     {
         $defs = [
             'cpu' => ['CPU', 400, '/([\d.,]+)\s*%?\s*cpu/i', 1.0, '%'],
-            'geheugen' => ['Geheugen', 8192, '/([\d.,]+)\s*(mb|gb)\s*(?:werk)?geheugen/i', 1024, 'MB'],
-            'schijf' => ['Schijfruimte', 500, '/([\d.,]+)\s*(gb|mb)\s*(?:nvme\s*)?(?:opslag|schijf|opslagruimte)/i', 1024, 'GB'],
-            'data' => ['Dataverkeer', 2000, '/([\d.,]+)\s*gb\s*dataverkeer/i', 1024, 'GB'],
+            'geheugen' => ['Geheugen', 8192, '/([\d.,]+)\s*(mb|gb)\s*[\w-]*?(geheugen|ram)/i', 1024, 'MB'],
+            'schijf' => ['Schijfruimte', 500, '/([\d.,]+)\s*(gb|mb)\s*[\w-]*?(opslag|schijf)/i', 1024, 'GB'],
+            'data' => ['Dataverkeer', 2000, '/([\d.,]+)\s*gb\s*[\w-]*?dataverkeer/i', 1024, 'GB'],
             'netwerk' => ['Netwerk', 2000, '/([\d.,]+)\s*mbit\/s/i', 1.0, 'Mbit/s'],
         ];
         $specs = [];
