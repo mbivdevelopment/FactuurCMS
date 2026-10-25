@@ -42,7 +42,9 @@ $user = auth_user(); ?>
                 <div class="dopts">
                     <label class="dopt"><input type="radio" name="DomeinActie" value="hebik" checked data-dactie><span class="dopt-b"><strong>Ik heb deze domeinnaam al</strong><small>We koppelen het pakket aan je bestaande domein.</small></span></label>
                     <label class="dopt"><input type="radio" name="DomeinActie" value="registreren" data-dactie><span class="dopt-b"><strong>Registreer bij <?= e(company_name()) ?></strong><small data-dprijs>Wij registreren de domeinnaam voor je; de prijs komt erbij.</small></span></label>
+                    <label class="dopt"><input type="radio" name="DomeinActie" value="verhuizen" data-dactie><span class="dopt-b"><strong>Verhuis mijn domein</strong><small>We verhuizen je domeinnaam naar ons; de verhuisprijs komt erbij.</small></span></label>
                 </div>
+                <div data-epp hidden><?= field('EppCode', 'Verhuiscode (EPP / authcode)', 'lock', '', 'text', [], 'placeholder="bijv. Xk9f-2LpQ-8mZn"') ?></div>
             </div></div>
             <?php endif; ?>
             <?php if ($termijnen !== []): ?>
@@ -87,11 +89,13 @@ $user = auth_user(); ?>
         var base = term ? parseInt(term.dataset.termprijs, 10) : <?= (int) $product->Prijs ?>;
         var dom = 0, domVat = 0, domName = '';
         var actie = document.querySelector('input[name="DomeinActie"]:checked');
+        var epp = document.querySelector('[data-epp]');
+        if (epp) epp.hidden = !(actie && actie.value === 'verhuizen');
         var inp = document.querySelector('[data-domein]');
-        if (actie && actie.value === 'registreren' && inp && inp.value) {
+        if (actie && (actie.value === 'registreren' || actie.value === 'verhuizen') && inp && inp.value) {
             var parts = inp.value.trim().toLowerCase().split('.');
             var ext = parts.length > 1 ? parts[parts.length - 1] : '';
-            if (exts[ext]) { dom = exts[ext].prijs; domVat = exts[ext].btw; domName = 'Registratie ' + inp.value.trim(); }
+            if (exts[ext]) { dom = exts[ext].prijs; domVat = exts[ext].btw; domName = (actie.value === 'verhuizen' ? 'Verhuizing ' : 'Registratie ') + inp.value.trim(); }
         }
         document.querySelectorAll('[data-dom-line]').forEach(function (el) {
             el.hidden = !domName;

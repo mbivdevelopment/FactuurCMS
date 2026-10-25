@@ -102,14 +102,14 @@ final class Billing
                 'KlantId' => $customer->id(),
                 'ProductId' => $ext->id(),
                 'Naam' => $domain['domein'],
-                'Omschrijving' => 'Registratie',
+                'Omschrijving' => ($domain['actie'] ?? 'registreren') === 'verhuizen' ? 'Verhuizing' : 'Registratie',
                 'Prijs' => (int) $ext->Prijs,
                 'BtwTarief' => (float) $ext->BtwTarief,
                 'Periode' => $ext->Periode === 'eenmalig' ? 'jaar' : $ext->Periode,
                 'Status' => 'in_afwachting',
                 'StartDatum' => date('Y-m-d'),
                 'VolgendeFactuur' => date('Y-m-d'),
-                'Gegevens' => ['domein' => ['naam' => $domain['domein'], 'actie' => 'registreren']],
+                'Gegevens' => ['domein' => array_filter(['naam' => $domain['domein'], 'actie' => $domain['actie'] ?? 'registreren', 'authcode' => ($domain['authcode'] ?? '') !== '' ? \App\Core\Crypt::encrypt((string) $domain['authcode']) : null], static fn ($v): bool => $v !== null)],
             ]);
         }
         $extra = (int) $product->Instelkosten > 0
