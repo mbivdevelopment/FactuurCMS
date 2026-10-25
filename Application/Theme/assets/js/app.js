@@ -159,7 +159,12 @@ document.addEventListener('change', ev => {
     sel.selectedIndex = 0;
 });
 
-/* Megamenu: link naar huidige #tab actief markeren. */
-const markHashLinks = () => document.querySelectorAll('.drop-link[href*="#"]').forEach(a => { const u = new URL(a.href); a.classList.toggle('active', u.pathname === location.pathname && u.hash === (location.hash || '#' + (document.querySelector('.tab-pane')?.dataset.pane ?? ''))); });
+/* Megamenu: links met #tab of ?filter actief markeren als ze precies de huidige weergave zijn. */
+const markHashLinks = () => document.querySelectorAll('.drop-link[href*="#"], .drop-link[href*="?"]').forEach(a => {
+    const u = new URL(a.href);
+    const hash = location.hash || '#' + (document.querySelector('.tab-pane')?.dataset.pane ?? '');
+    a.classList.toggle('active', u.pathname === location.pathname && (u.hash ? u.hash === hash : u.search === location.search));
+    if (a.classList.contains('active')) a.closest('.nav-drop')?.querySelectorAll('.drop-link:not([href*="?"]):not([href*="#"])').forEach(b => { if (new URL(b.href).pathname === u.pathname) b.classList.remove('active'); });
+});
 document.addEventListener('DOMContentLoaded', markHashLinks);
 window.addEventListener('hashchange', markHashLinks);

@@ -20,8 +20,18 @@ final class ServiceController extends Controller
     {
         $status = $request->string('status');
         $q = $request->string('q');
-        $sql = 'SELECT s.*, g.Bedrijfsnaam, g.Voornaam, g.Achternaam FROM Diensten s JOIN Gebruikers g ON g.Id = s.KlantId WHERE 1 = 1';
+        $group = $request->string('groep');
+        $due = $request->int('verloopt');
+        $sql = 'SELECT s.*, g.Bedrijfsnaam, g.Voornaam, g.Achternaam FROM Diensten s JOIN Gebruikers g ON g.Id = s.KlantId LEFT JOIN Producten p ON p.Id = s.ProductId WHERE 1 = 1';
         $params = [];
+        if ($group !== '') {
+            $sql .= ' AND p.Groep = ?';
+            $params[] = $group;
+        }
+        if ($due > 0) {
+            $sql .= " AND s.Status = 'actief' AND s.VolgendeFactuur IS NOT NULL AND s.VolgendeFactuur <= ?";
+            $params[] = date('Y-m-d', strtotime('+' . $due . ' days'));
+        }
         if ($status !== '') {
             $sql .= ' AND s.Status = ?';
             $params[] = $status;
@@ -31,7 +41,7 @@ final class ServiceController extends Controller
             array_push($params, ...array_fill(0, 4, '%' . $q . '%'));
         }
 
-        return $this->view('beheer.services.index', ['page' => Database::page($sql, $params, 's.Id DESC', 15), 'status' => $status, 'q' => $q]);
+        return $this->view('beheer.services.index', ['page' => Database::page($sql, $params, 's.Id DESC', 15), 'status' => $status, 'q' => $q, 'group' => $group, 'due' => $due]);
     }
 
     public function create(Request $request): Response
