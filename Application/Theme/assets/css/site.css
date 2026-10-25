@@ -819,3 +819,8 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 @media (prefers-reduced-motion: reduce) { .hh-rack, .hh-img, .hh-badge, .hh-f, .hh-leds b { animation: none; } }
 @media (max-width: 1000px) { .hh-in { grid-template-columns: minmax(0, 1fr); gap: 30px; } .hh-visual { order: 2; min-height: 300px; } .hhero { padding: 44px 0 50px; } .hh-f2, .hh-f3, .hh-f6, .hh-f7 { display: none; } }
 @media (max-width: 640px) { .hh-badge { font-size: 12px; padding: 8px 10px; } .hh-b1 { left: 0; } .hh-b2 { right: 0; } .hh-btns .btn { flex: 1; justify-content: center; } .hh-f { width: 40px; height: 40px; } }
+.hh-visual { justify-items: start; }
+.hh-rack, .hh-img { margin-left: 0; }
+.hh-b1 { left: auto; right: 8%; top: 12%; }
+.hh-b2 { right: 2%; bottom: 12%; }
+@media (max-width: 1000px) { .hh-visual { justify-items: center; } .hh-b1 { right: 0; } .hh-b2 { right: 0; } }
