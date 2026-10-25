@@ -61,14 +61,14 @@ $homeText = (string) (setting('home.tekst', '') ?: 'Bij ' . company_name() . ' d
         <div class="sec-head center"><div><span class="eyebrow"><?= icon('star', 'icon icon-sm') ?> Waarom <?= e(company_name()) ?></span><h2>Daarom kiezen ondernemers voor ons</h2><p>Geen gedoe, geen verrassingen: wij regelen de techniek zodat jij kunt ondernemen.</p></div></div>
         <div class="why-grid">
             <?php foreach ([
-                ['zap', 'orange', 'Supersnelle NVMe-servers', 'Jouw website laadt razendsnel op moderne SSD-opslag in Nederlandse datacenters.'],
-                ['shield', 'navy', 'Eigen netwerk & 24/7-monitoring', 'Wij beheren ons eigen netwerk en houden dag en nacht een oogje op de servers.'],
-                ['headset', 'green', 'Support van echte specialisten', 'Korte lijnen met mensen die je kennen en je verder helpen — geen wachtrij.'],
-                ['tag', 'purple', 'Eerlijke, heldere prijzen', 'Geen verrassingen: je ziet vooraf wat je betaalt en zit nergens aan vast.'],
-                ['refresh', 'blue', 'Dagelijkse back-ups', 'Van alles staat een kopie klaar. Per ongeluk iets kwijt? Wij zetten het terug.'],
-                ['lock', 'red', 'Gratis SSL bij iedere domeinnaam', 'Veilig vanaf dag één: elk domein krijgt automatisch een SSL-certificaat.'],
+                ['zap', 'orange', 'Supersnelle NVMe-servers', 'Razendsnelle SSD-opslag in Nederlandse datacenters.'],
+                ['shield', 'navy', 'Eigen netwerk & 24/7-monitoring', 'Dag en nacht een oogje op de servers.'],
+                ['headset', 'green', 'Support van echte specialisten', 'Korte lijnen met mensen die je kennen.'],
+                ['tag', 'purple', 'Eerlijke, heldere prijzen', 'Je ziet vooraf wat je betaalt — geen verrassingen.'],
+                ['refresh', 'blue', 'Dagelijkse back-ups', 'Van alles staat een kopie klaar.'],
+                ['lock', 'red', 'Gratis SSL bij iedere domeinnaam', 'Veilig vanaf dag één, automatisch geregeld.'],
             ] as [$ic, $tint, $titel, $tekst]): ?>
-            <div class="why-card why-<?= $tint ?>"><span class="pk-i"><?= icon($ic) ?></span><strong><?= e($titel) ?></strong><small><?= e($tekst) ?></small></div>
+            <div class="why-card why-<?= $tint ?>"><span class="pk-i"><?= icon($ic) ?></span><span class="why-t"><strong><?= e($titel) ?></strong><small><?= e($tekst) ?></small></span></div>
             <?php endforeach; ?>
         </div>
     </div>

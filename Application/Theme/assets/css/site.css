@@ -891,3 +891,9 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .dc-perks { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 10px; }
 .dc-perks li { display: flex; align-items: center; gap: 10px; font-size: 15px; color: var(--navy); font-weight: 600; }
 .dc-perks .icon { color: #16a34a; flex: none; }
+.why-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.why-card { flex-direction: row; align-items: center; padding: 18px 20px; gap: 16px; }
+.why-card .pk-i { flex: none; margin-bottom: 0; }
+.why-t { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.why-t small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 640px) { .why-grid { grid-template-columns: minmax(0, 1fr); } }
