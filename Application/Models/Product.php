@@ -126,8 +126,6 @@ final class Product extends Model
         $defs = [
             'cpu' => ['CPU', 400, '/([\d.,]+)\s*%?\s*cpu/i', 1.0, '%'],
             'geheugen' => ['Geheugen', 8192, '/([\d.,]+)\s*(mb|gb)\s*[\w-]*?(geheugen|ram)/i', 1024, 'MB'],
-            'schijf' => ['Schijfruimte', 500, '/([\d.,]+)\s*(gb|mb)\s*[\w-]*?(opslag|schijf)/i', 1024, 'GB'],
-            'data' => ['Dataverkeer', 2000, '/([\d.,]+)\s*gb\s*[\w-]*?dataverkeer/i', 1024, 'GB'],
             'netwerk' => ['Netwerk', 2000, '/([\d.,]+)\s*mbit\/s/i', 1.0, 'Mbit/s'],
         ];
         $specs = [];
@@ -155,7 +153,7 @@ final class Product extends Model
             }
         }
         uasort($specs, fn($a, $b) => 0);
-        $order = array_flip(['cpu', 'geheugen', 'schijf', 'data', 'netwerk']);
+        $order = array_flip(['cpu', 'geheugen', 'netwerk']);
         uksort($specs, fn($a, $b) => $order[$a] <=> $order[$b]);
         return ['specs' => array_values($specs), 'rest' => $rest];
     }
