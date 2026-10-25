@@ -842,3 +842,14 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 @media (max-width: 1500px) { .hh-f4, .hh-f5 { display: none; } }
 @media (max-width: 640px) { .hh-in { gap: 22px; } .hh-rack { width: 200px; padding: 10px 10px 0; gap: 6px; } .hh-unit { height: 28px; padding: 0 10px; } .hh-bays i { height: 14px; width: 9px; } .hh-base { height: 10px; margin: 0 -10px; } .hh-pills { gap: 6px; } .hh-pills span { font-size: 12.5px; padding: 6px 11px; } }
 @media (max-width: 1500px) { .hh-f0, .hh-f1 { display: none; } }
+
+/* Hero in Qevanto-kleuren: navy + oranje */
+.hhero { background: radial-gradient(900px 340px at 85% -10%, rgba(255, 90, 31, .32), transparent 60%), radial-gradient(700px 340px at 8% 110%, rgba(255, 90, 31, .14), transparent 60%), linear-gradient(160deg, var(--navy-3), var(--navy)); }
+.hh-text h1 { color: #fff; }
+.hh-text p { color: rgba(255, 255, 255, .72); }
+.hh-pills span { background: rgba(255, 255, 255, .07); color: #fff; border: 1px solid rgba(255, 255, 255, .12); box-shadow: none; }
+.site .hh-btns .btn-ghost { border-color: rgba(255, 255, 255, .28); background: rgba(255, 255, 255, .04); color: #fff; }
+.site .hh-btns .btn-ghost:hover { border-color: rgba(255, 255, 255, .6); }
+.hh-f { background: rgba(255, 255, 255, .07); color: rgba(255, 255, 255, .8); opacity: .5; }
+.hh-rack { background: linear-gradient(160deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .04)); border: 1px solid rgba(255, 255, 255, .14); box-shadow: 0 40px 60px -20px rgba(0, 0, 0, .5); }
+.hh-img { filter: drop-shadow(0 30px 40px rgba(0, 0, 0, .45)); }
