@@ -242,8 +242,12 @@ final class IntegrationController extends Controller
         }
         $owners = self::domainOwners();
         $byProduct = [];
-        foreach (Database::all('SELECT Id, Naam FROM Producten') as $p) {
+        $byPackage = [];
+        foreach (Database::all('SELECT Id, Naam, Bron, ExternId FROM Producten') as $p) {
             $byProduct[strtolower((string) $p['Naam'])] = (int) $p['Id'];
+            if ($p['Bron'] === 'qevanto') {
+                $byPackage[(string) $p['ExternId']] = (int) $p['Id'];
+            }
         }
         $rows = [];
         foreach ($subs as $s) {
@@ -259,12 +263,13 @@ final class IntegrationController extends Controller
                 'label' => (string) ($s['label'] ?? ''),
                 'status' => (string) ($s['status'] ?? ''),
                 'package' => (string) ($s['package']['name'] ?? ''),
+                'kind' => (string) ($s['package']['kind'] ?? 'hosting'),
                 'server' => (string) ($s['server']['name'] ?? ''),
                 'user' => $user,
                 'domains' => $domains,
                 'imported' => isset($imported[(string) ($s['id'] ?? '')]),
                 'klant' => $klant ?: (($user['email'] ?? '') !== '' ? 'nieuw' : ''),
-                'product' => $byProduct[strtolower((string) ($s['package']['name'] ?? ''))] ?? 0,
+                'product' => $byPackage['pakket-' . (int) ($s['packageId'] ?? $s['package']['id'] ?? 0)] ?? $byProduct[strtolower((string) ($s['package']['name'] ?? ''))] ?? 0,
             ];
         }
         $products = [];
@@ -333,9 +338,84 @@ final class IntegrationController extends Controller
             $imported[(string) $id] = true;
             $done++;
         }
-        $message = $done . ' hostingabonnement(en) als dienst geïmporteerd' . ($created > 0 ? ', ' . $created . ' nieuwe klant(en) aangemaakt' : '') . '.' . ($skipped !== [] ? ' Zonder klant overgeslagen: ' . implode(', ', $skipped) . '.' : '');
+        $message = $done . ' abonnement(en) als dienst geïmporteerd' . ($created > 0 ? ', ' . $created . ' nieuwe klant(en) aangemaakt' : '') . '.' . ($skipped !== [] ? ' Zonder klant overgeslagen: ' . implode(', ', $skipped) . '.' : '');
 
         return $this->redirect('/beheer/koppelingen/qevanto/diensten')->with($done > 0 || $skipped === [] ? 'success' : 'error', $message);
+    }
+
+    public function qevantoPackages(Request $request): Response
+    {
+        try {
+            $packages = QevantoPaneel::packages();
+        } catch (\Throwable $e) {
+            return $this->redirect('/beheer/koppelingen#qevanto')->with('error', $e->getMessage());
+        }
+        $linked = [];
+        $byName = [];
+        foreach (Database::all('SELECT Id, Naam, Prijs, Periode, Bron, ExternId FROM Producten') as $p) {
+            if ($p['Bron'] === 'qevanto') {
+                $linked[(string) $p['ExternId']] = $p;
+            }
+            $byName[strtolower((string) $p['Naam'])] ??= $p;
+        }
+        $rows = [];
+        foreach ($packages as $pkg) {
+            $product = $linked['pakket-' . (int) ($pkg['id'] ?? 0)] ?? $byName[strtolower((string) ($pkg['name'] ?? ''))] ?? null;
+            $rows[] = ['id' => (int) ($pkg['id'] ?? 0), 'name' => (string) ($pkg['name'] ?? ''), 'kind' => (string) ($pkg['kind'] ?? 'hosting'), 'active' => (bool) ($pkg['active'] ?? true), 'limits' => (array) ($pkg['limits'] ?? []), 'product' => $product, 'linked' => isset($linked['pakket-' . (int) ($pkg['id'] ?? 0)])];
+        }
+
+        return $this->view('beheer.integrations.qevanto-packages', ['rows' => $rows]);
+    }
+
+    public function qevantoImportPackages(Request $request): Response
+    {
+        try {
+            $packages = [];
+            foreach (QevantoPaneel::packages() as $pkg) {
+                $packages[(int) ($pkg['id'] ?? 0)] = $pkg;
+            }
+        } catch (\Throwable $e) {
+            return $this->redirect('/beheer/koppelingen/qevanto/pakketten')->with('error', $e->getMessage());
+        }
+        $prices = (array) ($request->input('prijs') ?? []);
+        $periods = (array) ($request->input('periode') ?? []);
+        $new = 0;
+        $updated = 0;
+        foreach ((array) ($request->input('pakket') ?? []) as $id) {
+            $id = (int) $id;
+            $pkg = $packages[$id] ?? null;
+            if ($pkg === null) {
+                continue;
+            }
+            $name = trim((string) ($pkg['name'] ?? '')) ?: 'Pakket ' . $id;
+            [, $group, $soort] = QevantoPaneel::KINDS[(string) ($pkg['kind'] ?? '')] ?? ['', 'Overig', null];
+            $price = parse_money($prices[$id] ?? '');
+            $period = in_array($periods[$id] ?? '', ['maand', 'kwartaal', 'jaar'], true) ? (string) $periods[$id] : 'maand';
+            $existing = Database::first("SELECT Id FROM Producten WHERE Bron = 'qevanto' AND ExternId = ?", ['pakket-' . $id])
+                ?? Database::first('SELECT Id FROM Producten WHERE LOWER(Naam) = ? AND Bron IS NULL', [strtolower($name)]);
+            if ($existing !== null) {
+                Database::update('Producten', ['Prijs' => $price, 'Periode' => $period, 'Bron' => 'qevanto', 'ExternId' => 'pakket-' . $id, 'BijgewerktOp' => now()], ['Id' => $existing['Id']]);
+                $updated++;
+                continue;
+            }
+            Product::create([
+                'Groep' => $group,
+                'Dienstsoort' => $soort,
+                'Naam' => $name,
+                'Slug' => self::uniqueSlug(slugify($name) ?: 'pakket-' . $id),
+                'Omschrijving' => QevantoPaneel::kindLabel((string) ($pkg['kind'] ?? '')) . '-pakket uit het Qevanto hostingpaneel.',
+                'Kenmerken' => '[]',
+                'Prijs' => $price,
+                'Periode' => $period,
+                'BtwTarief' => 21,
+                'Zichtbaar' => 0,
+                'Bron' => 'qevanto',
+                'ExternId' => 'pakket-' . $id,
+            ]);
+            $new++;
+        }
+
+        return $this->redirect('/beheer/koppelingen/qevanto/pakketten')->with('success', $new . ' pakket(ten) als product toegevoegd, ' . $updated . ' bestaand(e) bijgewerkt.');
     }
 
     /** @param array<string, mixed> $user @return array{0: int, 1: bool} */

@@ -26,7 +26,7 @@ $test = static fn (string $name): string => '<button class="btn btn-ghost" forma
     <form class="card" id="qevanto" method="post" action="<?= e(url('/beheer/koppelingen/qevanto')) ?>"><?= csrf_field() ?>
         <div class="card-head"><h2><?= icon('server') ?> Qevanto hostingpaneel</h2><?= $state($set['qevanto']) ?></div>
         <div class="card-body">
-            <p class="integration-note">Importeer de hostingabonnementen uit het paneel als diensten bij je klanten. Gebruik een API-sleutel (qv_…) van een beheerdersaccount.</p>
+            <p class="integration-note">Importeer de pakketten uit het paneel als producten, en de abonnementen (hosting, reseller, VPN en werkplekken) als diensten bij je klanten. Gebruik een API-sleutel (qv_…) van een beheerdersaccount.</p>
             <div class="form-grid">
                 <?= field('qevanto_url', 'Adres van het paneel', 'globe', (string) setting('qevanto.url', ''), 'url', [], 'placeholder="https://hosting.qevanto.nl"') ?>
                 <?= $secret('qevanto_token', 'API-sleutel', $set['qevanto']) ?>
@@ -35,6 +35,7 @@ $test = static fn (string $name): string => '<button class="btn btn-ghost" forma
         <div class="card-foot row">
             <button class="btn"><?= icon('check', 'icon icon-sm') ?> Opslaan</button>
             <?php if ($set['qevanto']): ?><?= $test('qevanto') ?>
+            <a class="btn btn-ghost" href="<?= e(url('/beheer/koppelingen/qevanto/pakketten')) ?>"><?= icon('box', 'icon icon-sm') ?> Pakketten importeren</a>
             <a class="btn btn-ghost" href="<?= e(url('/beheer/koppelingen/qevanto/diensten')) ?>"><?= icon('download', 'icon icon-sm') ?> Diensten importeren</a><?php endif; ?>
         </div>
     </form>

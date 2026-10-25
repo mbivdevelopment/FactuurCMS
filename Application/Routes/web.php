@@ -220,6 +220,8 @@ $router->group('beheer', ['csrf', 'auth', 'admin'], static function ($router): v
     $router->post('/koppelingen/realtimeregister/extensies', 'Beheer\\IntegrationController@rrImportTlds');
     $router->get('/koppelingen/qevanto/diensten', 'Beheer\\IntegrationController@qevanto');
     $router->post('/koppelingen/qevanto/diensten', 'Beheer\\IntegrationController@qevantoImport');
+    $router->get('/koppelingen/qevanto/pakketten', 'Beheer\\IntegrationController@qevantoPackages');
+    $router->post('/koppelingen/qevanto/pakketten', 'Beheer\\IntegrationController@qevantoImportPackages');
     $router->post('/koppelingen/{naam}', 'Beheer\\IntegrationController@save');
     $router->post('/koppelingen/{naam}/test', 'Beheer\\IntegrationController@test');
 });
