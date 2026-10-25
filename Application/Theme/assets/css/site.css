@@ -841,3 +841,4 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 @media (max-width: 640px) { .hh-rack { width: 220px; } .hh-f { display: none; } }
 @media (max-width: 1500px) { .hh-f4, .hh-f5 { display: none; } }
 @media (max-width: 640px) { .hh-in { gap: 22px; } .hh-rack { width: 200px; padding: 10px 10px 0; gap: 6px; } .hh-unit { height: 28px; padding: 0 10px; } .hh-bays i { height: 14px; width: 9px; } .hh-base { height: 10px; margin: 0 -10px; } .hh-pills { gap: 6px; } .hh-pills span { font-size: 12.5px; padding: 6px 11px; } }
+@media (max-width: 1500px) { .hh-f0, .hh-f1 { display: none; } }
