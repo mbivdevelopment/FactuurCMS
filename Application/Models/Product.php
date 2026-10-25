@@ -64,8 +64,27 @@ final class Product extends Model
     protected static array $json = ['Kenmerken'];
 
     /** @return list<string> */
+    /** Iconen die je bij een kenmerk kunt kiezen. */
+    public const FEATURE_ICONS = ['check' => 'Vinkje', 'server' => 'Server', 'globe' => 'Wereldbol', 'mail' => 'E-mail', 'box' => 'Opslag', 'cpu' => 'Processor', 'cloud' => 'Cloud', 'zap' => 'Snelheid', 'lock' => 'Slot', 'shield' => 'Beveiliging', 'refresh' => 'Back-up', 'users' => 'Gebruikers', 'headset' => 'Support', 'clock' => 'Tijd', 'code' => 'Code', 'layout' => 'Pagina', 'cart' => 'Winkelwagen', 'trend' => 'Groei', 'link' => 'Link', 'chat' => 'Chat', 'star' => 'Ster', 'phone' => 'Telefoon', 'calendar' => 'Kalender', 'tag' => 'Label'];
+
+    /** Kenmerken als [icoon, tekst]; oude kenmerken (alleen tekst) krijgen een vinkje. @return list<array{icoon: string, tekst: string}> */
+    public function featureItems(): array
+    {
+        $out = [];
+        foreach ((array) $this->Kenmerken as $item) {
+            $text = trim((string) (is_array($item) ? ($item['tekst'] ?? '') : $item));
+            $icon = is_array($item) && isset(self::FEATURE_ICONS[$item['icoon'] ?? '']) ? (string) $item['icoon'] : 'check';
+            if ($text !== '') {
+                $out[] = ['icoon' => $icon, 'tekst' => $text];
+            }
+        }
+
+        return $out;
+    }
+
+    /** @return list<string> */
     public function features(): array
     {
-        return array_values(array_filter(array_map('strval', (array) $this->Kenmerken)));
+        return array_column($this->featureItems(), 'tekst');
     }
 }

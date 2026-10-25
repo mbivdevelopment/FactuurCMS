@@ -67,7 +67,10 @@ final class ProductController extends Controller
         return $data + [
             'Slug' => $slug,
             'Dienstsoort' => in_array($request->string('Dienstsoort'), array_merge(...array_map('array_keys', array_values(Product::SOORTEN))), true) ? $request->string('Dienstsoort') : null,
-            'Kenmerken' => array_values(array_filter(array_map('trim', preg_split('/\R/', $request->string('Kenmerken')) ?: []))),
+            'Kenmerken' => array_values(array_filter(array_map(static fn ($row): array => [
+                'icoon' => isset(Product::FEATURE_ICONS[$row['icoon'] ?? '']) ? (string) $row['icoon'] : 'check',
+                'tekst' => trim((string) ($row['tekst'] ?? '')),
+            ], array_filter((array) ($request->input('Kenmerk') ?? []), 'is_array')), static fn (array $row): bool => $row['tekst'] !== '')),
             'Prijs' => parse_money($request->string('Prijs')),
             'Instelkosten' => parse_money($request->string('Instelkosten')),
             'BtwTarief' => (float) str_replace(',', '.', $request->string('BtwTarief', '21')),

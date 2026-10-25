@@ -7,7 +7,7 @@ $limitLabels = ['diskMb' => ['Opslag', 'MB'], 'websites' => ['Websites', ''], 'm
         <thead><tr><th><input type="checkbox" data-check-all aria-label="Alles selecteren"></th><th>Pakket</th><th>Soort</th><th>Kenmerken (uit het paneel)</th><th>Verkoopprijs (€)</th><th>Periode</th><th>Product</th></tr></thead>
         <tbody>
         <?php foreach ($rows as $r): $kind = \App\Services\QevantoPaneel::KINDS[$r['kind']] ?? null;
-            $limits = \App\Services\QevantoPaneel::features($r['limits']); ?>
+            $limits = array_column(\App\Services\QevantoPaneel::features($r['limits']), 'tekst'); ?>
             <tr>
                 <td><input type="checkbox" name="pakket[]" value="<?= (int) $r['id'] ?>" <?= $r['product'] === null ? 'checked' : '' ?>></td>
                 <td><strong><?= e($r['name']) ?></strong><?php if (!$r['active']): ?><div class="small muted">Niet actief in het paneel</div><?php endif; ?></td>

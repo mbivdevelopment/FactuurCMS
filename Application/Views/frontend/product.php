@@ -7,7 +7,7 @@
                 <div class="small" style="color:var(--primary);font-weight:600"><?= e($product->Groep) ?></div>
                 <h1><?= e($product->Naam) ?></h1>
                 <p class="muted"><?= nl2br(e($product->Omschrijving)) ?></p>
-                <ul class="plan" style="padding:0;list-style:none"><?php foreach ($product->features() as $f): ?><li style="display:flex;gap:8px;padding:5px 0"><span style="color:var(--ok)"><?= icon('check', 'icon icon-sm') ?></span> <?= e($f) ?></li><?php endforeach; ?></ul>
+                <ul class="plan" style="padding:0;list-style:none"><?php foreach ($product->featureItems() as $f): ?><li style="display:flex;gap:8px;padding:5px 0"><span style="color:var(--ok)"><?= icon($f['icoon'], 'icon icon-sm') ?></span> <?= e($f['tekst']) ?></li><?php endforeach; ?></ul>
             </div></div>
             <form class="card" method="post" action="<?= e(url($product->path() . '/bestellen')) ?>">
                 <?= csrf_field() ?>

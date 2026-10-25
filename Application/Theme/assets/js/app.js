@@ -194,3 +194,34 @@ document.addEventListener('click', function (e) {
     var close = e.target.closest('[data-close]');
     if (close) { var d = close.closest('dialog'); if (d) { d.close(); } }
 });
+
+/* Kenmerken-rijen: toevoegen, verwijderen, icoon kiezen en verslepen. */
+document.querySelectorAll('[data-features]').forEach(function (list) {
+    var field = list.closest('.field');
+    var tpl = field.querySelector('[data-feature-template]');
+    var icons = {};
+    field.querySelectorAll('[data-feature-icons] [data-icon]').forEach(function (s) { icons[s.dataset.icon] = s.innerHTML; });
+    if (!Object.keys(icons).length) { tpl && tpl.content.querySelectorAll('x').length; }
+    var iconTpl = field.querySelector('[data-feature-icons]');
+    if (iconTpl) { iconTpl.content.querySelectorAll('[data-icon]').forEach(function (s) { icons[s.dataset.icon] = s.innerHTML; }); }
+    var n = list.children.length;
+    field.querySelector('[data-feature-add]').addEventListener('click', function () {
+        list.insertAdjacentHTML('beforeend', tpl.innerHTML.replace(/__i__/g, 'n' + (n++)));
+        list.lastElementChild.querySelector('.feature-text').focus();
+    });
+    list.addEventListener('click', function (e) { var b = e.target.closest('[data-feature-remove]'); if (b) { b.closest('.feature-row').remove(); } });
+    list.addEventListener('change', function (e) {
+        if (e.target.matches('.feature-icon') && icons[e.target.value]) { e.target.closest('.feature-row').querySelector('.feature-preview').innerHTML = icons[e.target.value]; }
+    });
+    var dragged = null;
+    list.addEventListener('dragstart', function (e) { dragged = e.target.closest('.feature-row'); if (dragged) { dragged.classList.add('is-dragging'); } });
+    list.addEventListener('dragend', function () { if (dragged) { dragged.classList.remove('is-dragging'); } dragged = null; });
+    list.addEventListener('dragover', function (e) {
+        e.preventDefault();
+        var over = e.target.closest('.feature-row');
+        if (!dragged || !over || over === dragged) { return; }
+        var r = over.getBoundingClientRect();
+        list.insertBefore(dragged, e.clientY > r.top + r.height / 2 ? over.nextSibling : over);
+    });
+    if (!n) { field.querySelector('[data-feature-add]').click(); }
+});
