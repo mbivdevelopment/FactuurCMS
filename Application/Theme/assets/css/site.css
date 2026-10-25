@@ -754,3 +754,20 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .phero-r { grid-template-columns: minmax(0, 1fr); }
 .dsearch-sm input { width: 0; flex: 1 1 auto; }
 @media (max-width: 640px) { .site .dsearch-sm .btn { padding: 0 12px; } }
+
+/* Hero op één lijn */
+.phero { padding: 14px 0 18px; }
+.phero-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: 32px; }
+.phero .crumbs { margin-bottom: 8px; font-size: 12.5px; }
+.phero-row { gap: 12px; }
+.phero-i { width: 40px; height: 40px; border-radius: 10px; }
+.phero-i .icon { width: 21px; height: 21px; }
+.phero-row > div { display: flex; align-items: baseline; gap: 14px; min-width: 0; }
+.phero h1 { font-size: 25px; margin: 0; white-space: nowrap; }
+.phero p { font-size: 14.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-left: 14px; border-left: 1px solid rgba(255, 255, 255, .22); min-width: 0; }
+.phero-r { align-self: end; }
+.dsearch.dsearch-sm { padding: 5px; border-radius: 10px; }
+.dsearch-sm input { height: 40px; font-size: 15px; }
+.site .dsearch-sm .btn { height: 40px; }
+@media (max-width: 1000px) { .phero-grid { gap: 12px; } .phero-r { align-self: auto; } }
+@media (max-width: 640px) { .phero-row > div { flex-direction: column; gap: 2px; } .phero h1 { white-space: normal; font-size: 22px; } .phero p { white-space: normal; padding-left: 0; border-left: 0; } }
