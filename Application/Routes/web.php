@@ -196,4 +196,7 @@ $router->group('beheer', ['csrf', 'auth', 'admin'], static function ($router): v
     $router->post('/updates', 'Beheer\\UpdateController@save');
     $router->post('/updates/installeren', 'Beheer\\UpdateController@install');
     $router->post('/updates/migraties', 'Beheer\\UpdateController@migrate');
+
+    $router->get('/demo-data', 'Beheer\\DemoController@index');
+    $router->post('/demo-data', 'Beheer\\DemoController@destroy');
 });

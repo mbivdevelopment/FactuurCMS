@@ -17,6 +17,11 @@ final class User extends Model
         return ($attributes['Rol'] ?? 'klant') === 'klant' ? 'K' : 'M';
     }
 
+    protected static function reusesNumbers(string $prefix): bool
+    {
+        return $prefix === 'K';
+    }
+
     public function isStaff(): bool
     {
         return in_array($this->Rol, ['beheerder', 'medewerker'], true);

@@ -128,15 +128,29 @@ abstract class Model
         return static::$prefix;
     }
 
-    /** Volgend nummer: prefix + 5 cijfers, doorlopend per prefix binnen de tabel. */
+    /** Of vrijgekomen nummers (bv. na verwijderen) opnieuw uitgegeven worden. */
+    protected static function reusesNumbers(string $prefix): bool
+    {
+        return false;
+    }
+
+    /** Volgend nummer: prefix + 5 cijfers, doorlopend per prefix binnen de tabel, of het laagste vrije nummer. */
     public static function nextNumber(string $prefix): string
     {
-        $max = (int) Database::scalar(
-            'SELECT MAX(CAST(SUBSTRING(Nummer, ?) AS UNSIGNED)) FROM `' . static::$table . '` WHERE Nummer LIKE ? AND SUBSTRING(Nummer, ?) REGEXP \'^[0-9]+$\'',
-            [strlen($prefix) + 1, $prefix . '%', strlen($prefix) + 1],
-        );
+        $start = strlen($prefix) + 1;
+        $where = ' FROM `' . static::$table . '` WHERE Nummer LIKE ? AND SUBSTRING(Nummer, ?) REGEXP \'^[0-9]+$\'';
+        $params = [$start, $prefix . '%', $start];
+        if (static::reusesNumbers($prefix)) {
+            $used = array_flip(array_map('intval', array_column(Database::all('SELECT CAST(SUBSTRING(Nummer, ?) AS UNSIGNED) AS Nr' . $where, $params), 'Nr')));
+            $next = 1;
+            while (isset($used[$next])) {
+                $next++;
+            }
+        } else {
+            $next = (int) Database::scalar('SELECT MAX(CAST(SUBSTRING(Nummer, ?) AS UNSIGNED))' . $where, $params) + 1;
+        }
 
-        return $prefix . str_pad((string) ($max + 1), 5, '0', STR_PAD_LEFT);
+        return $prefix . str_pad((string) $next, 5, '0', STR_PAD_LEFT);
     }
 
     public function save(): static
