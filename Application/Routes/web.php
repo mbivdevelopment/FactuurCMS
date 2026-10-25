@@ -116,6 +116,7 @@ $router->group('beheer', ['csrf', 'auth', 'staff'], static function ($router): v
     $router->post('/afspraken/{id}', 'Beheer\\ContentController@update');
     $router->delete('/afspraken/{id}', 'Beheer\\ContentController@destroy');
 
+    $router->get('/btw', 'Beheer\\VatController@index');
     $router->get('/contracten', 'Beheer\\ContentController@index');
     $router->get('/contracten/nieuw', 'Beheer\\ContentController@create');
     $router->post('/contracten', 'Beheer\\ContentController@store');

@@ -353,3 +353,11 @@ img[data-white] { filter: brightness(0) invert(1); }
 /* Snelle antwoorden bij een ticketreactie */
 .quick-replies { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
 .quick-replies select { border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; font: inherit; background: #fff; min-width: 260px; }
+
+/* BTW-overzicht */
+.btw-period { display: flex; gap: 8px; align-items: center; }
+.btw-period select { border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; font: inherit; background: #fff; }
+.btw-table .num { text-align: right; white-space: nowrap; }
+.btw-table .btw-group td { background: var(--soft, #f7f8fb); }
+.btw-table .btw-total td { border-top: 2px solid var(--navy, #0f1b3d); font-size: 16px; }
+@media print { .nav, .topbar, .btw-period, .page-head .btn, .toasts { display: none !important; } }
