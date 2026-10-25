@@ -33,7 +33,7 @@ $initial = mb_strtoupper(mb_substr((string) ($user?->Voornaam ?: $user?->Email),
                         <?php if ($drop): ?>
                             <div class="nav-drop<?= !empty($s['wide']) ? ' wide' : '' ?>">
                                 <?php foreach ($s['items'] as $it): ?>
-                                    <a href="<?= e(url($it[0])) ?>" class="drop-link<?= $matches($it[0]) || ($isActive && $crumb === $it[2]) ? ' active' : '' ?>"><span class="drop-i"><?= icon($it[1]) ?></span><span class="drop-t"><strong><?= e($it[2]) ?></strong><?php if (($it[3] ?? '') !== ''): ?><small><?= e($it[3]) ?></small><?php endif; ?></span></a>
+                                    <a href="<?= e(url($it[0])) ?>" class="drop-link<?= $matches($it[0]) || ($isActive && $crumb === $it[2]) ? ' active' : '' ?>"><span class="drop-i"><?= icon($it[1]) ?></span><span class="drop-t"><strong><?= e($it[2]) ?></strong><?php if (($it[3] ?? '') !== ''): ?><small><?= e($it[3]) ?></small><?php endif; ?></span><?php if (($it[4] ?? 0) > 0): ?><span class="nav-count drop-count"><?= (int) $it[4] ?></span><?php endif; ?></a>
                                 <?php endforeach; ?>
                                 <?php if (isset($s['action'])): ?><a href="<?= e(url($s['action'][0])) ?>" class="drop-action"><?= icon('plus', 'icon icon-sm') ?><?= e($s['action'][1]) ?></a><?php endif; ?>
                             </div>

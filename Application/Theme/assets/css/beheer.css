@@ -328,3 +328,6 @@ img[data-white] { filter: brightness(0) invert(1); }
     .nav-in > .nav-links { justify-self: center; }
     .nav-in > .nav-foot { justify-self: end; margin-left: 0; }
 }
+
+/* Aantal open tickets in de dropdown */
+.drop-count { margin-left: auto; align-self: center; }
