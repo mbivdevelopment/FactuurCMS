@@ -11,8 +11,6 @@ $homeText = (string) (setting('home.tekst', '') ?: 'Bij ' . company_name() . ' d
                 <div class="hh-base"></div>
             </div>
             <?php endif; ?>
-            <div class="hh-badge hh-b1"><?= icon('zap', 'icon icon-sm') ?><span><strong>99,9%</strong> uptime</span></div>
-            <div class="hh-badge hh-b2"><?= icon('shield', 'icon icon-sm') ?><span><strong>Dagelijkse</strong> back-ups</span></div>
         </div>
         <div class="hh-text">
             <span class="hh-label"><?= icon('server', 'icon icon-sm') ?> <?= e((string) (setting('home.label', '') ?: 'Hosting & cloud uit Nederland')) ?></span>
