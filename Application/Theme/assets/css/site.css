@@ -386,3 +386,7 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .mi-link { font-size: 15px; padding: 0 14px; }
 .shead-actions .btn { height: 38px; }
 @media (max-width: 1000px) { .shead-in { min-height: 58px; } .mi-link { padding: 12px 28px; } }
+
+/* Megamenu inclusief achtergrond op 1600px */
+.mega { left: 50%; right: auto; width: min(1600px, 100%); transform: translateX(-50%); border-radius: 0 0 16px 16px; border: 1px solid var(--line); border-top: 3px solid var(--primary); }
+@media (max-width: 1000px) { .mega { left: auto; width: auto; transform: none; border: 0; border-radius: 0; } }
