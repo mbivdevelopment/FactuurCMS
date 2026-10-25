@@ -38,7 +38,7 @@
 <section class="sec sec-alt">
     <div class="container">
         <div class="sec-head"><div><span class="eyebrow"><?= icon('server', 'icon icon-sm') ?> Pakketten</span><h2>Populaire pakketten</h2><p>Kies het pakket dat bij je past; upgraden kan altijd.</p></div><a class="btn btn-ghost" href="<?= e(url('/diensten')) ?>">Alle diensten <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
-        <div class="grid grid-3"><?php foreach ($featured as $p): ?><?= $partial('frontend._plan', ['p' => $p]) ?><?php endforeach; ?></div>
+        <?= $partial('frontend._plans', ['products' => $featured]) ?>
     </div>
 </section>
 <?php endif; ?>

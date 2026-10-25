@@ -1,15 +1,27 @@
-<?php $extend('frontend', ['title' => $product->Naam]); $vat = (float) $product->BtwTarief; $first = (int) $product->Prijs + (int) $product->Instelkosten; ?>
-<?= $partial('frontend._hero', ['title' => $product->Naam, 'intro' => (string) $product->Omschrijving, 'icon' => \App\Models\Product::GROUPS[$product->Groep] ?? 'box', 'crumbs' => [['/diensten?groep=' . urlencode((string) $product->Groep), (string) $product->Groep], [null, $product->Naam]]]) ?>
+<?php $extend('frontend', ['title' => $product->Naam]); $vat = (float) $product->BtwTarief; $first = (int) $product->Prijs + (int) $product->Instelkosten;
+$kind = $product->Dienstsoort ? \App\Models\Product::soortLabel($product->Dienstsoort) : (string) $product->Groep;
+$crumbs = [['/diensten', 'Diensten']];
+if ($soortPage !== null) { $crumbs[] = ['/oplossingen/' . $soortPage, $kind]; } elseif ($kind !== '') { $crumbs[] = ['/diensten#' . slugify($product->isExtension() ? 'domeinextensies' : $kind), $kind]; }
+$crumbs[] = [null, $product->Naam];
+$per = ['maand' => '/ maand', 'kwartaal' => '/ kwartaal', 'jaar' => '/ jaar'][(string) $product->Periode] ?? 'eenmalig'; ?>
+<?= $partial('frontend._hero', ['title' => $product->Naam, 'intro' => (string) $product->Omschrijving, 'icon' => \App\Models\Product::soortIcon($product->Dienstsoort, $product->Groep), 'crumbs' => $crumbs]) ?>
 <section class="sec">
     <div class="container">
-        <div class="grid grid-side">
-            <div class="card"><div class="card-body">
-                <div class="small" style="color:var(--primary);font-weight:600"><?= e($product->Groep) ?></div>
-                <h1><?= e($product->Naam) ?></h1>
-                <p class="muted"><?= nl2br(e($product->Omschrijving)) ?></p>
-                <ul class="plan" style="padding:0;list-style:none"><?php foreach ($product->featureItems() as $f): ?><li style="display:flex;gap:8px;padding:5px 0"><span style="color:var(--ok)"><?= icon($f['icoon'], 'icon icon-sm') ?></span> <?= e($f['tekst']) ?></li><?php endforeach; ?></ul>
-            </div></div>
-            <form class="card" method="post" action="<?= e(url($product->path() . '/bestellen')) ?>">
+        <div class="grid grid-side prod-split">
+            <div class="prod-main">
+                <div class="prod-card">
+                    <span class="pk-kind"><?= e($kind) ?></span>
+                    <h2><?= e($product->Naam) ?></h2>
+                    <?php if ((string) $product->Omschrijving !== ''): ?><p class="muted"><?= nl2br(e($product->Omschrijving)) ?></p><?php endif; ?>
+                    <div class="pk-price"><span class="pk-eur"><?= preg_replace('/,(\d\d)$/', '<sup>,$1</sup>', e(money((int) $product->Prijs))) ?></span><span class="pk-per"><?= e($per) ?></span><span class="pk-vat" style="margin:0 0 0 6px">excl. btw</span></div>
+                    <?php if ($product->featureItems() !== []): ?>
+                        <h3 class="prod-h">Wat zit erin</h3>
+                        <ul class="feat-grid"><?php foreach ($product->featureItems() as $f): ?><li><span class="pk-fi"><?= icon($f['icoon'], 'icon icon-sm') ?></span><span><?= e($f['tekst']) ?></span></li><?php endforeach; ?></ul>
+                    <?php endif; ?>
+                </div>
+                <?= $partial('frontend._usps') ?>
+            </div>
+            <form class="card order-card" method="post" action="<?= e(url($product->path() . '/bestellen')) ?>">
                 <?= csrf_field() ?>
                 <div class="card-head"><h2><?= icon('cart') ?> Bestellen</h2></div>
                 <div class="card-body stack">
@@ -28,3 +40,9 @@
         </div>
     </div>
 </section>
+<?php if ($siblings !== []): ?>
+<section class="sec sec-alt"><div class="container">
+    <div class="sec-head center"><div><span class="eyebrow"><?= icon('box', 'icon icon-sm') ?> <?= e($kind) ?></span><h2>Vergelijk de pakketten</h2><p>Upgraden kan altijd.</p></div></div>
+    <?= $partial('frontend._plans', ['products' => $siblings]) ?>
+</div></section>
+<?php endif; ?>

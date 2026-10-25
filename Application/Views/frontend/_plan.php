@@ -1,11 +1,19 @@
-<?php /** @var \App\Models\Product $p */ ?>
-<div class="card plan<?= $p->Uitgelicht ? ' featured' : '' ?>">
-    <?php if ($p->Uitgelicht): ?><span class="ribbon">Populair</span><?php endif; ?>
-    <div class="group"><?= icon(\App\Models\Product::GROUPS[$p->Groep] ?? 'box', 'icon icon-sm') ?> <?= e($p->Groep) ?></div>
-    <h3 style="margin-top:6px"><?= e($p->Naam) ?></h3>
-    <p class="muted" style="margin:0"><?= e($p->Omschrijving) ?></p>
-    <div class="price"><?= e(money((int) $p->Prijs)) ?> <small><?= e(period_label((string) $p->Periode)) ?> excl. btw</small></div>
-    <?php if ((int) $p->Instelkosten > 0): ?><div class="small muted">+ <?= e(money((int) $p->Instelkosten)) ?> eenmalige instelkosten</div><?php endif; ?>
-    <ul><?php foreach ($p->featureItems() as $f): ?><li><?= icon($f['icoon'], 'icon icon-sm') ?> <?= e($f['tekst']) ?></li><?php endforeach; ?></ul>
-    <a class="btn<?= $p->Uitgelicht ? '' : ' btn-ghost' ?>" style="justify-content:center" href="<?= e(url($p->path())) ?>"><?= icon('cart', 'icon icon-sm') ?> Bestellen</a>
-</div>
+<?php /** @var \App\Models\Product $p */
+$per = ['maand' => '/ maand', 'kwartaal' => '/ kwartaal', 'jaar' => '/ jaar'][(string) $p->Periode] ?? 'eenmalig';
+$price = (string) preg_replace('/,(\d\d)$/', '<sup>,$1</sup>', e(money((int) $p->Prijs)));
+$kind = $p->Dienstsoort ? \App\Models\Product::soortLabel($p->Dienstsoort) : (string) $p->Groep; ?>
+<article class="pk<?= $p->Uitgelicht ? ' pk-hot' : '' ?>">
+    <?php if ($p->Uitgelicht): ?><span class="pk-badge"><?= icon('star', 'icon icon-sm') ?> Meest gekozen</span><?php endif; ?>
+    <div class="pk-top">
+        <span class="pk-i"><?= icon(\App\Models\Product::soortIcon($p->Dienstsoort, $p->Groep)) ?></span>
+        <div><span class="pk-kind"><?= e($kind) ?></span><h3><a href="<?= e(url($p->path())) ?>"><?= e($p->Naam) ?></a></h3></div>
+    </div>
+    <?php if ((string) $p->Omschrijving !== ''): ?><p class="pk-desc"><?= e($p->Omschrijving) ?></p><?php endif; ?>
+    <div class="pk-price"><span class="pk-eur"><?= $price ?></span><span class="pk-per"><?= e($per) ?></span></div>
+    <div class="pk-vat">excl. btw<?php if ((int) $p->Instelkosten > 0): ?> · + <?= e(money((int) $p->Instelkosten)) ?> instelkosten<?php endif; ?></div>
+    <ul class="pk-feats"><?php foreach ($p->featureItems() as $f): ?><li><span class="pk-fi"><?= icon($f['icoon'], 'icon icon-sm') ?></span><span><?= e($f['tekst']) ?></span></li><?php endforeach; ?></ul>
+    <div class="pk-actions">
+        <a class="btn btn-lg pk-btn" href="<?= e(url($p->path())) ?>"><?= icon('cart', 'icon icon-sm') ?> Bestellen</a>
+        <a class="pk-more" href="<?= e(url($p->path())) ?>">Meer informatie <?= icon('arrow-right', 'icon icon-sm') ?></a>
+    </div>
+</article>

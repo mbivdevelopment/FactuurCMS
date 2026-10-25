@@ -22,6 +22,41 @@ final class Product extends Model
 
     protected static string $table = 'Producten';
     /** Weergavenaam van een dienstsoort bij producten: een domeinproduct is een extensie. */
+    /** Icoon van een dienstsoort, anders van de groep. */
+    public static function soortIcon(?string $soort, ?string $groep = null): string
+    {
+        foreach (self::SOORTEN as $kinds) {
+            if (isset($kinds[(string) $soort])) {
+                return $kinds[(string) $soort][0];
+            }
+        }
+
+        return self::GROUPS[(string) $groep] ?? 'box';
+    }
+
+    /** Korte omschrijving van een dienstsoort, bv. "Hosting voor websites". */
+    public static function soortText(?string $soort): string
+    {
+        foreach (self::SOORTEN as $kinds) {
+            if (isset($kinds[(string) $soort])) {
+                return $kinds[(string) $soort][1];
+            }
+        }
+
+        return '';
+    }
+
+    public function isExtension(): bool
+    {
+        return $this->Dienstsoort === 'Domeinnamen' || ($this->Dienstsoort === null && $this->Groep === 'Domeinen');
+    }
+
+    /** ".nl" voor een domeinextensie. */
+    public function extensionLabel(): string
+    {
+        return '.' . explode('-', ltrim((string) $this->Naam, '.'))[0];
+    }
+
     public static function soortLabel(?string $soort): string
     {
         return $soort === 'Domeinnamen' ? 'Domeinextensies' : (string) $soort;

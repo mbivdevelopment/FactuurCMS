@@ -26,7 +26,7 @@ final class SiteController extends Controller
         }
 
         return $this->view('frontend.home', [
-            'featured' => Product::query("SELECT * FROM Producten WHERE Zichtbaar = 1 AND Groep <> 'Domeinen' ORDER BY Uitgelicht DESC, Volgorde, Id LIMIT 3"),
+            'featured' => Product::query("SELECT * FROM Producten WHERE Zichtbaar = 1 AND Groep <> 'Domeinen' ORDER BY Uitgelicht DESC, Volgorde, Id LIMIT 4"),
             'posts' => Database::all('SELECT * FROM BlogBerichten WHERE Zichtbaar = 1 AND PublicatieDatum <= CURDATE() ORDER BY PublicatieDatum DESC, Id DESC LIMIT 9'),
             'projects' => Database::all('SELECT * FROM PortfolioItems WHERE Zichtbaar = 1 ORDER BY Volgorde, Id DESC LIMIT 9'),
             'logos' => $logos,
@@ -39,20 +39,16 @@ final class SiteController extends Controller
     public function page(Request $request): Response
     {
         $page = Database::first('SELECT * FROM Paginas WHERE Slug = ? AND Zichtbaar = 1', [(string) $request->param('slug')]) ?? throw new HttpException(404, 'Deze pagina bestaat niet (meer).');
-        $soort = null;
-        foreach (Product::SOORTEN as $kinds) {
-            foreach (array_keys($kinds) as $kind) {
-                if (strcasecmp($kind, (string) $page['Titel']) === 0 || Product::soortSlug($kind) === $page['Slug']) {
-                    $soort = $kind;
-                }
-            }
-        }
+        $soort = self::soortForPage($page);
         $products = $soort !== null ? Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 AND Dienstsoort = ? ORDER BY Volgorde, Prijs, Id', [$soort]) : [];
         $products = $products !== [] ? $products : ((string) $page['ProductGroep'] !== '' ? Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 AND Groep = ? ORDER BY Volgorde, Id', [$page['ProductGroep']]) : []);
+        [$domains, $products] = self::splitExtensions($products);
 
         return $this->view('frontend.page', [
             'page' => $page,
+            'soort' => $soort,
             'products' => $products,
+            'domains' => $domains,
             'related' => Database::all('SELECT * FROM Paginas WHERE Zichtbaar = 1 AND Categorie = ? AND Id <> ? ORDER BY Groep, Volgorde LIMIT 6', [$page['Categorie'], $page['Id']]),
             'extensions' => DomainCheck::extensions(),
         ]);
@@ -157,11 +153,27 @@ final class SiteController extends Controller
     {
         $group = $request->string('groep');
         $products = $group !== ''
-            ? Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 AND Groep = ? ORDER BY Volgorde, Id', [$group])
-            : Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 ORDER BY Volgorde, Id');
+            ? Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 AND Groep = ? ORDER BY Volgorde, Prijs, Id', [$group])
+            : Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 ORDER BY Volgorde, Prijs, Id');
+        [$domains, $products] = self::splitExtensions($products);
+        $sections = [];
+        foreach (Product::SOORTEN as $kinds) {
+            foreach (array_keys($kinds) as $kind) {
+                $list = array_values(array_filter($products, static fn (Product $p): bool => $p->Dienstsoort === $kind));
+                if ($list !== []) {
+                    $sections[$kind] = $list;
+                }
+            }
+        }
+        $rest = array_values(array_filter($products, static fn (Product $p): bool => !isset($sections[(string) $p->Dienstsoort])));
+        if ($rest !== []) {
+            $sections['Overige diensten'] = $rest;
+        }
 
         return $this->view('frontend.services', [
-            'products' => $products,
+            'kinds' => $sections,
+            'domains' => $domains,
+            'soortPages' => self::soortPages(),
             'group' => $group,
             'groups' => array_column(Database::all('SELECT DISTINCT Groep FROM Producten WHERE Zichtbaar = 1 ORDER BY Groep'), 'Groep'),
         ]);
@@ -176,7 +188,15 @@ final class SiteController extends Controller
             return Response::redirect($product->path() . ($query !== '' ? '?' . $query : ''), 301);
         }
 
-        return $this->view('frontend.product', ['product' => $product]);
+        $siblings = $product->Dienstsoort !== null && !$product->isExtension()
+            ? Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 AND Dienstsoort = ? ORDER BY Volgorde, Prijs, Id', [$product->Dienstsoort])
+            : [];
+
+        return $this->view('frontend.product', [
+            'product' => $product,
+            'siblings' => count($siblings) > 1 ? $siblings : [],
+            'soortPage' => self::soortPages()[(string) $product->Dienstsoort] ?? null,
+        ]);
     }
 
     public function order(Request $request): Response
@@ -229,6 +249,45 @@ final class SiteController extends Controller
         }
 
         return Response::html('Herhaalfacturen aangemaakt: ' . Billing::runRecurring());
+    }
+
+    /** Dienstsoort die bij een websitepagina hoort, op titel of slug (bv. "Email Hosting" = "E-mail Hosting"). @param array<string, mixed> $page */
+    private static function soortForPage(array $page): ?string
+    {
+        $norm = static fn (string $s): string => (string) preg_replace('/[^a-z0-9]/', '', strtolower($s));
+        foreach (Product::SOORTEN as $kinds) {
+            foreach (array_keys($kinds) as $kind) {
+                if (in_array($norm($kind), [$norm((string) $page['Titel']), $norm((string) $page['Slug'])], true)) {
+                    return $kind;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /** @return array<string, string> dienstsoort => paginaslug */
+    private static function soortPages(): array
+    {
+        $map = [];
+        foreach (Database::all('SELECT Titel, Slug FROM Paginas WHERE Zichtbaar = 1 ORDER BY Volgorde, Id') as $page) {
+            $soort = self::soortForPage($page);
+            if ($soort !== null && !isset($map[$soort])) {
+                $map[$soort] = (string) $page['Slug'];
+            }
+        }
+
+        return $map;
+    }
+
+    /** Splitst producten in [domeinextensies (populairste eerst), pakketten]. @param list<Product> $products @return array{0: list<Product>, 1: list<Product>} */
+    private static function splitExtensions(array $products): array
+    {
+        $domains = array_values(array_filter($products, static fn (Product $p): bool => $p->isExtension()));
+        $rank = array_flip(DomainCheck::extensions());
+        usort($domains, static fn (Product $a, Product $b): int => [$rank[ltrim($a->extensionLabel(), '.')] ?? 999, $a->extensionLabel()] <=> [$rank[ltrim($b->extensionLabel(), '.')] ?? 999, $b->extensionLabel()]);
+
+        return [$domains, array_values(array_filter($products, static fn (Product $p): bool => !$p->isExtension()))];
     }
 
     private function findProduct(Request $request): Product

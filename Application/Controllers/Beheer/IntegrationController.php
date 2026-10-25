@@ -411,7 +411,7 @@ final class IntegrationController extends Controller
                 'Prijs' => $price,
                 'Periode' => $period,
                 'BtwTarief' => 21,
-                'Zichtbaar' => 0,
+                'Zichtbaar' => 1,
                 'Bron' => 'qevanto',
                 'ExternId' => 'pakket-' . $id,
             ]);
