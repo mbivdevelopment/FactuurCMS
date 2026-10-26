@@ -16,6 +16,7 @@ use App\Models\Service;
 use App\Models\Ticket;
 use App\Services\DocumentPdf;
 use App\Services\OnlinePayment;
+use App\Services\QevantoPaneel;
 use App\Services\Wallet;
 
 final class PortalController extends Controller
@@ -51,6 +52,28 @@ final class PortalController extends Controller
         }
 
         return $this->view('klant.services', ['services' => $services, 'cat' => $catDef !== null ? $catDef[0] : '']);
+    }
+
+    public function service(Request $request): Response
+    {
+        return $this->view('klant.service', ['service' => $this->ownService($request)]);
+    }
+
+    public function serviceSso(Request $request): Response
+    {
+        $service = $this->ownService($request);
+        $user = Auth::user();
+        try {
+            $res = QevantoPaneel::post('/api/auth/sso', ['email' => (string) $user->Email]);
+        } catch (\Throwable $e) {
+            return $this->redirect('/klant/diensten/' . $service->id())->with('error', 'Inloggen op het paneel mislukt: ' . $e->getMessage());
+        }
+        $url = (string) ($res['url'] ?? '');
+        if ($url === '') {
+            return $this->redirect('/klant/diensten/' . $service->id())->with('error', 'Het paneel gaf geen inloglink terug.');
+        }
+
+        return $this->redirect($url);
     }
 
     public function invoices(Request $request): Response
@@ -238,6 +261,16 @@ final class PortalController extends Controller
         }
 
         return $doc;
+    }
+
+    private function ownService(Request $request): Service
+    {
+        $service = Service::find((int) $request->param('id'));
+        if ($service === null || (int) $service->KlantId !== Auth::id()) {
+            throw new HttpException(404, 'Dienst niet gevonden.');
+        }
+
+        return $service;
     }
 
     private function ownTicket(Request $request): Ticket

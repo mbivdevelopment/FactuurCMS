@@ -56,6 +56,8 @@ $router->post('/uitloggen', 'Auth\\AuthController@logout', ['csrf']);
 $router->group('klant', ['csrf', 'auth', 'klant'], static function ($router): void {
     $router->get('/', 'Klant\\PortalController@dashboard');
     $router->get('/diensten', 'Klant\\PortalController@services');
+    $router->get('/diensten/{id}', 'Klant\\PortalController@service');
+    $router->post('/diensten/{id}/paneel', 'Klant\\PortalController@serviceSso');
     $router->get('/tegoed', 'Klant\\PortalController@wallet');
     $router->post('/tegoed', 'Klant\\PortalController@topup');
     $router->get('/facturen', 'Klant\\PortalController@invoices');
