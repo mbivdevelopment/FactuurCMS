@@ -65,7 +65,7 @@ final class SiteController extends Controller
 
         return $this->view('frontend.blog', [
             'posts' => Database::all("SELECT * FROM BlogBerichten WHERE $where ORDER BY PublicatieDatum DESC, Id DESC", $category !== '' ? [$category] : []),
-            'categories' => array_column(Database::all('SELECT DISTINCT Categorie FROM BlogBerichten WHERE Zichtbaar = 1 ORDER BY Categorie'), 'Categorie'),
+            'categories' => Database::all('SELECT Categorie, COUNT(*) AS Aantal FROM BlogBerichten WHERE Zichtbaar = 1 AND PublicatieDatum <= CURDATE() GROUP BY Categorie ORDER BY Categorie'),
             'category' => $category,
         ]);
     }
@@ -83,7 +83,7 @@ final class SiteController extends Controller
 
         return $this->view('frontend.portfolio', [
             'projects' => Database::all('SELECT * FROM PortfolioItems WHERE Zichtbaar = 1' . ($category !== '' ? ' AND Categorie = ?' : '') . ' ORDER BY Volgorde, Id DESC', $category !== '' ? [$category] : []),
-            'categories' => array_column(Database::all('SELECT DISTINCT Categorie FROM PortfolioItems WHERE Zichtbaar = 1 ORDER BY Categorie'), 'Categorie'),
+            'categories' => Database::all('SELECT Categorie, COUNT(*) AS Aantal FROM PortfolioItems WHERE Zichtbaar = 1 GROUP BY Categorie ORDER BY Categorie'),
             'category' => $category,
         ]);
     }
