@@ -25,8 +25,7 @@ $groups = ['' => '- Geen pakketten -'] + array_combine(array_keys(\App\Models\Pr
             <?php elseif ($kind === 'icon'): ?>
                 <?= field($name, $label, $ico, (string) $value, 'select', array_combine(\App\Services\Content::ICONS, \App\Services\Content::ICONS)) ?>
             <?php elseif ($kind === 'customername'): ?>
-                <?= field($name, $label, $ico, (string) $value, 'text', [], 'list="lijst-' . e($name) . '" autocomplete="off"' . ($req !== '' ? ' ' . $req : '')) ?>
-                <datalist id="lijst-<?= e($name) ?>"><?php foreach (\App\Services\Content::customerNames() as $kl): ?><option value="<?= e($kl) ?>"><?php endforeach; ?></datalist>
+                <?= field($name, $label, $ico, (string) $value, 'select', array_combine(array_merge(['- Geen klant -'], \App\Services\Content::customerNames()), array_merge([''], \App\Services\Content::customerNames()))) ?>
             <?php elseif ($kind === 'supplier'): ?>
                 <?= field($name, $label, $ico, (string) $value, 'text', [], 'list="lijst-' . e($name) . '" autocomplete="off"' . ($req !== '' ? ' ' . $req : '')) ?>
                 <datalist id="lijst-<?= e($name) ?>"><?php foreach (\App\Services\Content::suppliers() as $sup): ?><option value="<?= e($sup) ?>"><?php endforeach; ?></datalist>
