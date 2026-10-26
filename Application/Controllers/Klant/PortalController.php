@@ -36,7 +36,21 @@ final class PortalController extends Controller
 
     public function services(Request $request): Response
     {
-        return $this->view('klant.services', ['services' => Service::where(['KlantId' => Auth::id()])]);
+        $cat = $request->string('cat');
+        $catDef = Service::CATEGORIES[$cat] ?? null;
+        $services = Service::where(['KlantId' => Auth::id()]);
+        if ($catDef !== null) {
+            $services = array_values(array_filter($services, static function (Service $s) use ($catDef): bool {
+                $soort = $s->product()?->Dienstsoort;
+                if ($soort !== null && in_array($soort, $catDef[1], true)) {
+                    return true;
+                }
+
+                return $soort === null && in_array('domein', $catDef[1], true) && $s->Bron === 'domein';
+            }));
+        }
+
+        return $this->view('klant.services', ['services' => $services, 'cat' => $catDef !== null ? $catDef[0] : '']);
     }
 
     public function invoices(Request $request): Response

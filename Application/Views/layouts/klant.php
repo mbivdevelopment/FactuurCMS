@@ -3,32 +3,61 @@ $me = auth_user();
 $dienstenCount = $me !== null ? (int) \App\Core\Database::first('SELECT COUNT(*) AS c FROM Diensten WHERE KlantId = ?', [$me->id()])['c'] : 0;
 $openFacturen = $me !== null ? (int) \App\Core\Database::first("SELECT COUNT(*) AS c FROM Documenten WHERE KlantId = ? AND Soort = 'factuur' AND Status IN ('open','vervallen')", [$me->id()])['c'] : 0;
 $openTickets = $me !== null ? (int) \App\Core\Database::first("SELECT COUNT(*) AS c FROM Tickets WHERE KlantId = ? AND Status IN ('open','beantwoord')", [$me->id()])['c'] : 0;
-$svcGroups = [
-    'Domeinen' => 'Domein & SSL',
-    'Hosting' => 'Webhosting',
-    'E-mail' => 'Webhosting',
-    'VPS' => 'Servers',
-    'Websites' => 'Development & ICT',
-    'Overig' => 'Development & ICT',
-];
-$svcCols = ['Domein & SSL' => [], 'Webhosting' => [], 'Servers' => [], 'Development & ICT' => []];
-$svcIcons = ['Domein & SSL' => 'globe', 'Webhosting' => 'server', 'Servers' => 'cpu', 'Development & ICT' => 'layout'];
+$catCounts = array_fill_keys(array_keys(\App\Models\Service::CATEGORIES), 0);
 if ($me !== null) {
-    foreach (\App\Core\Database::all('SELECT s.Naam, s.Status, s.Bron, p.Groep FROM Diensten s LEFT JOIN Producten p ON p.Id = s.ProductId WHERE s.KlantId = ? ORDER BY s.Naam LIMIT 15', [$me->id()]) as $svc) {
-        $col = $svcGroups[(string) ($svc['Groep'] ?? '')] ?? (((string) $svc['Bron'] === 'domein') ? 'Domein & SSL' : 'Webhosting');
-        $svcCols[$col][] = ['/klant/diensten', $svcIcons[$col], (string) $svc['Naam'], $svc['Status'] === 'actief' ? 'Actief' : \App\Models\Service::STATUSES[$svc['Status']] ?? $svc['Status']];
+    $soortCounts = [];
+    foreach (\App\Core\Database::all(
+        "SELECT p.Dienstsoort AS Soort, s.Bron, COUNT(*) AS c
+         FROM Diensten s LEFT JOIN Producten p ON p.Id = s.ProductId
+         WHERE s.KlantId = ? GROUP BY Soort, s.Bron",
+        [$me->id()]
+    ) as $r) {
+        $key = $r['Soort'] !== null && $r['Soort'] !== '' ? (string) $r['Soort'] : (((string) $r['Bron'] === 'domein') ? 'domein' : 'Overig');
+        $soortCounts[$key] = ($soortCounts[$key] ?? 0) + (int) $r['c'];
+    }
+    foreach (\App\Models\Service::CATEGORIES as $key => $def) {
+        foreach ($def[1] as $soort) {
+            $catCounts[$key] += $soortCounts[$soort] ?? 0;
+        }
     }
 }
+$svcDesc = static function (int $n): string {
+    return $n === 0 ? 'Beheer hier' : $n . ' ' . ($n === 1 ? 'dienst' : 'diensten');
+};
+$svcCols = [
+    'Domein & SSL' => [
+        ['domeinnamen', 'globe'],
+        ['ssl', 'lock'],
+    ],
+    'Webhosting' => [
+        ['webhosting', 'server'],
+        ['reseller', 'server'],
+        ['e-mailhosting', 'mail'],
+    ],
+    'Servers' => [
+        ['vps', 'cpu'],
+        ['dedicated', 'server'],
+        ['big-storage', 'cloud'],
+    ],
+    'Development & ICT' => [
+        ['websites', 'layout'],
+        ['connectiviteit', 'phone'],
+        ['marketing', 'trend'],
+        ['ict', 'settings'],
+    ],
+];
 $svcItems = [];
 $svcColsIdx = [];
 foreach ($svcCols as $col => $items) {
-    foreach ($items as $it) { $svcColsIdx[$col][] = count($svcItems); $svcItems[] = $it; }
+    foreach ($items as [$cat, $icn]) {
+        $svcColsIdx[$col][] = count($svcItems);
+        $svcItems[] = ['/klant/diensten?cat=' . $cat, $icn, \App\Models\Service::CATEGORIES[$cat][0], $svcDesc($catCounts[$cat])];
+    }
 }
-$svcLast = count($svcItems);
 $navSections = [
     ['key' => 'dashboard', 'label' => 'Dashboard', 'icon' => 'dashboard', 'items' => [['/klant', 'dashboard', 'Overzicht']]],
     ['key' => 'diensten', 'label' => 'Mijn diensten', 'icon' => 'server', 'count' => $dienstenCount, 'wide' => true,
-      'items' => array_merge($svcItems, [['/klant/diensten', 'server', 'Mijn diensten', 'Al je diensten op een rij']]),
+      'items' => $svcItems,
       'columns' => $svcColsIdx,
       'footer' => [['/klant/diensten', 'server', 'Al je diensten beheren']],
       ],
