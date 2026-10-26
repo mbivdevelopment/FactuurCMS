@@ -62,7 +62,7 @@ img { max-width: 100%; }
 .nav-item:hover .nav-drop, .nav-item:focus-within .nav-drop, .nav-item.open .nav-drop { display: block; }
 .nav-item.open .nav-title { color: #fff; background: rgba(255,255,255,.06); }
 .nav-item.open .caret { transform: rotate(180deg); color: #fff; }
-.nav-drop.wide { min-width: 600px; }
+.nav-drop.wide { min-width: 720px; }
 .nav-item:hover .nav-drop.wide, .nav-item:focus-within .nav-drop.wide, .nav-item.open .nav-drop.wide { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
 .drop-link { display: flex; align-items: center; gap: 12px; padding: 9px 10px; border-radius: 6px; color: var(--text); }
 .drop-link:hover { background: var(--accent-soft); color: var(--text); }
