@@ -138,6 +138,8 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .pc-text { color: var(--muted); font-size: 14.5px; flex: 1; }
 .pc-more { color: var(--primary); font-weight: 700; font-size: 13.5px; display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; padding: 9px 16px; border: 1.5px solid rgba(255, 90, 31, .35); border-radius: 999px; background: var(--primary-soft); align-self: flex-start; transition: background .15s, color .15s, border-color .15s; }
 .pcard:hover .pc-more { background: var(--primary); color: #fff; border-color: var(--primary); }
+.pc-more.pc-btn { width: 100%; justify-content: center; padding: 11px 18px; background: var(--navy); color: #fff; border-color: var(--navy); border-radius: 10px; font-size: 14.5px; }
+.pc-more.pc-btn:hover, .pcard:hover .pc-more.pc-btn { background: var(--primary); border-color: var(--primary); }
 .car-track { display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; padding: 4px 2px 10px; }
 .car-track::-webkit-scrollbar { display: none; }
 .car-item { flex: 0 0 calc((100% - 48px) / 3); scroll-snap-align: start; }
@@ -1010,8 +1012,8 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 
 /* Logo-balk: titel links, marquee rechts */
 .logo-bar { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 2fr); align-items: center; gap: 24px; }
-.logo-bar-head h2 { margin: 0 0 4px; font-size: 23px; }
-.logo-bar-head p { margin: 0; color: var(--muted); font-size: 14.5px; }
+.logo-bar-head h2 { margin: 0 0 6px; font-size: 24px; letter-spacing: -.01em; }
+.logo-bar-head p { margin: 0; color: var(--muted); font-size: 14.5px; line-height: 1.55; max-width: 380px; }
 @media (max-width: 900px) { .logo-bar { grid-template-columns: 1fr; gap: 14px; } }
 
 /* Sidebar: eigen project blok */

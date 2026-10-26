@@ -12,7 +12,7 @@
     </aside>
     <div>
         <?php if ($projects === []): ?><div class="empty">Nog geen projecten<?= $category !== '' ? ' in deze categorie' : '' ?>.</div><?php endif; ?>
-        <div class="grid grid-3"><?php foreach ($projects as $p): ?><?= $partial('frontend._post-card', ['p' => $p, 'base' => '/portfolio/', 'icon' => 'image', 'more' => 'Bekijk project']) ?><?php endforeach; ?></div>
+        <div class="grid grid-3"><?php foreach ($projects as $p): ?><?= $partial('frontend._post-card', ['p' => $p, 'base' => '/portfolio/', 'icon' => 'image', 'more' => 'Bekijk project', 'btn' => true]) ?><?php endforeach; ?></div>
         <?php if ($pages > 1): ?><nav class="pagination site-pag" aria-label="Paginering">
             <?php for ($i = 1; $i <= $pages; $i++): $qs = 'pagina=' . $i . ($category !== '' ? '&categorie=' . urlencode($category) : ''); ?><a href="<?= e(url('/portfolio?' . $qs)) ?>" class="<?= $i === $page ? 'active' : '' ?>"><?= $i ?></a><?php endfor; ?>
         </nav><?php endif; ?>

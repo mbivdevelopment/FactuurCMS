@@ -5,6 +5,6 @@
         <span class="pc-meta"><?php if (!empty($p['PublicatieDatum'])): ?><?= icon('calendar', 'icon icon-sm') ?> <?= e(nl_date((string) $p['PublicatieDatum'])) ?><?php elseif (!empty($p['Klant'])): ?><?= icon('building', 'icon icon-sm') ?> <?= e((string) $p['Klant']) ?><?php endif; ?></span>
         <strong><?= e((string) $p['Titel']) ?></strong>
         <span class="pc-text"><?= e($summary) ?></span>
-        <span class="pc-more"><?= e($more ?? 'Lees meer') ?> <?= icon('arrow-right', 'icon icon-sm') ?></span>
+        <span class="pc-more<?= !empty($btn) ? ' pc-btn' : '' ?>"><?= e($more ?? 'Lees meer') ?> <?= icon('arrow-right', 'icon icon-sm') ?></span>
     </span>
 </a>

@@ -126,7 +126,7 @@ $homeText = (string) (setting('home.tekst', '') ?: 'Bij ' . company_name() . ' d
 <section class="sec">
     <div class="container">
         <div class="logo-bar">
-            <div class="logo-bar-head"><div><h2>Bewezen software</h2><p>Technologie waarop we draaien</p></div></div>
+            <div class="logo-bar-head"><div><h2>Bewezen software waarop we draaien</h2><p>Van besturingssysteem en webserver tot framework en CMS. Alles wat we inzet is bewezen, snel en veilig — software waar je op kunt bouwen.</p></div></div>
             <div class="marquee"><div class="marquee-track">
                 <?php foreach ([false, true] as $hidden): foreach ($logos as $slug => $name): ?><span class="logo-item"<?= $hidden ? ' aria-hidden="true"' : '' ?>><img src="<?= e(asset('img/logos/' . $slug . '.svg')) ?>" alt="" loading="lazy"><?= e($name) ?></span><?php endforeach; endforeach; ?>
             </div></div>
