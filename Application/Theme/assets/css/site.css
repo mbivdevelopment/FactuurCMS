@@ -1015,3 +1015,10 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .logo-bar-head h2 { margin: 0; font-size: 24px; }
 .logo-bar-head p { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
 @media (max-width: 900px) { .logo-bar { grid-template-columns: 1fr; gap: 14px; } }
+
+/* Sidebar: eigen project blok */
+.side-start { margin-top: 14px; padding-top: 16px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; }
+.side-start-img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 10px; border: 1px solid var(--line); }
+.side-start strong { font-size: 15px; }
+.side-start p { margin: 0; color: var(--muted); font-size: 13.5px; }
+.side-start .btn { justify-content: center; margin-top: 4px; }
