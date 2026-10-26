@@ -121,3 +121,13 @@ $homeText = (string) (setting('home.tekst', '') ?: 'Bij ' . company_name() . ' d
     </div>
 </section>
 <?php endif; ?>
+
+<?php $logos = ['almalinux' => 'AlmaLinux', 'apache' => 'Apache', 'cloudflare' => 'Cloudflare', 'debian' => 'Debian', 'docker' => 'Docker', 'drupal' => 'Drupal', 'joomla' => 'Joomla', 'laravel' => 'Laravel', 'letsencrypt' => 'Let\'s Encrypt', 'magento' => 'Magento', 'mariadb' => 'MariaDB', 'mysql' => 'MySQL', 'nginx' => 'nginx', 'nodedotjs' => 'Node.js', 'openlitespeed' => 'OpenLiteSpeed', 'php' => 'PHP', 'prestashop' => 'PrestaShop', 'python' => 'Python', 'redis' => 'Redis', 'ubuntu' => 'Ubuntu', 'woocommerce' => 'WooCommerce', 'wordpress' => 'WordPress']; ?>
+<section class="sec">
+    <div class="container">
+        <div class="sec-head"><div><span class="eyebrow"><?= icon('server', 'icon icon-sm') ?> Technologie</span><h2>Bewezen software waarop we draaien</h2><p>Van besturingssysteem tot webserver en framework.</p></div></div>
+        <div class="marquee"><div class="marquee-track">
+            <?php foreach ([false, true] as $hidden): foreach ($logos as $slug => $name): ?><span class="logo-item"<?= $hidden ? ' aria-hidden="true"' : '' ?>><img src="<?= e(asset('img/logos/' . $slug . '.svg')) ?>" alt="" loading="lazy"><?= e($name) ?></span><?php endforeach; endforeach; ?>
+        </div></div>
+    </div>
+</section>
