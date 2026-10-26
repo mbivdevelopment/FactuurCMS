@@ -3,15 +3,38 @@ $me = auth_user();
 $dienstenCount = $me !== null ? (int) \App\Core\Database::first('SELECT COUNT(*) AS c FROM Diensten WHERE KlantId = ?', [$me->id()])['c'] : 0;
 $openFacturen = $me !== null ? (int) \App\Core\Database::first("SELECT COUNT(*) AS c FROM Documenten WHERE KlantId = ? AND Soort = 'factuur' AND Status IN ('open','vervallen')", [$me->id()])['c'] : 0;
 $openTickets = $me !== null ? (int) \App\Core\Database::first("SELECT COUNT(*) AS c FROM Tickets WHERE KlantId = ? AND Status IN ('open','beantwoord')", [$me->id()])['c'] : 0;
-$svcGroups = ['Domeinen' => 'Domeinen', 'Hosting' => 'Hosting', 'VPS' => 'Servers', 'Websites' => 'Development', 'E-mail' => 'Hosting', 'Overig' => 'ICT'];
-$svcCols = ['Domeinen' => [], 'Hosting' => [], 'Servers' => [], 'Development' => [], 'ICT' => []];
-$svcIcons = ['Domeinen' => 'globe', 'Hosting' => 'server', 'Servers' => 'cpu', 'Development' => 'layout', 'ICT' => 'laptop'];
-if ($me !== null) {
-    foreach (\App\Core\Database::all('SELECT s.Naam, s.Status, s.Bron, p.Groep FROM Diensten s LEFT JOIN Producten p ON p.Id = s.ProductId WHERE s.KlantId = ? ORDER BY s.Naam LIMIT 15', [$me->id()]) as $svc) {
-        $col = $svcGroups[(string) ($svc['Groep'] ?? '')] ?? (((string) $svc['Bron'] === 'domein') ? 'Domeinen' : 'Hosting');
-        $svcCols[$col][] = ['/klant/diensten', $svcIcons[$col], (string) $svc['Naam'], $svc['Status'] === 'actief' ? 'Actief' : \App\Models\Service::STATUSES[$svc['Status']] ?? $svc['Status']];
-    }
-}
+$svcCols = [
+    'Domein & SSL' => [
+        ['/oplossingen/domeinnaam-registreren', 'globe', 'Domeinnamen'],
+        ['/oplossingen/ssl-certificaten', 'lock', 'SSL certificaten'],
+    ],
+    'Webhosting' => [
+        ['/oplossingen/webhosting', 'server', 'Hosting'],
+        ['/oplossingen/reseller-hosting', 'server', 'Reseller hosting'],
+        ['/oplossingen/e-mailhosting', 'mail', 'E-mailhosting'],
+    ],
+    'Servers' => [
+        ['/oplossingen/vps-servers', 'cpu', 'CloudVPS'],
+        ['/oplossingen/dedicated-servers', 'server', 'Dedicated'],
+        ['/oplossingen/big-storage', 'cloud', 'Big Storage'],
+    ],
+    'Connectiviteit' => [
+        ['/oplossingen/voip', 'phone', 'VoIP'],
+        ['/oplossingen/vpn', 'shield', 'VPN'],
+        ['/oplossingen/licenties', 'file', 'Licenties'],
+        ['/oplossingen/werkplek-beheer', 'layout', 'Werkplekbeheer'],
+    ],
+    'Development' => [
+        ['/oplossingen/websites', 'layout', 'Informatieve websites'],
+        ['/oplossingen/webshops', 'cart', 'Webshops'],
+        ['/oplossingen/api-koppelingen', 'code', 'API-koppelingen'],
+    ],
+    'Marketing' => [
+        ['/oplossingen/marketing-seo', 'trend', 'Marketing SEO'],
+        ['/oplossingen/linkbuilding', 'link', 'Linkbuilding'],
+        ['/oplossingen/social-media-onderhoud', 'send', 'Social media onderhoud'],
+    ],
+];
 $svcItems = [];
 $svcColsIdx = [];
 foreach ($svcCols as $col => $items) {
