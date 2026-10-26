@@ -140,7 +140,7 @@ final class Content
                 'desc' => 'Projecten in de portfoliocarrousel en op /portfolio', 'order' => 'Volgorde, Id DESC', 'public' => '/portfolio/',
                 'links' => [['/beheer/website/portfoliocategorieen', 'layout', 'Categorieën beheren']],
                 'fields' => [
-                    'Titel' => ['Titel', 'tag', 'text', true], 'Klant' => ['Klant', 'building', 'text'],
+                    'Titel' => ['Titel', 'tag', 'text', true], 'Klant' => ['Klant', 'building', 'customername'],
                     'Categorie' => ['Categorie', 'layout', 'lookup', true, 'PortfolioCategorieen'],
                     'Budget' => ['Indicatie budget', 'euro', 'select', false, self::BUDGETS],
                     'Url' => ['Link naar project', 'link', 'url'], 'Volgorde' => ['Volgorde', 'hash', 'number'],
@@ -237,6 +237,15 @@ final class Content
     }
 
     /** @return array<int|string, string> klanten voor een keuzelijst */
+    /** @return list<string> */
+    public static function customerNames(): array
+    {
+        return array_values(array_filter(array_map(
+            static fn (array $r): string => trim((string) $r['Bedrijfsnaam']) !== '' ? (string) $r['Bedrijfsnaam'] : trim($r['Voornaam'] . ' ' . $r['Achternaam']),
+            \App\Core\Database::all("SELECT Voornaam, Achternaam, Bedrijfsnaam FROM Gebruikers WHERE Rol = 'klant' ORDER BY COALESCE(NULLIF(Bedrijfsnaam, ''), Achternaam), Voornaam")
+        )));
+    }
+
     /** @return list<string> */
     public static function suppliers(): array
     {
