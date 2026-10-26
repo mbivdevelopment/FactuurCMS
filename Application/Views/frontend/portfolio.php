@@ -13,3 +13,11 @@
         <div class="grid grid-3"><?php foreach ($projects as $p): ?><?= $partial('frontend._post-card', ['p' => $p, 'base' => '/portfolio/', 'icon' => 'image', 'more' => 'Bekijk project']) ?><?php endforeach; ?></div>
     </div>
 </div></section>
+<section class="sec"><div class="container">
+    <div class="tiles">
+        <a class="mega-tile tile-card" href="<?= e(url('/oplossingen/websites')) ?>"><span class="mt-i"><?= icon('layout') ?></span><span><strong>Website laten maken</strong><small>Een website of webshop op maat, zoals deze projecten.</small></span></a>
+        <a class="mega-tile tile-card" href="<?= e(url('/diensten')) ?>"><span class="mt-i"><?= icon('server') ?></span><span><strong>Hosting erbij</strong><small>Snelle hosting, domein en e-mail voor je nieuwe project.</small></span></a>
+        <a class="mega-tile tile-card" href="<?= e(url('/kennisbank')) ?>"><span class="mt-i"><?= icon('book') ?></span><span><strong>Kennisbank</strong><small>Handleidingen en antwoorden op veelgestelde vragen.</small></span></a>
+    </div>
+    <div class="cta" style="margin-top:24px"><div><h2>Ook een project starten?</h2><p>Vertel ons je idee; we denken mee en maken een vrijblijvende offerte.</p></div><a class="btn btn-lg" href="<?= e(url('/contact')) ?>">Start je project <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+</div></section>
