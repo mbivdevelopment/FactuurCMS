@@ -993,3 +993,16 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 
 /* pk: bestelknop onderaan de kaart, uitgelijnd over de rij */
 .pk .pk-btn{margin-top:auto}
+
+/* Portfolio: eigen project blok + paginering */
+.site-pag { padding: 22px 0 0; justify-content: center; }
+.site-pag a { min-width: 40px; height: 40px; font-weight: 600; border-radius: 10px; color: var(--navy); }
+.pf-start { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: #fff; box-shadow: var(--shadow-sm); }
+.pf-start-img { position: relative; min-height: 260px; background: radial-gradient(400px 200px at 80% 0%, rgba(255, 90, 31, .45), transparent 60%), linear-gradient(160deg, var(--navy-3), var(--navy)); display: grid; place-items: center; color: rgba(255, 255, 255, .85); }
+.pf-start-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.pf-start-img .icon { width: 52px; height: 52px; }
+.pf-start-txt { padding: 44px 46px; align-self: center; }
+.pf-start-txt h2 { margin: 0 0 8px; font-size: 26px; }
+.pf-start-txt p { color: var(--muted); margin: 0 0 20px; }
+.pf-start-txt .row { display: flex; gap: 10px; flex-wrap: wrap; }
+@media (max-width: 900px) { .pf-start { grid-template-columns: 1fr; } .pf-start-img { min-height: 200px; } }

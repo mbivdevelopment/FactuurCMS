@@ -11,13 +11,19 @@
     <div>
         <?php if ($projects === []): ?><div class="empty">Nog geen projecten<?= $category !== '' ? ' in deze categorie' : '' ?>.</div><?php endif; ?>
         <div class="grid grid-3"><?php foreach ($projects as $p): ?><?= $partial('frontend._post-card', ['p' => $p, 'base' => '/portfolio/', 'icon' => 'image', 'more' => 'Bekijk project']) ?><?php endforeach; ?></div>
+        <?php if ($pages > 1): ?><nav class="pagination site-pag" aria-label="Paginering">
+            <?php for ($i = 1; $i <= $pages; $i++): $qs = 'pagina=' . $i . ($category !== '' ? '&categorie=' . urlencode($category) : ''); ?><a href="<?= e(url('/portfolio?' . $qs)) ?>" class="<?= $i === $page ? 'active' : '' ?>"><?= $i ?></a><?php endfor; ?>
+        </nav><?php endif; ?>
     </div>
 </div></section>
 <section class="sec"><div class="container">
-    <div class="tiles">
+    <div class="pf-start">
+        <div class="pf-start-img"><?php $ctaImg = ''; foreach ($projects as $p) { if (!empty($p['Afbeelding'])) { $ctaImg = media_url($p['Afbeelding']); break; } } ?><?php if ($ctaImg !== ''): ?><img src="<?= e($ctaImg) ?>" alt=""><?php else: ?><?= icon('image') ?><?php endif; ?></div>
+        <div class="pf-start-txt"><h2>Start ook een eigen project</h2><p>Van website of webshop tot complete ICT-oplossing: vertel ons je idee en we denken mee. Je krijgt altijd eerst een vrijblijvende offerte.</p><div class="row"><a class="btn" href="<?= e(url('/contact')) ?>">Start je project <?= icon('arrow-right', 'icon icon-sm') ?></a><a class="btn btn-ghost" href="<?= e(url('/diensten')) ?>">Bekijk diensten</a></div></div>
+    </div>
+    <div class="tiles" style="margin-top:24px">
         <a class="mega-tile tile-card" href="<?= e(url('/oplossingen/websites')) ?>"><span class="mt-i"><?= icon('layout') ?></span><span><strong>Website laten maken</strong><small>Een website of webshop op maat, zoals deze projecten.</small></span></a>
         <a class="mega-tile tile-card" href="<?= e(url('/diensten')) ?>"><span class="mt-i"><?= icon('server') ?></span><span><strong>Hosting erbij</strong><small>Snelle hosting, domein en e-mail voor je nieuwe project.</small></span></a>
         <a class="mega-tile tile-card" href="<?= e(url('/kennisbank')) ?>"><span class="mt-i"><?= icon('book') ?></span><span><strong>Kennisbank</strong><small>Handleidingen en antwoorden op veelgestelde vragen.</small></span></a>
     </div>
-    <div class="cta" style="margin-top:24px"><div><h2>Ook een project starten?</h2><p>Vertel ons je idee; we denken mee en maken een vrijblijvende offerte.</p></div><a class="btn btn-lg" href="<?= e(url('/contact')) ?>">Start je project <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
 </div></section>

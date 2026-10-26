@@ -80,11 +80,20 @@ final class SiteController extends Controller
     public function portfolio(Request $request): Response
     {
         $category = $request->string('categorie');
+        $pageNr = max(1, $request->int('pagina'));
+        $where = 'Zichtbaar = 1' . ($category !== '' ? ' AND Categorie = ?' : '');
+        $params = $category !== '' ? [$category] : [];
+        $total = (int) Database::scalar("SELECT COUNT(*) FROM PortfolioItems WHERE $where", $params);
+        $perPage = 6;
+        $pages = max(1, (int) ceil($total / $perPage));
+        $pageNr = min($pageNr, $pages);
 
         return $this->view('frontend.portfolio', [
-            'projects' => Database::all('SELECT * FROM PortfolioItems WHERE Zichtbaar = 1' . ($category !== '' ? ' AND Categorie = ?' : '') . ' ORDER BY Volgorde, Id DESC', $category !== '' ? [$category] : []),
+            'projects' => Database::all("SELECT * FROM PortfolioItems WHERE $where ORDER BY Volgorde, Id DESC LIMIT $perPage OFFSET " . (($pageNr - 1) * $perPage), $params),
             'categories' => Database::all('SELECT Categorie, COUNT(*) AS Aantal FROM PortfolioItems WHERE Zichtbaar = 1 GROUP BY Categorie ORDER BY Categorie'),
             'category' => $category,
+            'page' => $pageNr,
+            'pages' => $pages,
         ]);
     }
 
