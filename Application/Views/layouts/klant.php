@@ -65,5 +65,5 @@ $navSections = [
 ];
 echo $partial('partials.panel', [
     'navSections' => $navSections, 'home' => '/klant', 'profile' => '/klant/profiel', 'tagline' => 'Klantportaal',
-    'footLinks' => [['/diensten', 'cart', 'Nieuwe dienst bestellen', false]], 'body' => $yield('content'),
+    'footLinks' => [['/oplossingen/webhosting', 'cart', 'Nieuwe dienst bestellen', false]], 'body' => $yield('content'),
 ]);

@@ -21,7 +21,7 @@
 <section class="sec"><div class="container">
     <div class="tiles">
         <a class="mega-tile tile-card" href="<?= e(url('/oplossingen/websites')) ?>"><span class="mt-i"><?= icon('layout') ?></span><span><strong>Website laten maken</strong><small>Een website of webshop op maat, zoals deze projecten.</small></span></a>
-        <a class="mega-tile tile-card" href="<?= e(url('/diensten')) ?>"><span class="mt-i"><?= icon('server') ?></span><span><strong>Hosting erbij</strong><small>Snelle hosting, domein en e-mail voor je nieuwe project.</small></span></a>
+        <a class="mega-tile tile-card" href="<?= e(url('/oplossingen/webhosting')) ?>"><span class="mt-i"><?= icon('server') ?></span><span><strong>Hosting erbij</strong><small>Snelle hosting, domein en e-mail voor je nieuwe project.</small></span></a>
         <a class="mega-tile tile-card" href="<?= e(url('/kennisbank')) ?>"><span class="mt-i"><?= icon('book') ?></span><span><strong>Kennisbank</strong><small>Handleidingen en antwoorden op veelgestelde vragen.</small></span></a>
     </div>
 </div></section>

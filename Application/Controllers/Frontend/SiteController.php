@@ -146,6 +146,11 @@ final class SiteController extends Controller
         ]);
     }
 
+    public function servicesRedirect(Request $request): Response
+    {
+        return Response::redirect('/oplossingen/webhosting', 301);
+    }
+
     public function services(Request $request): Response
     {
         $group = $request->string('groep');

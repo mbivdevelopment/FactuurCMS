@@ -16,7 +16,7 @@ $homeText = (string) (setting('home.tekst', '') ?: 'Bij ' . company_name() . ' d
             <span class="hh-label"><?= icon('server', 'icon icon-sm') ?> <?= e((string) (setting('home.label', '') ?: 'Hosting & cloud uit Nederland')) ?></span>
             <h1><?= $homeTitle ?></h1>
             <p><?= e($homeText) ?></p>
-            <div class="hh-btns"><a class="btn btn-lg" href="<?= e(url('/diensten')) ?>"><?= icon('box', 'icon icon-sm') ?> Bekijk pakketten</a><a class="btn btn-lg btn-ghost" href="<?= e(url('/domeinen')) ?>"><?= icon('globe', 'icon icon-sm') ?> Domein zoeken</a></div>
+            <div class="hh-btns"><a class="btn btn-lg" href="<?= e(url('/oplossingen/webhosting')) ?>"><?= icon('box', 'icon icon-sm') ?> Bekijk pakketten</a><a class="btn btn-lg btn-ghost" href="<?= e(url('/domeinen')) ?>"><?= icon('globe', 'icon icon-sm') ?> Domein zoeken</a></div>
         </div>
     </div>
 </section>

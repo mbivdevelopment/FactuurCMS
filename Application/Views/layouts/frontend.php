@@ -40,7 +40,7 @@ $colIcons = ['Domeinen' => 'globe', 'Hosting' => 'server', 'Servers' => 'cpu', '
         <nav class="mnav" aria-label="Hoofdmenu">
             <div class="mi"><a class="mi-link<?= $is('/') ? ' active' : '' ?>" href="<?= e(url('/')) ?>">Home</a></div>
             <div class="mi<?= $menu['cloud'] !== [] ? ' has-mega' : '' ?>">
-                <a class="mi-link<?= $activeCat === 'cloud' || $is('/diensten') || $is('/domeinen') ? ' active' : '' ?>" href="<?= e(url('/diensten')) ?>">Cloudoplossing <?php if ($menu['cloud'] !== []): ?><button type="button" class="mi-caret" data-mega-toggle aria-label="Submenu"><?= icon('chevron-down', 'icon icon-sm') ?></button><?php endif; ?></a>
+                <a class="mi-link<?= $activeCat === 'cloud' || $is('/diensten') || $is('/domeinen') ? ' active' : '' ?>" href="<?= e(url($menu['cloud'] !== [] ? '/oplossingen/' . array_values($menu['cloud'])[0][0]['Slug'] : '/oplossingen/webhosting')) ?>">Cloudoplossing <?php if ($menu['cloud'] !== []): ?><button type="button" class="mi-caret" data-mega-toggle aria-label="Submenu"><?= icon('chevron-down', 'icon icon-sm') ?></button><?php endif; ?></a>
                 <?php if ($menu['cloud'] !== []): ?><div class="mega">
                     <div class="container mega-in mega-cloud">
                         <div class="mega-aside">
