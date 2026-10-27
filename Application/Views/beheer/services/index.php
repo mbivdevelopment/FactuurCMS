@@ -4,7 +4,7 @@
     <a class="btn" href="<?= e(url('/beheer/diensten/nieuw')) ?>"><?= icon('plus', 'icon icon-sm') ?> Nieuwe dienst</a></div></div>
 <div class="card"><?php if ($page['rows'] === []): ?><div class="empty">Geen diensten gevonden.</div><?php else: ?>
 <div class="table-wrap"><table class="table"><thead><tr><th>Nummer</th><th>Dienst</th><th>Klant</th><th>Prijs</th><th>Volgende factuur</th><th>Status</th></tr></thead><tbody>
-<?php foreach ($page['rows'] as $s): ?><tr><td class="mono"><?= e($s['Nummer']) ?></td><td><a href="<?= e(url('/beheer/diensten/' . $s['Id'])) ?>"><strong><?= e(dienst_naam($s)) ?></strong></a><div class="small muted"><?= e(dienst_naam($s) !== (string) $s['Naam'] ? $s['Naam'] : $s['Omschrijving']) ?></div></td>
+<?php foreach ($page['rows'] as $s): ?><tr><td class="mono"><?= e($s['Nummer']) ?></td><td><a href="<?= e(url('/beheer/diensten/' . $s['Id'])) ?>"><strong><?= dienst_naam($s) !== (string) $s['Naam'] ? icon('globe', 'icon icon-sm') . ' ' : '' ?><?= e(dienst_naam($s)) ?></strong></a><?php if (dienst_naam($s) === (string) $s['Naam'] && $s['Omschrijving'] !== '' && $s['Omschrijving'] !== null): ?><div class="small muted"><?= e($s['Omschrijving']) ?></div><?php endif; ?></td>
 <td><a href="<?= e(url('/beheer/klanten/' . $s['KlantId'])) ?>"><?= e($s['Bedrijfsnaam'] ?: trim($s['Voornaam'] . ' ' . $s['Achternaam'])) ?></a></td>
 <td class="nowrap"><?= e(money((int) $s['Prijs'])) ?> <span class="small muted"><?= e(period_label($s['Periode'])) ?></span></td><td><?= e(nl_date($s['VolgendeFactuur'])) ?></td>
 <td><?= badge($s['Status'], \App\Models\Service::STATUSES[$s['Status']] ?? '') ?></td></tr><?php endforeach; ?>
