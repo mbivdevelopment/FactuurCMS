@@ -292,19 +292,13 @@ dialog.confirm p { margin: 0; padding: 18px 18px 0; }
 .logo-preview.dark { background: var(--navy); }
 
 /* ---- login ---- */
-.login-wrap { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; max-width: 1600px; margin: 0 auto; }
-.login-side { background: var(--navy) var(--stripes); color: #fff; padding: 70px 60px; display: flex; flex-direction: column; justify-content: center; border-right: 4px solid var(--accent); }
-.login-side h1 { font-size: 34px; margin-bottom: 14px; }
-.login-side p { color: rgba(255,255,255,.7); max-width: 480px; }
-.login-side ul { list-style: none; padding: 0; margin: 24px 0 0; display: flex; flex-direction: column; gap: 10px; }
-.login-side li { display: flex; align-items: center; gap: 10px; }
-.login-side li .icon { color: var(--accent); }
-.login-logo { max-height: 60px; max-width: 240px; object-fit: contain; margin-bottom: 18px; align-self: flex-start; }
-.login-form { display: grid; place-items: center; padding: 40px; }
-.login-box { width: min(420px, 100%); display: flex; flex-direction: column; gap: 14px; padding: 28px; border-top: 3px solid var(--accent); }
-.login-box h1 { margin: 0; }
+.login-wrap { min-height: 100vh; display: grid; place-items: center; background: var(--navy) var(--stripes); padding: 40px 20px; }
+.login-logo { max-height: 56px; max-width: 220px; object-fit: contain; margin: 0 auto 6px; }
+.login-box { width: min(420px, 100%); display: flex; flex-direction: column; gap: 14px; padding: 32px; border-top: 3px solid var(--accent); text-align: left; }
+.login-box h1 { margin: 0; text-align: center; }
+.login-box .sub, .login-box > p:first-of-type { text-align: center; }
 .login-box a:not(.btn) { color: var(--accent); font-weight: 600; }
-@media (max-width: 800px) { .login-wrap { grid-template-columns: 1fr; } .login-side { display: none; } }
+.login-box > a.small { text-align: center; display: flex; align-items: center; justify-content: center; gap: 6px; }
 
 /* Website-modules: thumbnails en uploads */
 .thumb { width: 56px; height: 40px; object-fit: contain; border-radius: 6px; border: 1px solid var(--line); background: var(--soft); display: block; padding: 3px; }
