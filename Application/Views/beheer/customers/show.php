@@ -7,23 +7,36 @@
         <a class="btn" href="<?= e(url('/beheer/facturen/nieuw?klant=' . $cid)) ?>"><?= icon('file', 'icon icon-sm') ?> Factuur</a>
     </div></div>
 <div class="grid grid-4" style="margin-bottom:16px">
-    <div class="card stat is-ok"><div class="stat-icon"><?= icon('server') ?></div><div><div class="stat-value"><?= count(array_filter($services, static fn ($s) => $s->Status === 'actief')) ?></div><div class="stat-label">Actieve diensten</div></div></div>
+    <div class="card stat is-ok"><div class="stat-icon"><?= icon('server') ?></div><div><div class="stat-value"><?= count(array_filter($allServices, static fn ($s) => $s->Status === 'actief')) ?></div><div class="stat-label">Actieve diensten</div></div></div>
     <div class="card stat <?= $open > 0 ? 'is-warn' : '' ?>"><div class="stat-icon"><?= icon('wallet') ?></div><div><div class="stat-value"><?= e(money($open)) ?></div><div class="stat-label">Openstaand</div></div></div>
     <div class="card stat"><div class="stat-icon"><?= icon('euro') ?></div><div><div class="stat-value"><?= e(money($revenue)) ?></div><div class="stat-label">Totaal betaald</div></div></div>
     <div class="card stat"><div class="stat-icon"><?= icon('ticket') ?></div><div><div class="stat-value"><?= count($tickets) ?></div><div class="stat-label">Tickets</div></div></div>
 </div>
 <div class="card" data-tabs>
     <nav class="tab-nav">
-        <a href="#diensten" class="tab-link" data-tab="diensten"><?= icon('server', 'icon icon-sm') ?> Diensten (<?= count($services) ?>)</a>
+        <a href="#diensten" class="tab-link" data-tab="diensten"><?= icon('server', 'icon icon-sm') ?> Diensten (<?= (int) $totalDiensten ?>)</a>
         <a href="#facturen" class="tab-link" data-tab="facturen"><?= icon('file', 'icon icon-sm') ?> Facturen (<?= count($invoices) ?>)</a>
         <a href="#offertes" class="tab-link" data-tab="offertes"><?= icon('quote', 'icon icon-sm') ?> Offertes (<?= count($quotes) ?>)</a>
         <a href="#tickets" class="tab-link" data-tab="tickets"><?= icon('ticket', 'icon icon-sm') ?> Tickets (<?= count($tickets) ?>)</a>
         <a href="#gegevens" class="tab-link" data-tab="gegevens"><?= icon('edit', 'icon icon-sm') ?> Gegevens</a>
     </nav>
     <div class="tab-pane" data-pane="diensten">
-        <?php if ($services === []): ?><div class="empty">Geen diensten.</div><?php else: ?><div class="table-wrap"><table class="table"><thead><tr><th>Nummer</th><th>Dienst</th><th>Prijs</th><th>Volgende factuur</th><th>Status</th><th></th></tr></thead><tbody>
+        <div class="card-body svc-split">
+            <aside>
+                <h3 class="side-title">Categorieën</h3>
+                <nav class="sidecat">
+                    <a href="<?= e(url('/beheer/klanten/' . $cid)) ?>#diensten"<?= $cat === '' ? ' class="active"' : '' ?>><span>Alle diensten</span><small><?= (int) $totalDiensten ?></small></a>
+                    <?php foreach (\App\Models\Service::CATEGORIES as $key => $def): ?>
+                        <a href="<?= e(url('/beheer/klanten/' . $cid . '?cat=' . $key)) ?>#diensten"<?= $cat === $key ? ' class="active"' : '' ?>><span><?= e($def[0]) ?></span><small><?= (int) ($catCounts[$key] ?? 0) ?></small></a>
+                    <?php endforeach; ?>
+                </nav>
+            </aside>
+            <div>
+        <?php if ($services === []): ?><div class="empty">Geen diensten<?= $catDef !== null ? ' in ' . e($catDef[0]) : '' ?>.</div><?php else: ?><div class="table-wrap"><table class="table"><thead><tr><th>Nummer</th><th>Dienst</th><th>Prijs</th><th>Volgende factuur</th><th>Status</th><th></th></tr></thead><tbody>
         <?php foreach ($services as $s): ?><tr><td class="mono"><?= e($s->Nummer) ?></td><td><strong><?= dienst_naam($s) !== (string) $s->Naam ? icon('globe', 'icon icon-sm') . ' ' : '' ?><?= e(dienst_naam($s)) ?></strong><?php if (dienst_naam($s) === (string) $s->Naam && $s->Omschrijving): ?><div class="small muted"><?= e($s->Omschrijving) ?></div><?php endif; ?></td><td class="nowrap"><?= e(money((int) $s->Prijs)) ?> <span class="small muted"><?= e(period_label((string) $s->Periode)) ?></span></td><td><?= e(nl_date($s->VolgendeFactuur)) ?></td><td><?= badge((string) $s->Status, \App\Models\Service::STATUSES[$s->Status] ?? '') ?></td><td class="actions"><a class="btn btn-ghost btn-sm" href="<?= e(url('/beheer/diensten/' . $s->id())) ?>"><?= icon('edit', 'icon icon-sm') ?></a></td></tr><?php endforeach; ?>
         </tbody></table></div><?php endif; ?>
+            </div>
+        </div>
     </div>
     <?php foreach (['facturen' => $invoices, 'offertes' => $quotes] as $pane => $docs): ?>
     <div class="tab-pane" data-pane="<?= $pane ?>">

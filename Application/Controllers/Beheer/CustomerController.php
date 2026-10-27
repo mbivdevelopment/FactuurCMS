@@ -63,10 +63,53 @@ final class CustomerController extends Controller
     public function show(Request $request): Response
     {
         $customer = $this->customer($request);
+        $cat = $request->string('cat');
+        $catDef = Service::CATEGORIES[$cat] ?? null;
+        $sql = 'SELECT s.* FROM Diensten s LEFT JOIN Producten p ON p.Id = s.ProductId WHERE s.KlantId = ?';
+        $params = [$customer->id()];
+        if ($catDef !== null) {
+            $real = array_values(array_filter($catDef[1], static fn (string $x): bool => $x !== 'domein'));
+            $or = [];
+            if ($real !== []) {
+                $or[] = 'p.Dienstsoort IN (' . implode(',', array_fill(0, count($real), '?')) . ')';
+                array_push($params, ...$real);
+            }
+            if (in_array('domein', $catDef[1], true)) {
+                $or[] = "s.Bron IN ('domein', 'realtimeregister')";
+            }
+            if ($or !== []) {
+                $sql .= ' AND (' . implode(' OR ', $or) . ')';
+            }
+        }
+        $services = array_map(static fn (array $row): Service => new Service($row), Database::all($sql . ' ORDER BY s.Nummer DESC', $params));
+        $soortCounts = [];
+        foreach (Database::all(
+            'SELECT p.Dienstsoort AS Soort, s.Bron, COUNT(*) AS c FROM Diensten s LEFT JOIN Producten p ON p.Id = s.ProductId WHERE s.KlantId = ? GROUP BY Soort, s.Bron',
+            [$customer->id()]
+        ) as $r) {
+            $soort = (string) ($r['Soort'] ?? '');
+            if ($soort !== '') {
+                $soortCounts[$soort] = ($soortCounts[$soort] ?? 0) + (int) $r['c'];
+            }
+            if (in_array((string) $r['Bron'], ['domein', 'realtimeregister'], true)) {
+                $soortCounts['domein'] = ($soortCounts['domein'] ?? 0) + (int) $r['c'];
+            }
+        }
+        $catCounts = array_fill_keys(array_keys(Service::CATEGORIES), 0);
+        foreach (Service::CATEGORIES as $key => $def) {
+            foreach ($def[1] as $soort) {
+                $catCounts[$key] += $soortCounts[$soort] ?? 0;
+            }
+        }
 
         return $this->view('beheer.customers.show', [
             'customer' => $customer,
-            'services' => Service::where(['KlantId' => $customer->id()]),
+            'services' => $services,
+            'allServices' => Service::where(['KlantId' => $customer->id()]),
+            'cat' => $cat,
+            'catDef' => $catDef,
+            'catCounts' => $catCounts,
+            'totalDiensten' => (int) Database::scalar('SELECT COUNT(*) FROM Diensten WHERE KlantId = ?', [$customer->id()]),
             'invoices' => Document::where(['KlantId' => $customer->id(), 'Soort' => 'factuur'], 'Datum DESC, Id DESC'),
             'quotes' => Document::where(['KlantId' => $customer->id(), 'Soort' => 'offerte'], 'Datum DESC, Id DESC'),
             'tickets' => Ticket::where(['KlantId' => $customer->id()]),
