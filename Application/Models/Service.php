@@ -26,6 +26,36 @@ final class Service extends Model
         'ict' => ['ICT & overig', ['Overig'], 'settings'],
     ];
 
+    /** Hoofdgroepen voor de categorie-sidebar: sleutel => [label, icoon, categorie-sleutels]. */
+    public const CAT_GROUPS = [
+        'domeinen' => ['Domeinnamen', 'globe', ['domeinnamen']],
+        'ssl' => ['SSL certificaten', 'shield', ['ssl']],
+        'webhosting' => ['Webhosting', 'server', ['webhosting', 'reseller', 'e-mailhosting']],
+        'servers' => ['Servers', 'cpu', ['vps', 'dedicated', 'big-storage']],
+        'ict' => ['ICT', 'zap', ['connectiviteit', 'ict']],
+        'development' => ['Development', 'code', ['websites']],
+        'marketing' => ['Marketing', 'trend', ['marketing']],
+    ];
+
+    /**
+     * Vertaalt een cat-filter (hoofdgroep- of categorie-sleutel) naar [label, dienstsoorten].
+     * @return array{0: string, 1: list<string>}|null
+     */
+    public static function catFilter(string $cat): ?array
+    {
+        if (isset(self::CAT_GROUPS[$cat])) {
+            [$label,, $keys] = self::CAT_GROUPS[$cat];
+            $soorten = [];
+            foreach ($keys as $k) {
+                array_push($soorten, ...self::CATEGORIES[$k][1]);
+            }
+
+            return [$label, array_values(array_unique($soorten))];
+        }
+
+        return isset(self::CATEGORIES[$cat]) ? [self::CATEGORIES[$cat][0], self::CATEGORIES[$cat][1]] : null;
+    }
+
     protected static string $table = 'Diensten';
     protected static ?string $prefix = 'D';
     protected static array $json = ['Gegevens'];

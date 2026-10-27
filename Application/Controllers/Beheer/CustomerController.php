@@ -64,7 +64,7 @@ final class CustomerController extends Controller
     {
         $customer = $this->customer($request);
         $cat = $request->string('cat');
-        $catDef = Service::CATEGORIES[$cat] ?? null;
+        $catDef = Service::catFilter($cat);
         $sql = 'SELECT s.* FROM Diensten s LEFT JOIN Producten p ON p.Id = s.ProductId WHERE s.KlantId = ?';
         $params = [$customer->id()];
         if ($catDef !== null) {

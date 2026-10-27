@@ -23,13 +23,7 @@
     <div class="tab-pane" data-pane="diensten">
         <div class="card-body svc-split">
             <aside>
-                <h3 class="side-title">Categorieën</h3>
-                <nav class="sidecat">
-                    <a href="<?= e(url('/beheer/klanten/' . $cid)) ?>#diensten"<?= $cat === '' ? ' class="active"' : '' ?>><span class="sc-ic"><?= icon('layout', 'icon icon-sm') ?></span><span>Alle diensten</span><small><?= (int) $totalDiensten ?></small></a>
-                    <?php foreach (\App\Models\Service::CATEGORIES as $key => $def): ?>
-                        <a href="<?= e(url('/beheer/klanten/' . $cid . '?cat=' . $key)) ?>#diensten"<?= $cat === $key ? ' class="active"' : '' ?>><span class="sc-ic"><?= icon($def[2], 'icon icon-sm') ?></span><span><?= e($def[0]) ?></span><small><?= (int) ($catCounts[$key] ?? 0) ?></small></a>
-                    <?php endforeach; ?>
-                </nav>
+                <?= $partial('beheer.partials.catnav', ['link' => static fn (string $k): string => '/beheer/klanten/' . $cid . ($k !== '' ? '?cat=' . $k : '') . '#diensten', 'cat' => $cat, 'catCounts' => $catCounts, 'totalDiensten' => $totalDiensten]) ?>
             </aside>
             <div>
         <?php if ($services === []): ?><div class="empty">Geen diensten<?= $catDef !== null ? ' in ' . e($catDef[0]) : '' ?>.</div><?php else: ?><div class="table-wrap"><table class="table"><thead><tr><th>Nummer</th><th>Dienst</th><th>Prijs</th><th>Volgende factuur</th><th>Status</th><th></th></tr></thead><tbody>
