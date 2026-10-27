@@ -1,4 +1,4 @@
-<?php $extend('klant', ['title' => 'Nieuw ticket']); $opts = ['' => 'Geen specifieke dienst']; foreach ($services as $s) { $opts[$s->id()] = $s->Naam . ($s->Omschrijving ? ' - ' . $s->Omschrijving : ''); } ?>
+<?php $extend('klant', ['title' => 'Nieuw ticket']); $opts = ['' => 'Geen specifieke dienst']; foreach ($services as $s) { $opts[$s->id()] = dienst_naam($s) . (dienst_naam($s) !== (string) $s->Naam ? ' - ' . $s->Naam : ($s->Omschrijving ? ' - ' . $s->Omschrijving : '')); } ?>
 <div class="page-head"><div class="ph-icon"><?= icon('ticket') ?></div><div class="ph-text"><h1>Nieuw ticket</h1></div></div>
 <form class="card" method="post" action="<?= e(url('/klant/tickets')) ?>"><?= csrf_field() ?>
     <div class="card-body form-grid">

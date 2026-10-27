@@ -205,6 +205,24 @@ function period_label(string $period): string
     return ['eenmalig' => 'eenmalig', 'maand' => 'per maand', 'kwartaal' => 'per kwartaal', 'jaar' => 'per jaar', '2jaar' => 'per 2 jaar', '4jaar' => 'per 4 jaar'][$period] ?? $period;
 }
 
+/** Weergavenaam van een dienst: bij domeindiensten de domeinnaam zelf, anders de dienstnaam. */
+function dienst_naam(array|\App\Models\Service $s): string
+{
+    $naam = (string) (is_array($s) ? ($s['Naam'] ?? '') : $s->Naam);
+    $oms = trim((string) (is_array($s) ? ($s['Omschrijving'] ?? '') : $s->Omschrijving));
+    $gv = is_array($s) ? ($s['Gegevens'] ?? []) : $s->Gegevens;
+    if (is_string($gv)) {
+        $gv = (array) json_decode($gv, true);
+    }
+    $dom = is_array($gv) ? ($gv['domein'] ?? null) : null;
+    $domein = is_array($dom) ? (string) ($dom['naam'] ?? '') : (string) ($dom ?? '');
+    if ($domein !== '') {
+        return $domein;
+    }
+
+    return $oms !== '' && preg_match('/^[a-z0-9][a-z0-9.-]*\.[a-z]{2,}$/i', $oms) ? $oms : $naam;
+}
+
 /** Statuslabel als badge met kleur. */
 function badge(string $status, string $label): string
 {
