@@ -12,18 +12,18 @@ final class Service extends Model
 
     /** Beheer-categorieën in het klantportaal: sleutel => [label, dienstsoorten (of 'domein' voor Bron=domein)]. */
     public const CATEGORIES = [
-        'domeinnamen' => ['Domeinnamen', ['Domeinnamen', 'domein']],
-        'ssl' => ['SSL certificaten', ['SSL certificaten']],
-        'webhosting' => ['Webhosting', ['Webhosting', 'Reseller Hosting', 'E-mailhosting']],
-        'reseller' => ['Reseller hosting', ['Reseller Hosting']],
-        'e-mailhosting' => ['E-mailhosting', ['E-mailhosting']],
-        'vps' => ['CloudVPS', ['Cloud VPS', 'VPS']],
-        'dedicated' => ['Dedicated', ['Dedicated Server', 'Dedicated']],
-        'big-storage' => ['Big Storage', ['Big Storage']],
-        'websites' => ['Websites & webshops', ['Informatieve Websites', 'Webshops', 'Websites', 'API Koppelingen']],
-        'connectiviteit' => ['Connectiviteit', ['VoIP', 'VPN', 'Licenties', 'Werkplek beheer', 'Werkplekbeheer']],
-        'marketing' => ['Marketing', ['Marketing SEO', 'Linkbuilding', 'Social Media Onderhoud']],
-        'ict' => ['ICT & overig', ['Overig']],
+        'domeinnamen' => ['Domeinnamen', ['Domeinnamen', 'domein'], 'globe'],
+        'ssl' => ['SSL certificaten', ['SSL certificaten'], 'shield'],
+        'webhosting' => ['Webhosting', ['Webhosting', 'Reseller Hosting', 'E-mailhosting'], 'server'],
+        'reseller' => ['Reseller hosting', ['Reseller Hosting'], 'users'],
+        'e-mailhosting' => ['E-mailhosting', ['E-mailhosting'], 'mail'],
+        'vps' => ['CloudVPS', ['Cloud VPS', 'VPS'], 'cloud'],
+        'dedicated' => ['Dedicated', ['Dedicated Server', 'Dedicated'], 'cpu'],
+        'big-storage' => ['Big Storage', ['Big Storage'], 'box'],
+        'websites' => ['Websites & webshops', ['Informatieve Websites', 'Webshops', 'Websites', 'API Koppelingen'], 'code'],
+        'connectiviteit' => ['Connectiviteit', ['VoIP', 'VPN', 'Licenties', 'Werkplek beheer', 'Werkplekbeheer'], 'zap'],
+        'marketing' => ['Marketing', ['Marketing SEO', 'Linkbuilding', 'Social Media Onderhoud'], 'trend'],
+        'ict' => ['ICT & overig', ['Overig'], 'settings'],
     ];
 
     protected static string $table = 'Diensten';

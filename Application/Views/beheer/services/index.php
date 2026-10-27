@@ -12,9 +12,9 @@ $actief = ['cat' => $cat, 'soort' => $kind, 'status' => $status, 'due' => $due];
         <div class="card"><div class="card-body">
             <h3 class="side-title">Categorieën</h3>
             <nav class="sidecat">
-                <a href="<?= e(url($link(['cat' => '', 'page' => '']))) ?>"<?= $cat === '' ? ' class="active"' : '' ?>><span>Alle diensten</span><small><?= (int) $totalDiensten ?></small></a>
+                <a href="<?= e(url($link(['cat' => '', 'page' => '']))) ?>"<?= $cat === '' ? ' class="active"' : '' ?>><span class="sc-ic"><?= icon('layout', 'icon icon-sm') ?></span><span>Alle diensten</span><small><?= (int) $totalDiensten ?></small></a>
                 <?php foreach (\App\Models\Service::CATEGORIES as $key => $def): ?>
-                    <a href="<?= e(url($link(['cat' => $key, 'page' => '']))) ?>"<?= $cat === $key ? ' class="active"' : '' ?>><span><?= e($def[0]) ?></span><small><?= (int) ($catCounts[$key] ?? 0) ?></small></a>
+                    <a href="<?= e(url($link(['cat' => $key, 'page' => '']))) ?>"<?= $cat === $key ? ' class="active"' : '' ?>><span class="sc-ic"><?= icon($def[2], 'icon icon-sm') ?></span><span><?= e($def[0]) ?></span><small><?= (int) ($catCounts[$key] ?? 0) ?></small></a>
                 <?php endforeach; ?>
             </nav>
         </div></div>

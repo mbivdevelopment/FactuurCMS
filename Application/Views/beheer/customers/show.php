@@ -25,9 +25,9 @@
             <aside>
                 <h3 class="side-title">Categorieën</h3>
                 <nav class="sidecat">
-                    <a href="<?= e(url('/beheer/klanten/' . $cid)) ?>#diensten"<?= $cat === '' ? ' class="active"' : '' ?>><span>Alle diensten</span><small><?= (int) $totalDiensten ?></small></a>
+                    <a href="<?= e(url('/beheer/klanten/' . $cid)) ?>#diensten"<?= $cat === '' ? ' class="active"' : '' ?>><span class="sc-ic"><?= icon('layout', 'icon icon-sm') ?></span><span>Alle diensten</span><small><?= (int) $totalDiensten ?></small></a>
                     <?php foreach (\App\Models\Service::CATEGORIES as $key => $def): ?>
-                        <a href="<?= e(url('/beheer/klanten/' . $cid . '?cat=' . $key)) ?>#diensten"<?= $cat === $key ? ' class="active"' : '' ?>><span><?= e($def[0]) ?></span><small><?= (int) ($catCounts[$key] ?? 0) ?></small></a>
+                        <a href="<?= e(url('/beheer/klanten/' . $cid . '?cat=' . $key)) ?>#diensten"<?= $cat === $key ? ' class="active"' : '' ?>><span class="sc-ic"><?= icon($def[2], 'icon icon-sm') ?></span><span><?= e($def[0]) ?></span><small><?= (int) ($catCounts[$key] ?? 0) ?></small></a>
                     <?php endforeach; ?>
                 </nav>
             </aside>
