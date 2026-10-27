@@ -29,7 +29,7 @@ $initial = mb_strtoupper(mb_substr((string) ($user?->Voornaam ?: $user?->Email),
             <button type="button" class="tb-icon menu-btn" data-menu-toggle="#nav" aria-label="Menu"><?= icon('layout') ?></button>
             <nav class="nav-links">
                 <?php foreach ($navSections as $s): ?>
-                    <?php $drop = count($s['items']) > 1; $isActive = ($current['key'] ?? '') === $s['key']; ?>
+                    <?php $drop = count($s['items']) > 1 && empty($s['sidebar']); $isActive = ($current['key'] ?? '') === $s['key']; ?>
                     <div class="nav-item<?= $drop ? ' has-drop' : '' ?>">
                         <a href="<?= e(url($s['href'] ?? $s['items'][0][0])) ?>" class="nav-title<?= $isActive ? ' active' : '' ?>"<?= $drop ? ' aria-haspopup="true"' : '' ?>><?= icon($s['icon']) ?><span><?= e($s['label']) ?></span><?php if (($s['count'] ?? 0) > 0): ?><span class="nav-count"><?= (int) $s['count'] ?></span><?php endif; ?><?php if ($drop): ?><?= icon('chevron-down', 'icon caret') ?><?php endif; ?></a>
                         <?php if ($drop): ?>
@@ -58,7 +58,28 @@ $initial = mb_strtoupper(mb_substr((string) ($user?->Voornaam ?: $user?->Email),
         <?php endif; ?>
         <main class="content">
             <?= $partial('partials.flash', ['toast' => true]) ?>
+            <?php if (!empty($current['sidebar'])): ?>
+            <div class="svc-split">
+                <aside>
+                    <div class="card"><div class="card-body">
+                        <?php foreach (($current['columns'] ?? ['' => array_keys($current['items'])]) as $colTitle => $idx): ?>
+                            <h3 class="side-title"><?= e($colTitle !== '' ? $colTitle : $current['label']) ?></h3>
+                            <nav class="sidecat" style="margin-bottom:10px">
+                                <?php foreach ($idx as $n): $it = $current['items'][$n]; $mp = explode('#', $it[0])[0]; ?>
+                                    <a href="<?= e(url($it[0])) ?>"<?= ($matches($mp) && (!str_contains($it[0], '#') || $it[0] === $current['items'][0][0])) || ($crumb === $it[2]) ? ' class="active"' : '' ?>><span class="sc-ic"><?= icon($it[1], 'icon icon-sm') ?></span><span><?= e($it[2]) ?></span><?php if (($it[4] ?? 0) > 0): ?><small><?= (int) $it[4] ?></small><?php endif; ?></a>
+                                <?php endforeach; ?>
+                            </nav>
+                        <?php endforeach; ?>
+                        <?php if (isset($current['action'])): ?><a class="btn btn-sm" href="<?= e(url($current['action'][0])) ?>" style="width:100%"><?= icon('plus', 'icon icon-sm') ?> <?= e($current['action'][1]) ?></a><?php endif; ?>
+                    </div></div>
+                </aside>
+                <div style="min-width:0">
+            <?php endif; ?>
             <?= $body ?>
+            <?php if (!empty($current['sidebar'])): ?>
+                </div>
+            </div>
+            <?php endif; ?>
         </main>
         <footer class="footer2"><span>&copy; <?= date('Y') ?> <?= e(company_name()) ?> · <?= e($tagline) ?></span><span>Ingelogd als <?= e($user?->Email) ?></span></footer>
     </div>
