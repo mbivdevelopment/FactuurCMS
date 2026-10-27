@@ -223,6 +223,8 @@ dl.details dd { margin: 0; font-weight: 500; }
 .filters a { flex: 1; text-align: center; padding: 7px 12px; border-radius: 6px; font-weight: 600; color: var(--muted); }
 .filters a:hover { background: var(--soft); color: var(--text); }
 .filters a.active { background: var(--navy); color: #fff; }
+.ph-filters { flex: none; margin-left: auto; padding: 3px; }
+.ph-filters a { flex: none; padding: 6px 12px; font-size: 13px; }
 
 /* ---- status/badges ---- */
 .badge { display: inline-flex; align-items: center; font-size: 11.5px; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: #eef0f4; color: var(--text); white-space: nowrap; }
