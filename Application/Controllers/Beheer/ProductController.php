@@ -7,16 +7,51 @@ namespace App\Controllers\Beheer;
 use App\Core\Controller;
 use App\Core\HttpException;
 use App\Core\Request;
+use App\Core\Database;
 use App\Core\Response;
 use App\Models\Product;
+use App\Models\Service;
 
 final class ProductController extends Controller
 {
     public function index(Request $request): Response
     {
         $kind = Product::soortFromSlug(basename($request->path), true) ?? $request->string('soort');
+        $q = $request->string('q');
+        $cat = $request->string('cat', 'domeinen');
+        $catDef = Service::catFilter($cat);
+        $sql = 'SELECT * FROM Producten WHERE 1 = 1';
+        $params = [];
+        if ($catDef !== null) {
+            $real = array_values(array_filter($catDef[1], static fn (string $x): bool => $x !== 'domein'));
+            if ($real !== []) {
+                $sql .= ' AND Dienstsoort IN (' . implode(',', array_fill(0, count($real), '?')) . ')';
+                array_push($params, ...$real);
+            }
+        }
+        if ($kind !== '') {
+            $sql .= ' AND Dienstsoort = ?';
+            $params[] = $kind;
+        }
+        if ($q !== '') {
+            $sql .= ' AND (Naam LIKE ? OR Nummer LIKE ?)';
+            $params[] = '%' . $q . '%';
+            $params[] = '%' . $q . '%';
+        }
+        $products = Product::query($sql . ' ORDER BY Nummer', $params);
+        $soortCounts = [];
+        foreach (Database::all('SELECT Dienstsoort AS Soort, COUNT(*) AS c FROM Producten GROUP BY Soort') as $r) {
+            $soortCounts[(string) ($r['Soort'] ?? '')] = (int) $r['c'];
+        }
+        $catCounts = array_fill_keys(array_keys(Service::CATEGORIES), 0);
+        foreach (Service::CATEGORIES as $key => $def) {
+            foreach ($def[1] as $soort) {
+                $catCounts[$key] += $soortCounts[$soort] ?? 0;
+            }
+        }
+        unset($soortCounts['domein']);
 
-        return $this->view('beheer.products.index', ['products' => Product::where($kind !== '' ? ['Dienstsoort' => $kind] : [], 'Nummer'), 'kind' => $kind]);
+        return $this->view('beheer.products.index', ['products' => $products, 'kind' => $kind, 'q' => $q, 'cat' => $cat, 'catDef' => $catDef, 'catCounts' => $catCounts, 'soorten' => $soortCounts]);
     }
 
     public function create(Request $request): Response
