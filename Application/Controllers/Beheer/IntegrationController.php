@@ -28,6 +28,19 @@ final class IntegrationController extends Controller
         return $this->view('beheer.integrations.index', ['set' => self::configured()]);
     }
 
+    public function show(Request $request): Response
+    {
+        $name = $this->name($request);
+        [$icon, $desc] = [
+            'realtimeregister' => ['globe', 'Domeinen importeren als dienst en extensies met inkoopprijs als product.'],
+            'qevanto' => ['server', 'Pakketten en abonnementen uit je hostingpaneel importeren, met SSO naar het paneel.'],
+            'mollie' => ['wallet', 'Klanten betalen facturen met iDEAL, kaart en andere methoden.'],
+            'cryptomus' => ['zap', 'Klanten betalen facturen met crypto via een webhook.'],
+        ][$name];
+
+        return $this->view('beheer.integrations.show', ['set' => self::configured(), 'name' => $name, 'label' => self::LABELS[$name], 'icon' => $icon, 'desc' => $desc]);
+    }
+
     /** @return array<string, bool> */
     public static function configured(): array
     {
@@ -73,7 +86,7 @@ final class IntegrationController extends Controller
                 break;
         }
 
-        return $this->redirect('/beheer/koppelingen#' . $name)->with('success', self::LABELS[$name] . ' opgeslagen.');
+        return $this->redirect('/beheer/koppelingen/' . $name)->with('success', self::LABELS[$name] . ' opgeslagen.');
     }
 
     public function test(Request $request): Response
@@ -87,10 +100,10 @@ final class IntegrationController extends Controller
                 default => QevantoPaneel::test(),
             };
         } catch (\Throwable $e) {
-            return $this->redirect('/beheer/koppelingen#' . $name)->with('error', self::LABELS[$name] . ': ' . $e->getMessage());
+            return $this->redirect('/beheer/koppelingen/' . $name)->with('error', self::LABELS[$name] . ': ' . $e->getMessage());
         }
 
-        return $this->redirect('/beheer/koppelingen#' . $name)->with('success', $message);
+        return $this->redirect('/beheer/koppelingen/' . $name)->with('success', $message);
     }
 
     public function rrDomains(Request $request): Response
@@ -98,7 +111,7 @@ final class IntegrationController extends Controller
         try {
             $domains = RealtimeRegister::domains();
         } catch (\Throwable $e) {
-            return $this->redirect('/beheer/koppelingen#realtimeregister')->with('error', $e->getMessage());
+            return $this->redirect('/beheer/koppelingen/realtimeregister')->with('error', $e->getMessage());
         }
         $products = self::tldProducts();
         $present = self::domainServices();
@@ -166,7 +179,7 @@ final class IntegrationController extends Controller
         try {
             $prices = RealtimeRegister::tldPrices();
         } catch (\Throwable $e) {
-            return $this->redirect('/beheer/koppelingen#realtimeregister')->with('error', $e->getMessage());
+            return $this->redirect('/beheer/koppelingen/realtimeregister')->with('error', $e->getMessage());
         }
         $margin = (int) setting('rr.marge', 30);
         $products = self::tldProducts();
@@ -233,7 +246,7 @@ final class IntegrationController extends Controller
         try {
             $subs = QevantoPaneel::subscriptions();
         } catch (\Throwable $e) {
-            return $this->redirect('/beheer/koppelingen#qevanto')->with('error', $e->getMessage());
+            return $this->redirect('/beheer/koppelingen/qevanto')->with('error', $e->getMessage());
         }
         $imported = self::externIds('qevanto');
         $byEmail = [];
@@ -352,7 +365,7 @@ final class IntegrationController extends Controller
         try {
             $packages = QevantoPaneel::packages();
         } catch (\Throwable $e) {
-            return $this->redirect('/beheer/koppelingen#qevanto')->with('error', $e->getMessage());
+            return $this->redirect('/beheer/koppelingen/qevanto')->with('error', $e->getMessage());
         }
         $linked = [];
         $byName = [];

@@ -319,6 +319,19 @@ dialog.confirm p { margin: 0; padding: 18px 18px 0; }
 .sidecat a.sub.active { color: var(--accent); font-weight: 600; border-left-color: var(--accent); box-shadow: none; background: rgba(249, 115, 22, .06); }
 @media (max-width: 900px) { .svc-split { grid-template-columns: 1fr; } }
 
+/* Koppelingen: integratiekaarten */
+.int-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.int-card { display: flex; align-items: center; gap: 14px; padding: 16px 18px; text-decoration: none; color: var(--ink); transition: box-shadow .15s, transform .15s; }
+.int-card:hover { box-shadow: 0 6px 20px rgba(17, 24, 39, .10); transform: translateY(-1px); }
+.int-ic { display: grid; place-items: center; width: 44px; height: 44px; flex: none; border-radius: 12px; background: rgba(249, 115, 22, .10); color: var(--accent); }
+.int-t { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.int-t strong { font-size: 15px; }
+.int-t small { color: var(--muted); line-height: 1.4; }
+.int-r { margin-left: auto; display: flex; align-items: center; gap: 10px; flex: none; }
+.int-arrow { color: #c3c9d4; }
+.int-card:hover .int-arrow { color: var(--accent); }
+@media (max-width: 900px) { .int-grid { grid-template-columns: 1fr; } }
+
 /* Website-modules: thumbnails en uploads */
 .thumb { width: 56px; height: 40px; object-fit: contain; border-radius: 6px; border: 1px solid var(--line); background: var(--soft); display: block; padding: 3px; }
 .thumb-empty { display: grid; place-items: center; color: var(--muted); }
