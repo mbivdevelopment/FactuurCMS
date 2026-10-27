@@ -15,7 +15,7 @@
         <form class="card" method="post" action="<?= e(url('/beheer/documenten/' . $id . '/status')) ?>"><?= csrf_field() ?>
             <div class="card-head"><h2><?= icon('check') ?> Status</h2></div>
             <div class="card-body"><?= field('Status', 'Status', 'check', $doc->Status, 'select', array_diff_key($statuses, ['vervallen' => 1, 'verlopen' => 1])) ?></div>
-            <div class="card-foot"><button class="btn btn-sm">Wijzigen</button></div></form>
+            <div class="card-foot"><?php if ($doc->Status === 'concept' || auth_user()?->isAdmin()): ?><?= delete_submit() ?><span style="margin-left:auto"></span><?php endif; ?><button class="btn btn-sm">Wijzigen</button></div></form>
         <?php if (!$isQ && $doc->outstanding() > 0): ?>
         <form class="card" method="post" action="<?= e(url('/beheer/documenten/' . $id . '/betaling')) ?>"><?= csrf_field() ?>
             <div class="card-head"><h2><?= icon('wallet') ?> Betaling registreren</h2></div>
@@ -26,6 +26,6 @@
             </div>
             <div class="card-foot"><button class="btn btn-sm"><?= icon('check', 'icon icon-sm') ?> Registreren</button></div></form>
         <?php endif; ?>
-        <?php if ($doc->Status === 'concept' || auth_user()?->isAdmin()): ?><div><?= delete_button(url('/beheer/documenten/' . $id), $doc->label() . ' ' . $doc->Nummer . ' definitief verwijderen?') ?></div><?php endif; ?>
+        <?php if ($doc->Status === 'concept' || auth_user()?->isAdmin()): ?><?= delete_form(url('/beheer/documenten/' . $id), $doc->label() . ' ' . $doc->Nummer . ' definitief verwijderen?') ?><?php endif; ?>
     </div>
 </div>

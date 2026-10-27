@@ -15,7 +15,7 @@
         <form class="card" method="post" action="<?= e(url('/beheer/tickets/' . $id . '/status')) ?>"><?= csrf_field() ?>
             <div class="card-head"><h2><?= icon('settings') ?> Ticket</h2></div>
             <div class="card-body stack"><?= field('Status', 'Status', 'check', $ticket->Status, 'select', \App\Models\Ticket::STATUSES) ?><?= field('Prioriteit', 'Prioriteit', 'zap', $ticket->Prioriteit, 'select', \App\Models\Ticket::PRIORITIES) ?></div>
-            <div class="card-foot"><button class="btn btn-sm">Opslaan</button></div></form>
-        <div><?= delete_button(url('/beheer/tickets/' . $id), 'Ticket ' . $ticket->Nummer . ' verwijderen?') ?></div>
+            <div class="card-foot"><?= delete_submit() ?><span style="margin-left:auto"></span><button class="btn btn-sm">Opslaan</button></div></form>
+        <?= delete_form(url('/beheer/tickets/' . $id), 'Ticket ' . $ticket->Nummer . ' verwijderen?') ?>
     </div>
 </div>

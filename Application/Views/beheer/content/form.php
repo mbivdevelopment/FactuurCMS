@@ -46,6 +46,6 @@ $groups = ['' => '- Geen pakketten -'] + array_combine(array_keys(\App\Models\Pr
             <?php endif; ?>
         <?php endforeach; ?>
     </div>
-    <div class="card-foot"><?php if (!empty($type['slug']) && $type['public']): ?><span class="small muted" style="margin-right:auto"><?= icon('link', 'icon icon-sm') ?> <?= e($type['public']) ?><?= e(!empty($row['Slug']) ? $row['Slug'] : '[titel wordt automatisch de link]') ?></span><?php endif; ?><button class="btn"><?= icon('check', 'icon icon-sm') ?> Opslaan</button></div>
+    <div class="card-foot"><?php if (!$new): ?><?= delete_submit() ?><?php endif; ?><?php if (!empty($type['slug']) && $type['public']): ?><span class="small muted" style="margin-left:auto;margin-right:auto"><?= icon('link', 'icon icon-sm') ?> <?= e($type['public']) ?><?= e(!empty($row['Slug']) ? $row['Slug'] : '[titel wordt automatisch de link]') ?></span><?php elseif (!$new): ?><span style="margin-left:auto"></span><?php endif; ?><button class="btn"><?= icon('check', 'icon icon-sm') ?> Opslaan</button></div>
 </form>
-<?php if (!$new): ?><div style="margin-top:16px"><?= delete_button(url($base . '/' . $row['Id']), ucfirst($type['single']) . ' "' . ($row[$type['title']] ?? '') . '" verwijderen?') ?></div><?php endif; ?>
+<?php if (!$new): ?><?= delete_form(url($base . '/' . $row['Id']), ucfirst($type['single']) . ' "' . ($row[$type['title']] ?? '') . '" verwijderen?') ?><?php endif; ?>

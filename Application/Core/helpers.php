@@ -270,6 +270,18 @@ function delete_button(string $action, string $message, string $label = 'Verwijd
         . '<button type="submit" class="btn btn-danger-ghost">' . icon('trash') . ' ' . e($label) . '</button></form>';
 }
 
+/** Verborgen DELETE-formulier voor buiten een formulier; koppel een knop in een card-foot via form="$id". */
+function delete_form(string $action, string $message, string $id = 'del'): string
+{
+    return '<form id="' . e($id) . '" method="post" action="' . e($action) . '" data-confirm="' . e($message) . '" hidden>' . csrf_field() . method_field('DELETE') . '</form>';
+}
+
+/** Verwijderknop voor in een card-foot; hoort bij een delete_form met dezelfde $id. */
+function delete_submit(string $id = 'del', string $label = 'Verwijderen'): string
+{
+    return '<button type="submit" form="' . e($id) . '" class="btn btn-danger-ghost">' . icon('trash') . ' ' . e($label) . '</button>';
+}
+
 /**
  * Formulierveld met icoon links en onderlijn.
  * @param array<string, string> $options voor type=select

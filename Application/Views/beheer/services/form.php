@@ -17,6 +17,6 @@ $prodOpts = ['' => 'Geen / handmatig']; foreach ($products as $p) { $prodOpts[$p
         <?= field('VolgendeFactuur', 'Volgende factuurdatum', 'calendar', $service->VolgendeFactuur, 'date') ?>
         <?= field('EindDatum', 'Einddatum', 'calendar', $service->EindDatum, 'date') ?>
     </div>
-    <div class="card-foot"><?php if (!$new): ?><span style="margin-right:auto"></span><?php endif; ?><button class="btn"><?= icon('check', 'icon icon-sm') ?> Opslaan</button></div>
+    <div class="card-foot"><?php if (!$new): ?><?= delete_submit() ?><span style="margin-left:auto"></span><?php endif; ?><button class="btn"><?= icon('check', 'icon icon-sm') ?> Opslaan</button></div>
 </form>
-<?php if (!$new): ?><div style="margin-top:16px"><?= delete_button(url('/beheer/diensten/' . $service->id()), 'Dienst ' . $service->Naam . ' verwijderen?') ?></div><?php endif; ?>
+<?php if (!$new): ?><?= delete_form(url('/beheer/diensten/' . $service->id()), 'Dienst ' . $service->Naam . ' verwijderen?') ?><?php endif; ?>

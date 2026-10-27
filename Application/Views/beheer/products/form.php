@@ -31,6 +31,6 @@
         <label class="switch"><input type="checkbox" name="Zichtbaar" value="1" <?= $product->Zichtbaar ? 'checked' : '' ?>> Zichtbaar op de website</label>
         <label class="switch"><input type="checkbox" name="Uitgelicht" value="1" <?= $product->Uitgelicht ? 'checked' : '' ?>> Uitgelicht (populair)</label>
     </div>
-    <div class="card-foot"><button class="btn"><?= icon('check', 'icon icon-sm') ?> Opslaan</button></div>
+    <div class="card-foot"><?php if (!$new): ?><?= delete_submit() ?><span style="margin-left:auto"></span><?php endif; ?><button class="btn"><?= icon('check', 'icon icon-sm') ?> Opslaan</button></div>
 </form>
-<?php if (!$new): ?><div style="margin-top:16px"><?= delete_button(url('/beheer/producten/' . $product->id()), 'Product ' . $product->Naam . ' verwijderen? Bestaande diensten blijven bestaan.') ?></div><?php endif; ?>
+<?php if (!$new): ?><?= delete_form(url('/beheer/producten/' . $product->id()), 'Product ' . $product->Naam . ' verwijderen? Bestaande diensten blijven bestaan.') ?><?php endif; ?>

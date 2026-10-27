@@ -10,6 +10,6 @@
         <?= field('Wachtwoord', $new ? 'Wachtwoord' : 'Nieuw wachtwoord (optioneel)', 'lock', '', 'password', [], ($new ? 'required ' : '') . 'autocomplete="new-password"') ?>
         <?php if (!$new): ?><label class="switch"><input type="checkbox" name="Actief" value="1" <?= $member->Actief ? 'checked' : '' ?>> Actief</label><?php endif; ?>
     </div>
-    <div class="card-foot"><button class="btn"><?= icon('check', 'icon icon-sm') ?> Opslaan</button></div>
+    <div class="card-foot"><?php if (!$new && $member->id() !== auth_user()?->id()): ?><?= delete_submit() ?><span style="margin-left:auto"></span><?php endif; ?><button class="btn"><?= icon('check', 'icon icon-sm') ?> Opslaan</button></div>
 </form>
-<?php if (!$new && $member->id() !== auth_user()?->id()): ?><div style="margin-top:16px"><?= delete_button(url('/beheer/medewerkers/' . $member->id()), 'Medewerker ' . $member->name() . ' verwijderen?') ?></div><?php endif; ?>
+<?php if (!$new && $member->id() !== auth_user()?->id()): ?><?= delete_form(url('/beheer/medewerkers/' . $member->id()), 'Medewerker ' . $member->name() . ' verwijderen?') ?><?php endif; ?>
