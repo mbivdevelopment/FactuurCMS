@@ -18,9 +18,7 @@ final class CustomerOnly extends Middleware
         if ($user === null) {
             return Response::redirect('/login');
         }
-        if ($user->isStaff() && Auth::impersonator() === null) {
-            return Response::redirect('/beheer');
-        }
+        // Beheerders/medewerkers mogen het klantportaal ook als zichzelf gebruiken (eigen diensten en afrekenen).
 
         return $next($request);
     }

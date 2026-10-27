@@ -23,5 +23,5 @@ $navSections = array_values(array_filter([
 ]));
 echo $partial('partials.panel', [
     'navSections' => $navSections, 'home' => '/beheer', 'profile' => '/beheer/medewerkers/' . \App\Core\Auth::id(), 'tagline' => 'Hosting facturatie',
-    'footLinks' => [['/', 'globe', 'Bekijk website', true]], 'body' => $yield('content'),
+    'footLinks' => [['/klant', 'user', 'Klantportaal', false], ['/', 'globe', 'Bekijk website', true]], 'body' => $yield('content'),
 ]);

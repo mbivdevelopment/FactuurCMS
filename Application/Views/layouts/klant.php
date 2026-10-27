@@ -65,5 +65,5 @@ $navSections = [
 ];
 echo $partial('partials.panel', [
     'navSections' => $navSections, 'home' => '/klant', 'profile' => '/klant/profiel', 'tagline' => 'Klantportaal',
-    'footLinks' => [['/oplossingen/webhosting', 'cart', 'Nieuwe dienst bestellen', false]], 'body' => $yield('content'),
+    'footLinks' => array_merge($me !== null && $me->isStaff() ? [['/beheer', 'settings', 'Terug naar beheer', false]] : [], [['/oplossingen/webhosting', 'cart', 'Nieuwe dienst bestellen', false]]), 'body' => $yield('content'),
 ]);

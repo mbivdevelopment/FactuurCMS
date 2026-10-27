@@ -149,9 +149,6 @@ final class DomainController extends Controller
             return $redirect;
         }
         $user = Auth::user();
-        if ($user?->isStaff()) {
-            return $this->redirect('/domeinen/gegevens')->with('error', 'Log in als klant om te bestellen.');
-        }
         $rules = [
             'Voornaam' => 'required|max:80', 'Achternaam' => 'required|max:80', 'Bedrijfsnaam' => 'max:150',
             'Adres' => 'required|max:150', 'Postcode' => 'required|max:12', 'Plaats' => 'required|max:80', 'Land' => 'required|max:2', 'Telefoon' => 'required|max:40',
@@ -190,7 +187,7 @@ final class DomainController extends Controller
             return $redirect;
         }
         $user = Auth::user();
-        if ($user === null || $user->isStaff() || trim((string) $user->Adres) === '' || trim((string) $user->Telefoon) === '') {
+        if ($user === null || trim((string) $user->Adres) === '' || trim((string) $user->Telefoon) === '') {
             return $this->redirect('/domeinen/gegevens');
         }
 
@@ -203,7 +200,7 @@ final class DomainController extends Controller
             return $redirect;
         }
         $user = Auth::user();
-        if ($user === null || $user->isStaff()) {
+        if ($user === null) {
             return $this->redirect('/domeinen/gegevens');
         }
         if ($request->string('Akkoord') === '') {

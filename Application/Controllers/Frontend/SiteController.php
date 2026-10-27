@@ -216,9 +216,7 @@ final class SiteController extends Controller
     {
         $product = $this->findProduct($request);
         $user = Auth::user();
-        if ($user?->isStaff()) {
-            return Response::back($product->path())->with('error', 'Log in als klant om te bestellen (of maak de dienst aan in het beheer).');
-        }
+        // Ook beheerders/medewerkers bestellen op hun eigen account.
         $hosting = $product->Periode !== 'eenmalig' && $product->Groep !== 'Domeinen' && $product->Dienstsoort !== 'Domeinnamen';
         $rules = ['Akkoord' => 'required'];
         if ($hosting) {
