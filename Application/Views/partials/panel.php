@@ -64,7 +64,7 @@ $initial = mb_strtoupper(mb_substr((string) ($user?->Voornaam ?: $user?->Email),
                     <div class="card"><div class="card-body">
                         <?php foreach (($current['columns'] ?? ['' => array_keys($current['items'])]) as $colTitle => $idx): ?>
                             <h3 class="side-title"><?= e($colTitle !== '' ? $colTitle : $current['label']) ?></h3>
-                            <nav class="sidecat" style="margin-bottom:10px">
+                            <nav class="sidecat" style="margin-bottom:6px">
                                 <?php foreach ($idx as $n): $it = $current['items'][$n]; $mp = explode('#', $it[0])[0]; ?>
                                     <a href="<?= e(url($it[0])) ?>"<?= ($matches($mp) && (!str_contains($it[0], '#') || $it[0] === $current['items'][0][0])) || ($crumb === $it[2]) ? ' class="active"' : '' ?>><span class="sc-ic"><?= icon($it[1], 'icon icon-sm') ?></span><span><?= e($it[2]) ?></span><?php if (($it[4] ?? 0) > 0): ?><small><?= (int) $it[4] ?></small><?php endif; ?></a>
                                 <?php endforeach; ?>
