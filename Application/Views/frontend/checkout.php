@@ -47,6 +47,15 @@ $user = auth_user(); ?>
                 <div data-epp hidden><?= field('EppCode', 'Verhuiscode (EPP / authcode)', 'lock', '', 'text', [], 'placeholder="bijv. Xk9f-2LpQ-8mZn"') ?></div>
             </div></div>
             <?php endif; ?>
+            <?php if ((string) $product->Bron === 'interserver'): ?>
+            <div class="card"><div class="card-head"><h2><?= icon('cloud') ?> Serverconfiguratie</h2></div><div class="card-body form-grid">
+                <?= field('VpsPlatform', 'Platform', 'cpu', (string) old('VpsPlatform'), 'select', \App\Services\Interserver::PLATFORMS) ?>
+                <?= field('VpsSlices', 'Slices (CPU/RAM/opslag)', 'server', (string) old('VpsSlices'), 'select', array_combine(range(1, 8), array_map(static fn (int $n): string => $n . ($n === 1 ? ' slice' : ' slices'), range(1, 8)))) ?>
+                <?= field('VpsLocatie', 'Locatie', 'pin', (string) old('VpsLocatie'), 'select', \App\Services\Interserver::LOCATIONS) ?>
+                <?= field('VpsOs', 'Besturingssysteem', 'box', (string) old('VpsOs'), 'select', \App\Services\Interserver::OS) ?>
+                <p class="small muted field-full" style="margin:0"><?= icon('lock', 'icon icon-sm') ?> De hostname wordt de gekozen domeinnaam; het root-wachtwoord krijg je na installatie in je klantportaal.</p>
+            </div></div>
+            <?php endif; ?>
             <?php if ($termijnen !== []): ?>
             <div class="card"><div class="card-head"><h2><?= icon('calendar') ?> Looptijd</h2></div><div class="card-body">
                 <div class="dopts">

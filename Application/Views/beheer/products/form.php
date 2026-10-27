@@ -12,6 +12,7 @@
         <?= field('Instelkosten', 'Eenmalige instelkosten (€)', 'euro', cents_input((int) $product->Instelkosten)) ?>
         <?= field('BtwTarief', 'Btw-tarief (%)', 'hash', (string) (float) $product->BtwTarief) ?>
         <?= field('Volgorde', 'Volgorde', 'hash', (string) $product->Volgorde, 'number') ?>
+        <?= field('Bron', 'Aanmaken via', 'link', (string) $product->Bron, 'select', ['' => 'Handmatig', 'qevanto' => 'Qevanto paneel', 'realtimeregister' => 'Realtime Register', 'interserver' => 'InterServer (CloudVPS)']) ?>
         <?= field('Omschrijving', 'Omschrijving', 'note', $product->Omschrijving, 'textarea') ?>
         <?php $iconSelect = static function (string $name, string $current): string {
             $html = '<select class="feature-icon" name="' . e($name) . '" aria-label="Icoon">';

@@ -59,6 +59,20 @@ final class PortalController extends Controller
         return $this->view('klant.service', ['service' => $this->ownService($request)]);
     }
 
+    public function serviceVps(Request $request): Response
+    {
+        $service = $this->ownService($request);
+        $action = (string) $request->param('actie');
+        $labels = ['start' => 'De VPS wordt opgestart.', 'stop' => 'De VPS wordt uitgeschakeld.', 'restart' => 'De VPS wordt herstart.'];
+        try {
+            \App\Services\Interserver::power((int) $service->ExternId, $action);
+        } catch (\Throwable $e) {
+            return $this->redirect('/klant/diensten/' . $service->id())->with('error', 'VPS-actie mislukt: ' . $e->getMessage());
+        }
+
+        return $this->redirect('/klant/diensten/' . $service->id())->with('success', $labels[$action]);
+    }
+
     public function serviceSso(Request $request): Response
     {
         $service = $this->ownService($request);

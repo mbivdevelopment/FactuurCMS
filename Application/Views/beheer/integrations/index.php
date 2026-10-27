@@ -4,6 +4,7 @@ $cards = [
     ['qevanto', 'server', 'Qevanto hostingpaneel', 'Pakketten en diensten importeren.'],
     ['mollie', 'wallet', 'Mollie', 'Facturen betalen met iDEAL.'],
     ['cryptomus', 'zap', 'Cryptomus', 'Facturen betalen met crypto.'],
+    ['interserver', 'cloud', 'InterServer', 'CloudVPS verkopen en beheren.'],
 ]; ?>
 <div class="page-head"><div class="ph-icon"><?= icon('link') ?></div><div class="ph-text"><h1>Koppelingen</h1><div class="sub">Domeinen, betalingen en hosting koppelen aan je facturatie</div></div></div>
 <div class="int-grid">

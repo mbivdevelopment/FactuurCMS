@@ -22,7 +22,15 @@ final class Provisioning
             return;
         }
         $product = $service !== null && $service->ProductId ? Product::find((int) $service->ProductId) : null;
-        if ($service === null || $product === null || $product->Bron !== 'qevanto' || !str_starts_with((string) $product->ExternId, 'pakket-') || (string) $service->ExternId !== '') {
+        if ($service === null || $product === null || (string) $service->ExternId !== '') {
+            return;
+        }
+        if ($product->Bron === 'interserver') {
+            self::vps($service);
+
+            return;
+        }
+        if ($product->Bron !== 'qevanto' || !str_starts_with((string) $product->ExternId, 'pakket-')) {
             return;
         }
         $customer = $service->customer();
@@ -56,6 +64,40 @@ final class Provisioning
             Log::db('qevanto', 'Automatisch aangemaakt: ' . ($sub['number'] ?? '') . ' voor ' . $email, $customer?->id());
         } catch (\Throwable $e) {
             Log::db('qevanto', 'Automatisch aanmaken mislukt voor dienst ' . $service->Nummer . ': ' . $e->getMessage(), $customer?->id());
+        }
+    }
+
+    /** CloudVPS bestellen bij InterServer; root-wachtwoord versleuteld in Gegevens. */
+    private static function vps(Service $service): void
+    {
+        $customer = $service->customer();
+        $geo = is_array($service->Gegevens) ? $service->Gegevens : (json_decode((string) $service->Gegevens, true) ?: []);
+        $cfg = (array) ($geo['interserver'] ?? []);
+        try {
+            $rootpass = bin2hex(random_bytes(9)) . 'aA1!';
+            $result = Interserver::order($cfg + [
+                'controlpanel' => 'none',
+                'rootpass' => $rootpass,
+                'comment' => 'Bestelling ' . $service->Nummer . ' (' . ($customer?->Email ?? '') . ')',
+            ]);
+            $vpsId = (int) ($result['vps_id'] ?? $result['id'] ?? 0);
+            if ($vpsId === 0) {
+                throw new \RuntimeException('InterServer gaf geen VPS-id terug: ' . json_encode($result));
+            }
+            $geo['interserver'] = $cfg + [
+                'rootpass' => \App\Core\Crypt::encrypt($rootpass),
+                'besteld' => date('Y-m-d H:i'),
+            ];
+            Database::update('Diensten', [
+                'Bron' => 'interserver',
+                'ExternId' => (string) $vpsId,
+                'Gegevens' => json_encode($geo, JSON_UNESCAPED_UNICODE),
+                'Status' => 'actief',
+                'BijgewerktOp' => now(),
+            ], ['Id' => $service->id()]);
+            Log::db('interserver', 'VPS #' . $vpsId . ' besteld voor ' . ($customer?->Email ?? ''), $customer?->id());
+        } catch (\Throwable $e) {
+            Log::db('interserver', 'VPS bestellen mislukt voor dienst ' . $service->Nummer . ': ' . $e->getMessage(), $customer?->id());
         }
     }
 

@@ -252,7 +252,27 @@ final class SiteController extends Controller
                 $domain = ['domein' => $domein, 'product' => $extProduct, 'actie' => $data['DomeinActie'] === 'verhuizen' ? 'verhuizen' : 'registreren', 'authcode' => trim((string) $request->string('EppCode'))];
             }
         }
-        $doc = Billing::order($user, $product, $hosting ? $domein : $request->string('Notitie'), $request->string('Termijn'), $domain);
+        $gegevens = null;
+        if ((string) $product->Bron === 'interserver') {
+            $platform = $request->string('VpsPlatform');
+            $os = $request->string('VpsOs');
+            if (!isset(\App\Services\Interserver::PLATFORMS[$platform]) || !isset(\App\Services\Interserver::OS[$os])) {
+                return Response::back($product->path() . '/bestellen')->withInput($request->all())->with('error', 'Kies een platform en besturingssysteem voor je VPS.');
+            }
+            [$osDistro, $osVersion] = explode('|', $os, 2);
+            $termijn = $request->string('Termijn');
+            $months = \App\Services\Billing::TERMIJNEN[$termijn][0] ?? (['maand' => 1, 'kwartaal' => 3, 'jaar' => 12, '2jaar' => 24, '4jaar' => 48][(string) $product->Periode] ?? 1);
+            $gegevens = ['interserver' => [
+                'vpsPlatform' => $platform,
+                'slices' => min(32, max(1, $request->int('VpsSlices') ?: 1)),
+                'location' => min(3, max(1, $request->int('VpsLocatie') ?: 1)),
+                'osDistro' => $osDistro,
+                'osVersion' => $osVersion,
+                'hostname' => ($hosting ? ($domein ?? '') : trim((string) $request->string('Notitie'))) ?: 'vps-' . strtolower(bin2hex(random_bytes(4))),
+                'period' => min(12, $months),
+            ]];
+        }
+        $doc = Billing::order($user, $product, $hosting ? $domein : $request->string('Notitie'), $request->string('Termijn'), $domain, $gegevens);
         Billing::send($doc);
         $admin = (string) setting('bedrijf.email', '');
         if ($admin !== '') {

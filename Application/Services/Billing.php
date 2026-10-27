@@ -80,7 +80,7 @@ final class Billing
     }
 
     /** @param array{domein: string, product: Product}|null $domain te registreren domeinnaam */
-    public static function order(User $customer, Product $product, string $note, string $termijn = '', ?array $domain = null): Document
+    public static function order(User $customer, Product $product, string $note, string $termijn = '', ?array $domain = null, ?array $gegevens = null): Document
     {
         $periode = isset(self::TERMIJNEN[$termijn]) && $product->Periode !== 'eenmalig' ? $termijn : (string) $product->Periode;
         $service = Service::create([
@@ -94,6 +94,7 @@ final class Billing
             'Status' => 'in_afwachting',
             'StartDatum' => date('Y-m-d'),
             'VolgendeFactuur' => date('Y-m-d'),
+            'Gegevens' => $gegevens ?? [],
         ]);
         $services = [$service];
         if ($domain !== null) {

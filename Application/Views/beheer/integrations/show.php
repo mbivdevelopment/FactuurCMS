@@ -9,6 +9,7 @@ $test = static fn (string $name): string => '<button class="btn btn-ghost" forma
     'qevanto' => [['/beheer/koppelingen/qevanto', 'settings', 'Gegevens'], ['/beheer/koppelingen/qevanto/pakketten', 'box', 'Pakketten'], ['/beheer/koppelingen/qevanto/diensten', 'download', 'Diensten']],
     'mollie' => [['/beheer/koppelingen/mollie', 'settings', 'Gegevens']],
     'cryptomus' => [['/beheer/koppelingen/cryptomus', 'settings', 'Gegevens']],
+    'interserver' => [['/beheer/koppelingen/interserver', 'settings', 'Gegevens']],
 ][$name]; ?>
 <div class="card" data-tabs style="margin-top:22px">
     <nav class="tab-nav">
@@ -65,6 +66,18 @@ $test = static fn (string $name): string => '<button class="btn btn-ghost" forma
             <label class="switch" style="margin-top:12px"><input type="checkbox" name="mollie_actief" value="1" <?= setting('mollie.actief', false) ? 'checked' : '' ?>> Online betalen via Mollie aanzetten</label>
         </div>
         <div class="card-foot row"><button class="btn"><?= icon('check', 'icon icon-sm') ?> Opslaan</button><?php if ($set['mollie']): ?><?= $test('mollie') ?><?php endif; ?></div>
+    </form>
+<?php elseif ($name === 'interserver'): ?>
+    <form class="card" method="post" action="<?= e(url('/beheer/koppelingen/interserver')) ?>"><?= csrf_field() ?>
+        <div class="card-head"><h2><?= icon('cloud') ?> InterServer</h2><?= $state($set['interserver']) ?></div>
+        <div class="card-body">
+            <p class="integration-note">Verkoop CloudVPS'en: klanten configureren platform, slices en OS bij de bestelling; na betaling wordt de VPS automatisch aangemaakt en kan de klant hem starten, stoppen en herstarten. Maak een API-sleutel aan op my.interserver.net onder Account Security.</p>
+            <div class="form-grid">
+                <?= $secret('is_apikey', 'API-sleutel', $set['interserver']) ?>
+                <?= field('is_marge', 'Marge op inkoopprijs (%)', 'trend', (string) setting('is.marge', 30), 'number', [], 'min="0" max="500"') ?>
+            </div>
+        </div>
+        <div class="card-foot row"><button class="btn"><?= icon('check', 'icon icon-sm') ?> Opslaan</button><?php if ($set['interserver']): ?><?= $test('interserver') ?><?php endif; ?></div>
     </form>
 <?php elseif ($name === 'cryptomus'): ?>
     <form class="card" method="post" action="<?= e(url('/beheer/koppelingen/cryptomus')) ?>"><?= csrf_field() ?>

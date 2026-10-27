@@ -112,6 +112,7 @@ final class ProductController extends Controller
             'Uitgelicht' => $request->bool('Uitgelicht') ? 1 : 0,
             'Zichtbaar' => $request->bool('Zichtbaar') ? 1 : 0,
             'Volgorde' => (int) ($data['Volgorde'] ?? 0),
+            'Bron' => in_array($request->string('Bron'), ['qevanto', 'realtimeregister', 'interserver'], true) ? $request->string('Bron') : null,
         ];
     }
 

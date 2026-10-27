@@ -14,13 +14,14 @@ use App\Models\Service;
 use App\Models\Setting;
 use App\Models\User;
 use App\Services\Cryptomus;
+use App\Services\Interserver;
 use App\Services\Mollie;
 use App\Services\QevantoPaneel;
 use App\Services\RealtimeRegister;
 
 final class IntegrationController extends Controller
 {
-    public const LABELS = ['realtimeregister' => 'Realtime Register', 'mollie' => 'Mollie', 'cryptomus' => 'Cryptomus', 'qevanto' => 'Qevanto hostingpaneel'];
+    public const LABELS = ['realtimeregister' => 'Realtime Register', 'mollie' => 'Mollie', 'cryptomus' => 'Cryptomus', 'qevanto' => 'Qevanto hostingpaneel', 'interserver' => 'InterServer'];
     private const STATUS_MAP = ['active' => 'actief', 'suspended' => 'opgeschort', 'ended' => 'opgezegd'];
 
     public function index(Request $request): Response
@@ -36,6 +37,7 @@ final class IntegrationController extends Controller
             'qevanto' => ['server', 'Pakketten en abonnementen uit je hostingpaneel importeren, met SSO naar het paneel.'],
             'mollie' => ['wallet', 'Klanten betalen facturen met iDEAL, kaart en andere methoden.'],
             'cryptomus' => ['zap', 'Klanten betalen facturen met crypto via een webhook.'],
+            'interserver' => ['cloud', 'CloudVPS verkopen en beheren via InterServer.'],
         ][$name];
 
         return $this->view('beheer.integrations.show', ['set' => self::configured(), 'name' => $name, 'label' => self::LABELS[$name], 'icon' => $icon, 'desc' => $desc]);
@@ -49,6 +51,7 @@ final class IntegrationController extends Controller
             'mollie' => Setting::getSecret('mollie.apikey') !== '',
             'cryptomus' => Setting::getSecret('cryptomus.apikey') !== '' && (string) setting('cryptomus.merchant', '') !== '',
             'qevanto' => Setting::getSecret('qevanto.token') !== '' && (string) setting('qevanto.url', '') !== '',
+            'interserver' => Setting::getSecret('is.apikey') !== '',
         ];
     }
 
@@ -84,6 +87,10 @@ final class IntegrationController extends Controller
                 Setting::set('qevanto.url', rtrim(trim($request->string('qevanto_url')), '/'));
                 $secret('qevanto.token', 'qevanto_token');
                 break;
+            case 'interserver':
+                $secret('is.apikey', 'is_apikey');
+                Setting::set('is.marge', max(0, min(500, $request->int('is_marge'))));
+                break;
         }
 
         return $this->redirect('/beheer/koppelingen/' . $name)->with('success', self::LABELS[$name] . ' opgeslagen.');
@@ -97,6 +104,7 @@ final class IntegrationController extends Controller
                 'realtimeregister' => RealtimeRegister::test(),
                 'mollie' => Mollie::test(),
                 'cryptomus' => Cryptomus::test(),
+                'interserver' => Interserver::test(),
                 default => QevantoPaneel::test(),
             };
         } catch (\Throwable $e) {

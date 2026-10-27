@@ -21,6 +21,35 @@
                 <?php if (($qv['nummer'] ?? '') !== ''): ?><div><small class="muted">Abonnement</small><div><?= e($qv['nummer']) ?><?= ($qv['systeemgebruiker'] ?? '') !== '' ? ' · ' . e($qv['systeemgebruiker']) : '' ?></div></div><?php endif; ?>
                 <p class="muted">Beheer deze dienst direct in het hostingpaneel — je wordt automatisch ingelogd.</p>
                 <form method="post" action="<?= e(url('/klant/diensten/' . $service->id() . '/paneel')) ?>"><?= csrf_field() ?><button class="btn"><?= icon('login', 'icon icon-sm') ?> Beheer in paneel</button></form>
+            <?php elseif (($service->Bron ?? '') === 'interserver'): ?>
+                <?php
+                $is = (array) ($geo['interserver'] ?? []);
+                $vps = null;
+                try {
+                    $vps = \App\Services\Interserver::vps((int) $service->ExternId);
+                } catch (\Throwable) {
+                }
+                $power = (string) ($vps['powerstatus'] ?? $vps['status'] ?? '');
+                $rootpass = '';
+                try {
+                    $rootpass = \App\Core\Crypt::decrypt((string) ($is['rootpass'] ?? ''));
+                } catch (\Throwable) {
+                }
+                ?>
+                <?php if ($vps !== null): ?>
+                    <div><small class="muted">Status</small><div><?= badge($power === 'running' || $power === 'up' || $power === 'actief' ? 'actief' : 'gesloten', $power !== '' ? ucfirst($power) : 'Onbekend') ?></div></div>
+                    <?php foreach (['ip' => 'IP-adres', 'hostname' => 'Hostname', 'os' => 'Besturingssysteem', 'location' => 'Locatie', 'slices' => 'Slices'] as $vk => $vl): $vv = $vps[$vk] ?? ($is[$vk] ?? ''); ?>
+                        <?php if ((string) $vv !== ''): ?><div><small class="muted"><?= e($vl) ?></small><div><?= e(is_array($vv) ? implode(', ', $vv) : (string) $vv) ?></div></div><?php endif; ?>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p class="muted">De VPS wordt geïnstalleerd. Zodra InterServer klaar is, zie je hier de status en het IP-adres.</p>
+                <?php endif; ?>
+                <?php if ($rootpass !== ''): ?><div><small class="muted">Root-wachtwoord</small><div class="mono"><?= e($rootpass) ?></div></div><?php endif; ?>
+                <div class="row" style="display:flex;gap:8px;flex-wrap:wrap">
+                    <form method="post" action="<?= e(url('/klant/diensten/' . $service->id() . '/vps/start')) ?>"><?= csrf_field() ?><button class="btn btn-sm"><?= icon('zap', 'icon icon-sm') ?> Start</button></form>
+                    <form method="post" action="<?= e(url('/klant/diensten/' . $service->id() . '/vps/restart')) ?>"><?= csrf_field() ?><button class="btn btn-sm btn-ghost" data-confirm="VPS herstarten?"><?= icon('refresh', 'icon icon-sm') ?> Herstart</button></form>
+                    <form method="post" action="<?= e(url('/klant/diensten/' . $service->id() . '/vps/stop')) ?>"><?= csrf_field() ?><button class="btn btn-sm btn-ghost" data-confirm="VPS uitschakelen?"><?= icon('x', 'icon icon-sm') ?> Stop</button></form>
+                </div>
             <?php else: ?>
                 <p class="muted">Deze dienst heeft geen gekoppeld beheerpaneel.</p>
             <?php endif; ?>

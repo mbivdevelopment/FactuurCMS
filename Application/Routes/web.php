@@ -58,6 +58,7 @@ $router->group('klant', ['csrf', 'auth', 'klant'], static function ($router): vo
     $router->get('/diensten', 'Klant\\PortalController@services');
     $router->get('/diensten/{id}', 'Klant\\PortalController@service');
     $router->post('/diensten/{id}/paneel', 'Klant\\PortalController@serviceSso');
+    $router->post('/diensten/{id}/vps/{actie}', 'Klant\\PortalController@serviceVps');
     $router->get('/tegoed', 'Klant\\PortalController@wallet');
     $router->post('/tegoed', 'Klant\\PortalController@topup');
     $router->get('/facturen', 'Klant\\PortalController@invoices');
