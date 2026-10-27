@@ -240,7 +240,7 @@ final class DocumentController extends Controller
         return $this->view('beheer.documents.form', [
             'doc' => $doc,
             'lines' => $lines,
-            'customers' => User::query("SELECT * FROM Gebruikers WHERE Rol = 'klant' ORDER BY COALESCE(Bedrijfsnaam, Achternaam)"),
+            'customers' => User::query("SELECT * FROM Gebruikers ORDER BY COALESCE(Bedrijfsnaam, Achternaam)"),
             'products' => Product::query('SELECT * FROM Producten ORDER BY Groep, Volgorde'),
         ]);
     }

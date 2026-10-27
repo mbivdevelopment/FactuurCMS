@@ -1,4 +1,4 @@
-<?php $extend('beheer', ['title' => 'Nieuw ticket']); $opts = ['' => 'Kies een klant…']; foreach ($customers as $c) { $opts[$c->id()] = $c->display() . ' (' . $c->Nummer . ')'; } ?>
+<?php $extend('beheer', ['title' => 'Nieuw ticket']); $opts = ['' => 'Kies een klant…']; foreach ($customers as $c) { $opts[$c->id()] = $c->display() . ' (' . $c->Nummer . ')' . ($c->Rol !== 'klant' ? ' · ' . \App\Models\User::ROLES[$c->Rol] : ''); } ?>
 <div class="page-head"><div class="ph-icon"><?= icon('ticket') ?></div><div class="ph-text"><h1>Nieuw ticket</h1></div><a class="btn btn-ghost" href="<?= e(url('/beheer/tickets')) ?>">Terug</a></div>
 <form class="card" method="post" action="<?= e(url('/beheer/tickets')) ?>"><?= csrf_field() ?>
     <div class="card-body form-grid">

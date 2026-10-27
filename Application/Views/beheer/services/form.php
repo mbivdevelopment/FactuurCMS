@@ -1,5 +1,5 @@
 <?php $new = !$service->id(); $extend('beheer', ['title' => $new ? 'Nieuwe dienst' : $service->Naam]);
-$custOpts = ['' => 'Kies een klant…']; foreach ($customers as $c) { $custOpts[$c->id()] = $c->display() . ' (' . $c->Nummer . ')'; }
+$custOpts = ['' => 'Kies een klant…']; foreach ($customers as $c) { $custOpts[$c->id()] = $c->display() . ' (' . $c->Nummer . ')' . ($c->Rol !== 'klant' ? ' · ' . \App\Models\User::ROLES[$c->Rol] : ''); }
 $prodOpts = ['' => 'Geen / handmatig']; foreach ($products as $p) { $prodOpts[$p->id()] = $p->Groep . ' · ' . $p->Naam; } ?>
 <div class="page-head"><div class="ph-icon"><?= icon('server') ?></div><div class="ph-text"><h1><?= e($new ? 'Nieuwe dienst' : $service->Naam) ?></h1><?php if (!$new): ?><div class="sub"><?= e($service->Nummer) ?></div><?php endif; ?></div>
     <div class="row"><?php if (!$new): ?><form method="post" action="<?= e(url('/beheer/diensten/' . $service->id() . '/factureren')) ?>" data-confirm="Nu een factuur maken voor de volgende periode?"><?= csrf_field() ?><button class="btn btn-ghost"><?= icon('file', 'icon icon-sm') ?> Nu factureren</button></form><?php endif; ?><a class="btn btn-ghost" href="<?= e(url('/beheer/diensten')) ?>">Terug</a></div></div>

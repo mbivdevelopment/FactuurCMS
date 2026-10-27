@@ -117,7 +117,7 @@ final class ServiceController extends Controller
     {
         return $this->view('beheer.services.form', [
             'service' => $service,
-            'customers' => User::query("SELECT * FROM Gebruikers WHERE Rol = 'klant' ORDER BY COALESCE(Bedrijfsnaam, Achternaam)"),
+            'customers' => User::query("SELECT * FROM Gebruikers ORDER BY COALESCE(Bedrijfsnaam, Achternaam)"),
             'products' => Product::query('SELECT * FROM Producten ORDER BY Groep, Volgorde'),
         ]);
     }

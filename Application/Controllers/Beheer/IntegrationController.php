@@ -464,8 +464,8 @@ final class IntegrationController extends Controller
     private static function customers(): array
     {
         $out = [];
-        foreach (Database::all("SELECT Id, Nummer, Voornaam, Achternaam, Bedrijfsnaam FROM Gebruikers WHERE Rol = 'klant' ORDER BY Nummer") as $c) {
-            $out[(int) $c['Id']] = $c['Nummer'] . ' · ' . ((string) $c['Bedrijfsnaam'] ?: trim($c['Voornaam'] . ' ' . $c['Achternaam']));
+        foreach (Database::all("SELECT Id, Nummer, Rol, Voornaam, Achternaam, Bedrijfsnaam FROM Gebruikers ORDER BY Nummer") as $c) {
+            $out[(int) $c['Id']] = $c['Nummer'] . ' · ' . ((string) $c['Bedrijfsnaam'] ?: trim($c['Voornaam'] . ' ' . $c['Achternaam'])) . ($c['Rol'] !== 'klant' ? ' (' . \App\Models\User::ROLES[$c['Rol']] . ')' : '');
         }
 
         return $out;

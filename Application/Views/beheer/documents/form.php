@@ -1,6 +1,6 @@
 <?php $isQ = $doc->Soort === 'offerte'; $new = !$doc->id(); $label = $isQ ? 'offerte' : 'factuur';
 $extend('beheer', ['title' => $new ? 'Nieuwe ' . $label : ucfirst($label) . ' ' . $doc->Nummer]);
-$custOpts = ['' => 'Kies een klant…']; foreach ($customers as $c) { $custOpts[$c->id()] = $c->display() . ' (' . $c->Nummer . ')'; }
+$custOpts = ['' => 'Kies een klant…']; foreach ($customers as $c) { $custOpts[$c->id()] = $c->display() . ' (' . $c->Nummer . ')' . ($c->Rol !== 'klant' ? ' · ' . \App\Models\User::ROLES[$c->Rol] : ''); }
 $action = $new ? ($isQ ? '/beheer/offertes' : '/beheer/facturen') : '/beheer/documenten/' . $doc->id(); ?>
 <div class="page-head"><div class="ph-icon"><?= icon($isQ ? 'quote' : 'file') ?></div><div class="ph-text"><h1><?= e($new ? 'Nieuwe ' . $label : ucfirst($label) . ' ' . $doc->Nummer . ' bewerken') ?></h1></div><a class="btn btn-ghost" href="<?= e(url($new ? $action : $action)) ?>">Annuleren</a></div>
 <form method="post" action="<?= e(url($action)) ?>" data-document><?= csrf_field() ?>

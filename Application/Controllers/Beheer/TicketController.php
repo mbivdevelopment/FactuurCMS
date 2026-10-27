@@ -34,7 +34,7 @@ final class TicketController extends Controller
 
     public function create(Request $request): Response
     {
-        return $this->view('beheer.tickets.form', ['customers' => User::query("SELECT * FROM Gebruikers WHERE Rol = 'klant' ORDER BY COALESCE(Bedrijfsnaam, Achternaam)"), 'klantId' => $request->int('klant')]);
+        return $this->view('beheer.tickets.form', ['customers' => User::query("SELECT * FROM Gebruikers ORDER BY COALESCE(Bedrijfsnaam, Achternaam)"), 'klantId' => $request->int('klant')]);
     }
 
     public function store(Request $request): Response
