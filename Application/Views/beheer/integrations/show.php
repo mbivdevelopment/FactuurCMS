@@ -4,6 +4,19 @@ $state = static fn (bool $on): string => badge($on ? 'actief' : 'concept', $on ?
 $test = static fn (string $name): string => '<button class="btn btn-ghost" formaction="' . e(url('/beheer/koppelingen/' . $name . '/test')) . '">' . icon('refresh', 'icon icon-sm') . ' Verbinding testen</button>'; ?>
 <div class="page-head"><div class="ph-icon"><?= icon($icon) ?></div><div class="ph-text"><h1><?= e($label) ?></h1><div class="sub"><?= e($desc) ?></div></div>
     <a class="btn btn-ghost" href="<?= e(url('/beheer/koppelingen')) ?>"><?= icon('arrow-right', 'icon icon-sm') ?> Alle koppelingen</a></div>
+<?php $tabs = [
+    'realtimeregister' => [['/beheer/koppelingen/realtimeregister', 'settings', 'Gegevens'], ['/beheer/koppelingen/realtimeregister/domeinen', 'download', 'Domeinen'], ['/beheer/koppelingen/realtimeregister/extensies', 'tag', 'Extensies']],
+    'qevanto' => [['/beheer/koppelingen/qevanto', 'settings', 'Gegevens'], ['/beheer/koppelingen/qevanto/pakketten', 'box', 'Pakketten'], ['/beheer/koppelingen/qevanto/diensten', 'download', 'Diensten']],
+    'mollie' => [['/beheer/koppelingen/mollie', 'settings', 'Gegevens']],
+    'cryptomus' => [['/beheer/koppelingen/cryptomus', 'settings', 'Gegevens']],
+][$name]; ?>
+<div class="card" data-tabs style="margin-top:22px">
+    <nav class="tab-nav">
+        <?php foreach ($tabs as [$href, $tic, $tlabel]): ?>
+            <a href="<?= e(url($href)) ?>" class="tab-link<?= str_ends_with($href, '/' . $name) ? ' active' : '' ?>"><?= icon($tic, 'icon icon-sm') ?> <?= e($tlabel) ?></a>
+        <?php endforeach; ?>
+    </nav>
+</div>
 <?php if ($name === 'realtimeregister'): ?>
     <form class="card" method="post" action="<?= e(url('/beheer/koppelingen/realtimeregister')) ?>"><?= csrf_field() ?>
         <div class="card-head"><h2><?= icon('globe') ?> Realtime Register</h2><?= $state($set['realtimeregister']) ?></div>

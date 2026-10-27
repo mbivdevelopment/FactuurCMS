@@ -320,7 +320,7 @@ dialog.confirm p { margin: 0; padding: 18px 18px 0; }
 @media (max-width: 900px) { .svc-split { grid-template-columns: 1fr; } }
 
 /* Koppelingen: integratiekaarten */
-.int-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.int-grid { display: grid; margin-top: 22px; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 .int-card { display: flex; align-items: center; gap: 14px; padding: 16px 18px; text-decoration: none; color: var(--ink); transition: box-shadow .15s, transform .15s; }
 .int-card:hover { box-shadow: 0 6px 20px rgba(17, 24, 39, .10); transform: translateY(-1px); }
 .int-ic { display: grid; place-items: center; width: 44px; height: 44px; flex: none; border-radius: 12px; background: rgba(249, 115, 22, .10); color: var(--accent); }

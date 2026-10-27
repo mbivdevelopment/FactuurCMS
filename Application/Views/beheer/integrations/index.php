@@ -1,9 +1,9 @@
 <?php $extend('beheer', ['title' => 'Koppelingen']);
 $cards = [
-    ['realtimeregister', 'globe', 'Realtime Register', 'Domeinen importeren als dienst en extensies met inkoopprijs als product.'],
-    ['qevanto', 'server', 'Qevanto hostingpaneel', 'Pakketten en abonnementen uit je hostingpaneel importeren, met SSO naar het paneel.'],
-    ['mollie', 'wallet', 'Mollie', 'Klanten betalen facturen met iDEAL, kaart en andere methoden.'],
-    ['cryptomus', 'zap', 'Cryptomus', 'Klanten betalen facturen met crypto via een webhook.'],
+    ['realtimeregister', 'globe', 'Realtime Register', 'Domeinen en extensies importeren.'],
+    ['qevanto', 'server', 'Qevanto hostingpaneel', 'Pakketten en diensten importeren.'],
+    ['mollie', 'wallet', 'Mollie', 'Facturen betalen met iDEAL.'],
+    ['cryptomus', 'zap', 'Cryptomus', 'Facturen betalen met crypto.'],
 ]; ?>
 <div class="page-head"><div class="ph-icon"><?= icon('link') ?></div><div class="ph-text"><h1>Koppelingen</h1><div class="sub">Domeinen, betalingen en hosting koppelen aan je facturatie</div></div></div>
 <div class="int-grid">
