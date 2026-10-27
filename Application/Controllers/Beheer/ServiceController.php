@@ -25,7 +25,7 @@ final class ServiceController extends Controller
         $due = $request->int('verloopt');
         $cat = $request->string('cat');
         $catDef = Service::catFilter($cat);
-        $sql = 'SELECT s.*, g.Bedrijfsnaam, g.Voornaam, g.Achternaam FROM Diensten s JOIN Gebruikers g ON g.Id = s.KlantId LEFT JOIN Producten p ON p.Id = s.ProductId WHERE 1 = 1';
+        $sql = 'SELECT s.*, g.Bedrijfsnaam, g.Voornaam, g.Achternaam, p.Dienstsoort AS Dienstsoort FROM Diensten s JOIN Gebruikers g ON g.Id = s.KlantId LEFT JOIN Producten p ON p.Id = s.ProductId WHERE 1 = 1';
         $params = [];
         if ($group !== '') {
             $sql .= ' AND p.Groep = ?';

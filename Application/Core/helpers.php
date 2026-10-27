@@ -205,6 +205,27 @@ function period_label(string $period): string
     return ['eenmalig' => 'eenmalig', 'maand' => 'per maand', 'kwartaal' => 'per kwartaal', 'jaar' => 'per jaar', '2jaar' => 'per 2 jaar', '4jaar' => 'per 4 jaar'][$period] ?? $period;
 }
 
+/** Subtype van een dienst (categorienaam, bijv. 'Domeinnamen' of 'Reseller hosting'). */
+function dienst_type(array|\App\Models\Service $s): string
+{
+    $bron = (string) (is_array($s) ? ($s['Bron'] ?? '') : ($s->Bron ?? ''));
+    if (in_array($bron, ['domein', 'realtimeregister'], true)) {
+        return 'Domeinnamen';
+    }
+    $soort = (string) (is_array($s) ? ($s['Dienstsoort'] ?? '') : ($s->Dienstsoort ?? ''));
+    if ($soort !== '') {
+        foreach (\App\Models\Service::CATEGORIES as $def) {
+            if (in_array($soort, $def[1], true)) {
+                return $def[0];
+            }
+        }
+
+        return $soort;
+    }
+
+    return '';
+}
+
 /** Weergavenaam van een dienst: bij domeindiensten de domeinnaam zelf, anders de dienstnaam. */
 function dienst_naam(array|\App\Models\Service $s): string
 {

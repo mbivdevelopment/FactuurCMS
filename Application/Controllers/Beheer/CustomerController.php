@@ -65,7 +65,7 @@ final class CustomerController extends Controller
         $customer = $this->customer($request);
         $cat = $request->string('cat');
         $catDef = Service::catFilter($cat);
-        $sql = 'SELECT s.* FROM Diensten s LEFT JOIN Producten p ON p.Id = s.ProductId WHERE s.KlantId = ?';
+        $sql = 'SELECT s.*, p.Dienstsoort AS Dienstsoort FROM Diensten s LEFT JOIN Producten p ON p.Id = s.ProductId WHERE s.KlantId = ?';
         $params = [$customer->id()];
         if ($catDef !== null) {
             $real = array_values(array_filter($catDef[1], static fn (string $x): bool => $x !== 'domein'));
