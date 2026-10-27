@@ -5,7 +5,7 @@
 <div class="table-wrap"><table class="table"><thead><tr><th>Nummer</th><th>Klant</th><th>E-mail</th><th>Plaats</th><th>Diensten</th><th class="right">Openstaand</th><th>Actief</th></tr></thead><tbody>
 <?php foreach ($page['rows'] as $c): ?><tr>
     <td class="mono"><?= e($c['Nummer']) ?></td>
-    <td><a href="<?= e(url('/beheer/klanten/' . $c['Id'])) ?>"><strong><?= e($c['Bedrijfsnaam'] ?: trim($c['Voornaam'] . ' ' . $c['Achternaam'])) ?></strong></a><?php if ($c['Bedrijfsnaam']): ?><div class="small muted"><?= e(trim($c['Voornaam'] . ' ' . $c['Achternaam'])) ?></div><?php endif; ?></td>
+    <td><a href="<?= e(url('/beheer/klanten/' . $c['Id'])) ?>"><strong><?= e($c['Bedrijfsnaam'] ?: trim($c['Voornaam'] . ' ' . $c['Achternaam'])) ?></strong></a><?php if ($c['Bedrijfsnaam']): ?><div class="small muted"><?= e(trim($c['Voornaam'] . ' ' . $c['Achternaam'])) ?></div><?php endif; ?><?php if ($c['Rol'] !== 'klant'): ?><div class="small muted"><?= e(\App\Models\User::ROLES[$c['Rol']] ?? $c['Rol']) ?></div><?php endif; ?></td>
     <td><?= e($c['Email']) ?></td><td><?= e($c['Plaats']) ?></td><td><?= (int) $c['Diensten'] ?></td>
     <td class="right nowrap"><?= (int) $c['Openstaand'] > 0 ? '<strong>' . e(money((int) $c['Openstaand'])) . '</strong>' : '<span class="muted">-</span>' ?></td>
     <td><?= check_icon((bool) $c['Actief']) ?></td>

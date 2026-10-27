@@ -29,7 +29,7 @@ final class CustomerController extends Controller
         $q = $request->string('q');
         $sql = "SELECT g.*, (SELECT COUNT(*) FROM Diensten s WHERE s.KlantId = g.Id AND s.Status = 'actief') AS Diensten,
                 (SELECT COALESCE(SUM(Totaal - Betaald), 0) FROM Documenten d WHERE d.KlantId = g.Id AND d.Soort = 'factuur' AND d.Status = 'open') AS Openstaand
-                FROM Gebruikers g WHERE g.Rol = 'klant'";
+                FROM Gebruikers g WHERE 1=1";
         $params = [];
         if ($q !== '') {
             $sql .= ' AND (g.Email LIKE ? OR g.Bedrijfsnaam LIKE ? OR g.Nummer LIKE ? OR CONCAT(g.Voornaam, " ", g.Achternaam) LIKE ? OR g.Plaats LIKE ?)';
@@ -113,7 +113,7 @@ final class CustomerController extends Controller
     private function customer(Request $request): User
     {
         $customer = User::find((int) $request->param('id'));
-        if ($customer === null || $customer->Rol !== 'klant') {
+        if ($customer === null) {
             throw new HttpException(404, 'Klant niet gevonden.');
         }
 
