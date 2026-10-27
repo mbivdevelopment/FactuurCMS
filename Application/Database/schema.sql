@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS Gebruikers (
     Achternaam VARCHAR(80) NOT NULL DEFAULT '',
     Bedrijfsnaam VARCHAR(150) NULL,
     Tegoed INT NOT NULL DEFAULT 0,
+    Type VARCHAR(20) NOT NULL DEFAULT 'klant',
     Telefoon VARCHAR(40) NULL,
     Adres VARCHAR(150) NULL,
     Postcode VARCHAR(12) NULL,

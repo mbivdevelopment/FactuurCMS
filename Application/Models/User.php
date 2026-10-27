@@ -9,6 +9,7 @@ use App\Core\Model;
 final class User extends Model
 {
     public const ROLES = ['beheerder' => 'Beheerder', 'medewerker' => 'Medewerker', 'klant' => 'Klant'];
+    public const TYPES = ['klant' => 'Klant', 'reseller' => 'Reseller', 'medewerker' => 'Medewerker', 'beheerder' => 'Beheerder'];
 
     protected static string $table = 'Gebruikers';
 

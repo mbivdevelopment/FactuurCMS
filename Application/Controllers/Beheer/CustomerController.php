@@ -21,22 +21,27 @@ final class CustomerController extends Controller
     private const RULES = [
         'Voornaam' => 'required|max:80', 'Achternaam' => 'required|max:80', 'Bedrijfsnaam' => 'max:150', 'Telefoon' => 'max:40',
         'Adres' => 'max:150', 'Postcode' => 'max:12', 'Plaats' => 'max:80', 'Land' => 'max:2', 'KvkNummer' => 'max:20',
-        'BtwNummer' => 'max:30', 'Notities' => 'max:5000',
+        'BtwNummer' => 'max:30', 'Notities' => 'max:5000', 'Type' => 'in:klant,reseller,medewerker,beheerder',
     ];
 
     public function index(Request $request): Response
     {
         $q = $request->string('q');
+        $type = $request->string('type');
         $sql = "SELECT g.*, (SELECT COUNT(*) FROM Diensten s WHERE s.KlantId = g.Id AND s.Status = 'actief') AS Diensten,
                 (SELECT COALESCE(SUM(Totaal - Betaald), 0) FROM Documenten d WHERE d.KlantId = g.Id AND d.Soort = 'factuur' AND d.Status = 'open') AS Openstaand
                 FROM Gebruikers g WHERE 1=1";
         $params = [];
+        if ($type !== '') {
+            $sql .= ' AND g.Type = ?';
+            $params[] = $type;
+        }
         if ($q !== '') {
             $sql .= ' AND (g.Email LIKE ? OR g.Bedrijfsnaam LIKE ? OR g.Nummer LIKE ? OR CONCAT(g.Voornaam, " ", g.Achternaam) LIKE ? OR g.Plaats LIKE ?)';
             $params = array_fill(0, 5, '%' . $q . '%');
         }
 
-        return $this->view('beheer.customers.index', ['page' => Database::page($sql, $params, 'g.Nummer ASC', 15), 'q' => $q]);
+        return $this->view('beheer.customers.index', ['page' => Database::page($sql, $params, 'g.Nummer ASC', 15), 'q' => $q, 'type' => $type]);
     }
 
     public function create(Request $request): Response

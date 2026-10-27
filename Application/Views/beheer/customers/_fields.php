@@ -10,6 +10,7 @@
     <?= field('Land', 'Land', 'globe', $customer->Land ?: 'NL', 'select', ['NL' => 'Nederland', 'BE' => 'België', 'DE' => 'Duitsland', 'FR' => 'Frankrijk', 'GB' => 'Verenigd Koninkrijk']) ?>
     <?= field('KvkNummer', 'KvK-nummer', 'hash', $customer->KvkNummer) ?>
     <?= field('BtwNummer', 'Btw-nummer', 'hash', $customer->BtwNummer) ?>
+    <?= field('Type', 'Type', 'tag', $customer->Type ?: 'klant', 'select', \App\Models\User::TYPES) ?>
     <?= field('Wachtwoord', $customer->id() ? 'Nieuw wachtwoord (optioneel)' : 'Wachtwoord (leeg = automatisch)', 'lock', '', 'password', [], 'autocomplete="new-password"') ?>
     <?= field('Notities', 'Interne notities', 'note', $customer->Notities, 'textarea') ?>
     <?php if ($customer->id()): ?><label class="switch"><input type="checkbox" name="Actief" value="1" <?= $customer->Actief ? 'checked' : '' ?>> Account actief (kan inloggen)</label><?php endif; ?>
