@@ -130,7 +130,8 @@ final class IntegrationController extends Controller
             if ($d === null || isset($present[$domain])) {
                 continue;
             }
-            $klant = (int) ($chosen[$domain] ?? 0);
+            // PHP vervangt punten in POST-sleutels door underscores: klant[elsbreda.nl] -> klant[elsbreda_nl].
+            $klant = (int) ($chosen[str_replace('.', '_', $domain)] ?? $chosen[$domain] ?? 0);
             if (!isset($customers[$klant])) {
                 $skipped[] = $domain;
                 continue;
