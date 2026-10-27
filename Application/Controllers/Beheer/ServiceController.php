@@ -23,6 +23,8 @@ final class ServiceController extends Controller
         $group = $request->string('groep');
         $kind = Product::soortFromSlug(basename($request->path)) ?? $request->string('soort');
         $due = $request->int('verloopt');
+        $cat = $request->string('cat');
+        $catDef = Service::CATEGORIES[$cat] ?? null;
         $sql = 'SELECT s.*, g.Bedrijfsnaam, g.Voornaam, g.Achternaam FROM Diensten s JOIN Gebruikers g ON g.Id = s.KlantId LEFT JOIN Producten p ON p.Id = s.ProductId WHERE 1 = 1';
         $params = [];
         if ($group !== '') {
@@ -41,12 +43,46 @@ final class ServiceController extends Controller
             $sql .= ' AND s.Status = ?';
             $params[] = $status;
         }
+        if ($catDef !== null) {
+            $real = array_values(array_filter($catDef[1], static fn (string $x): bool => $x !== 'domein'));
+            $or = [];
+            if ($real !== []) {
+                $or[] = 'p.Dienstsoort IN (' . implode(',', array_fill(0, count($real), '?')) . ')';
+                array_push($params, ...$real);
+            }
+            if (in_array('domein', $catDef[1], true)) {
+                $or[] = "s.Bron IN ('domein', 'realtimeregister')";
+            }
+            if ($or !== []) {
+                $sql .= ' AND (' . implode(' OR ', $or) . ')';
+            }
+        }
         if ($q !== '') {
             $sql .= ' AND (s.Naam LIKE ? OR s.Omschrijving LIKE ? OR s.Nummer LIKE ? OR g.Bedrijfsnaam LIKE ?)';
             array_push($params, ...array_fill(0, 4, '%' . $q . '%'));
         }
+        $catCounts = array_fill_keys(array_keys(Service::CATEGORIES), 0);
+        $soortCounts = [];
+        foreach (Database::all(
+            "SELECT p.Dienstsoort AS Soort, s.Bron, COUNT(*) AS c
+             FROM Diensten s LEFT JOIN Producten p ON p.Id = s.ProductId GROUP BY Soort, s.Bron"
+        ) as $r) {
+            $soort = (string) ($r['Soort'] ?? '');
+            if ($soort !== '') {
+                $soortCounts[$soort] = ($soortCounts[$soort] ?? 0) + (int) $r['c'];
+            }
+            if (in_array((string) $r['Bron'], ['domein', 'realtimeregister'], true)) {
+                $soortCounts['domein'] = ($soortCounts['domein'] ?? 0) + (int) $r['c'];
+            }
+        }
+        foreach (Service::CATEGORIES as $key => $def) {
+            foreach ($def[1] as $soort) {
+                $catCounts[$key] += $soortCounts[$soort] ?? 0;
+            }
+        }
+        unset($soortCounts['domein']);
 
-        return $this->view('beheer.services.index', ['page' => Database::page($sql, $params, 's.Nummer ASC', 15), 'status' => $status, 'q' => $q, 'group' => $group, 'kind' => $kind, 'due' => $due]);
+        return $this->view('beheer.services.index', ['page' => Database::page($sql, $params, 's.Nummer ASC', 15), 'status' => $status, 'q' => $q, 'group' => $group, 'kind' => $kind, 'due' => $due, 'cat' => $cat, 'catDef' => $catDef, 'catCounts' => $catCounts, 'soorten' => $soortCounts, 'totalDiensten' => (int) Database::scalar('SELECT COUNT(*) FROM Diensten')]);
     }
 
     public function create(Request $request): Response
