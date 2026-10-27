@@ -63,7 +63,7 @@ final class CustomerController extends Controller
     public function show(Request $request): Response
     {
         $customer = $this->customer($request);
-        $cat = $request->string('cat');
+        $cat = $request->string('cat', 'domeinen');
         $catDef = Service::catFilter($cat);
         $sql = 'SELECT s.*, p.Dienstsoort AS Dienstsoort FROM Diensten s LEFT JOIN Producten p ON p.Id = s.ProductId WHERE s.KlantId = ?';
         $params = [$customer->id()];

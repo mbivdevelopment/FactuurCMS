@@ -23,7 +23,7 @@ final class ServiceController extends Controller
         $group = $request->string('groep');
         $kind = Product::soortFromSlug(basename($request->path)) ?? $request->string('soort');
         $due = $request->int('verloopt');
-        $cat = $request->string('cat');
+        $cat = $request->string('cat', 'domeinen');
         $catDef = Service::catFilter($cat);
         $sql = 'SELECT s.*, g.Bedrijfsnaam, g.Voornaam, g.Achternaam, p.Dienstsoort AS Dienstsoort FROM Diensten s JOIN Gebruikers g ON g.Id = s.KlantId LEFT JOIN Producten p ON p.Id = s.ProductId WHERE 1 = 1';
         $params = [];
