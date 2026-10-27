@@ -1,14 +1,7 @@
 <?php $extend('beheer', ['title' => 'Instellingen']); $s = static fn (string $k, mixed $d = ''): mixed => setting($k, $d); $f = static fn (string $k): string => str_replace('.', '_', $k); ?>
 <div class="page-head"><div class="ph-icon"><?= icon('settings') ?></div><div class="ph-text"><h1>Instellingen</h1></div></div>
 <div class="card" data-tabs>
-    <nav class="tab-nav">
-        <a href="#bedrijf" class="tab-link" data-tab="bedrijf"><?= icon('building', 'icon icon-sm') ?> Bedrijfsgegevens</a>
-        <a href="#branding" class="tab-link" data-tab="branding"><?= icon('image', 'icon icon-sm') ?> Branding</a>
-        <a href="#facturatie" class="tab-link" data-tab="facturatie"><?= icon('file', 'icon icon-sm') ?> Facturatie</a>
-        <a href="#email" class="tab-link" data-tab="email"><?= icon('mail', 'icon icon-sm') ?> E-mail</a>
-        <a href="#mailtemplates" class="tab-link" data-tab="mailtemplates"><?= icon('send', 'icon icon-sm') ?> E-mailtemplates</a>
-        <a href="#website" class="tab-link" data-tab="website"><?= icon('globe', 'icon icon-sm') ?> Website</a>
-    </nav>
+    
     <div class="tab-pane" data-pane="bedrijf"><form method="post" action="<?= e(url('/beheer/instellingen')) ?>"><?= csrf_field() ?><input type="hidden" name="tab" value="bedrijf">
         <div class="card-body form-grid">
             <?php foreach (['bedrijf.naam' => ['Bedrijfsnaam', 'building'], 'bedrijf.email' => ['E-mailadres', 'mail'], 'bedrijf.adres' => ['Adres', 'map'], 'bedrijf.telefoon' => ['Telefoon', 'phone'], 'bedrijf.postcode' => ['Postcode', 'map'], 'bedrijf.plaats' => ['Plaats', 'map'], 'bedrijf.land' => ['Land', 'globe'], 'bedrijf.website' => ['Website', 'link'], 'bedrijf.kvk' => ['KvK-nummer', 'hash'], 'bedrijf.btw' => ['Btw-nummer', 'hash'], 'bedrijf.iban' => ['IBAN', 'wallet'], 'bedrijf.bic' => ['BIC', 'wallet']] as $k => [$l, $i]): ?>
