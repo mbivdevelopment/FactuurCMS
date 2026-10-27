@@ -23,6 +23,7 @@ img { max-width: 100%; }
 .muted { color: var(--muted); }
 .small { font-size: 12.5px; }
 .right { text-align: right !important; }
+.center { text-align: center !important; }
 .inline { display: inline; }
 .nowrap { white-space: nowrap; }
 .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; }
