@@ -141,6 +141,37 @@ final class RealtimeRegister
         return 'Verbonden met Realtime Register: ' . (int) ($page['pagination']['total'] ?? count((array) ($page['entities'] ?? []))) . ' domeinen.';
     }
 
+    /** Domeingegevens bij Realtime Register. @return array<mixed> */
+    public static function info(string $domain): array
+    {
+        $data = self::get('domains/' . rawurlencode(strtolower(trim($domain))));
+
+        return [
+            'nameservers' => array_values(array_map('strval', (array) ($data['ns'] ?? $data['nameservers'] ?? []))),
+            'authcode' => (string) ($data['authcode'] ?? ''),
+            'status' => implode(', ', array_map('strval', (array) ($data['status'] ?? []))),
+            'expiry' => !empty($data['expiryDate']) ? date('Y-m-d', (int) strtotime((string) $data['expiryDate'])) : null,
+            'autoRenew' => (bool) ($data['autoRenew'] ?? false),
+            'registrant' => (string) ($data['registrant'] ?? ''),
+        ];
+    }
+
+    /** Zet de nameservers van een domein (2-6 stuks). */
+    public static function setNameservers(string $domain, array $ns): void
+    {
+        $ns = array_values(array_filter(array_map(static fn ($v): string => strtolower(trim((string) $v)), $ns)));
+        if (count($ns) < 2 || count($ns) > 6) {
+            throw new \RuntimeException('Vul minimaal 2 en maximaal 6 nameservers in.');
+        }
+        self::request('POST', 'domains/' . rawurlencode(strtolower(trim($domain))) . '/update', ['ns' => $ns]);
+    }
+
+    /** Zet automatisch verlengen aan/uit (uit = domein loopt af op de verloopdatum). */
+    public static function setAutoRenew(string $domain, bool $on): void
+    {
+        self::request('POST', 'domains/' . rawurlencode(strtolower(trim($domain))) . '/update', ['autoRenew' => $on]);
+    }
+
     /** @return array<string, array{domain: string, expiry: ?string, status: string, autoRenew: bool}> */
     public static function domains(): array
     {

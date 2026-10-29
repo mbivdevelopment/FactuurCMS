@@ -56,3 +56,4 @@
         </div>
     </div></div>
 </div>
+<?php $base = '/klant'; require __DIR__ . '/../shared/domain-card.php'; ?>

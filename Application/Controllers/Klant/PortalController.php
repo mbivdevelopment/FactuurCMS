@@ -73,6 +73,14 @@ final class PortalController extends Controller
         return $this->redirect('/klant/diensten/' . $service->id())->with('success', $labels[$action]);
     }
 
+    public function serviceDomain(Request $request): Response
+    {
+        $service = $this->ownService($request);
+        [$type, $message] = \App\Services\DomainManager::run($service, (string) $request->param('actie'), $request);
+
+        return $this->redirect('/klant/diensten/' . $service->id())->with($type, $message);
+    }
+
     public function serviceSso(Request $request): Response
     {
         $service = $this->ownService($request);

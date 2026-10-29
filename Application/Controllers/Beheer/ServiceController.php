@@ -118,6 +118,14 @@ final class ServiceController extends Controller
         return $this->redirect('/beheer/diensten')->with('success', 'Dienst verwijderd.');
     }
 
+    public function domainAction(Request $request): Response
+    {
+        $service = $this->service($request);
+        [$type, $message] = \App\Services\DomainManager::run($service, (string) $request->param('actie'), $request);
+
+        return $this->redirect('/beheer/diensten/' . $service->id())->with($type, $message);
+    }
+
     public function invoiceNow(Request $request): Response
     {
         $service = $this->service($request);

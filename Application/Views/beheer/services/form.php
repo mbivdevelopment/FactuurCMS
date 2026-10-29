@@ -20,3 +20,4 @@ $prodOpts = ['' => 'Geen / handmatig']; foreach ($products as $p) { $prodOpts[$p
     <div class="card-foot"><?php if (!$new): ?><?= delete_submit() ?><span style="margin-left:auto"></span><?php endif; ?><button class="btn"><?= icon('check', 'icon icon-sm') ?> Opslaan</button></div>
 </form>
 <?php if (!$new): ?><?= delete_form(url('/beheer/diensten/' . $service->id()), 'Dienst ' . $service->Naam . ' verwijderen?') ?><?php endif; ?>
+<?php if (!$new && $service->isDomain()): $base = '/beheer'; require __DIR__ . '/../../shared/domain-card.php'; endif; ?>

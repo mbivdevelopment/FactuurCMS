@@ -23,5 +23,5 @@ $actief = ['cat' => $cat, 'soort' => $kind]; ?>
     <td><?= ($t = \App\Models\Product::soortLabel($p->Dienstsoort)) !== '' ? '<span class="small muted">' . e($t) . '</span>' : '<span class="muted">—</span>' ?></td>
     <td class="nowrap"><?= e(money((int) $p->Prijs)) ?> <span class="small muted"><?= e(period_label((string) $p->Periode)) ?></span></td><td><?= (int) $p->Instelkosten ? e(money((int) $p->Instelkosten)) : '-' ?></td>
     <td><?= check_icon((bool) $p->Uitgelicht) ?></td><td><?= check_icon((bool) $p->Zichtbaar) ?></td></tr><?php endforeach; ?>
-    </tbody></table></div><?php endif; ?></div>
+    </tbody></table></div><?= pagination($page) ?><?php endif; ?></div>
 </div>

@@ -38,7 +38,12 @@ final class ProductController extends Controller
             $params[] = '%' . $q . '%';
             $params[] = '%' . $q . '%';
         }
-        $products = Product::query($sql . ' ORDER BY Nummer', $params);
+        $all = Product::query($sql . ' ORDER BY Nummer', $params);
+        $total = count($all);
+        $pages = max(1, (int) ceil($total / 15));
+        $page = min($pages, max(1, (int) ($_GET['page'] ?? 1)));
+        $products = array_slice($all, ($page - 1) * 15, 15);
+        $pager = ['rows' => $products, 'page' => $page, 'pages' => $pages, 'total' => $total, 'perPage' => 15];
         $soortCounts = [];
         foreach (Database::all('SELECT Dienstsoort AS Soort, COUNT(*) AS c FROM Producten GROUP BY Soort') as $r) {
             $soortCounts[(string) ($r['Soort'] ?? '')] = (int) $r['c'];
@@ -51,7 +56,7 @@ final class ProductController extends Controller
         }
         unset($soortCounts['domein']);
 
-        return $this->view('beheer.products.index', ['products' => $products, 'kind' => $kind, 'q' => $q, 'cat' => $cat, 'catDef' => $catDef, 'catCounts' => $catCounts, 'soorten' => $soortCounts]);
+        return $this->view('beheer.products.index', ['products' => $products, 'page' => $pager, 'kind' => $kind, 'q' => $q, 'cat' => $cat, 'catDef' => $catDef, 'catCounts' => $catCounts, 'soorten' => $soortCounts]);
     }
 
     public function create(Request $request): Response

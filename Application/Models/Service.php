@@ -70,6 +70,47 @@ final class Service extends Model
         return $this->ProductId !== null ? Product::find((int) $this->ProductId) : null;
     }
 
+    /** Is dit een domeinnaamdienst (geregistreerd of geïmporteerd via Realtime Register)? */
+    public function isDomain(): bool
+    {
+        return in_array((string) $this->Bron, ['domein', 'realtimeregister'], true) || $this->domainName() !== '';
+    }
+
+    /** De domeinnaam van deze dienst, indien bekend. */
+    public function domainName(): string
+    {
+        if ((string) $this->ExternId !== '' && in_array((string) $this->Bron, ['domein', 'realtimeregister'], true)) {
+            return strtolower((string) $this->ExternId);
+        }
+        $g = is_array($this->Gegevens) ? $this->Gegevens : (json_decode((string) $this->Gegevens, true) ?: []);
+        foreach (['domein', 'domain'] as $key) {
+            $value = $g[$key] ?? '';
+            if (is_array($value)) {
+                $value = $value['domein'] ?? $value['naam'] ?? $value['domain'] ?? '';
+            }
+            if (is_string($value) && preg_match('/^[a-z0-9]([a-z0-9-]*\.)+[a-z]{2,}$/i', $value) === 1) {
+                return strtolower($value);
+            }
+        }
+        foreach ([$this->Omschrijving, $this->Naam] as $value) {
+            $v = strtolower(trim((string) $value));
+            if (preg_match('/^[a-z0-9]([a-z0-9-]*\.)+[a-z]{2,}$/', $v) === 1) {
+                return $v;
+            }
+        }
+
+        return '';
+    }
+
+    /** Update een sleutel binnen Gegevens en slaat op. */
+    public function putData(string $key, mixed $value): void
+    {
+        $g = is_array($this->Gegevens) ? $this->Gegevens : (json_decode((string) $this->Gegevens, true) ?: []);
+        $g[$key] = $value;
+        $this->Gegevens = json_encode($g, JSON_UNESCAPED_UNICODE);
+        $this->save();
+    }
+
     /** Datum + één periode (maand/kwartaal/jaar); null bij eenmalig. */
     public static function addPeriod(string $date, string $period): ?string
     {
