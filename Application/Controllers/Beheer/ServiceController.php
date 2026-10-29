@@ -128,6 +128,11 @@ final class ServiceController extends Controller
         return $this->redirect('/beheer/diensten/' . $service->id() . $extra)->with($type, $message);
     }
 
+    public function hosting(Request $request): Response
+    {
+        return $this->view('beheer.services.hosting', ['service' => $this->service($request)]);
+    }
+
     public function hostingAction(Request $request): Response
     {
         $service = $this->service($request);
@@ -135,7 +140,7 @@ final class ServiceController extends Controller
         [$type, $message] = \App\Services\DomainManager::runHosting($service, $actie, $request);
         $extra = $type === 'success' && $actie === 'handover' ? '?dial=handover' : '';
 
-        return $this->redirect('/beheer/diensten/' . $service->id() . $extra)->with($type, $message);
+        return $this->redirect('/beheer/diensten/' . $service->id() . '/hosting' . $extra)->with($type, $message);
     }
 
     /** SSO naar het hostingpaneel als de klant van deze dienst. */

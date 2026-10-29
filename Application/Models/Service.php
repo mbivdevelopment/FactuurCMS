@@ -73,6 +73,10 @@ final class Service extends Model
     /** Is dit een domeinnaamdienst (geregistreerd of geïmporteerd via Realtime Register)? */
     public function isDomain(): bool
     {
+        if ((string) $this->Bron === 'qevanto' || $this->isHosting()) {
+            return false;
+        }
+
         return in_array((string) $this->Bron, ['domein', 'realtimeregister'], true) || $this->domainName() !== '';
     }
 
