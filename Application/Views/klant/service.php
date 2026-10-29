@@ -1,6 +1,6 @@
 <?php $extend('klant', ['title' => dienst_naam($service)]); ?>
 <?php $product = $service->product(); $geo = is_array($service->Gegevens) ? $service->Gegevens : (json_decode((string) $service->Gegevens, true) ?: []); $qv = (array) ($geo['qevanto'] ?? []); ?>
-<div class="page-head"><div class="ph-icon"><?= icon('server') ?></div><div class="ph-text"><h1><?= e(dienst_naam($service)) ?></h1><div class="sub"><?= e($service->Nummer) ?> · <?= badge((string) $service->Status, \App\Models\Service::STATUSES[$service->Status] ?? '') ?></div></div><div class="row" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><?php if ($service->isDomain()): $base = '/klant'; require __DIR__ . '/../shared/domain-actions.php'; endif; ?><a class="btn btn-ghost" href="<?= e(url('/klant/diensten')) ?>">Terug</a></div></div>
+<div class="page-head"><div class="ph-icon"><?= icon('server') ?></div><div class="ph-text"><h1><?= e(dienst_naam($service)) ?></h1><div class="sub"><?= e($service->Nummer) ?> · <?= badge((string) $service->Status, \App\Models\Service::STATUSES[$service->Status] ?? '') ?></div></div><div class="row" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><?php if ($service->isDomain()): $base = '/klant'; require __DIR__ . '/../shared/domain-actions.php'; endif; ?></div></div>
 <div class="grid grid-2">
     <div class="card"><div class="card-body">
         <h3 style="margin-top:0">Details</h3>
