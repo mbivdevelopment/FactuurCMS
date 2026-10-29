@@ -45,6 +45,20 @@ final class QevantoPaneel
         return Http::json('GET', $url . '/api/subscriptions/' . $id . '/stats?' . http_build_query(['range' => $range]), ['Authorization: Bearer ' . $token]);
     }
 
+    /** Werkplekken van een abonnement + koppelcode en installatiecommando. @return array<mixed> */
+    public static function workplaces(int $id): array
+    {
+        [$url, $token] = self::credentials();
+
+        return Http::json('GET', $url . '/api/subscriptions/' . $id . '/workplaces', ['Authorization: Bearer ' . $token]);
+    }
+
+    /** Genereert een nieuwe koppelcode voor werkplekken. @return array<mixed> */
+    public static function newWorkplaceCode(int $id): array
+    {
+        return self::post('/api/subscriptions/' . $id . '/workplaces/code', []);
+    }
+
     /** Zet de status van een abonnement (active/suspended). */
     public static function setStatus(int $id, string $status): void
     {

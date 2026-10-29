@@ -62,6 +62,8 @@ $router->group('klant', ['csrf', 'auth', 'klant'], static function ($router): vo
     $router->post('/diensten/{id}/domein/{actie}', 'Klant\\PortalController@serviceDomain');
     $router->get('/diensten/{id}/hosting', 'Klant\\PortalController@serviceHostingPage');
     $router->post('/diensten/{id}/hosting/{actie}', 'Klant\\PortalController@serviceHosting');
+    $router->get('/diensten/{id}/werkplek', 'Klant\\PortalController@serviceWorkplacePage');
+    $router->post('/diensten/{id}/werkplek/code', 'Klant\\PortalController@serviceWorkplaceCode');
     $router->get('/tegoed', 'Klant\\PortalController@wallet');
     $router->post('/tegoed', 'Klant\\PortalController@topup');
     $router->get('/facturen', 'Klant\\PortalController@invoices');
@@ -108,6 +110,8 @@ $router->group('beheer', ['csrf', 'auth', 'staff'], static function ($router): v
     $router->post('/diensten/{id}/domein/{actie}', 'Beheer\\ServiceController@domainAction');
     $router->get('/diensten/{id}/hosting', 'Beheer\\ServiceController@hosting');
     $router->post('/diensten/{id}/hosting/{actie}', 'Beheer\\ServiceController@hostingAction');
+    $router->get('/diensten/{id}/werkplek', 'Beheer\\ServiceController@workplace');
+    $router->post('/diensten/{id}/werkplek/code', 'Beheer\\ServiceController@workplaceCode');
     $router->post('/diensten/{id}/paneel', 'Beheer\\ServiceController@sso');
 
     foreach (['facturen' => 'factuur', 'offertes' => 'offerte'] as $plural => $kind) {

@@ -356,7 +356,7 @@ final class IntegrationController extends Controller
                 'Status' => $status,
                 'StartDatum' => !empty($s['createdAt']) ? date('Y-m-d', (int) strtotime((string) $s['createdAt'])) : date('Y-m-d'),
                 'VolgendeFactuur' => $status === 'actief' ? $first : null,
-                'Gegevens' => json_encode(['qevanto' => ['nummer' => $s['number'] ?? null, 'systeemgebruiker' => $s['unixUser'] ?? null, 'pakket' => $s['package']['name'] ?? null, 'server' => $s['server']['name'] ?? null, 'domeinen' => $domains]], JSON_UNESCAPED_UNICODE),
+                'Gegevens' => json_encode(['qevanto' => ['nummer' => $s['number'] ?? null, 'systeemgebruiker' => $s['unixUser'] ?? null, 'pakket' => $s['package']['name'] ?? null, 'kind' => $s['package']['kind'] ?? null, 'server' => $s['server']['name'] ?? null, 'domeinen' => $domains]], JSON_UNESCAPED_UNICODE),
                 'Bron' => 'qevanto',
                 'ExternId' => (string) $id,
             ]);

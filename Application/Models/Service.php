@@ -83,12 +83,34 @@ final class Service extends Model
     /** Is dit een webhosting-dienst (Qevanto-abonnement of hosting-product)? */
     public function isHosting(): bool
     {
-        if ((string) $this->Bron === 'qevanto') {
-            return true;
-        }
         $soort = $this->product()?->Dienstsoort;
+        if ($soort !== null && in_array($soort, ['Werkplek Beheer', 'VPN'], true)) {
+            return false;
+        }
+        $kind = (string) ($this->qevanto()['kind'] ?? '');
+        if ((string) $this->Bron === 'qevanto') {
+            return $kind === '' || in_array($kind, ['hosting', 'reseller'], true);
+        }
 
         return $soort !== null && in_array($soort, ['Webhosting', 'Reseller Hosting', 'E-mailhosting'], true);
+    }
+
+    /** Is dit een werkplekbeheer-dienst (Qevanto werkplekpakket)? */
+    public function isWorkplace(): bool
+    {
+        if ((string) $this->Bron === 'qevanto' && (string) ($this->qevanto()['kind'] ?? '') === 'workplace') {
+            return true;
+        }
+
+        return $this->product()?->Dienstsoort === 'Werkplek Beheer';
+    }
+
+    /** De Qevanto-gegevens van deze dienst uit de Gegevens-kolom. @return array<string, mixed> */
+    private function qevanto(): array
+    {
+        $g = is_array($this->Gegevens) ? $this->Gegevens : (json_decode((string) $this->Gegevens, true) ?: []);
+
+        return (array) ($g['qevanto'] ?? []);
     }
 
     /** De domeinnaam van deze dienst, indien bekend. */

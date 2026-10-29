@@ -104,6 +104,24 @@ final class PortalController extends Controller
         return $this->redirect('/klant/diensten/' . $service->id() . '/hosting' . $extra)->with($type, $message);
     }
 
+    public function serviceWorkplacePage(Request $request): Response
+    {
+        return $this->view('klant.workplace', ['service' => $this->ownService($request)]);
+    }
+
+    public function serviceWorkplaceCode(Request $request): Response
+    {
+        $service = $this->ownService($request);
+        try {
+            \App\Services\QevantoPaneel::newWorkplaceCode((int) $service->ExternId);
+            [$type, $message] = ['success', 'Er is een nieuwe koppelcode gegenereerd.'];
+        } catch (\Throwable $e) {
+            [$type, $message] = ['error', 'Nieuwe koppelcode mislukt: ' . $e->getMessage()];
+        }
+
+        return $this->redirect('/klant/diensten/' . $service->id() . '/werkplek')->with($type, $message);
+    }
+
     public function serviceSso(Request $request): Response
     {
         $service = $this->ownService($request);

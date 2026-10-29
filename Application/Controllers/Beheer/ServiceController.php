@@ -145,6 +145,26 @@ final class ServiceController extends Controller
         return $this->redirect('/beheer/diensten/' . $service->id() . '/hosting' . $extra)->with($type, $message);
     }
 
+    public function workplace(Request $request): Response
+    {
+        $service = $this->service($request);
+
+        return $this->view('beheer.services.workplace', ['service' => $service] + $this->catNav($service));
+    }
+
+    public function workplaceCode(Request $request): Response
+    {
+        $service = $this->service($request);
+        try {
+            \App\Services\QevantoPaneel::newWorkplaceCode((int) $service->ExternId);
+            [$type, $message] = ['success', 'Er is een nieuwe koppelcode gegenereerd.'];
+        } catch (\Throwable $e) {
+            [$type, $message] = ['error', 'Nieuwe koppelcode mislukt: ' . $e->getMessage()];
+        }
+
+        return $this->redirect('/beheer/diensten/' . $service->id() . '/werkplek')->with($type, $message);
+    }
+
     /** SSO naar het hostingpaneel als de klant van deze dienst. */
     public function sso(Request $request): Response
     {

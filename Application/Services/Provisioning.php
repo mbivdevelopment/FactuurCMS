@@ -57,7 +57,7 @@ final class Provisioning
             Database::update('Diensten', [
                 'Bron' => 'qevanto',
                 'ExternId' => (string) ($sub['id'] ?? ''),
-                'Gegevens' => json_encode(['qevanto' => ['nummer' => $sub['number'] ?? null, 'systeemgebruiker' => $sub['unixUser'] ?? null, 'pakket' => $product->Naam, 'automatisch' => date('Y-m-d H:i')]], JSON_UNESCAPED_UNICODE),
+                'Gegevens' => json_encode(['qevanto' => ['nummer' => $sub['number'] ?? null, 'systeemgebruiker' => $sub['unixUser'] ?? null, 'pakket' => $product->Naam, 'kind' => $sub['package']['kind'] ?? null, 'automatisch' => date('Y-m-d H:i')]], JSON_UNESCAPED_UNICODE),
                 'Status' => 'actief',
                 'BijgewerktOp' => now(),
             ], ['Id' => $serviceId]);
