@@ -22,19 +22,7 @@ while (count($nsList) < 4) {
 $dial = (string) ($_GET['dial'] ?? '');
 $opgezegd = (string) $service->Status === 'opgezegd';
 ?>
-<div class="card">
-    <div class="card-head"><h3><?= icon('globe', 'icon icon-sm') ?> Domeinbeheer</h3><?= badge($info['autoRenew'] ? 'actief' : 'opgezegd', $info['autoRenew'] ? 'Verlengt automatisch' : 'Verlengt niet') ?></div>
-    <div class="card-body">
-        <div class="form-grid">
-            <div><small class="muted">Domeinnaam</small><div><strong><?= e($domain) ?></strong></div></div>
-            <?php if ($info['status'] !== ''): ?><div><small class="muted">Status bij registrar</small><div><?= e($info['status']) ?></div></div><?php endif; ?>
-            <?php if ($info['expiry']): ?><div><small class="muted">Verloopdatum</small><div><?= e(nl_date($info['expiry'])) ?></div></div><?php endif; ?>
-            <?php if ($info['registrant'] !== ''): ?><div><small class="muted">Houder</small><div><?= e($info['registrant']) ?></div></div><?php endif; ?>
-            <?php if ($info['nameservers'] !== []): ?><div><small class="muted">Nameservers</small><div class="mono"><?= e(implode(', ', $info['nameservers'])) ?></div></div><?php endif; ?>
-            <?php if ($handover !== null): ?><div><small class="muted">Handover gestart</small><div><?= e((string) ($handover['op'] ?? '')) ?></div></div><?php endif; ?>
-        </div>
-    </div>
-</div>
+
 
 <dialog class="confirm" id="dom-ns-<?= (int) $service->id() ?>">
     <div class="modal-h"><?= icon('server', 'icon icon-sm') ?> Nameservers — <?= e($domain) ?></div>
