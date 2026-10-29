@@ -1,6 +1,9 @@
 <?php $extend('frontend', ['title' => $group !== '' ? $group : 'Diensten']); $i = 0; ?>
 <?= $partial('frontend._hero', ['title' => $group !== '' ? $group : 'Onze diensten', 'intro' => 'Alle pakketten op een rij. Alle prijzen zijn exclusief btw.', 'icon' => \App\Models\Product::GROUPS[$group] ?? 'server', 'crumbs' => [['/diensten', 'Diensten']]]) ?>
 <?php if ($kinds === [] && $domains === []): ?><section class="sec"><div class="container"><div class="empty">Geen diensten gevonden.</div></div></section><?php endif; ?>
+<?php if ($groups !== []): ?>
+<div class="container"><nav class="svc-nav"><a<?= $group === '' ? ' class="active"' : '' ?> href="<?= e(url('/diensten')) ?>"><?= icon('box', 'icon icon-sm') ?> Alles</a><?php foreach ($groups as $g): ?><a<?= $group === $g ? ' class="active"' : '' ?> href="<?= e(url('/diensten?groep=' . urlencode($g))) ?>"><?= icon(\App\Models\Product::GROUPS[$g] ?? 'box', 'icon icon-sm') ?> <?= e($g) ?></a><?php endforeach; ?></nav></div>
+<?php endif; ?>
 <?php if (count($kinds) + ($domains !== [] ? 1 : 0) > 1): ?>
 <div class="container"><nav class="svc-nav"><?php foreach (array_keys($kinds) as $kind): ?><a href="#<?= e(slugify($kind)) ?>"><?= icon(\App\Models\Product::soortIcon($kind), 'icon icon-sm') ?> <?= e($kind) ?></a><?php endforeach; ?><?php if ($domains !== []): ?><a href="#domeinextensies"><?= icon('globe', 'icon icon-sm') ?> Domeinextensies</a><?php endif; ?></nav></div>
 <?php endif; ?>

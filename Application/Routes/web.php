@@ -7,7 +7,7 @@ declare(strict_types=1);
 // Frontend
 $router->group('', ['csrf'], static function ($router): void {
     $router->get('/', 'Frontend\\SiteController@home');
-    $router->get('/diensten', 'Frontend\\SiteController@servicesRedirect');
+    $router->get('/diensten', 'Frontend\\SiteController@services');
     $router->get('/diensten/{slug}', 'Frontend\\SiteController@product');
     $router->get('/diensten/{slug}/bestellen', 'Frontend\\SiteController@checkout');
     $router->post('/diensten/{slug}/bestellen', 'Frontend\\SiteController@order', ['throttle:bestellen,10,60']);

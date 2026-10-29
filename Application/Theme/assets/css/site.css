@@ -513,6 +513,8 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .svc-nav a { display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; border-radius: 99px; color: var(--navy); font-weight: 600; font-size: 14px; border: 1px solid var(--line); }
 .svc-nav a .icon { color: var(--primary); }
 .svc-nav a:hover { border-color: var(--primary); color: var(--primary); }
+.svc-nav a.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+.svc-nav a.active .icon { color: #fff; }
 .svc-sec { scroll-margin-top: 20px; }
 .svc-head { display: flex; gap: 16px; align-items: center; }
 .svc-head h2 { margin: 0 0 2px; }
