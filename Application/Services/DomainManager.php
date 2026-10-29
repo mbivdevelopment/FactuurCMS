@@ -33,7 +33,16 @@ final class DomainManager
 
     private static function nameservers(Service $service, string $domain, Request $request): array
     {
-        $ns = preg_split('/[\s,]+/', (string) $request->input('ns')) ?: [];
+        $ns = [];
+        for ($i = 1; $i <= 6; $i++) {
+            $v = trim((string) $request->input('ns' . $i));
+            if ($v !== '') {
+                $ns[] = $v;
+            }
+        }
+        if ($ns === []) {
+            $ns = preg_split('/[\s,]+/', (string) $request->input('ns')) ?: [];
+        }
         RealtimeRegister::setNameservers($domain, $ns);
         $service->putData('nameservers', array_values(array_filter($ns)));
 

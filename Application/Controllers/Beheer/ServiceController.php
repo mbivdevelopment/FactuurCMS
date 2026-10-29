@@ -159,10 +159,49 @@ final class ServiceController extends Controller
 
     private function form(Service $service): Response
     {
+        $catCounts = array_fill_keys(array_keys(Service::CATEGORIES), 0);
+        $soortCounts = [];
+        foreach (Database::all(
+            "SELECT p.Dienstsoort AS Soort, s.Bron, COUNT(*) AS c
+             FROM Diensten s LEFT JOIN Producten p ON p.Id = s.ProductId GROUP BY Soort, s.Bron"
+        ) as $r) {
+            $soort = (string) ($r['Soort'] ?? '');
+            if ($soort !== '') {
+                $soortCounts[$soort] = ($soortCounts[$soort] ?? 0) + (int) $r['c'];
+            }
+            if (in_array((string) $r['Bron'], ['domein', 'realtimeregister'], true)) {
+                $soortCounts['domein'] = ($soortCounts['domein'] ?? 0) + (int) $r['c'];
+            }
+        }
+        foreach (Service::CATEGORIES as $key => $def) {
+            foreach ($def[1] as $soort) {
+                $catCounts[$key] += $soortCounts[$soort] ?? 0;
+            }
+        }
+        $cat = '';
+        if ($service->id()) {
+            if ($service->isDomain()) {
+                $cat = 'domeinen';
+            } else {
+                $soort = (string) ($service->product()->Dienstsoort ?? '');
+                foreach (Service::CAT_GROUPS as $gk => [, , $keys]) {
+                    foreach ($keys as $k) {
+                        if (in_array($soort, Service::CATEGORIES[$k][1], true)) {
+                            $cat = $gk;
+                            break 2;
+                        }
+                    }
+                }
+            }
+        }
+
         return $this->view('beheer.services.form', [
             'service' => $service,
             'customers' => User::query("SELECT * FROM Gebruikers ORDER BY COALESCE(Bedrijfsnaam, Achternaam)"),
             'products' => Product::query('SELECT * FROM Producten ORDER BY Groep, Volgorde'),
+            'cat' => $cat,
+            'catCounts' => $catCounts,
+            'totalDiensten' => (int) Database::scalar('SELECT COUNT(*) FROM Diensten'),
         ]);
     }
 
