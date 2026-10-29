@@ -76,6 +76,17 @@ final class Service extends Model
         return in_array((string) $this->Bron, ['domein', 'realtimeregister'], true) || $this->domainName() !== '';
     }
 
+    /** Is dit een webhosting-dienst (Qevanto-abonnement of hosting-product)? */
+    public function isHosting(): bool
+    {
+        if ((string) $this->Bron === 'qevanto') {
+            return true;
+        }
+        $soort = $this->product()?->Dienstsoort;
+
+        return $soort !== null && in_array($soort, ['Webhosting', 'Reseller Hosting', 'E-mailhosting'], true);
+    }
+
     /** De domeinnaam van deze dienst, indien bekend. */
     public function domainName(): string
     {

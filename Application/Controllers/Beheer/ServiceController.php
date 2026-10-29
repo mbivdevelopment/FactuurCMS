@@ -128,6 +128,37 @@ final class ServiceController extends Controller
         return $this->redirect('/beheer/diensten/' . $service->id() . $extra)->with($type, $message);
     }
 
+    public function hostingAction(Request $request): Response
+    {
+        $service = $this->service($request);
+        $actie = (string) $request->param('actie');
+        [$type, $message] = \App\Services\DomainManager::runHosting($service, $actie, $request);
+        $extra = $type === 'success' && $actie === 'handover' ? '?dial=handover' : '';
+
+        return $this->redirect('/beheer/diensten/' . $service->id() . $extra)->with($type, $message);
+    }
+
+    /** SSO naar het hostingpaneel als de klant van deze dienst. */
+    public function sso(Request $request): Response
+    {
+        $service = $this->service($request);
+        $klant = $service->customer();
+        if ($klant === null) {
+            return $this->redirect('/beheer/diensten/' . $service->id())->with('error', 'Er is geen klant gekoppeld aan deze dienst.');
+        }
+        try {
+            $res = \App\Services\QevantoPaneel::post('/api/auth/sso', ['email' => (string) $klant->Email]);
+        } catch (\Throwable $e) {
+            return $this->redirect('/beheer/diensten/' . $service->id())->with('error', 'Inloggen op het paneel mislukt: ' . $e->getMessage());
+        }
+        $url = (string) ($res['url'] ?? '');
+        if ($url === '') {
+            return $this->redirect('/beheer/diensten/' . $service->id())->with('error', 'Het paneel gaf geen inloglink terug.');
+        }
+
+        return $this->redirect($url);
+    }
+
     public function invoiceNow(Request $request): Response
     {
         $service = $this->service($request);

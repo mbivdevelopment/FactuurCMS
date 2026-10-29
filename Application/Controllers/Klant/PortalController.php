@@ -89,6 +89,16 @@ final class PortalController extends Controller
         return $this->redirect('/klant/diensten/' . $service->id() . $extra)->with($type, $message);
     }
 
+    public function serviceHosting(Request $request): Response
+    {
+        $service = $this->ownService($request);
+        $actie = (string) $request->param('actie');
+        [$type, $message] = \App\Services\DomainManager::runHosting($service, $actie, $request);
+        $extra = $type === 'success' && $actie === 'handover' ? '?dial=handover' : '';
+
+        return $this->redirect('/klant/diensten/' . $service->id() . $extra)->with($type, $message);
+    }
+
     public function serviceSso(Request $request): Response
     {
         $service = $this->ownService($request);

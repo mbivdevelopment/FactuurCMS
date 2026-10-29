@@ -29,6 +29,29 @@ final class QevantoPaneel
         return self::get('/api/packages');
     }
 
+    /** Eén abonnement met limieten en gebruik. @return array<mixed> */
+    public static function subscription(int $id): array
+    {
+        [$url, $token] = self::credentials();
+
+        return Http::json('GET', $url . '/api/subscriptions/' . $id, ['Authorization: Bearer ' . $token]);
+    }
+
+    /** Verbruiksreeks (cpu/geheugen/disk/verkeer) van een abonnement. @return array<mixed> */
+    public static function stats(int $id, string $range = '30d'): array
+    {
+        [$url, $token] = self::credentials();
+
+        return Http::json('GET', $url . '/api/subscriptions/' . $id . '/stats?' . http_build_query(['range' => $range]), ['Authorization: Bearer ' . $token]);
+    }
+
+    /** Zet de status van een abonnement (active/suspended). */
+    public static function setStatus(int $id, string $status): void
+    {
+        [$url, $token] = self::credentials();
+        Http::json('PATCH', $url . '/api/subscriptions/' . $id, ['Authorization: Bearer ' . $token], (string) json_encode(['status' => $status], JSON_UNESCAPED_UNICODE));
+    }
+
     private const FEATURES = [
         'websites' => '%s websites', 'diskGb' => '%s GB opslag', 'bandwidthGb' => '%s GB dataverkeer', 'mailboxes' => '%s mailboxen',
         'databases' => '%s databases', 'ftpAccounts' => '%s FTP-accounts', 'cronJobs' => '%s cronjobs', 'memoryMb' => '%s MB geheugen',

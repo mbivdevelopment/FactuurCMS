@@ -76,6 +76,46 @@ final class DomainManager
         return ['success', 'Handover gestart: ' . $email . ' heeft een mail met overnamecode gekregen.'];
     }
 
+    /** Beheeracties voor niet-domeindiensten (webhosting e.d.): handover, opzeggen, hervatten. @return array{0: string, 1: string} */
+    public static function runHosting(Service $service, string $action, Request $request): array
+    {
+        $label = $service->domainName() !== '' ? $service->domainName() : (string) $service->Naam;
+        try {
+            return match ($action) {
+                'handover' => self::handover($service, $label, $request),
+                'opzeggen' => self::cancelService($service),
+                'hervatten' => self::resumeService($service),
+                default => ['error', 'Onbekende actie.'],
+            };
+        } catch (\Throwable $e) {
+            return ['error', 'Actie mislukt: ' . $e->getMessage()];
+        }
+    }
+
+    private static function cancelService(Service $service): array
+    {
+        if ((string) $service->Bron === 'qevanto' && (int) $service->ExternId > 0) {
+            QevantoPaneel::setStatus((int) $service->ExternId, 'suspended');
+        }
+        $service->Status = 'opgezegd';
+        $service->EindDatum = $service->VolgendeFactuur ?: date('Y-m-d');
+        $service->save();
+
+        return ['success', 'De dienst is opgezegd' . ($service->Bron === 'qevanto' ? ' en in het paneel opgeschort' : '') . '.'];
+    }
+
+    private static function resumeService(Service $service): array
+    {
+        if ((string) $service->Bron === 'qevanto' && (int) $service->ExternId > 0) {
+            QevantoPaneel::setStatus((int) $service->ExternId, 'active');
+        }
+        $service->Status = 'actief';
+        $service->EindDatum = null;
+        $service->save();
+
+        return ['success', 'De opzegging is teruggedraaid; de dienst is weer actief.'];
+    }
+
     /** Klant neemt een domein over met de gemailde code. @return array{0: string, 1: string} */
     public static function claim(string $code, int $klantId): array
     {

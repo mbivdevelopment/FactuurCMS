@@ -1,6 +1,6 @@
 <?php $extend('klant', ['title' => dienst_naam($service)]); ?>
 <?php $product = $service->product(); $geo = is_array($service->Gegevens) ? $service->Gegevens : (json_decode((string) $service->Gegevens, true) ?: []); $qv = (array) ($geo['qevanto'] ?? []); ?>
-<div class="page-head"><div class="ph-icon"><?= icon('server') ?></div><div class="ph-text"><h1><?= e(dienst_naam($service)) ?></h1><div class="sub"><?= e($service->Nummer) ?> · <?= badge((string) $service->Status, \App\Models\Service::STATUSES[$service->Status] ?? '') ?></div></div><div class="row" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><?php if ($service->isDomain()): $base = '/klant'; require __DIR__ . '/../shared/domain-actions.php'; endif; ?></div></div>
+<div class="page-head"><div class="ph-icon"><?= icon('server') ?></div><div class="ph-text"><h1><?= e(dienst_naam($service)) ?></h1><div class="sub"><?= e($service->Nummer) ?> · <?= badge((string) $service->Status, \App\Models\Service::STATUSES[$service->Status] ?? '') ?></div></div><div class="row" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><?php if ($service->isDomain()): $base = '/klant'; require __DIR__ . '/../shared/domain-actions.php'; endif; ?><?php if ($service->isHosting() && !$service->isDomain()): $base = '/klant'; require __DIR__ . '/../shared/hosting-actions.php'; endif; ?></div></div>
 <div class="grid grid-2">
     <div class="card"><div class="card-body">
         <h3 style="margin-top:0">Details</h3>
@@ -17,11 +17,7 @@
     <div class="card"><div class="card-body">
         <h3 style="margin-top:0">Beheer</h3>
         <div class="stack">
-            <?php if (($service->Bron ?? '') === 'qevanto'): ?>
-                <?php if (($qv['nummer'] ?? '') !== ''): ?><div><small class="muted">Abonnement</small><div><?= e($qv['nummer']) ?><?= ($qv['systeemgebruiker'] ?? '') !== '' ? ' · ' . e($qv['systeemgebruiker']) : '' ?></div></div><?php endif; ?>
-                <p class="muted">Beheer deze dienst direct in het hostingpaneel — je wordt automatisch ingelogd.</p>
-                <form method="post" action="<?= e(url('/klant/diensten/' . $service->id() . '/paneel')) ?>"><?= csrf_field() ?><button class="btn"><?= icon('login', 'icon icon-sm') ?> Beheer in paneel</button></form>
-            <?php elseif (($service->Bron ?? '') === 'interserver'): ?>
+            <?php if (($service->Bron ?? '') === 'interserver'): ?>
                 <?php
                 $is = (array) ($geo['interserver'] ?? []);
                 $vps = null;
@@ -50,10 +46,11 @@
                     <form method="post" action="<?= e(url('/klant/diensten/' . $service->id() . '/vps/restart')) ?>"><?= csrf_field() ?><button class="btn btn-sm btn-ghost" data-confirm="VPS herstarten?"><?= icon('refresh', 'icon icon-sm') ?> Herstart</button></form>
                     <form method="post" action="<?= e(url('/klant/diensten/' . $service->id() . '/vps/stop')) ?>"><?= csrf_field() ?><button class="btn btn-sm btn-ghost" data-confirm="VPS uitschakelen?"><?= icon('x', 'icon icon-sm') ?> Stop</button></form>
                 </div>
-            <?php else: ?>
+            <?php elseif (!$service->isHosting() && !$service->isDomain()): ?>
                 <p class="muted">Deze dienst heeft geen gekoppeld beheerpaneel.</p>
             <?php endif; ?>
         </div>
     </div></div>
 </div>
 <?php $base = '/klant'; require __DIR__ . '/../shared/domain-card.php'; ?>
+<?php $base = '/klant'; require __DIR__ . '/../shared/hosting-card.php'; ?>

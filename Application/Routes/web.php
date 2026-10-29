@@ -60,6 +60,7 @@ $router->group('klant', ['csrf', 'auth', 'klant'], static function ($router): vo
     $router->post('/diensten/{id}/paneel', 'Klant\\PortalController@serviceSso');
     $router->post('/diensten/{id}/vps/{actie}', 'Klant\\PortalController@serviceVps');
     $router->post('/diensten/{id}/domein/{actie}', 'Klant\\PortalController@serviceDomain');
+    $router->post('/diensten/{id}/hosting/{actie}', 'Klant\\PortalController@serviceHosting');
     $router->get('/tegoed', 'Klant\\PortalController@wallet');
     $router->post('/tegoed', 'Klant\\PortalController@topup');
     $router->get('/facturen', 'Klant\\PortalController@invoices');
@@ -104,6 +105,8 @@ $router->group('beheer', ['csrf', 'auth', 'staff'], static function ($router): v
     $router->delete('/diensten/{id}', 'Beheer\\ServiceController@destroy');
     $router->post('/diensten/{id}/factureren', 'Beheer\\ServiceController@invoiceNow');
     $router->post('/diensten/{id}/domein/{actie}', 'Beheer\\ServiceController@domainAction');
+    $router->post('/diensten/{id}/hosting/{actie}', 'Beheer\\ServiceController@hostingAction');
+    $router->post('/diensten/{id}/paneel', 'Beheer\\ServiceController@sso');
 
     foreach (['facturen' => 'factuur', 'offertes' => 'offerte'] as $plural => $kind) {
         $router->get('/' . $plural, static fn ($r) => (new \App\Controllers\Beheer\DocumentController())->index($r, $kind));

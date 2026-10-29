@@ -239,3 +239,6 @@ dialog.confirm::backdrop { background: rgba(17, 24, 39, .45); }
 .site-footer h3 { color: #fff; font-size: 14px; }
 .site-footer a { color: #d1d5db; display: block; padding: 3px 0; }
 .site-footer .bottom { border-top: 1px solid #1f2937; margin-top: 32px; padding-top: 16px; font-size: 12.5px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.progress { height: 6px; margin-top: 8px; border-radius: 99px; background: var(--line, #e6e9ef); overflow: hidden; }
+.progress > span { display: block; height: 100%; border-radius: inherit; background: var(--primary); }
+.progress.is-bad > span { background: var(--bad); }
