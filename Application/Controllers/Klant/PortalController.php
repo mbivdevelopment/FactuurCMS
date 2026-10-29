@@ -108,8 +108,18 @@ final class PortalController extends Controller
     {
         $service = $this->ownService($request);
         $user = Auth::user();
+        $body = ['email' => (string) $user->Email];
+        if ((string) $service->Bron === 'qevanto' && (int) $service->ExternId > 0) {
+            try {
+                $uid = (int) (\App\Services\QevantoPaneel::subscription((int) $service->ExternId)['userId'] ?? 0);
+                if ($uid > 0) {
+                    $body = ['userId' => $uid];
+                }
+            } catch (\Throwable) {
+            }
+        }
         try {
-            $res = QevantoPaneel::post('/api/auth/sso', ['email' => (string) $user->Email]);
+            $res = QevantoPaneel::post('/api/auth/sso', $body);
         } catch (\Throwable $e) {
             return $this->redirect('/klant/diensten/' . $service->id())->with('error', 'Inloggen op het paneel mislukt: ' . $e->getMessage());
         }

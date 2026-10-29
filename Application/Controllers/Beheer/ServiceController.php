@@ -153,8 +153,18 @@ final class ServiceController extends Controller
         if ($klant === null) {
             return $this->redirect('/beheer/diensten/' . $service->id())->with('error', 'Er is geen klant gekoppeld aan deze dienst.');
         }
+        $body = ['email' => (string) $klant->Email];
+        if ((string) $service->Bron === 'qevanto' && (int) $service->ExternId > 0) {
+            try {
+                $uid = (int) (\App\Services\QevantoPaneel::subscription((int) $service->ExternId)['userId'] ?? 0);
+                if ($uid > 0) {
+                    $body = ['userId' => $uid];
+                }
+            } catch (\Throwable) {
+            }
+        }
         try {
-            $res = \App\Services\QevantoPaneel::post('/api/auth/sso', ['email' => (string) $klant->Email]);
+            $res = \App\Services\QevantoPaneel::post('/api/auth/sso', $body);
         } catch (\Throwable $e) {
             return $this->redirect('/beheer/diensten/' . $service->id())->with('error', 'Inloggen op het paneel mislukt: ' . $e->getMessage());
         }
