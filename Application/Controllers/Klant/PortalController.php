@@ -37,6 +37,12 @@ final class PortalController extends Controller
 
     public function services(Request $request): Response
     {
+        if ($request->method === 'POST' && $request->string('code') !== '') {
+            [$type, $message] = \App\Services\DomainManager::claim($request->string('code'), Auth::id());
+
+            return $this->redirect('/klant/diensten')->with($type, $message);
+        }
+        $overname = $request->string('overname');
         $cat = $request->string('cat');
         $catDef = Service::CATEGORIES[$cat] ?? null;
         $services = Service::where(['KlantId' => Auth::id()]);
@@ -51,7 +57,7 @@ final class PortalController extends Controller
             }));
         }
 
-        return $this->view('klant.services', ['services' => $services, 'cat' => $catDef !== null ? $catDef[0] : '']);
+        return $this->view('klant.services', ['services' => $services, 'cat' => $catDef !== null ? $catDef[0] : '', 'overname' => $overname]);
     }
 
     public function service(Request $request): Response

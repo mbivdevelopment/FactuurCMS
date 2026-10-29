@@ -56,14 +56,14 @@ $opgezegd = (string) $service->Status === 'opgezegd';
 <dialog class="confirm" id="dom-handover-<?= (int) $service->id() ?>">
     <div class="modal-h"><?= icon('handshake', 'icon icon-sm') ?> Handover — <?= e($domain) ?></div>
     <?php if ($handover !== null): ?>
-        <p>De handover is gestart. Geef deze verhuiskode aan de nieuwe provider:</p>
-        <?php if ((string) ($handover['code'] ?? '') !== ''): ?><p class="mono" style="font-size:15px;font-weight:700;padding-top:10px"><?= e((string) $handover['code']) ?></p><?php endif; ?>
-        <p><small class="muted">Automatisch verlengen staat uit<?= $info['expiry'] ? '; het domein loopt af op ' . e(nl_date($info['expiry'])) : '' ?>.</small></p>
+        <p>De handover is gestart voor <strong><?= e((string) ($handover['email'] ?? '')) ?></strong>. Die klant heeft een mail met overnamecode gekregen; zodra die bevestigt, staat het domein in zijn account.</p>
+        <p><small class="muted">Gestart op <?= e((string) ($handover['op'] ?? '')) ?> · code <?= e((string) ($handover['code'] ?? '')) ?></small></p>
         <div class="confirm-actions"><button type="button" class="btn btn-ghost" data-close>Sluiten</button></div>
     <?php else: ?>
-        <p>Een handover verhuist het domein naar een andere provider. De verhuiskode wordt opgehaald en automatisch verlengen gaat uit.</p>
-        <form method="post" action="<?= $act('handover') ?>"><?= csrf_field() ?>
-            <div class="confirm-actions"><button type="button" class="btn btn-ghost" data-close>Annuleren</button><button class="btn btn-danger"><?= icon('handshake', 'icon icon-sm') ?> Handover starten</button></div>
+        <p>Plaats het domein over naar een andere klant. Die klant krijgt een e-mail met een overnamecode om het domein in zijn account te zetten.</p>
+        <form method="post" action="<?= $act('handover') ?>" style="padding:0 18px"><?= csrf_field() ?>
+            <?= field('email', 'E-mailadres nieuwe klant', 'mail', '', 'email', [], 'required') ?>
+            <div class="confirm-actions"><button type="button" class="btn btn-ghost" data-close>Annuleren</button><button class="btn"><?= icon('handshake', 'icon icon-sm') ?> Handover starten</button></div>
         </form>
     <?php endif; ?>
 </dialog>

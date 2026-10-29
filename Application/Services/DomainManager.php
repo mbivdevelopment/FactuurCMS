@@ -21,7 +21,7 @@ final class DomainManager
             return match ($action) {
                 'ns' => self::nameservers($service, $domain, $request),
                 'epp' => self::epp($service, $domain),
-                'handover' => self::handover($service, $domain),
+                'handover' => self::handover($service, $domain, $request),
                 'opzeggen' => self::cancel($service, $domain),
                 'hervatten' => self::resume($service, $domain),
                 default => ['error', 'Onbekende domeinactie.'],
@@ -60,16 +60,44 @@ final class DomainManager
         return ['success', 'Verhuiskode opgehaald.'];
     }
 
-    /** Handover: domein wegverhuizen — verhuiskode ophalen en autorenew uit. */
-    private static function handover(Service $service, string $domain): array
+    /** Handover: domein overplaatsen naar een andere klant — mail met overnamecode + link. */
+    private static function handover(Service $service, string $domain, Request $request): array
     {
-        $info = RealtimeRegister::info($domain);
-        if ($info['autoRenew']) {
-            RealtimeRegister::setAutoRenew($domain, false);
+        $email = strtolower(trim((string) $request->input('email')));
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+            return ['error', 'Vul een geldig e-mailadres van de nieuwe klant in.'];
         }
-        $service->putData('handover', ['code' => $info['authcode'], 'op' => date('Y-m-d H:i')]);
+        $code = strtoupper(bin2hex(random_bytes(4)));
+        $service->putData('handover', ['code' => $code, 'email' => $email, 'op' => date('Y-m-d H:i')]);
+        $link = absolute_url('/klant/diensten?overname=' . rawurlencode($code));
+        $body = "Je kunt het domein {$domain} overnemen.\n\nOvernamecode: {$code}\n\nLog in en ga naar: {$link}\n\nDeze code blijft geldig tot de overname is afgerond of ingetrokken.";
+        \App\Core\Mailer::send($email, 'Domein overnemen: ' . $domain, $body);
 
-        return ['success', 'Handover gestart' . ($info['authcode'] !== '' ? ': verhuiskode ' . $info['authcode'] : '') . '. Automatisch verlengen staat uit.'];
+        return ['success', 'Handover gestart: ' . $email . ' heeft een mail met overnamecode gekregen.'];
+    }
+
+    /** Klant neemt een domein over met de gemailde code. @return array{0: string, 1: string} */
+    public static function claim(string $code, int $klantId): array
+    {
+        $code = strtoupper(trim($code));
+        if ($code === '') {
+            return ['error', 'Vul een overnamecode in.'];
+        }
+        foreach (\App\Models\Service::query("SELECT * FROM Diensten WHERE Gegevens LIKE ?", ['%"code":"' . $code . '"%']) as $service) {
+            $g = is_array($service->Gegevens) ? $service->Gegevens : (json_decode((string) $service->Gegevens, true) ?: []);
+            $h = $g['handover'] ?? null;
+            if (!is_array($h) || (string) ($h['code'] ?? '') !== $code) {
+                continue;
+            }
+            $service->KlantId = $klantId;
+            unset($g['handover']);
+            $service->Gegevens = json_encode($g, JSON_UNESCAPED_UNICODE);
+            $service->save();
+
+            return ['success', $service->domainName() !== '' ? 'Domein ' . $service->domainName() . ' is overgenomen en staat nu bij jouw diensten.' : 'De dienst is overgenomen.'];
+        }
+
+        return ['error', 'Onbekende of verlopen overnamecode.'];
     }
 
     /** Opzeggen: domein laten aflopen op de verloopdatum. */
