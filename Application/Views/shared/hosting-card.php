@@ -49,26 +49,30 @@ $dial = (string) ($_GET['dial'] ?? '');
 <div class="card">
     <div class="card-head"><h3><?= icon('server', 'icon icon-sm') ?> Webhosting</h3><?php if ($sub !== null): ?><?= badge((string) ($sub['status'] ?? 'actief') === 'active' ? 'actief' : 'gesloten', (string) ($sub['status'] ?? '')) ?><?php endif; ?></div>
     <div class="card-body">
-        <div class="form-grid">
-            <?php if (($qv['nummer'] ?? $sub['number'] ?? '') !== ''): ?><div><small class="muted">Abonnement</small><div><strong><?= e((string) ($qv['nummer'] ?? $sub['number'])) ?></strong><?= (($qv['systeemgebruiker'] ?? $sub['unixUser'] ?? '') !== '') ? ' · ' . e((string) ($qv['systeemgebruiker'] ?? $sub['unixUser'])) : '' ?></div></div><?php endif; ?>
-            <?php if (($qv['pakket'] ?? $sub['package']['name'] ?? '') !== ''): ?><div><small class="muted">Pakket</small><div><?= e((string) ($qv['pakket'] ?? $sub['package']['name'])) ?></div></div><?php endif; ?>
-            <?php if (($qv['server'] ?? $sub['server']['name'] ?? '') !== ''): ?><div><small class="muted">Server</small><div><?= e((string) ($qv['server'] ?? $sub['server']['name'])) ?></div></div><?php endif; ?>
-            <?php if ($sites !== [] || ($qv['domeinen'] ?? []) !== []): ?><div><small class="muted">Websites</small><div class="mono"><?= e(implode(', ', $sites !== [] ? $sites : (array) $qv['domeinen'])) ?></div></div><?php endif; ?>
-        </div>
-        <?php if ($meters !== []): ?>
-            <div class="form-grid" style="margin-top:14px">
-                <?php foreach ($meters as [$ic, $label, $val, $max, $fmt]): $pct = $val !== null && $max ? min(100, (int) round($val / $max * 100)) : null; ?>
-                    <div class="card stat" style="margin:0"><div class="stat-icon"><?= icon($ic) ?></div><div style="flex:1">
-                        <div class="stat-value"><?= e($fmt($val)) ?></div>
-                        <div class="stat-label"><?= e($label) ?><?= $max ? ' · limiet ' . e($fmt($max)) : ' · onbeperkt' ?></div>
-                        <?php if ($pct !== null): ?><div class="progress<?= $pct > 85 ? ' is-bad' : '' ?>"><span style="width:<?= $pct ?>%"></span></div><?php endif; ?>
-                    </div></div>
-                <?php endforeach; ?>
+        <div class="host-split">
+            <div>
+                <?php if ($meters !== []): ?>
+                    <div class="form-grid" style="grid-template-columns:repeat(2,1fr)">
+                        <?php foreach ($meters as [$ic, $label, $val, $max, $fmt]): $pct = $val !== null && $max ? min(100, (int) round($val / $max * 100)) : null; ?>
+                            <div class="card stat" style="margin:0"><div class="stat-icon"><?= icon($ic) ?></div><div style="flex:1">
+                                <div class="stat-value"><?= e($fmt($val)) ?></div>
+                                <div class="stat-label"><?= e($label) ?><?= $max ? ' · limiet ' . e($fmt($max)) : ' · onbeperkt' ?></div>
+                                <?php if ($pct !== null): ?><div class="progress<?= $pct > 85 ? ' is-bad' : '' ?>"><span style="width:<?= $pct ?>%"></span></div><?php endif; ?>
+                            </div></div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php elseif ((string) $service->Bron === 'qevanto'): ?>
+                    <p class="muted" style="margin:0">Verbruiksgegevens konden niet bij het paneel worden opgehaald.</p>
+                <?php endif; ?>
             </div>
-        <?php endif; ?>
-        <?php if ((string) $service->Bron === 'qevanto' && $stats === null): ?>
-            <p class="muted" style="margin-top:10px">Verbruiksgegevens konden niet bij het paneel worden opgehaald.</p>
-        <?php endif; ?>
+            <div class="host-info">
+                <?php if (($qv['nummer'] ?? $sub['number'] ?? '') !== ''): ?><div><small class="muted">Abonnement</small><div><strong><?= e((string) ($qv['nummer'] ?? $sub['number'])) ?></strong></div></div><?php endif; ?>
+                <?php if (($qv['systeemgebruiker'] ?? $sub['unixUser'] ?? '') !== ''): ?><div><small class="muted">Systeemgebruiker</small><div><?= e((string) ($qv['systeemgebruiker'] ?? $sub['unixUser'])) ?></div></div><?php endif; ?>
+                <?php if (($qv['pakket'] ?? $sub['package']['name'] ?? '') !== ''): ?><div><small class="muted">Pakket</small><div><?= e((string) ($qv['pakket'] ?? $sub['package']['name'])) ?></div></div><?php endif; ?>
+                <?php if (($qv['server'] ?? $sub['server']['name'] ?? '') !== ''): ?><div><small class="muted">Server</small><div><?= e((string) ($qv['server'] ?? $sub['server']['name'])) ?></div></div><?php endif; ?>
+                <?php if ($sites !== [] || ($qv['domeinen'] ?? []) !== []): ?><div><small class="muted">Websites</small><div class="mono"><?= e(implode(', ', $sites !== [] ? $sites : (array) $qv['domeinen'])) ?></div></div><?php endif; ?>
+            </div>
+        </div>
     </div>
 </div>
 

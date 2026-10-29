@@ -130,7 +130,9 @@ final class ServiceController extends Controller
 
     public function hosting(Request $request): Response
     {
-        return $this->view('beheer.services.hosting', ['service' => $this->service($request)]);
+        $service = $this->service($request);
+
+        return $this->view('beheer.services.hosting', ['service' => $service] + $this->catNav($service));
     }
 
     public function hostingAction(Request $request): Response
@@ -197,6 +199,16 @@ final class ServiceController extends Controller
 
     private function form(Service $service): Response
     {
+        return $this->view('beheer.services.form', [
+            'service' => $service,
+            'customers' => User::query("SELECT * FROM Gebruikers ORDER BY COALESCE(Bedrijfsnaam, Achternaam)"),
+            'products' => Product::query('SELECT * FROM Producten ORDER BY Groep, Volgorde'),
+        ] + $this->catNav($service));
+    }
+
+    /** Sidebar-gegevens voor de dienstpagina's: actieve categorie + aantallen. */
+    private function catNav(Service $service): array
+    {
         $catCounts = array_fill_keys(array_keys(Service::CATEGORIES), 0);
         $soortCounts = [];
         foreach (Database::all(
@@ -233,14 +245,7 @@ final class ServiceController extends Controller
             }
         }
 
-        return $this->view('beheer.services.form', [
-            'service' => $service,
-            'customers' => User::query("SELECT * FROM Gebruikers ORDER BY COALESCE(Bedrijfsnaam, Achternaam)"),
-            'products' => Product::query('SELECT * FROM Producten ORDER BY Groep, Volgorde'),
-            'cat' => $cat,
-            'catCounts' => $catCounts,
-            'totalDiensten' => (int) Database::scalar('SELECT COUNT(*) FROM Diensten'),
-        ]);
+        return ['cat' => $cat, 'catCounts' => $catCounts, 'totalDiensten' => (int) Database::scalar('SELECT COUNT(*) FROM Diensten')];
     }
 
     private function service(Request $request): Service

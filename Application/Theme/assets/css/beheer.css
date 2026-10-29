@@ -417,6 +417,10 @@ img[data-white] { filter: brightness(0) invert(1); }
 .progress { height: 6px; margin-top: 8px; border-radius: 99px; background: var(--line, #e6e9ef); overflow: hidden; }
 .progress > span { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
 .progress.is-bad > span { background: var(--bad); }
+
+.host-split { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(220px, .6fr); gap: 22px; }
+.host-info { display: flex; flex-direction: column; gap: 12px; border-left: 1px solid var(--line); padding-left: 22px; }
+@media (max-width: 900px) { .host-split { grid-template-columns: 1fr; } .host-info { border-left: 0; padding-left: 0; } }
 .task-table .cell-input { width: 100%; min-width: 90px; padding: 7px 9px; border: 1px solid var(--line, #e2e6ee); border-radius: 8px; background: #fff; font: inherit; color: inherit; }
 .task-table td:first-child .cell-input { min-width: 200px; }
 .task-table .cell-num { width: 80px; min-width: 70px; }
