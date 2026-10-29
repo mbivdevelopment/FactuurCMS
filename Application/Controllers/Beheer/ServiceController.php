@@ -121,9 +121,11 @@ final class ServiceController extends Controller
     public function domainAction(Request $request): Response
     {
         $service = $this->service($request);
-        [$type, $message] = \App\Services\DomainManager::run($service, (string) $request->param('actie'), $request);
+        $actie = (string) $request->param('actie');
+        [$type, $message] = \App\Services\DomainManager::run($service, $actie, $request);
+        $extra = $type === 'success' && in_array($actie, ['epp', 'handover'], true) ? '?dial=' . $actie : '';
 
-        return $this->redirect('/beheer/diensten/' . $service->id())->with($type, $message);
+        return $this->redirect('/beheer/diensten/' . $service->id() . $extra)->with($type, $message);
     }
 
     public function invoiceNow(Request $request): Response

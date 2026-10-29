@@ -239,3 +239,18 @@ document.addEventListener('click', ev => {
     if (!dlg) return;
     if (ev.target.closest('[data-specs-close]') || ev.target === dlg) dlg.close();
 });
+
+/* Pop-ups openen/sluiten via data-open (dialog-id) en data-close. */
+document.addEventListener('click', ev => {
+    const open = ev.target.closest('[data-open]');
+    if (open) {
+        const dlg = document.getElementById(open.dataset.open);
+        if (dlg && dlg.showModal) dlg.showModal();
+        return;
+    }
+    const close = ev.target.closest('[data-close]');
+    if (close) {
+        const dlg = close.closest('dialog');
+        if (dlg) dlg.close();
+    }
+});
