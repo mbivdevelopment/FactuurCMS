@@ -1,0 +1,3 @@
+<?php $extend('klant', ['title' => dienst_naam($service)]); ?>
+<div class="page-head"><div class="ph-icon"><?= icon('cloud') ?></div><div class="ph-text"><h1><?= e(dienst_naam($service)) ?></h1><div class="sub"><?= e($service->Nummer) ?> · <?= badge((string) $service->Status, \App\Models\Service::STATUSES[$service->Status] ?? '') ?></div></div><div class="row" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><?php $base = '/klant'; require __DIR__ . '/../shared/vps-actions.php'; ?><a class="btn btn-ghost" href="<?= e(url('/klant/diensten/' . $service->id())) ?>">Terug</a></div></div>
+<div class="stack"><?php $base = '/klant'; require __DIR__ . '/../shared/vps-card.php'; ?></div>

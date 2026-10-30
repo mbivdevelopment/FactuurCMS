@@ -65,18 +65,29 @@ final class PortalController extends Controller
         return $this->view('klant.service', ['service' => $this->ownService($request)]);
     }
 
+    public function serviceVpsPage(Request $request): Response
+    {
+        return $this->view('klant.vps', ['service' => $this->ownService($request)]);
+    }
+
     public function serviceVps(Request $request): Response
     {
         $service = $this->ownService($request);
         $action = (string) $request->param('actie');
-        $labels = ['start' => 'De VPS wordt opgestart.', 'stop' => 'De VPS wordt uitgeschakeld.', 'restart' => 'De VPS wordt herstart.'];
-        try {
-            \App\Services\Interserver::power((int) $service->ExternId, $action);
-        } catch (\Throwable $e) {
-            return $this->redirect('/klant/diensten/' . $service->id())->with('error', 'VPS-actie mislukt: ' . $e->getMessage());
-        }
+        if (in_array($action, ['start', 'stop', 'restart'], true)) {
+            $labels = ['start' => 'De VPS wordt opgestart.', 'stop' => 'De VPS wordt uitgeschakeld.', 'restart' => 'De VPS wordt herstart.'];
+            try {
+                \App\Services\Interserver::power((int) $service->ExternId, $action);
+            } catch (\Throwable $e) {
+                return $this->redirect('/klant/diensten/' . $service->id() . '/vps')->with('error', 'VPS-actie mislukt: ' . $e->getMessage());
+            }
 
-        return $this->redirect('/klant/diensten/' . $service->id())->with('success', $labels[$action]);
+            return $this->redirect('/klant/diensten/' . $service->id() . '/vps')->with('success', $labels[$action]);
+        }
+        [$type, $message] = \App\Services\DomainManager::runHosting($service, $action, $request);
+        $extra = $type === 'success' && $action === 'handover' ? '?dial=handover' : '';
+
+        return $this->redirect('/klant/diensten/' . $service->id() . '/vps' . $extra)->with($type, $message);
     }
 
     public function serviceDomain(Request $request): Response

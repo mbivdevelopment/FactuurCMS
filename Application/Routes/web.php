@@ -58,6 +58,7 @@ $router->group('klant', ['csrf', 'auth', 'klant'], static function ($router): vo
     $router->get('/diensten', 'Klant\\PortalController@services');
     $router->get('/diensten/{id}', 'Klant\\PortalController@service');
     $router->post('/diensten/{id}/paneel', 'Klant\\PortalController@serviceSso');
+    $router->get('/diensten/{id}/vps', 'Klant\\PortalController@serviceVpsPage');
     $router->post('/diensten/{id}/vps/{actie}', 'Klant\\PortalController@serviceVps');
     $router->post('/diensten/{id}/domein/{actie}', 'Klant\\PortalController@serviceDomain');
     $router->get('/diensten/{id}/hosting', 'Klant\\PortalController@serviceHostingPage');
@@ -108,6 +109,8 @@ $router->group('beheer', ['csrf', 'auth', 'staff'], static function ($router): v
     $router->delete('/diensten/{id}', 'Beheer\\ServiceController@destroy');
     $router->post('/diensten/{id}/factureren', 'Beheer\\ServiceController@invoiceNow');
     $router->post('/diensten/{id}/domein/{actie}', 'Beheer\\ServiceController@domainAction');
+    $router->get('/diensten/{id}/vps', 'Beheer\\ServiceController@vps');
+    $router->post('/diensten/{id}/vps/{actie}', 'Beheer\\ServiceController@vpsAction');
     $router->get('/diensten/{id}/hosting', 'Beheer\\ServiceController@hosting');
     $router->post('/diensten/{id}/hosting/{actie}', 'Beheer\\ServiceController@hostingAction');
     $router->get('/diensten/{id}/werkplek', 'Beheer\\ServiceController@workplace');

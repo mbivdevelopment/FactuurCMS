@@ -95,6 +95,12 @@ final class Service extends Model
         return $soort !== null && in_array($soort, ['Webhosting', 'Reseller Hosting', 'E-mailhosting'], true);
     }
 
+    /** Is dit een VPS/server-dienst (InterServer)? */
+    public function isVps(): bool
+    {
+        return (string) $this->Bron === 'interserver';
+    }
+
     /** Is dit een werkplekbeheer-dienst (Qevanto werkplekpakket)? */
     public function isWorkplace(): bool
     {

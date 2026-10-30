@@ -128,6 +128,33 @@ final class ServiceController extends Controller
         return $this->redirect('/beheer/diensten/' . $service->id() . $extra)->with($type, $message);
     }
 
+    public function vps(Request $request): Response
+    {
+        $service = $this->service($request);
+
+        return $this->view('beheer.services.vps', ['service' => $service] + $this->catNav($service));
+    }
+
+    public function vpsAction(Request $request): Response
+    {
+        $service = $this->service($request);
+        $actie = (string) $request->param('actie');
+        if (in_array($actie, ['start', 'stop', 'restart'], true)) {
+            $labels = ['start' => 'De VPS wordt opgestart.', 'stop' => 'De VPS wordt uitgeschakeld.', 'restart' => 'De VPS wordt herstart.'];
+            try {
+                \App\Services\Interserver::power((int) $service->ExternId, $actie);
+            } catch (\Throwable $e) {
+                return $this->redirect('/beheer/diensten/' . $service->id() . '/vps')->with('error', 'VPS-actie mislukt: ' . $e->getMessage());
+            }
+
+            return $this->redirect('/beheer/diensten/' . $service->id() . '/vps')->with('success', $labels[$actie]);
+        }
+        [$type, $message] = \App\Services\DomainManager::runHosting($service, $actie, $request);
+        $extra = $type === 'success' && $actie === 'handover' ? '?dial=handover' : '';
+
+        return $this->redirect('/beheer/diensten/' . $service->id() . '/vps' . $extra)->with($type, $message);
+    }
+
     public function hosting(Request $request): Response
     {
         $service = $this->service($request);
