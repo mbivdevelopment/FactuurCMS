@@ -84,7 +84,7 @@ final class DocumentPdf
         foreach (array_filter([
             $customer?->Bedrijfsnaam ? $customer->name() : null,
             $customer?->Adres,
-            trim(($customer?->Postcode ?? '') . ' ' . ($customer?->Plaats ?? '') . ($customer?->Land && $customer->Land !== 'Nederland' ? ' · ' . $customer->Land : '')),
+            trim(($customer?->Postcode ?? '') . ' ' . ($customer?->Plaats ?? '') . ($customer?->Land && !in_array($customer->Land, ['NL', 'Nederland'], true) ? ' · ' . $customer->Land : '')),
             $customer?->KvkNummer ? 'KvK: ' . $customer->KvkNummer : null,
             $customer?->BtwNummer ? 'Btw: ' . $customer->BtwNummer : null,
         ]) as $row) {
