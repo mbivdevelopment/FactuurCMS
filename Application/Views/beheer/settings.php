@@ -4,7 +4,7 @@
     
     <div class="tab-pane" data-pane="bedrijf"><form method="post" action="<?= e(url('/beheer/instellingen')) ?>"><?= csrf_field() ?><input type="hidden" name="tab" value="bedrijf">
         <div class="card-body form-grid">
-            <?php foreach (['bedrijf.naam' => ['Bedrijfsnaam', 'building'], 'bedrijf.email' => ['E-mailadres', 'mail'], 'bedrijf.adres' => ['Adres', 'map'], 'bedrijf.telefoon' => ['Telefoon', 'phone'], 'bedrijf.postcode' => ['Postcode', 'map'], 'bedrijf.plaats' => ['Plaats', 'map'], 'bedrijf.land' => ['Land', 'globe'], 'bedrijf.website' => ['Website', 'link'], 'bedrijf.kvk' => ['KvK-nummer', 'hash'], 'bedrijf.btw' => ['Btw-nummer', 'hash'], 'bedrijf.iban' => ['IBAN', 'wallet'], 'bedrijf.bic' => ['BIC', 'wallet']] as $k => [$l, $i]): ?>
+            <?php foreach (['bedrijf.naam' => ['Bedrijfsnaam', 'building'], 'bedrijf.email' => ['E-mailadres', 'mail'], 'bedrijf.adres' => ['Adres', 'map'], 'bedrijf.telefoon' => ['Telefoon', 'phone'], 'bedrijf.postcode' => ['Postcode', 'map'], 'bedrijf.plaats' => ['Plaats', 'map'], 'bedrijf.land' => ['Land', 'globe'], 'bedrijf.website' => ['Website', 'link'], 'bedrijf.kvk' => ['KvK-nummer', 'hash'], 'bedrijf.btw' => ['Btw-nummer', 'hash'], 'bedrijf.iban' => ['IBAN', 'wallet'], 'bedrijf.bic' => ['BIC', 'wallet'], 'bedrijf.moeder' => ['Handelsnaam van (moederbedrijf)', 'building']] as $k => [$l, $i]): ?>
                 <?= field($f($k), $l, $i, $s($k, $k === 'bedrijf.land' ? 'Nederland' : '')) ?>
             <?php endforeach; ?>
         </div><div class="card-foot"><button class="btn"><?= icon('check', 'icon icon-sm') ?> Opslaan</button></div></form></div>

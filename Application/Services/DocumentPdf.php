@@ -16,15 +16,25 @@ final class DocumentPdf
         $primary = (string) setting('branding.kleur', '#ff5a1f');
         $label = $doc->label();
         $pdf = new Pdf($label . ' ' . $doc->Nummer);
-        $footer = static function (Pdf $pdf): void {
+        $moeder = trim((string) setting('bedrijf.moeder', ''));
+        $handelsnaam = $moeder !== '' ? company_name() . ' is een handelsnaam van ' . $moeder . '.' : null;
+        $footer = static function (Pdf $pdf) use ($handelsnaam): void {
             $pdf->font('R', 7.5);
             $pdf->textColor('#888888');
-            $pdf->text(105, 287, implode('  ·  ', array_filter([
+            $lines = [implode('  ·  ', array_filter([
                 company_name(),
                 setting('bedrijf.kvk') ? 'KvK ' . setting('bedrijf.kvk') : null,
                 setting('bedrijf.btw') ? 'Btw ' . setting('bedrijf.btw') : null,
                 setting('bedrijf.iban') ? 'IBAN ' . setting('bedrijf.iban') : null,
-            ])), 'C');
+            ]))];
+            if ($handelsnaam !== null) {
+                $lines[] = $handelsnaam;
+            }
+            $fy = 287 - 4 * (count($lines) - 1);
+            foreach ($lines as $fl) {
+                $pdf->text(105, $fy, $fl, 'C');
+                $fy += 4;
+            }
         };
         $pdf->onPage(null, $footer);
         $pdf->addPage();
@@ -44,6 +54,11 @@ final class DocumentPdf
             $pdf->font('B', 18);
             $pdf->textColor($primary);
             $pdf->text(20, 26, company_name());
+        }
+        if ($handelsnaam !== null) {
+            $pdf->font('R', 7.5);
+            $pdf->textColor('#888888');
+            $pdf->text(20, 38, $handelsnaam);
         }
 
         $pdf->font('R', 8.5);
@@ -69,7 +84,8 @@ final class DocumentPdf
         foreach (array_filter([
             $customer?->Bedrijfsnaam ? $customer->name() : null,
             $customer?->Adres,
-            trim(($customer?->Postcode ?? '') . ' ' . ($customer?->Plaats ?? '')),
+            trim(($customer?->Postcode ?? '') . ' ' . ($customer?->Plaats ?? '') . ($customer?->Land && $customer->Land !== 'Nederland' ? ' · ' . $customer->Land : '')),
+            $customer?->KvkNummer ? 'KvK: ' . $customer->KvkNummer : null,
             $customer?->BtwNummer ? 'Btw: ' . $customer->BtwNummer : null,
         ]) as $row) {
             $pdf->text(20, $y, (string) $row);
@@ -85,6 +101,7 @@ final class DocumentPdf
             [$doc->isQuote() ? 'Offertedatum' : 'Factuurdatum', nl_date((string) $doc->Datum)],
             [$doc->isQuote() ? 'Geldig tot' : 'Vervaldatum', nl_date((string) $doc->VervalDatum)],
             ['Klantnummer', (string) ($customer?->Nummer ?? '')],
+            $doc->isQuote() || $doc->Status === 'betaald' ? null : ['Te betalen', money($doc->outstanding())],
         ];
         $x = 20;
         foreach ($meta as [$k, $v]) {
