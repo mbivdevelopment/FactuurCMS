@@ -44,8 +44,9 @@ document.addEventListener('submit', ev => {
             sub += amount; vat += Math.round(amount * r / 100);
             const cell = tr.querySelector('[data-line-total]'); if (cell) cell.textContent = fmt(amount);
         });
-        const set = (k, v) => { const el = table.parentElement.querySelector('[data-sum="' + k + '"]'); if (el) el.textContent = fmt(v); };
-        set('sub', sub); set('vat', vat); set('total', sub + vat);
+        const form = table.closest('form') || table.parentElement;
+        const set = (keys, v) => { const el = form.querySelector(keys); if (el) el.textContent = fmt(v); };
+        set('[data-sum="sub"],[data-subtotal]', sub); set('[data-sum="vat"],[data-vat-total]', vat); set('[data-sum="total"],[data-total]', sub + vat);
     };
     document.addEventListener('click', ev => {
         const add = ev.target.closest('[data-add-line]'), del = ev.target.closest('[data-remove-line]');
@@ -66,10 +67,16 @@ document.addEventListener('submit', ev => {
     document.addEventListener('change', ev => {
         const pick = ev.target.closest('[data-product-pick]');
         if (pick && pick.selectedOptions[0]?.dataset.name) {
-            const tr = pick.closest('tr'), o = pick.selectedOptions[0];
+            const o = pick.selectedOptions[0], table = pick.closest('form').querySelector('[data-lines]'), body = table.querySelector('tbody');
+            const tr = body.lastElementChild.cloneNode(true), n = Date.now();
+            tr.querySelectorAll('input, select').forEach(el => { el.name = el.name.replace(/Regels\[\w+\]/, 'Regels[' + n + ']'); if (el.tagName === 'INPUT') el.value = ''; });
             tr.querySelector('[name$="[Omschrijving]"]').value = o.dataset.name;
+            tr.querySelector('[name$="[Aantal]"]').value = '1';
             tr.querySelector('[name$="[Prijs]"]').value = o.dataset.price;
             tr.querySelector('[name$="[BtwTarief]"]').value = o.dataset.vat;
+            body.appendChild(tr);
+            pick.selectedIndex = 0;
+            calc(table);
         }
     });
     document.addEventListener('input', ev => { const t = ev.target.closest('[data-lines]'); if (t) calc(t); });
