@@ -206,7 +206,8 @@ final class DocumentController extends Controller
             if ($text === '') {
                 continue;
             }
-            $subs = array_values(array_filter(array_map(static fn ($s): string => mb_substr(trim((string) $s), 0, 190), preg_split('/\r?\n/', (string) ($line['Subregels'] ?? '')) ?: [])));
+            $subIn = $line['Subregels'] ?? [];
+            $subs = array_values(array_filter(array_map(static fn ($s): string => mb_substr(trim((string) $s), 0, 190), is_array($subIn) ? $subIn : (preg_split('/\r?\n/', (string) $subIn) ?: []))));
             $lines[] = [
                 'Omschrijving' => mb_substr($text, 0, 500),
                 'Subregels' => $subs,

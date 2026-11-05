@@ -66,6 +66,15 @@ document.addEventListener('submit', ev => {
             if (body.children.length > 1) del.closest('tr').remove(); else body.querySelectorAll('input,textarea').forEach(i => { if (!/BtwTarief|Aantal/.test(i.name)) i.value = ''; });
             calc(body);
         }
+        const subAdd = ev.target.closest('[data-sub-add]'), subDel = ev.target.closest('[data-sub-remove]');
+        if (subAdd) {
+            const td = subAdd.closest('td'), list = td.querySelector('[data-subs]');
+            const name = td.querySelector('[name$="[Omschrijving]"]').name.replace('[Omschrijving]', '[Subregels][]');
+            list.insertAdjacentHTML('beforeend', '<div class="sub-row"><span class="sub-dot">·</span><input name="' + name + '" placeholder="Subregel — wat is inbegrepen, periode, verloopdatum"><button type="button" class="sub-rm" data-sub-remove title="Verwijderen">×</button></div>');
+            list.lastElementChild.querySelector('input').focus();
+        } else if (subDel) {
+            subDel.closest('.sub-row').remove();
+        }
     });
     document.addEventListener('change', ev => {
         const pick = ev.target.closest('[data-product-pick]');

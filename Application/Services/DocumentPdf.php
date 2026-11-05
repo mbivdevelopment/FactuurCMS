@@ -113,6 +113,7 @@ final class DocumentPdf
             $pdf->text($x, 105, $v);
             $x += 44;
         }
+        $pdf->line(20, 110, 190, 110, '#e5e7eb');
         $y = 114;
         if ((string) $doc->Onderwerp !== '') {
             $pdf->font('R', 9.5);
@@ -132,6 +133,7 @@ final class DocumentPdf
         $pdf->font('R', 9);
         $pdf->textColor('#111111');
         $y += 8;
+        $stripe = false;
         foreach ($doc->lines() as $line) {
             $rows = $pdf->wrap((string) $line['Omschrijving'], 92);
             $sub = is_array($line['Subregels'] ?? null) ? $line['Subregels'] : (json_decode((string) ($line['Subregels'] ?? ''), true) ?: []);
@@ -140,6 +142,10 @@ final class DocumentPdf
                 $pdf->addPage();
                 $y = 25;
             }
+            if ($stripe) {
+                $pdf->rect(20, $y - 4, 170, $height + 3, '#fafbfc');
+            }
+            $stripe = !$stripe;
             $qty = rtrim(rtrim(number_format((float) $line['Aantal'], 2, ',', ''), '0'), ',');
             $pdf->text(122, $y, $qty, 'R');
             $pdf->text(148, $y, money((int) $line['Prijs']), 'R');
@@ -151,9 +157,11 @@ final class DocumentPdf
             }
             if ($sub !== []) {
                 $pdf->font('R', 7.5);
-                $pdf->textColor('#777777');
                 foreach ($sub as $row) {
-                    $pdf->text(26, $y - 1.5, '·  ' . (string) $row);
+                    $pdf->textColor($primary);
+                    $pdf->text(24, $y - 1.5, '·');
+                    $pdf->textColor('#666666');
+                    $pdf->text(28, $y - 1.5, (string) $row);
                     $y += 4;
                 }
                 $pdf->font('R', 9);
@@ -174,10 +182,12 @@ final class DocumentPdf
             $pdf->text(188, $y, money($amount), 'R');
             $y += 6;
         }
-        $pdf->rect(120, $y - 4.5, 70, 8, '#f3f4f6');
+        $pdf->rect(120, $y - 4.5, 70, 9, $primary);
         $pdf->font('B', 11);
-        $pdf->text(160, $y + 1, 'Totaal', 'R');
-        $pdf->text(188, $y + 1, money((int) $doc->Totaal), 'R');
+        $pdf->textColor('#ffffff');
+        $pdf->text(160, $y + 1.5, 'Totaal', 'R');
+        $pdf->text(188, $y + 1.5, money((int) $doc->Totaal), 'R');
+        $pdf->textColor('#111111');
         $y += 14;
 
         $pdf->font('R', 9);
