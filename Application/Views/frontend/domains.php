@@ -20,15 +20,18 @@ $inCart = array_column($cart, 'actie', 'domein'); $total = array_sum(array_map(s
                     <div class="dres-act"><?= $partial('frontend._domain-actions', ['domain' => $mainDomain, 'big' => true]) ?></div>
                 </div>
             </div>
-            <div class="dres">
-                <?php foreach (array_keys($products) as $ext): if ($ext === $main) { continue; } $p = $products[$ext]; $domain = $name . '.' . $ext; ?>
-                <div class="dres-row is-laden<?= isset($inCart[$domain]) ? ' in-cart' : '' ?>" data-row data-domain="<?= e($domain) ?>">
+            <div class="dres" data-rows>
+                <?php $i = 0; foreach (array_keys($products) as $ext): if ($ext === $main) { continue; } $p = $products[$ext]; $domain = $name . '.' . $ext; ?>
+                <div class="dres-row is-laden<?= isset($inCart[$domain]) ? ' in-cart' : '' ?>" data-row data-domain="<?= e($domain) ?>"<?= $i++ < 10 ? '' : ' hidden' ?>>
                     <span class="dres-i"><span class="dres-spin"></span><?= icon('check') ?><?= icon('refresh') ?><?= icon('globe') ?></span>
                     <div class="dres-name"><strong><?= e($name) ?><b>.<?= e($ext) ?></b></strong><small data-msg>Controleren…</small></div>
                     <div class="dres-price"><?= e(money((int) $p->Prijs)) ?><small> /jaar</small></div>
                     <div class="dres-act"><?= $partial('frontend._domain-actions', ['domain' => $domain]) ?></div>
                 </div>
                 <?php endforeach; ?>
+            </div>
+            <div class="dres-more" data-more-wrap>
+                <button type="button" class="btn btn-ghost" data-more><?= icon('arrow-right', 'icon icon-sm') ?> Meer extensies laden</button>
             </div>
             <?php if (count($products) > 6): ?>
             <form class="dother" method="get" action="<?= e(url('/domeinen')) ?>">
@@ -81,7 +84,16 @@ $inCart = array_column($cart, 'actie', 'domein'); $total = array_sum(array_map(s
             .then(function () { busy--; next(); });
     }
     var rows = box.querySelectorAll('[data-row]');
-    rows.forEach(check);
+    rows.forEach(function (r) { if (!r.hidden) { check(r); } });
+    var moreWrap = document.querySelector('[data-more-wrap]');
+    var moreBtn = document.querySelector('[data-more]');
+    function syncMore() { moreWrap.hidden = !box.querySelector('[data-row][hidden]'); }
+    moreBtn.addEventListener('click', function () {
+        var hidden = box.querySelectorAll('[data-row][hidden]');
+        for (var i = 0; i < Math.min(10, hidden.length); i++) { hidden[i].hidden = false; check(hidden[i]); }
+        syncMore();
+    });
+    syncMore();
     var trash = document.querySelector('[data-trash]').innerHTML;
     function render(cart) {
         var list = document.querySelector('[data-cart-items]'); list.innerHTML = '';
