@@ -18,23 +18,31 @@ final class DocumentPdf
         $pdf = new Pdf($label . ' ' . $doc->Nummer);
         $moeder = trim((string) setting('bedrijf.moeder', ''));
         $handelsnaam = $moeder !== '' ? company_name() . ' is een handelsnaam van ' . $moeder . '.' : null;
-        $footer = static function (Pdf $pdf) use ($handelsnaam): void {
-            $pdf->line(20, 280, 190, 280, '#e5e7eb');
-            $pdf->font('R', 7.5);
-            $pdf->textColor('#888888');
-            $lines = [implode('  ·  ', array_filter([
-                company_name(),
-                setting('bedrijf.kvk') ? 'KvK ' . setting('bedrijf.kvk') : null,
-                setting('bedrijf.btw') ? 'Btw ' . setting('bedrijf.btw') : null,
-                setting('bedrijf.iban') ? 'IBAN ' . setting('bedrijf.iban') : null,
-            ]))];
-            if ($handelsnaam !== null) {
-                $lines[] = $handelsnaam;
-            }
-            $fy = 285 - 4 * (count($lines) - 1);
-            foreach ($lines as $fl) {
-                $pdf->text(105, $fy, $fl, 'C');
-                $fy += 4;
+        $footer = static function (Pdf $pdf) use ($handelsnaam, $primary): void {
+            $pdf->line(20, 266, 190, 266, '#e5e7eb');
+            $pdf->rect(20, 266, 170, 1.2, $primary);
+            $cols = [
+                ['BEDRIJF', array_filter([company_name(), $handelsnaam])],
+                ['CONTACT', array_filter([setting('bedrijf.email'), setting('bedrijf.telefoon'), setting('bedrijf.website')])],
+                ['BANK & REGISTRATIE', array_filter([
+                    setting('bedrijf.iban') ? 'IBAN ' . setting('bedrijf.iban') : null,
+                    setting('bedrijf.kvk') ? 'KvK ' . setting('bedrijf.kvk') : null,
+                    setting('bedrijf.btw') ? 'Btw ' . setting('bedrijf.btw') : null,
+                ])],
+            ];
+            $x = 20;
+            foreach ($cols as [$head, $lines]) {
+                $pdf->font('B', 6.5);
+                $pdf->textColor($primary);
+                $pdf->text($x, 271, $head);
+                $pdf->font('R', 7);
+                $pdf->textColor('#888888');
+                $fy = 275;
+                foreach ($lines as $fl) {
+                    $pdf->text($x, $fy, (string) $fl);
+                    $fy += 3.8;
+                }
+                $x += 58;
             }
         };
         $pdf->onPage(null, $footer);
