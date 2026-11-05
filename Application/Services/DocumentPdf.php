@@ -86,9 +86,9 @@ final class DocumentPdf
             $y += 4.3;
         }
 
-        // Adresblok klant (links) + metabox (rechts).
-        $pdf->line(20, 54, 190, 54, '#e5e7eb');
-        $boxTop = 58;
+        // Adresblok klant (links) + metabox (rechts), onder het afzenderblok.
+        $pdf->line(20, $y + 2, 190, $y + 2, '#e5e7eb');
+        $boxTop = $y + 6;
         $custLines = array_filter([
             $customer?->Bedrijfsnaam ? $customer->name() : null,
             $customer?->Adres,
@@ -97,6 +97,15 @@ final class DocumentPdf
             $customer?->BtwNummer ? 'Btw: ' . $customer->BtwNummer : null,
         ]);
         $boxH = 11 + 4.6 * count($custLines) + 3;
+        $meta = array_filter([
+            [$label . 'nummer', (string) $doc->Nummer],
+            [$doc->isQuote() ? 'Offertedatum' : 'Factuurdatum', nl_date((string) $doc->Datum)],
+            [$doc->isQuote() ? 'Geldig tot' : 'Vervaldatum', nl_date((string) $doc->VervalDatum)],
+            ['Klantnummer', (string) ($customer?->Nummer ?? '')],
+            $doc->isQuote() || $doc->Status === 'betaald' ? null : ['Te betalen', money($doc->outstanding()), true],
+        ]);
+        $metaH = 6 + 6.5 * count($meta);
+        $boxH = max($boxH, $metaH);
         $pdf->rect(20, $boxTop, 85, $boxH, '#f6f7f8');
         $pdf->rect(20, $boxTop, 2, $boxH, $primary);
         $pdf->font('R', 7);
@@ -106,26 +115,17 @@ final class DocumentPdf
         $pdf->textColor('#111111');
         $pdf->text(26, $boxTop + 10.5, (string) $customer?->display());
         $pdf->font('R', 9);
-        $y = $boxTop + 15.5;
+        $cy = $boxTop + 15.5;
         foreach ($custLines as $row) {
-            $pdf->text(26, $y, (string) $row);
-            $y += 4.6;
+            $pdf->text(26, $cy, (string) $row);
+            $cy += 4.6;
         }
 
-        $meta = array_filter([
-            [$label . 'nummer', (string) $doc->Nummer],
-            [$doc->isQuote() ? 'Offertedatum' : 'Factuurdatum', nl_date((string) $doc->Datum)],
-            [$doc->isQuote() ? 'Geldig tot' : 'Vervaldatum', nl_date((string) $doc->VervalDatum)],
-            ['Klantnummer', (string) ($customer?->Nummer ?? '')],
-            $doc->isQuote() || $doc->Status === 'betaald' ? null : ['Te betalen', money($doc->outstanding()), true],
-        ]);
-        $metaH = 4 + 6 * count($meta);
-        $pdf->rect(112, $boxTop, 78, $metaH, '#ffffff');
-        $pdf->line(112, $boxTop, 190, $boxTop, '#e5e7eb');
-        $pdf->line(112, $boxTop + $metaH, 190, $boxTop + $metaH, '#e5e7eb');
-        $pdf->line(112, $boxTop, 112, $boxTop + $metaH, '#e5e7eb');
-        $pdf->line(190, $boxTop, 190, $boxTop + $metaH, '#e5e7eb');
-        $my = $boxTop + 5.5;
+        $pdf->rect(112, $boxTop, 78, $boxH, '#ffffff');
+        foreach ([[112, $boxTop, 190, $boxTop], [112, $boxTop + $boxH, 190, $boxTop + $boxH], [112, $boxTop, 112, $boxTop + $boxH], [190, $boxTop, 190, $boxTop + $boxH]] as [$x1, $y1, $x2, $y2]) {
+            $pdf->line($x1, $y1, $x2, $y2, '#e5e7eb');
+        }
+        $my = $boxTop + ($boxH - 6.5 * count($meta)) / 2 + 4;
         foreach ($meta as $row) {
             [$k, $v] = $row;
             $accent = $row[2] ?? false;
@@ -135,10 +135,10 @@ final class DocumentPdf
             $pdf->font('B', 9);
             $pdf->textColor($accent ? $primary : '#111111');
             $pdf->text(187, $my, (string) $v, 'R');
-            $my += 6;
+            $my += 6.5;
         }
 
-        $y = max($boxTop + $boxH, $boxTop + $metaH) + 8;
+        $y = $boxTop + $boxH + 8;
         if ((string) $doc->Onderwerp !== '') {
             $pdf->font('R', 9.5);
             $pdf->textColor('#444444');
