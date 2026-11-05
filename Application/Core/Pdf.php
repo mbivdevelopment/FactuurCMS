@@ -226,7 +226,7 @@ final class Pdf
     private static function ttf(string $style): ?array
     {
         if (!array_key_exists($style, self::$ttf)) {
-            $file = dirname(__DIR__) . '/Theme/assets/fonts/' . ($style === 'B' ? 'Inter-Bold.ttf' : 'Inter-Regular.ttf');
+            $file = dirname(__DIR__) . '/Theme/assets/fonts/' . ($style === 'B' ? 'Montserrat-Bold.ttf' : 'Montserrat-Regular.ttf');
             self::$ttf[$style] = is_file($file) ? TtfFont::load($file) : null;
         }
 
