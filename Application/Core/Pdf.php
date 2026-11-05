@@ -25,6 +25,8 @@ final class Pdf
     private array $images = [];
     private string $font = 'R';
     private float $size = 10;
+    /** @var array<string,array|null> */
+    private static array $ttf = [];
     private string $textColor = '0 g';
     public float $y = 0;
     public float $marginTop = 15;
@@ -113,10 +115,10 @@ final class Pdf
     {
         $t = self::enc($text);
         $w = 0;
-        $table = self::WIDTHS[$this->font];
+        $table = self::widths($this->font);
         for ($i = 0, $n = strlen($t); $i < $n; $i++) {
             $c = ord($t[$i]);
-            $w += $c >= 32 ? $table[$c - 32] : 278;
+            $w += $c >= 32 ? ($table[$c - 32] ?? 500) : 278;
         }
 
         return $w * $this->size / 1000 / self::K;
@@ -213,6 +215,44 @@ final class Pdf
         return [$dw, $dh];
     }
 
+    /** TTF-breedtetabel voor $style als een embedded font geladen is, anders Helvetica. */
+    private static function widths(string $style): array
+    {
+        $f = self::ttf($style);
+
+        return $f['widths'] ?? self::WIDTHS[$style];
+    }
+
+    private static function ttf(string $style): ?array
+    {
+        if (!array_key_exists($style, self::$ttf)) {
+            $file = dirname(__DIR__) . '/Theme/assets/fonts/' . ($style === 'B' ? 'Inter-Bold.ttf' : 'Inter-Regular.ttf');
+            self::$ttf[$style] = is_file($file) ? TtfFont::load($file) : null;
+        }
+
+        return self::$ttf[$style];
+    }
+
+    /** Bouwt de PDF-objecten voor een embedded TrueType-font; geeft het font-object-id terug. */
+    private static function fontObject(string $style, callable $add): ?int
+    {
+        $f = self::ttf($style);
+        if ($f === null) {
+            return null;
+        }
+        $comp = gzcompress($f['data'], 6) ?: $f['data'];
+        $ff = $add("<< /Length " . strlen($comp) . " /Length1 " . strlen($f['data']) . " /Filter /FlateDecode >>\nstream\n" . $comp . "\nendstream");
+        $fd = $add(sprintf(
+            '<< /Type /FontDescriptor /FontName /%s /Flags 32 /FontBBox [%d %d %d %d] /Ascent %d /Descent %d /CapHeight %d /ItalicAngle %d /StemV %d /FontFile2 %d 0 R >>',
+            $f['name'], $f['bbox'][0], $f['bbox'][1], $f['bbox'][2], $f['bbox'][3], $f['ascent'], $f['descent'], $f['capHeight'], $f['italic'], $f['stemV'], $ff
+        ));
+
+        return $add(sprintf(
+            '<< /Type /Font /Subtype /TrueType /BaseFont /%s /Encoding /WinAnsiEncoding /FirstChar 32 /LastChar 255 /Widths [%s] /FontDescriptor %d 0 R >>',
+            $f['name'], implode(' ', $f['widths']), $fd
+        ));
+    }
+
     public function output(): string
     {
         if ($this->buf !== '') {
@@ -224,8 +264,8 @@ final class Pdf
 
             return count($objects);
         };
-        $fontR = $add("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>");
-        $fontB = $add("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>");
+        $fontR = self::fontObject('R', $add) ?? $add("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>");
+        $fontB = self::fontObject('B', $add) ?? $add("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>");
         $imgRefs = '';
         foreach ($this->images as $img) {
             $n = $add("<< /Type /XObject /Subtype /Image /Width {$img['w']} /Height {$img['h']} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length " . strlen($img['data']) . " >>\nstream\n" . $img['data'] . "\nendstream");
