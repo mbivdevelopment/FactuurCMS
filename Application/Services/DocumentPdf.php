@@ -104,7 +104,7 @@ final class DocumentPdf
             $doc->isQuote() || $doc->Status === 'betaald' ? null : ['Te betalen', money($doc->outstanding())],
         ];
         $x = 20;
-        foreach ($meta as [$k, $v]) {
+        foreach (array_filter($meta) as [$k, $v]) {
             $pdf->font('R', 7.5);
             $pdf->textColor('#888888');
             $pdf->text($x, 100, mb_strtoupper($k));
