@@ -276,6 +276,7 @@ final class Pdf
         $objects[] = '';
         $pageIds = [];
         foreach ($this->pages as $content) {
+            $content = str_replace('{TP}', (string) count($this->pages), $content);
             $stream = gzcompress($content, 6) ?: $content;
             $c = $add("<< /Length " . strlen($stream) . " /Filter /FlateDecode >>\nstream\n" . $stream . "\nendstream");
             $pageIds[] = $add(sprintf("<< /Type /Page /Parent %d 0 R /MediaBox [0 0 %.2F %.2F] /Resources %d 0 R /Contents %d 0 R >>", $pagesIndex, self::W * self::K, self::H * self::K, $resources, $c));

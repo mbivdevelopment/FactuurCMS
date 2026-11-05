@@ -18,13 +18,12 @@ final class DocumentPdf
         $pdf = new Pdf($label . ' ' . $doc->Nummer);
         $moeder = trim((string) setting('bedrijf.moeder', ''));
         $handelsnaam = $moeder !== '' ? company_name() . ' is een handelsnaam van ' . $moeder . '.' : null;
-        $footer = static function (Pdf $pdf) use ($handelsnaam, $primary): void {
+        $footer = static function (Pdf $pdf, int $num) use ($handelsnaam, $primary): void {
             $pdf->line(20, 266, 190, 266, '#e5e7eb');
             $pdf->rect(20, 266, 170, 1.2, $primary);
             $cols = [
                 ['BEDRIJF', array_filter([
                     company_name(),
-                    $handelsnaam,
                     setting('bedrijf.adres'),
                     trim(setting('bedrijf.postcode', '') . ' ' . setting('bedrijf.plaats', '')),
                 ])],
@@ -49,6 +48,14 @@ final class DocumentPdf
                 }
                 $x += 58;
             }
+            if ($handelsnaam !== null) {
+                $pdf->font('B', 8);
+                $pdf->textColor('#555555');
+                $pdf->text(20, 292, $handelsnaam);
+            }
+            $pdf->font('R', 7.5);
+            $pdf->textColor('#888888');
+            $pdf->text(190, 292, 'Pagina ' . $num . ' van {TP}', 'R');
         };
         $pdf->onPage(null, $footer);
         $pdf->addPage();
@@ -118,7 +125,7 @@ final class DocumentPdf
             $pdf->line($x1, $y1, $x2, $y2, '#e5e7eb');
         }
         $my = $boxTop + ($boxH - 6.5 * count($meta)) / 2 + 4;
-        foreach ($meta as $row) {
+        foreach ($meta as $i => $row) {
             [$k, $v] = $row;
             $accent = $row[2] ?? false;
             $pdf->font('R', 7.5);
@@ -127,6 +134,9 @@ final class DocumentPdf
             $pdf->font('B', 9);
             $pdf->textColor($accent ? $primary : '#111111');
             $pdf->text(187, $my, (string) $v, 'R');
+            if ($i < count($meta) - 1) {
+                $pdf->line(115, $my + 2.5, 187, $my + 2.5, '#f0f1f2');
+            }
             $my += 6.5;
         }
 
@@ -228,11 +238,12 @@ final class DocumentPdf
         $pdf->rect(20, $y - 4, 2, $boxH2, $primary);
         $pdf->font('R', 9);
         $pdf->textColor('#444444');
+        $y += 1.5;
         foreach ($wrapped as $row) {
             $pdf->text(26, $y, $row);
             $y += 5;
         }
-        $y += 6;
+        $y += 4.5;
 
         $pdf->font('R', 9);
         $pdf->textColor('#444444');
