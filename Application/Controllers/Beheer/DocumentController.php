@@ -206,8 +206,10 @@ final class DocumentController extends Controller
             if ($text === '') {
                 continue;
             }
+            $subs = array_values(array_filter(array_map(static fn ($s): string => mb_substr(trim((string) $s), 0, 190), preg_split('/\r?\n/', (string) ($line['Subregels'] ?? '')) ?: [])));
             $lines[] = [
                 'Omschrijving' => mb_substr($text, 0, 500),
+                'Subregels' => $subs,
                 'Aantal' => (float) str_replace(',', '.', (string) ($line['Aantal'] ?? '1')),
                 'Prijs' => parse_money($line['Prijs'] ?? '0'),
                 'BtwTarief' => (float) str_replace(',', '.', (string) ($line['BtwTarief'] ?? '21')),

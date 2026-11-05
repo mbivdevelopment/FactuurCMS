@@ -16,8 +16,8 @@ $action = $new ? ($isQ ? '/beheer/offertes' : '/beheer/facturen') : '/beheer/doc
         <?php if ($e = error('Regels')): ?><div class="alert alert-error" style="margin:12px"><?= e($e) ?></div><?php endif; ?>
         <div class="table-wrap"><table class="table lines"><thead><tr><th style="width:50%">Omschrijving</th><th>Aantal</th><th>Prijs (€)</th><th>Btw %</th><th class="right">Totaal</th><th></th></tr></thead>
             <tbody data-lines>
-            <?php foreach ($lines as $i => $l): ?><tr data-line>
-                <td><input name="Regels[<?= $i ?>][Omschrijving]" value="<?= e($l['Omschrijving']) ?>" placeholder="Omschrijving"></td>
+            <?php foreach ($lines as $i => $l): $subs = is_array($l['Subregels'] ?? null) ? $l['Subregels'] : (json_decode((string) ($l['Subregels'] ?? ''), true) ?: []); ?><tr data-line>
+                <td><input name="Regels[<?= $i ?>][Omschrijving]" value="<?= e($l['Omschrijving']) ?>" placeholder="Omschrijving"><textarea name="Regels[<?= $i ?>][Subregels]" class="sub-lines" rows="2" placeholder="Subregels — wat is inbegrepen, periode, verloopdatum (één per regel)"><?= e(implode("\n", $subs)) ?></textarea></td>
                 <td><input name="Regels[<?= $i ?>][Aantal]" value="<?= e(rtrim(rtrim(number_format((float) $l['Aantal'], 2, '.', ''), '0'), '.')) ?>" data-qty inputmode="decimal"></td>
                 <td><input name="Regels[<?= $i ?>][Prijs]" value="<?= e(cents_input((int) $l['Prijs'])) ?>" data-price inputmode="decimal"></td>
                 <td><input name="Regels[<?= $i ?>][BtwTarief]" value="<?= e((float) $l['BtwTarief']) ?>" data-vat inputmode="decimal"></td>

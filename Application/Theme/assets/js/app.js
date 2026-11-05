@@ -36,47 +36,49 @@ document.addEventListener('submit', ev => {
 (() => {
     const num = v => parseFloat(String(v || '0').replace(/\./g, '').replace(',', '.')) || 0;
     const fmt = c => '€ ' + (c / 100).toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    const calc = table => {
+    const calc = body => {
         let sub = 0, vat = 0;
-        table.querySelectorAll('tbody tr').forEach(tr => {
+        body.querySelectorAll('tr').forEach(tr => {
             const q = num(tr.querySelector('[name$="[Aantal]"]')?.value), p = Math.round(num(tr.querySelector('[name$="[Prijs]"]')?.value) * 100), r = num(tr.querySelector('[name$="[BtwTarief]"]')?.value);
             const amount = Math.round(q * p);
             sub += amount; vat += Math.round(amount * r / 100);
             const cell = tr.querySelector('[data-line-total]'); if (cell) cell.textContent = fmt(amount);
         });
-        const form = table.closest('form') || table.parentElement;
+        const form = body.closest('form') || body.parentElement;
         const set = (keys, v) => { const el = form.querySelector(keys); if (el) el.textContent = fmt(v); };
         set('[data-sum="sub"],[data-subtotal]', sub); set('[data-sum="vat"],[data-vat-total]', vat); set('[data-sum="total"],[data-total]', sub + vat);
+    };
+    const cloneRow = (body, n) => {
+        const row = body.querySelector('tr').cloneNode(true);
+        row.querySelectorAll('input, select, textarea').forEach(el => {
+            el.name = el.name.replace(/Regels\[\w+\]/, 'Regels[' + n + ']');
+            if (el.tagName === 'SELECT') { el.selectedIndex = 0; } else { el.value = /Aantal\]/.test(el.name) ? '1' : (/BtwTarief\]/.test(el.name) ? el.value : ''); }
+        });
+        return row;
     };
     document.addEventListener('click', ev => {
         const add = ev.target.closest('[data-add-line]'), del = ev.target.closest('[data-remove-line]');
         if (add) {
-            const table = add.closest('form').querySelector('[data-lines]'), body = table.querySelector('tbody'), row = body.lastElementChild.cloneNode(true), n = Date.now();
-            row.querySelectorAll('input, select').forEach(el => {
-                el.name = el.name.replace(/Regels\[\w+\]/, 'Regels[' + n + ']');
-                if (el.tagName === 'INPUT') el.value = /Aantal/.test(el.name) ? '1' : (/Prijs/.test(el.name) ? '0,00' : (/BtwTarief/.test(el.name) ? el.value : ''));
-                if (el.tagName === 'SELECT') el.selectedIndex = 0;
-            });
-            body.appendChild(row); calc(table);
+            const body = add.closest('form').querySelector('[data-lines]');
+            body.appendChild(cloneRow(body, Date.now())); calc(body);
         } else if (del) {
-            const table = del.closest('[data-lines]'), body = del.closest('tbody');
-            if (body.children.length > 1) del.closest('tr').remove(); else body.querySelectorAll('input').forEach(i => { if (!/BtwTarief|Aantal/.test(i.name)) i.value = ''; });
-            calc(table);
+            const body = del.closest('[data-lines]');
+            if (body.children.length > 1) del.closest('tr').remove(); else body.querySelectorAll('input,textarea').forEach(i => { if (!/BtwTarief|Aantal/.test(i.name)) i.value = ''; });
+            calc(body);
         }
     });
     document.addEventListener('change', ev => {
         const pick = ev.target.closest('[data-product-pick]');
         if (pick && pick.selectedOptions[0]?.dataset.name) {
-            const o = pick.selectedOptions[0], table = pick.closest('form').querySelector('[data-lines]'), body = table.querySelector('tbody');
-            const tr = body.lastElementChild.cloneNode(true), n = Date.now();
-            tr.querySelectorAll('input, select').forEach(el => { el.name = el.name.replace(/Regels\[\w+\]/, 'Regels[' + n + ']'); if (el.tagName === 'INPUT') el.value = ''; });
+            const o = pick.selectedOptions[0], body = pick.closest('form').querySelector('[data-lines]');
+            const tr = cloneRow(body, Date.now());
             tr.querySelector('[name$="[Omschrijving]"]').value = o.dataset.name;
             tr.querySelector('[name$="[Aantal]"]').value = '1';
             tr.querySelector('[name$="[Prijs]"]').value = o.dataset.price;
             tr.querySelector('[name$="[BtwTarief]"]').value = o.dataset.vat;
             body.appendChild(tr);
             pick.selectedIndex = 0;
-            calc(table);
+            calc(body);
         }
     });
     document.addEventListener('input', ev => { const t = ev.target.closest('[data-lines]'); if (t) calc(t); });
