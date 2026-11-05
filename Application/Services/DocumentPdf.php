@@ -51,11 +51,11 @@ final class DocumentPdf
             if ($handelsnaam !== null) {
                 $pdf->font('B', 8);
                 $pdf->textColor('#555555');
-                $pdf->text(20, 292, $handelsnaam);
+                $pdf->text(105, 294, $handelsnaam, 'C');
             }
             $pdf->font('R', 7.5);
             $pdf->textColor('#888888');
-            $pdf->text(190, 292, 'Pagina ' . $num . ' van {TP}', 'R');
+            $pdf->text(190, 294, 'Pagina ' . $num . ' van {TP}', 'R');
         };
         $pdf->onPage(null, $footer);
         $pdf->addPage();
@@ -178,10 +178,12 @@ final class DocumentPdf
             $pdf->text(148, $y, money((int) $line['Prijs']), 'R');
             $pdf->text(162, $y, rtrim(rtrim((string) $line['BtwTarief'], '0'), '.') . '%', 'R');
             $pdf->text(188, $y, money((int) round((float) $line['Aantal'] * (int) $line['Prijs'])), 'R');
+            $pdf->font('B', 9);
             foreach ($rows as $row) {
                 $pdf->text(22, $y, $row);
                 $y += 5;
             }
+            $pdf->font('R', 9);
             if ($sub !== []) {
                 $pdf->font('R', 8);
                 foreach ($sub as $row) {
