@@ -131,13 +131,43 @@ Met vriendelijke groet,
             ? '<img src="' . e(absolute_url($logo)) . '" alt="' . $name . '" style="max-height:48px">'
             : '<strong style="font-size:20px;color:' . $primary . '">' . $name . '</strong>';
         $content = str_contains($body, '<') ? $body : nl2br(e($body));
-        $footer = e(implode(' · ', array_filter([setting('bedrijf.naam'), setting('bedrijf.adres'), trim(setting('bedrijf.postcode', '') . ' ' . setting('bedrijf.plaats', '')), setting('bedrijf.email'), setting('bedrijf.telefoon')])));
+        $sig = self::signature($primary);
 
         return '<!doctype html><html><body style="margin:0;background:#f3f4f6;font-family:Arial,sans-serif;color:#1f2937">'
             . '<div style="max-width:620px;margin:0 auto;padding:24px"><div style="padding:16px 0">' . $head . '</div>'
             . '<div style="background:#fff;border-radius:8px;border-top:3px solid ' . $primary . ';padding:24px;font-size:14px;line-height:1.6">'
             . '<h2 style="margin:0 0 12px;font-size:18px">' . e($subject) . '</h2>' . $content . '</div>'
-            . '<p style="font-size:12px;color:#6b7280;text-align:center">' . $footer . '</p></div></body></html>';
+            . $sig . '</div></body></html>';
+    }
+
+    /** Handtekening onder elke mail: adres, contact, diensten en disclaimers in huisstijl. */
+    private static function signature(string $primary): string
+    {
+        $adres = e(trim((string) setting('bedrijf.adres', '') . ' ' . (string) setting('bedrijf.adres2', '')));
+        $pc = e(trim((string) setting('bedrijf.postcode', '') . ' ' . (string) setting('bedrijf.plaats', '')));
+        $email = e((string) setting('bedrijf.email', ''));
+        $tel = e((string) setting('bedrijf.telefoon', ''));
+        $site = e((string) setting('site.url', parse_url(absolute_url('/'), PHP_URL_HOST) ?: ''));
+        $groups = '';
+        $width = 100 / max(1, count(\App\Models\Product::SOORTEN));
+        foreach (array_keys(\App\Models\Product::SOORTEN) as $g) {
+            $groups .= '<td align="center" width="' . round($width) . '%" style="padding:10px 4px;border-right:1px solid #e5e7eb">'
+                . '<a href="' . e(absolute_url('/diensten')) . '" style="font-size:12px;font-weight:bold;color:#1f2937;text-decoration:none">' . e($g) . '</a></td>';
+        }
+        $groups = preg_replace('/border-right:1px solid #e5e7eb(?![\s\S]*border-right)/', '', $groups);
+
+        return '<div style="background:#fff;border-radius:8px;margin-top:12px;padding:20px 24px;font-size:12.5px">'
+            . '<table width="100%" cellpadding="0" cellspacing="0"><tr>'
+            . '<td style="vertical-align:top;width:50%"><span style="font-size:10px;letter-spacing:.08em;color:' . $primary . ';font-weight:bold">ADRES</span><br>' . $adres . '<br>' . $pc . '</td>'
+            . '<td style="vertical-align:top;border-left:1px solid #e5e7eb;padding-left:16px"><span style="font-size:10px;letter-spacing:.08em;color:' . $primary . ';font-weight:bold">CONTACT</span><br>'
+            . ($email !== '' ? '<a href="mailto:' . $email . '" style="color:#1f2937;text-decoration:none">' . $email . '</a><br>' : '')
+            . ($tel !== '' ? $tel . '<br>' : '')
+            . ($site !== '' ? '<a href="' . e(absolute_url('/')) . '" style="color:' . $primary . ';text-decoration:none">' . $site . '</a>' : '') . '</td>'
+            . '</tr></table>'
+            . '<table width="100%" cellpadding="0" cellspacing="0" style="margin-top:14px;border-top:3px solid ' . $primary . ';border-bottom:1px solid #e5e7eb"><tr>' . $groups . '</tr></table>'
+            . '<p style="margin:14px 0 0;font-size:11px;color:#16a34a"><strong>Denk aan het milieu.</strong><br>Print deze e-mail alleen als dat echt nodig is.</p>'
+            . '<p style="margin:10px 0 0;font-size:11px;color:#6b7280;border-left:3px solid #e5e7eb;padding-left:10px"><strong>Vertrouwelijkheid:</strong><br>Dit bericht en eventuele bijlagen zijn uitsluitend bestemd voor de geadresseerde. Heeft u dit bericht per vergissing ontvangen? Laat het ons weten, verwijder het bericht en eventuele bijlagen en gebruik, kopieer of verspreid de inhoud niet.</p>'
+            . '</div>';
     }
 
     /** @return array{0: string, 1: string} */
