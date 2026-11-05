@@ -37,15 +37,15 @@ final class DocumentPdf
             ];
             $x = 20;
             foreach ($cols as [$head, $lines]) {
-                $pdf->font('B', 6.5);
+                $pdf->font('B', 7.5);
                 $pdf->textColor($primary);
                 $pdf->text($x, 271, $head);
-                $pdf->font('R', 7);
-                $pdf->textColor('#888888');
-                $fy = 275;
+                $pdf->font('R', 8);
+                $pdf->textColor('#555555');
+                $fy = 275.5;
                 foreach ($lines as $fl) {
                     $pdf->text($x, $fy, (string) $fl);
-                    $fy += 3.8;
+                    $fy += 4.4;
                 }
                 $x += 58;
             }
@@ -132,11 +132,10 @@ final class DocumentPdf
 
         $y = $boxTop + $boxH + 8;
         if ((string) $doc->Onderwerp !== '') {
-            $pdf->font('R', 9.5);
-            $pdf->textColor('#444444');
-            $pdf->text(20, $y, 'Betreft: ' . $doc->Onderwerp);
+            $pdf->font('B', 10);
             $pdf->textColor('#111111');
-            $y += 6;
+            $pdf->text(20, $y, 'Betreft: ' . $doc->Onderwerp);
+            $y += 7;
         }
 
         // Regeltabel.
@@ -174,12 +173,12 @@ final class DocumentPdf
                 $y += 5;
             }
             if ($sub !== []) {
-                $pdf->font('R', 7.5);
+                $pdf->font('R', 8);
                 foreach ($sub as $row) {
                     $pdf->textColor($primary);
-                    $pdf->text(24, $y - 1.5, '·');
-                    $pdf->textColor('#666666');
-                    $pdf->text(28, $y - 1.5, (string) $row);
+                    $pdf->text(22, $y - 1.5, '·');
+                    $pdf->textColor('#555555');
+                    $pdf->text(26, $y - 1.5, (string) $row);
                     $y += 4;
                 }
                 $pdf->font('R', 9);
