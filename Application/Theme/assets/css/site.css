@@ -465,9 +465,9 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .pk-top { display: flex; gap: 14px; align-items: center; }
 .pk-i { width: 48px; height: 48px; flex: none; border-radius: 8px; background: var(--accent-soft); color: var(--primary); display: grid; place-items: center; }
 .pk-hot .pk-i { background: var(--primary); color: #fff; }
-.pk-kind { display: block; font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
-.pk-hot .pk-kind { color: rgba(255, 255, 255, .65); }
-.pk h3 { margin: 2px 0 0; font-size: 21px; line-height: 1.25; }
+.pk-kind { display: inline-block; font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--primary); background: var(--accent-soft); padding: 3px 9px; border-radius: 8px; margin-bottom: 6px; }
+.pk-hot .pk-kind { background: rgba(255, 90, 31, .25); color: #ff8a5c; }
+.pk h3 { margin: 2px 0 0; font-size: 22px; line-height: 1.2; letter-spacing: -.01em; font-weight: 800; }
 .pk h3 a { color: inherit; }
 .pk-desc { margin: 14px 0 0; color: var(--muted); font-size: 14.5px; }
 .pk-hot .pk-desc { color: rgba(255, 255, 255, .75); }
