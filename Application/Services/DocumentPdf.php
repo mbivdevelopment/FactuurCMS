@@ -22,7 +22,12 @@ final class DocumentPdf
             $pdf->line(20, 266, 190, 266, '#e5e7eb');
             $pdf->rect(20, 266, 170, 1.2, $primary);
             $cols = [
-                ['BEDRIJF', array_filter([company_name(), $handelsnaam])],
+                ['BEDRIJF', array_filter([
+                    company_name(),
+                    $handelsnaam,
+                    setting('bedrijf.adres'),
+                    trim(setting('bedrijf.postcode', '') . ' ' . setting('bedrijf.plaats', '')),
+                ])],
                 ['CONTACT', array_filter([setting('bedrijf.email'), setting('bedrijf.telefoon'), setting('bedrijf.website')])],
                 ['BANK & REGISTRATIE', array_filter([
                     setting('bedrijf.iban') ? 'IBAN ' . setting('bedrijf.iban') : null,
@@ -66,24 +71,6 @@ final class DocumentPdf
             $pdf->text(20, 26, company_name());
         }
         $hy = 40;
-        if ($handelsnaam !== null) {
-            $pdf->font('R', 7.5);
-            $pdf->textColor('#888888');
-            $pdf->text(20, $hy, $handelsnaam);
-            $hy += 4.5;
-        }
-        $pdf->font('R', 8.5);
-        $pdf->textColor('#555555');
-        foreach (array_filter([
-            setting('bedrijf.adres'),
-            trim(setting('bedrijf.postcode', '') . ' ' . setting('bedrijf.plaats', '')),
-            setting('bedrijf.email'),
-            setting('bedrijf.telefoon'),
-            setting('bedrijf.website'),
-        ]) as $row) {
-            $pdf->text(20, $hy, (string) $row);
-            $hy += 4.3;
-        }
 
         $pdf->font('B', 24);
         $pdf->textColor($primary);
