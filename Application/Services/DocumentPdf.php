@@ -117,7 +117,9 @@ final class DocumentPdf
         $y += 8;
         foreach ($doc->lines() as $line) {
             $rows = $pdf->wrap((string) $line['Omschrijving'], 92);
-            if ($y + 6 * count($rows) > 255) {
+            $sub = is_array($line['Subregels'] ?? null) ? $line['Subregels'] : (json_decode((string) ($line['Subregels'] ?? ''), true) ?: []);
+            $height = 5 * count($rows) + 4 * count($sub);
+            if ($y + $height > 255) {
                 $pdf->addPage();
                 $y = 25;
             }
@@ -129,6 +131,16 @@ final class DocumentPdf
             foreach ($rows as $row) {
                 $pdf->text(22, $y, $row);
                 $y += 5;
+            }
+            if ($sub !== []) {
+                $pdf->font('R', 7.5);
+                $pdf->textColor('#777777');
+                foreach ($sub as $row) {
+                    $pdf->text(26, $y - 1.5, '·  ' . (string) $row);
+                    $y += 4;
+                }
+                $pdf->font('R', 9);
+                $pdf->textColor('#111111');
             }
             $pdf->line(20, $y - 2, 190, $y - 2, '#e5e7eb');
             $y += 2;

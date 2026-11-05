@@ -86,6 +86,7 @@ final class Document extends Model
                     'DocumentId' => $this->id(),
                     'DienstId' => $line['DienstId'] ?? null,
                     'Omschrijving' => $line['Omschrijving'],
+                    'Subregels' => !empty($line['Subregels']) ? json_encode(array_values($line['Subregels']), JSON_UNESCAPED_UNICODE) : null,
                     'Aantal' => $line['Aantal'],
                     'Prijs' => $line['Prijs'],
                     'BtwTarief' => $line['BtwTarief'],

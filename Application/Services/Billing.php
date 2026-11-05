@@ -29,11 +29,25 @@ final class Billing
         $from = (string) ($service->VolgendeFactuur ?: date('Y-m-d'));
         $until = Service::addPeriod($from, (string) $service->Periode);
         $label = trim($service->Naam . ($service->Omschrijving ? ' - ' . $service->Omschrijving : ''));
+        $sub = [];
         if ($until !== null) {
-            $label .= ' (' . nl_date($from) . ' t/m ' . nl_date(date('Y-m-d', (int) strtotime($until . ' -1 day'))) . ')';
+            $sub[] = 'Periode: ' . nl_date($from) . ' t/m ' . nl_date(date('Y-m-d', (int) strtotime($until . ' -1 day')));
+            $sub[] = 'Verlengt automatisch op ' . nl_date($until);
+        }
+        if ((string) $service->EindDatum !== '') {
+            $sub[] = 'Loopt af op ' . nl_date((string) $service->EindDatum);
+        }
+        $geo = is_array($service->Gegevens) ? $service->Gegevens : (json_decode((string) $service->Gegevens, true) ?: []);
+        $dom = (string) ($geo['domein']['naam'] ?? '');
+        if ($dom !== '') {
+            $sub[] = 'Domein: ' . $dom;
+            $actie = (string) ($geo['domein']['actie'] ?? '');
+            if ($actie !== '') {
+                $sub[] = 'Actie: ' . ($actie === 'verhuizen' ? 'Verhuizing' : 'Registratie');
+            }
         }
 
-        return ['Omschrijving' => $label, 'Aantal' => 1.0, 'Prijs' => (int) $service->Prijs, 'BtwTarief' => (float) $service->BtwTarief, 'DienstId' => $service->id()];
+        return ['Omschrijving' => $label, 'Subregels' => $sub, 'Aantal' => 1.0, 'Prijs' => (int) $service->Prijs, 'BtwTarief' => (float) $service->BtwTarief, 'DienstId' => $service->id()];
     }
 
     /**
