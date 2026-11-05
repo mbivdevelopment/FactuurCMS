@@ -21,7 +21,7 @@ $inCart = array_column($cart, 'actie', 'domein'); $total = array_sum(array_map(s
                 </div>
             </div>
             <div class="dres">
-                <?php foreach ($popular as $ext): $p = $products[$ext]; $domain = $name . '.' . $ext; ?>
+                <?php foreach (array_keys($products) as $ext): if ($ext === $main) { continue; } $p = $products[$ext]; $domain = $name . '.' . $ext; ?>
                 <div class="dres-row is-laden<?= isset($inCart[$domain]) ? ' in-cart' : '' ?>" data-row data-domain="<?= e($domain) ?>">
                     <span class="dres-i"><span class="dres-spin"></span><?= icon('check') ?><?= icon('refresh') ?><?= icon('globe') ?></span>
                     <div class="dres-name"><strong><?= e($name) ?><b>.<?= e($ext) ?></b></strong><small data-msg>Controleren…</small></div>
@@ -30,7 +30,7 @@ $inCart = array_column($cart, 'actie', 'domein'); $total = array_sum(array_map(s
                 </div>
                 <?php endforeach; ?>
             </div>
-            <?php if (count($products) > count($popular) + 1): ?>
+            <?php if (count($products) > 6): ?>
             <form class="dother" method="get" action="<?= e(url('/domeinen')) ?>">
                 <span><?= icon('search', 'icon icon-sm') ?> Andere extensie?</span>
                 <input type="hidden" name="domein" value="<?= e($name) ?>">
