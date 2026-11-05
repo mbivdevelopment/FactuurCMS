@@ -12,7 +12,7 @@
         <?php if ($doc->Onderwerp): ?><p><strong>Betreft:</strong> <?= e($doc->Onderwerp) ?></p><?php endif; ?>
         <div class="table-wrap"><table class="table">
             <thead><tr><th>Omschrijving</th><th class="right">Aantal</th><th class="right">Prijs</th><th class="right">Btw</th><th class="right">Totaal</th></tr></thead>
-            <tbody><?php foreach ($doc->lines() as $l): ?><tr><td><?= e($l['Omschrijving']) ?></td><td class="right"><?= e(rtrim(rtrim(number_format((float) $l['Aantal'], 2, ',', ''), '0'), ',')) ?></td><td class="right nowrap"><?= e(money((int) $l['Prijs'])) ?></td><td class="right"><?= e((float) $l['BtwTarief']) ?>%</td><td class="right nowrap"><?= e(money((int) round((float) $l['Aantal'] * (int) $l['Prijs']))) ?></td></tr><?php endforeach; ?></tbody>
+            <tbody><?php foreach ($doc->lines() as $l): $subs = is_array($l['Subregels'] ?? null) ? $l['Subregels'] : (json_decode((string) ($l['Subregels'] ?? ''), true) ?: []); ?><tr><td><?= e($l['Omschrijving']) ?><?php if ($subs !== []): ?><div class="doc-subs"><?php foreach ($subs as $s): ?><div>· <?= e($s) ?></div><?php endforeach; ?></div><?php endif; ?></td><td class="right"><?= e(rtrim(rtrim(number_format((float) $l['Aantal'], 2, ',', ''), '0'), ',')) ?></td><td class="right nowrap"><?= e(money((int) $l['Prijs'])) ?></td><td class="right"><?= e((float) $l['BtwTarief']) ?>%</td><td class="right nowrap"><?= e(money((int) round((float) $l['Aantal'] * (int) $l['Prijs']))) ?></td></tr><?php endforeach; ?></tbody>
         </table></div>
         <div class="totals" style="margin-top:12px">
             <div><span>Subtotaal</span><span><?= e(money((int) $doc->Subtotaal)) ?></span></div>
