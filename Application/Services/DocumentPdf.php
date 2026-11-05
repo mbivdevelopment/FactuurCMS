@@ -17,7 +17,7 @@ final class DocumentPdf
         $label = $doc->label();
         $pdf = new Pdf($label . ' ' . $doc->Nummer);
         $moeder = trim((string) setting('bedrijf.moeder', ''));
-        $handelsnaam = $moeder !== '' ? company_name() . ' is een handelsnaam van ' . $moeder . '.' : null;
+        $handelsnaam = $moeder !== '' ? company_name() . ' is een handelsnaam van ' . rtrim($moeder, '. ') . '.' : null;
         $footer = static function (Pdf $pdf, int $num) use ($handelsnaam, $primary): void {
             $pdf->line(20, 266, 190, 266, '#e5e7eb');
             $pdf->rect(20, 266, 170, 1.2, $primary);
