@@ -70,8 +70,6 @@ final class DocumentPdf
             $pdf->textColor($primary);
             $pdf->text(20, 26, company_name());
         }
-        $hy = 40;
-
         $pdf->font('B', 24);
         $pdf->textColor($primary);
         $pdf->text(190, 25, mb_strtoupper($label), 'R');
@@ -80,7 +78,7 @@ final class DocumentPdf
         $pdf->text(190, 31.5, (string) $doc->Nummer, 'R');
 
         // Adresblok klant (links) + metabox (rechts), onder de kop.
-        $y = max($hy, 52);
+        $y = 36;
         $pdf->line(20, $y + 2, 190, $y + 2, '#e5e7eb');
         $boxTop = $y + 6;
         $custLines = array_filter([
