@@ -16,7 +16,7 @@ final class SettingsController extends Controller
 {
     /** Toegestane sleutels per tab; *wachtwoord/token worden versleuteld opgeslagen. */
     public const KEYS = [
-        'bedrijf' => ['bedrijf.naam', 'bedrijf.adres', 'bedrijf.postcode', 'bedrijf.plaats', 'bedrijf.land', 'bedrijf.email', 'bedrijf.telefoon', 'bedrijf.website', 'bedrijf.kvk', 'bedrijf.btw', 'bedrijf.iban', 'bedrijf.bic'],
+        'bedrijf' => ['bedrijf.naam', 'bedrijf.adres', 'bedrijf.postcode', 'bedrijf.plaats', 'bedrijf.land', 'bedrijf.email', 'bedrijf.telefoon', 'bedrijf.website', 'bedrijf.kvk', 'bedrijf.btw', 'bedrijf.iban', 'bedrijf.bic', 'bedrijf.moeder'],
         'branding' => ['branding.kleur'],
         'facturatie' => ['facturatie.prefix_factuur', 'facturatie.prefix_offerte', 'facturatie.betaaltermijn', 'facturatie.offerte_geldig', 'facturatie.btw', 'facturatie.dagen_vooraf', 'facturatie.voettekst', 'facturatie.voettekst_offerte', 'cron.sleutel'],
         'email' => ['mail.methode', 'mail.afzender', 'mail.afzendernaam', 'mail.host', 'mail.poort', 'mail.beveiliging', 'mail.gebruiker'],
