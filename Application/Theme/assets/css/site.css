@@ -479,6 +479,8 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .pk-vat { color: var(--muted); font-size: 13px; margin-top: 6px; }
 .pk-hot .pk-per, .pk-hot .pk-vat { color: rgba(255, 255, 255, .7); }
 .pk-feats { list-style: none; padding: 0; margin: 22px 0 26px; display: grid; gap: 11px; flex: 1; align-content: start; }
+.pk-btn { margin-top: auto; }
+.pk-desc { min-height: 3.4em; }
 .pk-feats li, .feat-grid li { display: flex; gap: 11px; align-items: flex-start; font-size: 15px; line-height: 1.4; }
 .pk-fi { width: 26px; height: 26px; flex: none; border-radius: 8px; background: var(--accent-soft); color: var(--primary); display: grid; place-items: center; margin-top: -2px; }
 .pk-fi .icon { width: 15px; height: 15px; }
