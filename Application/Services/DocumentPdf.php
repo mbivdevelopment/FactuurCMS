@@ -40,13 +40,13 @@ final class DocumentPdf
         $pdf->onPage(null, $footer);
         $pdf->addPage();
 
-        // Kop: primaire band + logo/links en documenttitel rechts.
+        // Kop: primaire band; links logo + bedrijfsgegevens, rechts documenttitel.
         $pdf->rect(0, 0, 210, 6, $primary);
         $logo = branding_path('logo');
         $logoOk = false;
         if ($logo !== '' && !str_ends_with(strtolower($logo), '.svg')) {
             try {
-                $pdf->image($logo, 20, 15, 70, 20);
+                $pdf->image($logo, 20, 14, 58, 18);
                 $logoOk = true;
             } catch (\Throwable) {
                 $logoOk = false;
@@ -55,12 +55,26 @@ final class DocumentPdf
         if (!$logoOk) {
             $pdf->font('B', 19);
             $pdf->textColor($primary);
-            $pdf->text(20, 27, company_name());
+            $pdf->text(20, 26, company_name());
         }
+        $hy = 40;
         if ($handelsnaam !== null) {
             $pdf->font('R', 7.5);
             $pdf->textColor('#888888');
-            $pdf->text(20, 38.5, $handelsnaam);
+            $pdf->text(20, $hy, $handelsnaam);
+            $hy += 4.5;
+        }
+        $pdf->font('R', 8.5);
+        $pdf->textColor('#555555');
+        foreach (array_filter([
+            setting('bedrijf.adres'),
+            trim(setting('bedrijf.postcode', '') . ' ' . setting('bedrijf.plaats', '')),
+            setting('bedrijf.email'),
+            setting('bedrijf.telefoon'),
+            setting('bedrijf.website'),
+        ]) as $row) {
+            $pdf->text(20, $hy, (string) $row);
+            $hy += 4.3;
         }
 
         $pdf->font('B', 24);
@@ -70,23 +84,8 @@ final class DocumentPdf
         $pdf->textColor('#888888');
         $pdf->text(190, 31.5, (string) $doc->Nummer, 'R');
 
-        // Afzender rechtsboven onder de titel.
-        $pdf->font('R', 8.5);
-        $pdf->textColor('#555555');
-        $y = 40;
-        foreach (array_filter([
-            company_name(),
-            setting('bedrijf.adres'),
-            trim(setting('bedrijf.postcode', '') . ' ' . setting('bedrijf.plaats', '')),
-            setting('bedrijf.email'),
-            setting('bedrijf.telefoon'),
-            setting('bedrijf.website'),
-        ]) as $row) {
-            $pdf->text(190, $y, (string) $row, 'R');
-            $y += 4.3;
-        }
-
-        // Adresblok klant (links) + metabox (rechts), onder het afzenderblok.
+        // Adresblok klant (links) + metabox (rechts), onder de kop.
+        $y = max($hy, 52);
         $pdf->line(20, $y + 2, 190, $y + 2, '#e5e7eb');
         $boxTop = $y + 6;
         $custLines = array_filter([
