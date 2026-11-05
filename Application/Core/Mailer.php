@@ -140,34 +140,49 @@ Met vriendelijke groet,
             . $sig . '</div></body></html>';
     }
 
-    /** Handtekening onder elke mail: adres, contact, diensten en disclaimers in huisstijl. */
+    /** Handtekening onder elke mail: logo + naam, adres/contact, dienstenrij en disclaimers in huisstijl. */
     private static function signature(string $primary): string
     {
-        $adres = e(trim((string) setting('bedrijf.adres', '') . ' ' . (string) setting('bedrijf.adres2', '')));
+        $name = e((string) setting('bedrijf.naam', config('app.name')));
+        $logo = branding_url('logo');
+        $logoCell = '';
+        if ($logo !== '' && !str_ends_with(strtolower($logo), '.svg')) {
+            $logoCell = '<td width="64" style="vertical-align:middle;padding-right:14px"><img src="' . e(absolute_url($logo)) . '" alt="' . $name . '" width="64" style="display:block;width:64px;height:auto;border-radius:8px"></td>';
+        }
+        $brand = '<table cellpadding="0" cellspacing="0"><tr>' . $logoCell
+            . '<td style="vertical-align:middle;border-left:1px solid #e5e7eb;padding-left:14px;font-size:26px;font-weight:800;color:#0f172a">' . $name . '</td></tr></table>';
+
+        $adres = e(trim((string) setting('bedrijf.adres', '')));
         $pc = e(trim((string) setting('bedrijf.postcode', '') . ' ' . (string) setting('bedrijf.plaats', '')));
         $email = e((string) setting('bedrijf.email', ''));
         $tel = e((string) setting('bedrijf.telefoon', ''));
-        $site = e((string) setting('site.url', parse_url(absolute_url('/'), PHP_URL_HOST) ?: ''));
+        $contact = '<table width="100%" cellpadding="0" cellspacing="0" style="margin-top:12px"><tr>'
+            . '<td width="50%" style="vertical-align:top;font-size:12.5px;line-height:1.5;color:#1f2937">'
+            . '<span style="display:block;font-size:10px;letter-spacing:.1em;color:' . $primary . ';font-weight:bold;margin-bottom:3px">ADRES</span>' . $adres . '<br>' . $pc . '</td>'
+            . '<td style="vertical-align:top;border-left:1px solid #e5e7eb;padding-left:16px;font-size:12.5px;line-height:1.5;color:#1f2937">'
+            . '<span style="display:block;font-size:10px;letter-spacing:.1em;color:' . $primary . ';font-weight:bold;margin-bottom:3px">CONTACT</span>'
+            . ($email !== '' ? '<a href="mailto:' . $email . '" style="color:#1f2937;text-decoration:none">' . $email . '</a><br>' : '')
+            . ($tel !== '' ? $tel : '') . '</td></tr></table>';
+
+        $icons = ['Domeinen' => '◎', 'Hosting' => '☰', 'Servers' => '☁', 'Connectiviteit' => '✆', 'Development' => '&lt;/&gt;', 'Marketing' => '▮▮▮'];
+        $count = count(\App\Models\Product::SOORTEN);
+        $width = 100 / max(1, $count);
         $groups = '';
-        $width = 100 / max(1, count(\App\Models\Product::SOORTEN));
+        $i = 0;
         foreach (array_keys(\App\Models\Product::SOORTEN) as $g) {
-            $groups .= '<td align="center" width="' . round($width) . '%" style="padding:10px 4px;border-right:1px solid #e5e7eb">'
+            $i++;
+            $groups .= '<td align="center" width="' . round($width) . '%" style="padding:12px 4px 10px;' . ($i < $count ? 'border-right:1px solid #e5e7eb;' : '') . '">'
+                . '<span style="display:block;font-size:16px;color:' . $primary . ';line-height:1;margin-bottom:5px">' . ($icons[$g] ?? '•') . '</span>'
                 . '<a href="' . e(absolute_url('/diensten')) . '" style="font-size:12px;font-weight:bold;color:#1f2937;text-decoration:none">' . e($g) . '</a></td>';
         }
-        $groups = preg_replace('/border-right:1px solid #e5e7eb(?![\s\S]*border-right)/', '', $groups);
 
-        return '<div style="background:#fff;border-radius:8px;margin-top:12px;padding:20px 24px;font-size:12.5px">'
-            . '<table width="100%" cellpadding="0" cellspacing="0"><tr>'
-            . '<td style="vertical-align:top;width:50%"><span style="font-size:10px;letter-spacing:.08em;color:' . $primary . ';font-weight:bold">ADRES</span><br>' . $adres . '<br>' . $pc . '</td>'
-            . '<td style="vertical-align:top;border-left:1px solid #e5e7eb;padding-left:16px"><span style="font-size:10px;letter-spacing:.08em;color:' . $primary . ';font-weight:bold">CONTACT</span><br>'
-            . ($email !== '' ? '<a href="mailto:' . $email . '" style="color:#1f2937;text-decoration:none">' . $email . '</a><br>' : '')
-            . ($tel !== '' ? $tel . '<br>' : '')
-            . ($site !== '' ? '<a href="' . e(absolute_url('/')) . '" style="color:' . $primary . ';text-decoration:none">' . $site . '</a>' : '') . '</td>'
-            . '</tr></table>'
-            . '<table width="100%" cellpadding="0" cellspacing="0" style="margin-top:14px;border-top:3px solid ' . $primary . ';border-bottom:1px solid #e5e7eb"><tr>' . $groups . '</tr></table>'
-            . '<p style="margin:14px 0 0;font-size:11px;color:#16a34a"><strong>Denk aan het milieu.</strong><br>Print deze e-mail alleen als dat echt nodig is.</p>'
-            . '<p style="margin:10px 0 0;font-size:11px;color:#6b7280;border-left:3px solid #e5e7eb;padding-left:10px"><strong>Vertrouwelijkheid:</strong><br>Dit bericht en eventuele bijlagen zijn uitsluitend bestemd voor de geadresseerde. Heeft u dit bericht per vergissing ontvangen? Laat het ons weten, verwijder het bericht en eventuele bijlagen en gebruik, kopieer of verspreid de inhoud niet.</p>'
-            . '</div>';
+        return '<div style="background:#fff;border-radius:8px;margin-top:12px;padding:20px 24px 16px;font-size:12.5px">'
+            . $brand . $contact
+            . '<table width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;border-top:4px solid ' . $primary . ';border-bottom:1px solid #e5e7eb"><tr>' . $groups . '</tr></table>'
+            . '<table width="100%" cellpadding="0" cellspacing="0" style="margin-top:14px"><tr>'
+            . '<td width="50%" style="vertical-align:top;font-size:11px;line-height:1.4;color:#16a34a"><strong>Denk aan het milieu.</strong><br>Print deze e-mail alleen als dat echt nodig is.</td>'
+            . '<td style="vertical-align:top;border-left:1px solid #e5e7eb;padding-left:12px;font-size:11px;line-height:1.4;color:#6b7280"><strong>Vertrouwelijkheid:</strong><br>Dit bericht en eventuele bijlagen zijn uitsluitend bestemd voor de geadresseerde. Heeft u dit bericht per vergissing ontvangen? Laat het ons weten, verwijder het bericht en eventuele bijlagen en gebruik, kopieer of verspreid de inhoud niet.</td>'
+            . '</tr></table></div>';
     }
 
     /** @return array{0: string, 1: string} */
