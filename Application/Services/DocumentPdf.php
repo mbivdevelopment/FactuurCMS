@@ -60,15 +60,15 @@ final class DocumentPdf
         if ($handelsnaam !== null) {
             $pdf->font('R', 7.5);
             $pdf->textColor('#888888');
-            $pdf->text(20, 40, $handelsnaam);
+            $pdf->text(20, 38.5, $handelsnaam);
         }
 
-        $pdf->font('B', 22);
+        $pdf->font('B', 24);
         $pdf->textColor($primary);
         $pdf->text(190, 25, mb_strtoupper($label), 'R');
         $pdf->font('R', 9);
         $pdf->textColor('#888888');
-        $pdf->text(190, 31, (string) $doc->Nummer, 'R');
+        $pdf->text(190, 31.5, (string) $doc->Nummer, 'R');
 
         // Afzender rechtsboven onder de titel.
         $pdf->font('R', 8.5);
@@ -87,6 +87,7 @@ final class DocumentPdf
         }
 
         // Adresblok klant (links) + metabox (rechts).
+        $pdf->line(20, 54, 190, 54, '#e5e7eb');
         $boxTop = 58;
         $custLines = array_filter([
             $customer?->Bedrijfsnaam ? $customer->name() : null,
