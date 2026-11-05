@@ -232,6 +232,8 @@ $router->group('beheer', ['csrf', 'auth', 'admin'], static function ($router): v
     $router->delete('/medewerkers/{id}', 'Beheer\\StaffController@destroy');
 
     $router->get('/instellingen', 'Beheer\\SettingsController@index');
+    $router->get('/instellingen/mailtemplates/{key}', 'Beheer\\SettingsController@mailTemplate');
+    $router->post('/instellingen/mailtemplates/{key}', 'Beheer\\SettingsController@saveMailTemplate');
     $router->post('/instellingen', 'Beheer\\SettingsController@update');
     $router->post('/instellingen/branding', 'Beheer\\SettingsController@branding');
     $router->post('/instellingen/branding/verwijderen', 'Beheer\\SettingsController@removeBranding');

@@ -50,18 +50,17 @@
             <?= field('mail_wachtwoord', 'Wachtwoord' . ($hasMailPassword ? ' (ingesteld, leeg = ongewijzigd)' : ''), 'lock', '', 'password', [], 'autocomplete="new-password"') ?>
         </div><div class="card-foot"><button class="btn"><?= icon('check', 'icon icon-sm') ?> Opslaan</button></div></form>
         <form method="post" action="<?= e(url('/beheer/instellingen/testmail')) ?>" class="card-body row" style="border-top:1px solid var(--line)"><?= csrf_field() ?><input name="naar" type="email" placeholder="<?= e(auth_user()?->Email) ?>" style="max-width:300px"><button class="btn btn-ghost"><?= icon('send', 'icon icon-sm') ?> Testmail versturen</button><span class="small muted">In de modus "Alleen loggen" komen mails in storage/logs/mail.log.</span></form></div>
-        <div class="tab-pane" data-pane="mailtemplates"><form method="post" action="<?= e(url('/beheer/instellingen')) ?>"><?= csrf_field() ?><input type="hidden" name="tab" value="mailtemplates">
-        <div class="card-body"><p class="muted" style="margin:0 0 18px">Deze mails gaan automatisch naar klanten. Vul bij onderwerp en tekst de variabelen met {accolades} in; een leeg veld valt terug op de standaard.</p>
+        <div class="tab-pane" data-pane="mailtemplates">
+        <div class="card-body"><p class="muted" style="margin:0 0 18px">Deze mails gaan automatisch naar klanten. Klik op een mailer om hem te bewerken; een leeg veld valt terug op de standaard.</p>
+        <div class="row-list">
         <?php foreach (\App\Core\Mailer::TEMPLATES as $tk => $t): ?>
-        <div class="mailtpl">
-            <div class="mailtpl-h"><?= icon('mail', 'icon icon-sm') ?> <strong><?= e($t['naam']) ?></strong><span class="mailtpl-vars"><?php foreach ($t['vars'] as $var): ?><code>{<?= e($var) ?>}</code><?php endforeach; ?></span></div>
-            <div class="form-grid">
-                <?= field('mailtpl_' . $tk . '_onderwerp', 'Onderwerp', 'mail', $s('mailtpl.' . $tk . '.onderwerp', $t['onderwerp'])) ?>
-                <?= field('mailtpl_' . $tk . '_tekst', 'Berichttekst', 'note', $s('mailtpl.' . $tk . '.tekst', $t['tekst']), 'textarea', [], 'rows="7"') ?>
-            </div>
-        </div>
+        <a class="row-list-item" href="<?= e(url('/beheer/instellingen/mailtemplates/' . $tk)) ?>">
+            <span class="rl-icon"><?= icon('mail') ?></span>
+            <span class="rl-main"><strong><?= e($t['naam']) ?></strong><small><?= e($s('mailtpl.' . $tk . '.onderwerp', $t['onderwerp'])) ?></small></span>
+            <?= icon('arrow-right', 'icon icon-sm') ?>
+        </a>
         <?php endforeach; ?>
-        </div><div class="card-foot"><button class="btn"><?= icon('check', 'icon icon-sm') ?> Opslaan</button></div></form></div>
+        </div></div></div>
 <div class="tab-pane" data-pane="website"><form method="post" action="<?= e(url('/beheer/instellingen')) ?>"><?= csrf_field() ?><input type="hidden" name="tab" value="website">
         <div class="card-body form-grid">
             <?= field('website_titel', 'Titel homepage', 'layout', $s('website.titel')) ?>

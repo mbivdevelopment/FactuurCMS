@@ -25,6 +25,29 @@ final class SettingsController extends Controller
     ];
     private const BRANDING = ['logo' => 'Logo', 'logo_licht' => 'Logo (lichte variant, donkere achtergrond)', 'favicon' => 'Favicon', 'over' => 'Afbeelding "Over ons" (homepage)', 'hero' => 'Hero-foto homepage (bijv. server, liefst vrijstaand PNG)'];
 
+    public function mailTemplate(Request $request): Response
+    {
+        $key = (string) $request->param('key');
+        $t = Mailer::TEMPLATES[$key] ?? null;
+        if ($t === null) {
+            throw new \App\Core\HttpException(404, 'Mailtemplate niet gevonden.');
+        }
+
+        return $this->view('beheer.mailtemplate', ['key' => $key, 'tpl' => $t]);
+    }
+
+    public function saveMailTemplate(Request $request): Response
+    {
+        $key = (string) $request->param('key');
+        if (!isset(Mailer::TEMPLATES[$key])) {
+            throw new \App\Core\HttpException(404, 'Mailtemplate niet gevonden.');
+        }
+        Setting::set('mailtpl.' . $key . '.onderwerp', trim($request->string('onderwerp')));
+        Setting::set('mailtpl.' . $key . '.tekst', trim($request->string('tekst')));
+
+        return $this->redirect('/beheer/instellingen#mailtemplates')->with('success', 'Mailtemplate "' . Mailer::TEMPLATES[$key]['naam'] . '" opgeslagen.');
+    }
+
     public function index(Request $request): Response
     {
         if ((string) setting('cron.sleutel', '') === '') {

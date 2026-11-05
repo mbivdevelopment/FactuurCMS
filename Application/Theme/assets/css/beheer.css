@@ -457,3 +457,11 @@ dialog.demo-dialog { width: min(760px, calc(100% - 40px)); }
 .sub-lines { width: 100%; margin-top: 6px; padding: 7px 10px; border: 1px dashed var(--line); border-radius: 8px; font: inherit; font-size: 12.5px; color: var(--muted); background: #fafbfc; resize: vertical; }
 .sub-lines:focus { border-color: var(--accent); border-style: solid; outline: none; color: var(--text); }
 .doc-subs { margin-top: 4px; font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+.row-list { display: flex; flex-direction: column; }
+.row-list-item { display: flex; align-items: center; gap: 14px; padding: 13px 4px; border-bottom: 1px solid var(--line); text-decoration: none; color: inherit; }
+.row-list-item:last-child { border-bottom: 0; }
+.row-list-item:hover { background: #fafbfc; }
+.row-list-item .icon:last-child { margin-left: auto; color: var(--muted); }
+.rl-icon { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; background: var(--accent-soft, #fff2ec); color: var(--accent, #ff5a1f); }
+.rl-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.rl-main small { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
