@@ -1450,3 +1450,46 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .pk-note .btn { margin-left: 10px; }
 @media (max-width: 1100px) { .pk-grid.pk-n4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) { .pk-grid.pk-n4, .pk-grid.pk-n3, .pk-grid.pk-n2 { grid-template-columns: 1fr; } }
+
+/* ===== Pakketkaarten v3: kleurband bovenin, specs-rij ===== */
+.pk.pk3 { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 0; color: var(--navy); overflow: hidden; box-shadow: 0 6px 24px rgba(11, 21, 51, .06); transition: transform .18s, box-shadow .18s; }
+.pk.pk3:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--line); }
+.pk.pk3.pk-hot { background: #fff; color: var(--navy); border-color: color-mix(in srgb, var(--primary) 50%, #fff); box-shadow: 0 18px 44px color-mix(in srgb, var(--primary) 18%, transparent); }
+.pk3-top { background: var(--hero-grad); color: #fff; padding: 22px 24px 24px; position: relative; }
+.pk3-top::after { content: ''; position: absolute; inset: 0; background-image: radial-gradient(rgba(255, 255, 255, .07) 1px, transparent 1px); background-size: 18px 18px; pointer-events: none; }
+.pk3-top > * { position: relative; z-index: 1; }
+.pk3.pk-hot .pk3-top { background: radial-gradient(600px 200px at 100% 0%, rgba(255, 255, 255, .25), transparent 60%), linear-gradient(150deg, #ff7a45, var(--primary) 70%); }
+.pk3-kind { display: flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: rgba(255, 255, 255, .75); }
+.pk3-kind .icon { color: var(--primary); }
+.pk3.pk-hot .pk3-kind { color: rgba(255, 255, 255, .9); }
+.pk3.pk-hot .pk3-kind .icon { color: #fff; }
+.pk3-hot { margin-left: auto; display: inline-flex; align-items: center; gap: 5px; background: #fff; color: var(--primary); border-radius: 8px; padding: 4px 10px; font-size: 11px; letter-spacing: .04em; }
+.pk3-top h3 { margin: 10px 0 0; font-size: 24px; font-weight: 800; letter-spacing: -.015em; line-height: 1.15; }
+.pk3-top h3 a { color: #fff; }
+.pk3-top p { margin: 6px 0 0; color: rgba(255, 255, 255, .78); font-size: 14px; line-height: 1.5; min-height: 42px; }
+.pk3.pk-hot .pk3-top p { color: rgba(255, 255, 255, .9); }
+.pk3-body { padding: 22px 24px 24px; display: flex; flex-direction: column; flex: 1; }
+.pk3-price { padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+.pk3-amount { display: flex; align-items: center; gap: 12px; }
+.pk3 .pk-eur { font-size: 42px; font-weight: 800; letter-spacing: -.03em; line-height: 1; color: var(--navy); }
+.pk3 .pk-eur sup { font-size: 18px; top: 2px; }
+.pk3-per { color: var(--muted); font-size: 13.5px; font-weight: 600; line-height: 1.25; }
+.pk3-per small { font-weight: 500; font-size: 12px; }
+.pk3-year { margin-top: 8px; font-size: 12.5px; color: var(--muted); }
+.pk3-specs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+.pk3-specs.pk3-n2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.pk3-specs.pk3-n1 { grid-template-columns: 1fr; }
+.pk3-specs div { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 12px 6px; }
+.pk3-si { width: 32px; height: 32px; border-radius: 8px; background: #fff; color: var(--primary); display: grid; place-items: center; box-shadow: inset 0 0 0 1px var(--line); }
+.pk3-specs strong { font-size: 12.5px; line-height: 1.3; color: var(--navy); font-weight: 700; }
+.pk3-feats { list-style: none; margin: 0; padding: 16px 0 6px; display: grid; gap: 9px; flex: 1; align-content: start; }
+.pk3-feats li { display: flex; align-items: center; gap: 10px; font-size: 14.5px; color: #2b3756; }
+.pk3-feats li .icon { width: 18px; height: 18px; padding: 3px; border-radius: 50%; background: #dcfce7; color: #15803d; flex: none; }
+.pk3-actions { margin-top: auto; padding-top: 18px; display: flex; flex-direction: column; gap: 8px; }
+.pk3 .pk-btn { justify-content: center; width: 100%; margin: 0; background: var(--navy); border-color: var(--navy); color: #fff; }
+.pk3 .pk-btn:hover { background: var(--primary); border-color: var(--primary); box-shadow: 0 10px 24px color-mix(in srgb, var(--primary) 32%, transparent); }
+.pk3.pk-hot .pk-btn { background: var(--primary); border-color: var(--primary); }
+.pk3.pk-hot .pk-btn:hover { background: #e84d12; border-color: #e84d12; }
+.pk3-more { text-align: center; font-size: 13.5px; font-weight: 600; color: var(--muted); }
+.pk3-more:hover { color: var(--primary); }
+.pk-grid { padding-top: 10px; }
