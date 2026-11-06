@@ -39,7 +39,7 @@ final class DashboardController extends Controller
             'months' => $months,
             'openInvoices' => Document::query("SELECT d.*, g.Bedrijfsnaam, g.Voornaam, g.Achternaam FROM Documenten d JOIN Gebruikers g ON g.Id = d.KlantId WHERE d.Soort = 'factuur' AND d.Status = 'open' ORDER BY d.VervalDatum LIMIT 6"),
             'tickets' => Ticket::query("SELECT t.*, g.Bedrijfsnaam, g.Voornaam, g.Achternaam FROM Tickets t JOIN Gebruikers g ON g.Id = t.KlantId WHERE t.Status = 'open' ORDER BY t.Prioriteit = 'hoog' DESC, t.LaatsteReactie DESC LIMIT 6"),
-            'upcoming' => Database::all("SELECT s.*, g.Bedrijfsnaam, g.Voornaam, g.Achternaam FROM Diensten s JOIN Gebruikers g ON g.Id = s.KlantId WHERE s.Status = 'actief' AND s.VolgendeFactuur IS NOT NULL ORDER BY s.VolgendeFactuur LIMIT 6"),
+            'upcoming' => Database::all("SELECT s.*, g.Bedrijfsnaam, g.Voornaam, g.Achternaam, p.Dienstsoort, p.Groep FROM Diensten s JOIN Gebruikers g ON g.Id = s.KlantId LEFT JOIN Producten p ON p.Id = s.ProductId WHERE s.Status = 'actief' AND s.VolgendeFactuur IS NOT NULL ORDER BY s.VolgendeFactuur LIMIT 6"),
         ]);
     }
 }
