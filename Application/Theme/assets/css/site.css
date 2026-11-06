@@ -1274,3 +1274,6 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .pk-badge, .pk-kind, .eyebrow, .hh-label, .cta-k, .dhero-exts a, .sf-pills a, .stop-links a, .pc-more, .pc-more.pc-btn, .logo-tabs button, .cmp-hot, .svc-nav a { border-radius: 8px; }
 .pk, .why-card, .bene, .step, .cta, .kc, .succ, .tp-tabs, .tp-panes, .trust-item, .faq-item, .kb-item, .logo-item, .dc-map, .av-card, .av-badge, .hh-rack, .hh-badge, .ia-card, .cc, .news-item, .revbar-in, .prod-tile, .cmp-wrap, .page-img, .site .card, .site .contact-grid .card, .succ-band, .svc-nav { border-radius: 8px; }
 .pk-i, .bene-i, .trust-i, .tp-i, .kc-i, .succ-i, .prod-tile-i, .ia-card .ia-i, .cc .cc-i, .news-img, .phero-i, .site-logo .brand-mark, .sf-logo .brand-mark, .why-card .pk-i, .tp-tab, .kc-visual, .dfind-exts a { border-radius: 8px; }
+.dfind-head { display: block; margin-bottom: 20px; }
+.dfind-head h2 { margin: 0 0 6px; }
+.dfind-head p { max-width: 640px; font-size: 15px; }
