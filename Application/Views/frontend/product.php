@@ -43,3 +43,12 @@ $per = ['maand' => '/ maand', 'kwartaal' => '/ kwartaal', 'jaar' => '/ jaar'][(s
     <?= $partial('frontend._plans', ['products' => $siblings]) ?>
 </div></section>
 <?php endif; ?>
+<section class="sec"><div class="container">
+    <div class="sec-head center"><div><span class="eyebrow"><?= icon('star', 'icon icon-sm') ?> Inbegrepen</span><h2>Wat je krijgt bij <?= e($kind !== '' ? mb_strtolower($kind) : $product->Naam) ?></h2><p>Alles wat je nodig hebt zit erin — en wij houden het draaiend.</p></div></div>
+    <?= $partial('frontend._benefits', ['items' => \App\Services\PageContent::benefits($product->Dienstsoort, $kind)]) ?>
+</div></section>
+<section class="sec sec-alt"><div class="container faq-split">
+    <div class="faq-side"><span class="eyebrow"><?= icon('chat', 'icon icon-sm') ?> Veelgestelde vragen</span><h2 class="h-xl">Vragen over <?= e($product->Naam) ?>?</h2><p class="muted">Staat je vraag er niet bij? We helpen je graag persoonlijk verder.</p><a class="btn btn-ghost" href="<?= e(url('/contact')) ?>"><?= icon('chat', 'icon icon-sm') ?> Stel je vraag</a></div>
+    <?= $partial('frontend._faq', ['items' => \App\Services\PageContent::faq($product->Dienstsoort, $kind, true)]) ?>
+</div></section>
+<?= $partial('frontend._cta', ['title' => 'Twijfel je of dit pakket past?', 'text' => 'Onze specialisten adviseren je vrijblijvend en helpen bij de overstap.']) ?>

@@ -20,6 +20,7 @@ $homeText = (string) (setting('home.tekst', '') ?: 'Bij ' . company_name() . ' d
         </div>
     </div>
 </section>
+<section class="sec sec-trust"><div class="container"><?= $partial('frontend._trust', ['datacenters' => count($datacenters)]) ?></div></section>
 
 <section class="sec">
     <div class="container about-split">
@@ -122,6 +123,16 @@ $homeText = (string) (setting('home.tekst', '') ?: 'Bij ' . company_name() . ' d
 </section>
 <?php endif; ?>
 
+<section class="sec sec-dark"><div class="container">
+    <div class="sec-head center"><div><span class="eyebrow"><?= icon('refresh', 'icon icon-sm') ?> Hoe het werkt</span><h2>In vier stappen online</h2><p>Van bestelling tot actieve dienst: snel, duidelijk en zonder gedoe.</p></div></div>
+    <?= $partial('frontend._steps', ['items' => \App\Services\PageContent::steps(null, true)]) ?>
+</div></section>
+
+<section class="sec"><div class="container faq-split">
+    <div class="faq-side"><span class="eyebrow"><?= icon('chat', 'icon icon-sm') ?> Veelgestelde vragen</span><h2 class="h-xl">Goed om te weten</h2><p class="muted">De antwoorden op de vragen die we het vaakst krijgen. Iets anders? We helpen je graag persoonlijk.</p><a class="btn btn-ghost" href="<?= e(url('/contact')) ?>"><?= icon('chat', 'icon icon-sm') ?> Stel je vraag</a></div>
+    <?= $partial('frontend._faq', ['items' => \App\Services\PageContent::faq('Webhosting', 'hosting', true)]) ?>
+</div></section>
+
 <?php $logos = ['almalinux' => 'AlmaLinux', 'apache' => 'Apache', 'cloudflare' => 'Cloudflare', 'debian' => 'Debian', 'docker' => 'Docker', 'drupal' => 'Drupal', 'joomla' => 'Joomla', 'laravel' => 'Laravel', 'letsencrypt' => 'Let\'s Encrypt', 'magento' => 'Magento', 'mariadb' => 'MariaDB', 'mysql' => 'MySQL', 'nginx' => 'nginx', 'nodedotjs' => 'Node.js', 'openlitespeed' => 'OpenLiteSpeed', 'php' => 'PHP', 'prestashop' => 'PrestaShop', 'python' => 'Python', 'redis' => 'Redis', 'ubuntu' => 'Ubuntu', 'woocommerce' => 'WooCommerce', 'wordpress' => 'WordPress']; ?>
 <section class="sec">
     <div class="container">
@@ -133,3 +144,4 @@ $homeText = (string) (setting('home.tekst', '') ?: 'Bij ' . company_name() . ' d
         </div>
     </div>
 </section>
+<?= $partial('frontend._cta', ['title' => 'Klaar om te starten?', 'text' => 'Bestel direct online of laat je vrijblijvend adviseren door onze specialisten.']) ?>

@@ -1,5 +1,6 @@
 <?php $extend('frontend', ['title' => 'Over ons']); $kind = ['mijlpaal' => ['flag', 'Mijlpaal'], 'lancering' => ['zap', 'Lancering'], 'overname' => ['handshake', 'Overname']]; ?>
-<?= $partial('frontend._hero', ['title' => 'Over ' . company_name(), 'intro' => (string) setting('topbar.slogan', ''), 'icon' => 'building', 'crumbs' => [[null, 'Over ons']]]) ?>
+<?= $partial('frontend._hero', ['title' => 'Over ' . company_name(), 'intro' => (string) setting('topbar.slogan', ''), 'icon' => 'building', 'trust' => true, 'crumbs' => [[null, 'Over ons']]]) ?>
+<section class="sec sec-trust"><div class="container"><?= $partial('frontend._trust', ['datacenters' => count($datacenters)]) ?></div></section>
 <section class="sec"><div class="container about-cols">
     <div class="ab-card"><span class="ab-i"><?= icon('users') ?></span><h2>Wie wij zijn</h2><div class="prose"><?= rich_text((string) setting('over.wie', '')) ?></div></div>
     <div class="ab-card"><span class="ab-i"><?= icon('heart') ?></span><h2>Hoe wij zijn</h2><div class="prose"><?= rich_text((string) setting('over.hoe', '')) ?></div>
@@ -37,4 +38,8 @@
 </div></section>
 <?php endif; ?>
 <?php if ($datacenters !== []): ?><section class="sec"><div class="container"><div class="sec-head"><div><span class="eyebrow"><?= icon('pin', 'icon icon-sm') ?> Netwerk</span><h2>Onze datacenters</h2></div></div><?= $partial('frontend._map', ['datacenters' => $datacenters]) ?></div></section><?php endif; ?>
-<section class="sec sec-cta"><div class="container"><div class="cta"><div><h2>Zullen we kennismaken?</h2><p>Bel, mail of kom langs; we maken graag tijd voor je.</p></div><a class="btn btn-lg" href="<?= e(url('/contact')) ?>">Contact opnemen <?= icon('arrow-right', 'icon icon-sm') ?></a></div></div></section>
+<section class="sec sec-alt"><div class="container">
+    <div class="sec-head center"><div><span class="eyebrow"><?= icon('star', 'icon icon-sm') ?> Waar wij voor staan</span><h2>Zo werken wij</h2><p>Eén partner voor hosting, domeinen, servers en ICT — met één aanspreekpunt en één factuur.</p></div></div>
+    <?= $partial('frontend._benefits', ['items' => \App\Services\PageContent::benefits(null, 'onze diensten')]) ?>
+</div></section>
+<?= $partial('frontend._cta', ['title' => 'Zullen we kennismaken?', 'text' => 'Bel, mail of kom langs; we maken graag tijd voor je.', 'label' => 'Contact opnemen']) ?>

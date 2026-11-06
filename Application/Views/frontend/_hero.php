@@ -1,5 +1,5 @@
 <?php $search = $search ?? true; ?>
-<section class="phero<?= $search ? ' has-search' : '' ?>">
+<section class="phero<?= $search ? ' has-search' : '' ?><?= !empty($trust) ? ' has-trust' : '' ?>">
     <div class="container phero-grid">
         <div class="phero-l">
             <div class="phero-row">
