@@ -1585,7 +1585,7 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .pk7-head { text-align: center; padding: 26px 22px 20px; border-bottom: 1px solid var(--line); }
 .pk7-k { display: block; font-size: 13.5px; color: var(--navy); font-weight: 700; margin-bottom: 2px; }
 .pk7-t { margin: 0; font-size: 30px; font-weight: 700; line-height: 1.15; letter-spacing: -.02em; }
-.pk7-t a { color: var(--primary); }
+.site .pk.pk7 .pk7-t a, .pk7-t a { color: var(--primary); }
 .pk7-pr { margin: 0; padding: 22px 22px 18px; text-align: center; line-height: 1; }
 .pk7-pr b { display: block; font-size: 38px; letter-spacing: -.04em; font-weight: 800; white-space: nowrap; }
 .pk7-pr span { display: block; margin-top: 8px; font-size: 13.5px; color: var(--muted); font-weight: 600; }
