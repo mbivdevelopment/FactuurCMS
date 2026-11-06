@@ -3,8 +3,8 @@
 <section class="sec"><div class="container side-split">
     <aside class="side-card">
         <h3>Categorieën</h3>
-        <a class="side-link<?= $category === '' ? ' active' : '' ?>" href="<?= e(url('/portfolio')) ?>"><strong>Alle projecten</strong></a>
-        <?php foreach ($categories as $c): ?><a class="side-link<?= $category === $c['Categorie'] ? ' active' : '' ?>" href="<?= e(url('/portfolio?categorie=' . urlencode($c['Categorie']))) ?>"><strong><?= e($c['Categorie']) ?></strong><small><?= (int) $c['Aantal'] ?> project(en)</small></a><?php endforeach; ?>
+        <a class="side-link<?= $category === '' ? ' active' : '' ?>" href="<?= e(url('/portfolio')) ?>"><?= icon('image', 'icon icon-sm') ?><strong>Alle projecten</strong><small><?= array_sum(array_map(static fn ($x): int => (int) $x['Aantal'], $categories)) ?></small></a>
+        <?php foreach ($categories as $c): ?><a class="side-link<?= $category === $c['Categorie'] ? ' active' : '' ?>" href="<?= e(url('/portfolio?categorie=' . urlencode($c['Categorie']))) ?>"><?= icon('image', 'icon icon-sm') ?><strong><?= e($c['Categorie']) ?></strong><small><?= (int) $c['Aantal'] ?></small></a><?php endforeach; ?>
         <div class="side-start"><?php $ctaImg = ''; foreach ($projects as $p) { if (!empty($p['Afbeelding'])) { $ctaImg = media_url($p['Afbeelding']); break; } } ?><?php if ($ctaImg !== ''): ?><img class="side-start-img" src="<?= e($ctaImg) ?>" alt=""><?php endif; ?>
             <strong>Start ook een eigen project</strong><p>Vertel ons je idee; we denken mee en maken een vrijblijvende offerte.</p>
             <a class="btn" href="<?= e(url('/contact')) ?>">Start je project <?= icon('arrow-right', 'icon icon-sm') ?></a>
