@@ -43,7 +43,6 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
                 <a class="dfind-all" href="<?= e(url('/domeinen')) ?>">Alle extensies <?= icon('arrow-right', 'icon icon-sm') ?></a>
             </div>
             <?php endif; ?>
-            <div class="dfind-note">Prijzen excl. btw · Bestaande domeinnaam? Voer hem in en klik op "Verhuizen" — gratis en je lopende jaar blijft staan.</div>
         </div>
     </div>
 </section>
