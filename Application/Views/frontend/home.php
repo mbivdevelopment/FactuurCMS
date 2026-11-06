@@ -106,7 +106,7 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
                 ['refresh', 'Dagelijkse back-ups', 'Elke nacht een back-up op een aparte locatie, zelf terug te zetten vanuit je paneel.'],
                 ['box', 'Alles onder één dak', 'Domeinen, hosting, e-mail, servers en ICT bij één partner — met één aanspreekpunt en één factuur.'],
             ] as [$ic, $t, $txt]): ?>
-            <div class="rsn"><span class="rsn-i"><?= icon($ic) ?></span><h3><?= e($t) ?></h3><p><?= e($txt) ?></p></div>
+            <div class="rsn"><span class="rsn-i"><?= icon($ic) ?></span><div><h3><?= e($t) ?></h3><p><?= e($txt) ?></p></div></div>
             <?php endforeach; ?>
         </div>
     </div>

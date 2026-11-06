@@ -1390,3 +1390,7 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .rsn p { margin: 0; color: var(--muted); font-size: 14.5px; line-height: 1.6; max-width: 320px; }
 @media (max-width: 1000px) { .rsn-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) { .rsn-grid { grid-template-columns: 1fr; } }
+.rsn { flex-direction: row; align-items: flex-start; text-align: left; gap: 18px; padding: 26px 26px; }
+.rsn-i { flex: none; width: 54px; height: 54px; margin-bottom: 0; }
+.rsn h3 { font-size: 18px; margin: 4px 0 6px; }
+.rsn p { max-width: none; font-size: 14.5px; }
