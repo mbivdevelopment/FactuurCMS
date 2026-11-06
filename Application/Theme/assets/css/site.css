@@ -1366,3 +1366,5 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 @media (max-width: 1000px) { .about-split { grid-template-columns: 1fr; gap: 40px; } .about-visual .av-badge { left: 12px; bottom: -18px; } .sec-about { padding-bottom: 70px; } }
 .about-visual .av-badge { left: -28px; bottom: -24px; }
 .sec-about { padding-bottom: 110px; }
+.about-visual .av-badge { bottom: -62px; left: -24px; }
+.sec-about { padding-bottom: 140px; }
