@@ -1562,3 +1562,7 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .pk5-more { display: inline-flex; align-items: center; justify-content: center; gap: 6px; margin-top: 12px; color: var(--muted); font-size: 13px; font-weight: 600; }
 .pk5-more:hover { color: var(--primary); }
 @media (max-width: 420px) { .pk5-feats { grid-template-columns: 1fr; } }
+.pk5-title { min-width: 0; }
+.pk5-title h3 { font-size: 18px; }
+.pk5-title h3 a { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.pk5-feats li { font-size: 12.5px; }
