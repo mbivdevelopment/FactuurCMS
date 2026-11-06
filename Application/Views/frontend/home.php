@@ -56,18 +56,8 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
             <div class="prose"><?= rich_text((string) setting('over.tekst', '') ?: (string) setting('website.intro', '')) ?></div>
             <div class="about-btns"><a class="btn btn-lg" href="<?= e(url('/over-ons')) ?>">Meer over ons <?= icon('arrow-right', 'icon icon-sm') ?></a><a class="btn btn-lg btn-ghost" href="<?= e(url('/contact')) ?>"><?= icon('chat', 'icon icon-sm') ?> Kennismaken</a></div>
         </div>
-        <div class="about-visual<?= $overImg !== '' ? ' has-img' : '' ?>">
-            <?php if ($overImg !== ''): ?><img src="<?= e($overImg) ?>" alt="<?= e(company_name()) ?>"><?php else: ?>
-                <div class="av-card">
-                    <div class="av-head"><span class="av-dot"></span><span class="av-dot"></span><span class="av-dot"></span><small>Eigen infrastructuur · Nederland</small></div>
-                    <div class="av-rack"><?php foreach (['Webhosting', 'Cloud VPS', 'E-mail', 'Back-ups'] as $r): ?><span><i></i><i></i><i></i><em><?= $r ?></em><b></b></span><?php endforeach; ?></div>
-                    <div class="av-stats">
-                        <div><?= icon('zap', 'icon icon-sm') ?><strong>99,9%</strong><small>uptime</small></div>
-                        <div><?= icon('headset', 'icon icon-sm') ?><strong>24/7</strong><small>monitoring</small></div>
-                        <?php if ($datacenters !== []): ?><div><?= icon('pin', 'icon icon-sm') ?><strong><?= count($datacenters) ?></strong><small>datacenter<?= count($datacenters) === 1 ? '' : 's' ?></small></div><?php else: ?><div><?= icon('server', 'icon icon-sm') ?><strong>NVMe</strong><small>opslag</small></div><?php endif; ?>
-                    </div>
-                </div>
-            <?php endif; ?>
+        <div class="about-visual has-img about-illu<?= $overImg !== '' ? ' is-photo' : '' ?>">
+            <img src="<?= e($overImg !== '' ? $overImg : asset('img/over-team.webp')) ?>" alt="<?= e(company_name()) ?>" loading="lazy">
             <div class="av-badge"><?= icon('shield') ?><div><strong>Ijzersterk verbonden</strong><small>Eigen netwerk en datacenters</small></div></div>
         </div>
     </div>

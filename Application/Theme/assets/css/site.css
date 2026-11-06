@@ -1394,3 +1394,6 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .rsn-i { flex: none; width: 54px; height: 54px; margin-bottom: 0; }
 .rsn h3 { font-size: 18px; margin: 4px 0 6px; }
 .rsn p { max-width: none; font-size: 14.5px; }
+.about-illu img { width: 100%; display: block; border-radius: 8px; box-shadow: none; }
+.about-illu.is-photo img { box-shadow: var(--shadow-lg); }
+.about-illu .av-badge { left: 0; bottom: 6px; }
