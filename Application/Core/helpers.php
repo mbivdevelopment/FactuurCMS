@@ -315,9 +315,18 @@ function pagination(array $page): string
     }
     $query = $_GET;
     $html = '<nav class="pagination">';
-    for ($i = 1; $i <= $page['pages']; $i++) {
-        $query['page'] = $i;
-        $html .= '<a href="?' . e(http_build_query($query)) . '"' . ($i === $page['page'] ? ' class="active"' : '') . '>' . $i . '</a>';
+    if ($page['page'] > 1) {
+        $query['page'] = $page['page'] - 1;
+        $html .= '<a class="page-nav" href="?' . e(http_build_query($query)) . '">&larr; Vorige</a>';
+    } else {
+        $html .= '<span class="page-nav disabled">&larr; Vorige</span>';
+    }
+    $html .= '<span class="page-info">Pagina ' . $page['page'] . ' van ' . $page['pages'] . '</span>';
+    if ($page['page'] < $page['pages']) {
+        $query['page'] = $page['page'] + 1;
+        $html .= '<a class="page-nav" href="?' . e(http_build_query($query)) . '">Volgende &rarr;</a>';
+    } else {
+        $html .= '<span class="page-nav disabled">Volgende &rarr;</span>';
     }
 
     return $html . '</nav>';
