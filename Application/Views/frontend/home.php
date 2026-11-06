@@ -84,14 +84,7 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
         </div>
         <div class="succ-band"><div><?= icon('shield') ?><strong>Veilig in Nederland</strong><span>ISO 27001-gecertificeerde datacenters, dagelijkse back-ups en 24/7 monitoring.</span></div><a class="btn btn-ghost" href="<?= e(url('/over-ons')) ?>">Meer over ons netwerk <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
     </div>
-</section><a class="btn" href="<?= e(url($kindUrl($k))) ?>">Meer over <?= e(mb_strtolower(\App\Models\Product::soortLabel($k))) ?> <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
-                </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </div>
 </section>
-<?php endif; ?>
 
 <?php if ($packages !== []): ?>
 <section class="sec sec-plans">
