@@ -44,7 +44,7 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
             <?= $partial('frontend._domain-search', ['placeholder' => 'jouwdomein.nl']) ?>
             <?php if ($extProducts !== []): ?>
             <div class="dfind-exts">
-                <?php foreach (array_slice($extProducts, 0, 8) as $p): ?><a href="<?= e(url($p->path())) ?>"><strong><?= e($p->extensionLabel()) ?></strong><span><?= e(money((int) $p->Prijs)) ?></span><small>per jaar</small></a><?php endforeach; ?>
+                <?php foreach (array_slice($extProducts, 0, 11) as $p): ?><a href="<?= e(url($p->path())) ?>"><strong><?= e($p->extensionLabel()) ?></strong><span><?= e(money((int) $p->Prijs)) ?></span><small>per jaar</small></a><?php endforeach; ?>
                 <a class="dfind-all" href="<?= e(url('/domeinen')) ?>">Alle extensies <?= icon('arrow-right', 'icon icon-sm') ?></a>
             </div>
             <?php endif; ?>
