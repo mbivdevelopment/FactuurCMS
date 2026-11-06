@@ -1286,3 +1286,5 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .mode-transfer .is-vrij .act-trans, .mode-transfer .is-bezet .act-trans, .mode-transfer .is-onbekend .act-trans { display: flex; }
 .mode-transfer .is-vrij .act-trans .btn, .mode-transfer .is-bezet .act-trans .btn, .mode-transfer .is-onbekend .act-trans .btn { background: var(--primary); border-color: var(--primary); color: #fff; }
 .mode-transfer .is-vrij .act-reg .btn { background: #fff; border-color: var(--line); color: var(--navy); }
+.dtransfer-note { display: block; line-height: 1.6; }
+.dtransfer-note .icon { vertical-align: -3px; margin-right: 4px; }
