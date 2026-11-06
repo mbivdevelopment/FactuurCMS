@@ -1397,3 +1397,7 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .about-illu img { width: 100%; display: block; border-radius: 8px; box-shadow: none; }
 .about-illu.is-photo img { box-shadow: var(--shadow-lg); }
 .about-illu .av-badge { left: 0; bottom: 6px; }
+.rsn { align-items: center; padding: 22px 24px; }
+.rsn h3 { margin: 0 0 3px; }
+.rsn p { font-size: 14px; line-height: 1.45; }
+@media (min-width: 1100px) { .rsn p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .rsn > div { min-width: 0; } }
