@@ -89,12 +89,12 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
         <div class="sec-head center"><div><span class="eyebrow"><?= icon('heart', 'icon icon-sm') ?> Waarom <?= e(company_name()) ?></span><h2>Vind jouw online succes</h2><p>Geen gedoe, geen verrassingen: wij regelen de techniek zodat jij kunt ondernemen.</p></div></div>
         <div class="rsn-grid">
             <?php foreach ([
-                ['headset', 'Persoonlijke support', 'Een specialist die je kent en meedenkt — geen wachtrijen.'],
-                ['zap', 'Razendsnelle hosting', 'NVMe, LiteSpeed en caching: je website laadt merkbaar sneller.'],
-                ['tag', 'Duidelijke prijzen', 'Vooraf duidelijk wat je betaalt, zonder verborgen kosten.'],
-                ['shield', 'Veilig in Nederland', 'ISO 27001-datacenters, 24/7 monitoring, data binnen de EU.'],
-                ['refresh', 'Dagelijkse back-ups', 'Elke nacht een back-up, zelf terug te zetten vanuit je paneel.'],
-                ['box', 'Alles onder één dak', 'Domeinen, hosting, e-mail, servers en ICT bij één partner.'],
+                ['headset', 'Persoonlijke support', 'Een specialist die je kent en meedenkt.'],
+                ['zap', 'Razendsnelle hosting', 'NVMe en LiteSpeed: merkbaar snellere websites.'],
+                ['tag', 'Duidelijke prijzen', 'Vooraf duidelijk, zonder verborgen kosten.'],
+                ['shield', 'Veilig in Nederland', 'ISO 27001-datacenters, data binnen de EU.'],
+                ['refresh', 'Dagelijkse back-ups', 'Elke nacht een back-up, zelf terug te zetten.'],
+                ['box', 'Alles onder één dak', 'Domeinen, hosting, servers en ICT bij één partner.'],
             ] as [$ic, $t, $txt]): ?>
             <div class="rsn"><span class="rsn-i"><?= icon($ic) ?></span><div><h3><?= e($t) ?></h3><p><?= e($txt) ?></p></div></div>
             <?php endforeach; ?>
