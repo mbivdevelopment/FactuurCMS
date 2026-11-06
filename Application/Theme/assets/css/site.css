@@ -1405,3 +1405,48 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .rsn { padding: 20px 20px; gap: 16px; }
 .rsn-i { width: 50px; height: 50px; }
 .rsn p { font-size: 13.5px; }
+
+/* ===== Pakketkaarten v2 ===== */
+.sec-plans { background: #fff; }
+.pk-grid { gap: 24px; padding-top: 18px; align-items: stretch; }
+.pk.pk2 { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 0; color: var(--navy); box-shadow: 0 6px 24px rgba(11, 21, 51, .06); overflow: visible; transition: transform .18s, box-shadow .18s, border-color .18s; }
+.pk.pk2:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: color-mix(in srgb, var(--primary) 40%, #fff); }
+.pk.pk2.pk-hot { background: #fff; color: var(--navy); border: 2px solid var(--primary); box-shadow: 0 18px 44px color-mix(in srgb, var(--primary) 18%, transparent); }
+.pk2 .pk-badge { top: -14px; border-radius: 8px; font-size: 12px; padding: 6px 14px; }
+.pk2 .pk-head { padding: 30px 26px 0; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.pk2 .pk-i { width: 56px; height: 56px; border-radius: 8px; background: var(--accent-soft); color: var(--primary); margin-bottom: 6px; }
+.pk2.pk-hot .pk-i { background: var(--primary); color: #fff; box-shadow: 0 10px 24px color-mix(in srgb, var(--primary) 35%, transparent); }
+.pk2 .pk-kind { margin: 0; }
+.pk2.pk-hot .pk-kind { background: var(--accent-soft); color: var(--primary); }
+.pk2 h3 { margin: 2px 0 0; font-size: 22px; font-weight: 800; letter-spacing: -.01em; line-height: 1.2; }
+.pk2 .pk-desc { margin: 4px 0 0; color: var(--muted); font-size: 14px; line-height: 1.5; min-height: 42px; }
+.pk2.pk-hot .pk-desc { color: var(--muted); }
+.pk2 .pk-price { margin: 22px 26px 0; padding: 18px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: center; display: block; }
+.pk2.pk-hot .pk-price { border-color: var(--line); }
+.pk2 .pk-amount { display: flex; align-items: baseline; justify-content: center; gap: 8px; }
+.pk2 .pk-eur { font-size: 40px; font-weight: 800; letter-spacing: -.03em; line-height: 1; color: var(--navy); }
+.pk2 .pk-eur sup { font-size: 18px; top: 4px; }
+.pk2 .pk-per { color: var(--muted); font-weight: 600; font-size: 14px; }
+.pk2.pk-hot .pk-per, .pk2.pk-hot .pk-vat { color: var(--muted); }
+.pk2 .pk-vat { margin-top: 6px; font-size: 12.5px; color: var(--muted); }
+.pk2 .pk-feats { list-style: none; margin: 0; padding: 20px 26px 0; display: grid; gap: 0; flex: 1; align-content: start; }
+.pk2 .pk-feats li { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-radius: 0; font-size: 14.5px; background: none; border-bottom: 1px dashed var(--line); }
+.pk2 .pk-feats li:last-child { border-bottom: 0; }
+.pk2 .pk-feats li:nth-child(odd) { background: none; }
+.pk2 .pk-fi { width: 22px; height: 22px; border-radius: 50%; background: #dcfce7; color: #15803d; box-shadow: none; }
+.pk2 .pk-fi .icon { width: 13px; height: 13px; }
+.pk2 .pk-feats li.pk-plus { padding-left: 0; justify-content: center; }
+.pk2 .pk-feats li.pk-plus a { color: var(--primary); font-weight: 700; font-size: 13.5px; }
+.pk2 .pk-actions { padding: 22px 26px 26px; display: flex; flex-direction: column; gap: 10px; align-items: stretch; margin-top: auto; }
+.pk2 .pk-btn { justify-content: center; margin-top: 0; width: 100%; }
+.pk2.pk-hot .pk-btn { background: var(--primary); border-color: var(--primary); color: #fff; }
+.pk2:not(.pk-hot) .pk-btn { background: var(--navy); border-color: var(--navy); color: #fff; }
+.pk2:not(.pk-hot) .pk-btn:hover { background: var(--primary); border-color: var(--primary); box-shadow: 0 10px 24px color-mix(in srgb, var(--primary) 32%, transparent); }
+.pk2 .pk-more { display: inline-flex; justify-content: center; align-items: center; gap: 6px; color: var(--muted); font-size: 13.5px; font-weight: 600; }
+.pk2 .pk-more:hover { color: var(--primary); }
+.pk-note { display: flex; justify-content: center; align-items: center; gap: 22px; flex-wrap: wrap; margin-top: 30px; color: var(--muted); font-size: 14px; }
+.pk-note span { display: inline-flex; align-items: center; gap: 6px; }
+.pk-note span .icon { color: #16a34a; }
+.pk-note .btn { margin-left: 10px; }
+@media (max-width: 1100px) { .pk-grid.pk-n4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .pk-grid.pk-n4, .pk-grid.pk-n3, .pk-grid.pk-n2 { grid-template-columns: 1fr; } }
