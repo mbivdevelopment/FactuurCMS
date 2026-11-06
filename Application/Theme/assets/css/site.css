@@ -1576,28 +1576,27 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 
 /* ===== Pakketkaart = voorbeeld D (1-op-1) ===== */
 /* Pakketkaart (pk7): sluit aan op dienst- en redenen-blokken */
-.pk.pk7 { position: relative; display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 28px 26px 24px; color: var(--navy); box-shadow: 0 6px 24px rgba(11, 21, 51, .06); overflow: visible; transition: box-shadow .18s, transform .18s; }
+.pk.pk7 { position: relative; display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 0 0 22px; color: var(--navy); box-shadow: 0 6px 24px rgba(11, 21, 51, .06); overflow: hidden; transition: box-shadow .18s, transform .18s; }
 .pk.pk7::before { display: none; }
 .pk.pk7:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(11, 21, 51, .1); border-color: var(--line); }
 .pk.pk7.pk-hot { background: #fff; color: var(--navy); border-color: var(--primary); box-shadow: 0 16px 40px rgba(255, 90, 31, .14); }
 .pk.pk7.pk-hot:hover { border-color: var(--primary); box-shadow: 0 22px 48px rgba(255, 90, 31, .18); }
-.pk7-hot { position: absolute; top: 22px; right: 22px; background: var(--accent-soft); color: var(--primary); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; padding: 5px 10px; border-radius: 8px; }
-.pk7-k { display: block; font-size: 11.5px; color: var(--primary); font-weight: 800; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 6px; }
-.pk7-t { margin: 0; font-size: 24px; font-weight: 800; line-height: 1.15; letter-spacing: -.02em; }
-.pk7-t a { color: var(--navy); }
-.pk7-d { color: var(--muted); font-size: 14px; margin: 8px 0 0; min-height: 42px; line-height: 1.5; }
-.pk7-pr { margin: 22px 0 24px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; line-height: 1; }
-.pk7-pr b { font-size: 40px; letter-spacing: -.04em; font-weight: 800; white-space: nowrap; }
-.pk7.pk-hot .pk7-pr b { color: var(--primary); }
-.pk7-pr span { font-size: 14px; color: var(--muted); font-weight: 600; }
-.pk7-f { list-style: none; margin: 0 0 24px; padding: 0; display: grid; gap: 10px; flex: 1; align-content: start; }
-.pk7-f li { display: flex; gap: 10px; align-items: center; font-size: 14px; color: #2b3756; line-height: 1.35; }
-.pk7-ck { width: 18px; height: 18px; border-radius: 50%; background: #dcfce7; color: #15803d; display: inline-grid; place-items: center; flex: none; font-style: normal; }
-.pk7-ck .icon { width: 11px; height: 11px; }
-.site .pk7-btn { display: flex; justify-content: center; align-items: center; height: 48px; border-radius: 8px; font-weight: 700; font-size: 15px; color: #fff; background: var(--navy); border-color: var(--navy); width: 100%; margin: 0 0 12px; }
+.pk7-hot { position: absolute; top: 0; right: 0; background: var(--primary); color: #fff; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; padding: 5px 12px; border-radius: 0 0 0 8px; }
+.pk7-head { text-align: center; padding: 26px 22px 20px; border-bottom: 1px solid var(--line); }
+.pk7-k { display: block; font-size: 13.5px; color: var(--navy); font-weight: 700; margin-bottom: 2px; }
+.pk7-t { margin: 0; font-size: 30px; font-weight: 700; line-height: 1.15; letter-spacing: -.02em; }
+.pk7-t a { color: var(--primary); }
+.pk7-pr { margin: 0; padding: 22px 22px 18px; text-align: center; line-height: 1; }
+.pk7-pr b { display: block; font-size: 38px; letter-spacing: -.04em; font-weight: 800; white-space: nowrap; }
+.pk7-pr span { display: block; margin-top: 8px; font-size: 13.5px; color: var(--muted); font-weight: 600; }
+.site .pk7-btn { display: flex; justify-content: center; align-items: center; height: 46px; border-radius: 8px; font-weight: 700; font-size: 15px; color: #fff; background: var(--navy); border-color: var(--navy); margin: 0 22px 22px; }
 .site .pk7-btn:hover { background: var(--navy-2); border-color: var(--navy-2); transform: none; box-shadow: none; }
 .site .pk7.pk-hot .pk7-btn { background: var(--primary); border-color: var(--primary); }
 .site .pk7.pk-hot .pk7-btn:hover { background: #e84d12; border-color: #e84d12; }
+.pk7-f { list-style: none; margin: 0 0 18px; padding: 22px 22px 0; border-top: 1px solid var(--line); display: grid; gap: 10px; flex: 1; align-content: start; }
+.pk7-f li { display: flex; gap: 10px; align-items: center; font-size: 14px; color: #2b3756; line-height: 1.35; }
+.pk7-ck { width: 18px; height: 18px; border-radius: 50%; background: #dcfce7; color: #15803d; display: inline-grid; place-items: center; flex: none; font-style: normal; }
+.pk7-ck .icon { width: 11px; height: 11px; }
 .pk7-more { display: block; text-align: center; font-size: 13px; font-weight: 600; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
 .pk7-more:hover { color: var(--primary); }
 @media (max-width: 1100px) { .pk-grid, .pk-grid.pk-n4, .pk-grid.pk-n3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
