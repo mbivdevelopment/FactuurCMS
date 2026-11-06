@@ -54,8 +54,8 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
 </section>
 
 <?php if ($cards !== []): ?>
-<section class="sec">
-    <div class="container">
+<section class="sec kc-sec">
+    <div class="container"><div class="kc-wrap">
         <div class="sec-head center"><div><span class="eyebrow"><?= icon('star', 'icon icon-sm') ?> Onze diensten</span><h2>Internet voor elk idee</h2><p>Van eerste website tot eigen server: alles wat je online nodig hebt, bij één betrouwbare partner.</p></div></div>
         <div class="kc-grid kc-n<?= count($cards) ?>">
             <?php foreach ($cards as $k => $kp): $b = array_slice(\App\Services\PageContent::benefits($k), 0, 3); ?>
@@ -70,7 +70,7 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
             </a>
             <?php endforeach; ?>
         </div>
-    </div>
+    </div></div>
 </section>
 <?php endif; ?>
 
