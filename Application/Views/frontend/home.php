@@ -18,11 +18,6 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
             <span class="hh-label"><?= icon('server', 'icon icon-sm') ?> <?= e((string) (setting('home.label', '') ?: 'Hosting & cloud uit Nederland')) ?></span>
             <h1><?= $homeTitle ?></h1>
             <p><?= e($homeText) ?></p>
-            <ul class="hh-checks">
-                <li><?= icon('check', 'icon icon-sm') ?> Gratis SSL en dagelijkse back-ups</li>
-                <li><?= icon('check', 'icon icon-sm') ?> Nederlandse datacenters, 24/7 monitoring</li>
-                <li><?= icon('check', 'icon icon-sm') ?> Persoonlijke support van specialisten</li>
-            </ul>
             <div class="hh-btns"><a class="btn btn-lg" href="<?= e(url('/oplossingen/webhosting')) ?>"><?= icon('box', 'icon icon-sm') ?> Bekijk hosting</a><a class="btn btn-lg btn-ghost" href="<?= e(url('/diensten')) ?>">Alle diensten <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
         </div>
         <div class="hh-visual">
