@@ -1501,3 +1501,32 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .pk3-specs div { flex-direction: row; text-align: left; gap: 10px; padding: 9px 12px; }
 .pk3-specs strong { font-size: 13.5px; overflow-wrap: normal; }
 .pk3-si { width: 30px; height: 30px; flex: none; }
+
+/* ===== Pakketkaarten v4: rustig, wit, prijs centraal ===== */
+.pk.pk4 { position: relative; display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 30px 28px 26px; color: var(--navy); overflow: visible; box-shadow: 0 4px 18px rgba(11, 21, 51, .05); transition: transform .18s, box-shadow .18s, border-color .18s; }
+.pk.pk4:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: #d6dbe7; }
+.pk.pk4.pk-hot { background: #fff; color: var(--navy); border-color: var(--primary); box-shadow: 0 14px 40px color-mix(in srgb, var(--primary) 16%, transparent); }
+.pk.pk4.pk-hot::before { content: ''; position: absolute; left: -1px; right: -1px; top: -1px; height: 4px; background: var(--primary); border-radius: 8px 8px 0 0; }
+.pk4-badge { position: absolute; top: 14px; right: 14px; display: inline-flex; align-items: center; gap: 5px; background: var(--primary); color: #fff; font-size: 11.5px; font-weight: 700; letter-spacing: .03em; padding: 5px 10px; border-radius: 8px; white-space: nowrap; }
+.pk4-kind { display: block; font-size: 11.5px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; color: var(--primary); margin-bottom: 8px; }
+.pk4-head h3 { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -.015em; line-height: 1.15; }
+.pk4-head h3 a { color: var(--navy); }
+.pk4-head h3 a:hover { color: var(--primary); }
+.pk4-head p { margin: 8px 0 0; color: var(--muted); font-size: 14px; line-height: 1.5; min-height: 42px; }
+.pk4-price { margin: 22px 0 18px; padding: 18px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.pk4-amount { display: flex; align-items: flex-start; gap: 2px; line-height: 1; }
+.pk4-cur { font-size: 20px; font-weight: 700; color: var(--muted); margin-top: 6px; margin-right: 3px; }
+.pk4-eur { font-size: 46px; font-weight: 800; letter-spacing: -.035em; color: var(--navy); }
+.pk4-cent { font-size: 18px; font-weight: 700; color: var(--navy); margin-top: 5px; }
+.pk4-per { align-self: flex-end; color: var(--muted); font-size: 14px; font-weight: 600; margin: 0 0 6px 8px; }
+.pk4-sub { margin-top: 10px; font-size: 12.5px; color: var(--muted); }
+.pk4 .pk-btn { justify-content: center; width: 100%; margin: 0; background: var(--navy); border-color: var(--navy); color: #fff; height: 48px; }
+.pk4 .pk-btn:hover { background: var(--primary); border-color: var(--primary); box-shadow: 0 10px 24px color-mix(in srgb, var(--primary) 32%, transparent); }
+.pk4.pk-hot .pk-btn { background: var(--primary); border-color: var(--primary); }
+.pk4.pk-hot .pk-btn:hover { background: #e84d12; border-color: #e84d12; }
+.pk4-feats { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 11px; flex: 1; align-content: start; }
+.pk4-feats li { display: flex; align-items: center; gap: 11px; font-size: 14.5px; color: #2b3756; }
+.pk4-fi { width: 28px; height: 28px; flex: none; border-radius: 8px; background: var(--soft); border: 1px solid var(--line); color: var(--primary); display: grid; place-items: center; }
+.pk4-fi .icon { width: 14px; height: 14px; }
+.pk4-more { display: inline-flex; align-items: center; gap: 6px; margin-top: 22px; color: var(--muted); font-size: 13.5px; font-weight: 600; }
+.pk4-more:hover { color: var(--primary); gap: 9px; }
