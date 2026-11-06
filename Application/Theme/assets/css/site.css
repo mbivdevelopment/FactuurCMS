@@ -1261,3 +1261,5 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .tp-tab { padding: 11px 14px; }
 @media (max-width: 900px) { .prod-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 520px) { .prod-tiles { grid-template-columns: 1fr; } }
+.kc-foot { flex-wrap: wrap; }
+.kc-foot .btn-sm { margin-left: auto; }
