@@ -97,12 +97,18 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
 <section class="sec sec-succ">
     <div class="container">
         <div class="sec-head center"><div><span class="eyebrow"><?= icon('heart', 'icon icon-sm') ?> Waarom <?= e(company_name()) ?></span><h2>Vind jouw online succes</h2><p>Geen gedoe, geen verrassingen: wij regelen de techniek zodat jij kunt ondernemen.</p></div></div>
-        <div class="succ-grid">
-            <div class="succ"><span class="succ-i"><?= icon('headset') ?></span><h3>Fantastische support</h3><p>Even snel iets regelen of een lastig probleem? Je krijgt een specialist aan de lijn die je kent en meedenkt — geen scripts, geen wachtrijen.</p><a href="<?= e(url('/contact')) ?>">Kom in contact <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
-            <div class="succ"><span class="succ-i"><?= icon('zap') ?></span><h3>Snelste hosting</h3><p>NVMe-opslag, LiteSpeed en serverside caching in Nederlandse datacenters. Je website laadt merkbaar sneller — goed voor bezoekers én Google.</p><a href="<?= e(url('/oplossingen/webhosting')) ?>">Bekijk webhosting <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
-            <div class="succ"><span class="succ-i"><?= icon('tag') ?></span><h3>Duidelijke prijzen</h3><p>Je ziet vooraf precies wat je betaalt, zonder verborgen kosten of verrassingen bij verlenging. Maandelijks opzegbaar waar het kan.</p><a href="<?= e(url('/diensten')) ?>">Bekijk de prijzen <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+        <div class="rsn-grid">
+            <?php foreach ([
+                ['headset', 'Persoonlijke support', 'Je krijgt een specialist aan de lijn die je kent en meedenkt — geen scripts, geen wachtrijen.'],
+                ['zap', 'Razendsnelle hosting', 'NVMe-opslag, LiteSpeed en caching in Nederlandse datacenters: je website laadt merkbaar sneller.'],
+                ['tag', 'Duidelijke prijzen', 'Je ziet vooraf precies wat je betaalt. Geen verborgen kosten en geen verrassingen bij verlenging.'],
+                ['shield', 'Veilig in Nederland', 'ISO 27001-gecertificeerde datacenters, 24/7 monitoring en je data binnen de EU.'],
+                ['refresh', 'Dagelijkse back-ups', 'Elke nacht een back-up op een aparte locatie, zelf terug te zetten vanuit je paneel.'],
+                ['box', 'Alles onder één dak', 'Domeinen, hosting, e-mail, servers en ICT bij één partner — met één aanspreekpunt en één factuur.'],
+            ] as [$ic, $t, $txt]): ?>
+            <div class="rsn"><span class="rsn-i"><?= icon($ic) ?></span><h3><?= e($t) ?></h3><p><?= e($txt) ?></p></div>
+            <?php endforeach; ?>
         </div>
-        <div class="succ-band"><div><?= icon('shield') ?><strong>Veilig in Nederland</strong><span>ISO 27001-gecertificeerde datacenters, dagelijkse back-ups en 24/7 monitoring.</span></div><a class="btn btn-ghost" href="<?= e(url('/over-ons')) ?>">Meer over ons netwerk <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
     </div>
 </section>
 

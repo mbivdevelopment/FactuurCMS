@@ -1381,3 +1381,12 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .sec-succ::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(11, 21, 51, .035) 1px, transparent 1px), linear-gradient(90deg, rgba(11, 21, 51, .035) 1px, transparent 1px); background-size: 44px 44px; pointer-events: none; }
 .sec-succ .container { position: relative; z-index: 1; }
 .sec-succ .succ, .sec-succ .succ-band { border-color: #fff; }
+/* Waarom Qevanto: zes redenen, niet klikbaar */
+.rsn-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+.rsn { background: #fff; border: 1px solid #fff; border-radius: 8px; padding: 34px 28px 30px; text-align: center; box-shadow: 0 6px 24px rgba(11, 21, 51, .06); display: flex; flex-direction: column; align-items: center; }
+.rsn-i { width: 60px; height: 60px; border-radius: 8px; background: var(--primary); color: #fff; display: grid; place-items: center; margin-bottom: 18px; box-shadow: 0 12px 26px color-mix(in srgb, var(--primary) 35%, transparent); }
+.rsn-i .icon { width: 26px; height: 26px; }
+.rsn h3 { margin: 0 0 8px; font-size: 19px; letter-spacing: -.01em; }
+.rsn p { margin: 0; color: var(--muted); font-size: 14.5px; line-height: 1.6; max-width: 320px; }
+@media (max-width: 1000px) { .rsn-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .rsn-grid { grid-template-columns: 1fr; } }
