@@ -1497,3 +1497,7 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .pk3-specs strong { font-size: 12px; hyphens: manual; overflow-wrap: anywhere; }
 .pk3-specs div { padding: 12px 4px; }
 .pk3-top p { min-height: 0; }
+.pk3-specs, .pk3-specs.pk3-n2, .pk3-specs.pk3-n1 { grid-template-columns: 1fr; gap: 6px; }
+.pk3-specs div { flex-direction: row; text-align: left; gap: 10px; padding: 9px 12px; }
+.pk3-specs strong { font-size: 13.5px; overflow-wrap: normal; }
+.pk3-si { width: 30px; height: 30px; flex: none; }
