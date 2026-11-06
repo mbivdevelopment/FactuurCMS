@@ -1314,3 +1314,10 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .dfind-exts small { font-size: 10.5px; }
 .dfind-note { margin-top: 10px; font-size: 12.5px; }
 @media (max-width: 900px) { .hero2 { padding-bottom: 90px; } }
+/* Grijs svg-blok over de volle breedte, container 1600px erbinnen */
+.kc-sec { position: relative; overflow: hidden; padding: 80px 0; background: #f3f5f9 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='700' viewBox='0 0 1600 700' fill='none' stroke='%230b1533' stroke-opacity='.06' stroke-width='1.5'%3E%3Ccircle cx='1440' cy='80' r='240'/%3E%3Ccircle cx='1440' cy='80' r='360'/%3E%3Ccircle cx='1440' cy='80' r='480'/%3E%3Ccircle cx='120' cy='660' r='200'/%3E%3Ccircle cx='120' cy='660' r='320'/%3E%3Cpath d='M0 480 Q 400 400 800 500 T 1600 460'/%3E%3Cpath d='M0 540 Q 400 460 800 560 T 1600 520'/%3E%3C/svg%3E") center / cover no-repeat; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.kc-sec::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(rgba(11, 21, 51, .06) 1px, transparent 1px); background-size: 22px 22px; pointer-events: none; }
+.kc-sec .container { position: relative; z-index: 1; }
+.kc-wrap { background: none; border: 0; border-radius: 0; padding: 0; overflow: visible; }
+.kc-wrap::before { display: none; }
+@media (max-width: 700px) { .kc-sec { padding: 48px 0; } .kc-wrap { padding: 0; } }
