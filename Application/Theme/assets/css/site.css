@@ -1323,3 +1323,19 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 @media (max-width: 700px) { .kc-sec { padding: 48px 0; } .kc-wrap { padding: 0; } }
 .dfind { padding-bottom: 60px; }
 .dfind { padding-bottom: 100px; }
+/* Vind jouw online succes: wit, gecentreerd */
+.sec-succ { background: #fff; }
+.succ-grid { gap: 24px; }
+.succ { align-items: center; text-align: center; padding: 40px 32px 34px; border-radius: 8px; box-shadow: 0 6px 24px rgba(11, 21, 51, .06); border-color: var(--line); }
+.succ:hover { border-color: color-mix(in srgb, var(--primary) 40%, #fff); box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+.succ { transition: transform .18s, box-shadow .18s, border-color .18s; }
+.succ-i { width: 64px; height: 64px; border-radius: 8px; background: var(--primary); box-shadow: 0 12px 26px color-mix(in srgb, var(--primary) 35%, transparent); margin-bottom: 20px; }
+.succ-i .icon { color: #fff; width: 28px; height: 28px; }
+.succ h3 { font-size: 21px; margin-bottom: 10px; }
+.succ p { font-size: 15px; max-width: 340px; margin-left: auto; margin-right: auto; }
+.succ a { justify-content: center; padding: 10px 18px; border: 1px solid var(--line); border-radius: 8px; color: var(--navy); }
+.succ a:hover { gap: 6px; border-color: var(--primary); color: var(--primary); }
+.succ-band { margin-top: 28px; justify-content: center; text-align: center; background: #fff; border: 1px solid var(--line); padding: 20px 28px; box-shadow: 0 6px 24px rgba(11, 21, 51, .06); }
+.succ-band > div { flex-wrap: wrap; justify-content: center; }
+.succ-band strong { display: inline; margin-right: 6px; }
+@media (max-width: 900px) { .succ-band { flex-direction: column; } }

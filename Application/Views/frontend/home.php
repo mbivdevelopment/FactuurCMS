@@ -74,7 +74,7 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
 </section>
 <?php endif; ?>
 
-<section class="sec sec-alt">
+<section class="sec sec-succ">
     <div class="container">
         <div class="sec-head center"><div><span class="eyebrow"><?= icon('heart', 'icon icon-sm') ?> Waarom <?= e(company_name()) ?></span><h2>Vind jouw online succes</h2><p>Geen gedoe, geen verrassingen: wij regelen de techniek zodat jij kunt ondernemen.</p></div></div>
         <div class="succ-grid">
