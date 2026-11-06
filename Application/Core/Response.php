@@ -96,6 +96,10 @@ final class Response
             header('X-Frame-Options: SAMEORIGIN');
             header('X-Content-Type-Options: nosniff');
             header('Referrer-Policy: same-origin');
+            header('Permissions-Policy: camera=(), microphone=(), geolocation=()');
+            if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+                header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
+            }
             foreach ($this->headers as $name => $value) {
                 header($name . ': ' . $value);
             }

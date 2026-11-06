@@ -48,7 +48,7 @@ $router->group('', ['csrf', 'guest'], static function ($router): void {
     $router->get('/wachtwoord-vergeten', 'Auth\\AuthController@forgotForm');
     $router->post('/wachtwoord-vergeten', 'Auth\\AuthController@forgot', ['throttle:wachtwoord,5,60']);
     $router->get('/wachtwoord-herstellen/{token}', 'Auth\\AuthController@resetForm');
-    $router->post('/wachtwoord-herstellen/{token}', 'Auth\\AuthController@reset');
+    $router->post('/wachtwoord-herstellen/{token}', 'Auth\\AuthController@reset', ['throttle:wachtwoord,5,60']);
 });
 $router->post('/uitloggen', 'Auth\\AuthController@logout', ['csrf']);
 
