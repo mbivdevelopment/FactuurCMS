@@ -40,7 +40,7 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
 <section class="dfind">
     <div class="container">
         <div class="dfind-card">
-            <div class="dfind-head"><span class="eyebrow"><?= icon('globe', 'icon icon-sm') ?> Domeinnaam</span><h2><?= e((string) (setting('hero.titel', '') ?: 'Begin met jouw domeinnaam')) ?></h2><p><?= e((string) (setting('hero.tekst', '') ?: 'Typ je naam en zie direct welke extensies vrij zijn. Inclusief gratis DNS-beheer en automatische verlenging.')) ?></p></div>
+            <div class="dfind-head"><span class="eyebrow"><?= icon('globe', 'icon icon-sm') ?> Domeinnaam</span><h2><?= e((string) (setting('hero.titel', '') ?: 'Begin met jouw domeinnaam')) ?></h2><p><?= e((string) (setting('hero.tekst', '') ?: 'Typ je naam en zie direct welke extensies vrij zijn — inclusief gratis DNS-beheer.')) ?></p></div>
             <?= $partial('frontend._domain-search', ['placeholder' => 'jouwdomein.nl']) ?>
             <?php if ($extProducts !== []): ?>
             <div class="dfind-exts">

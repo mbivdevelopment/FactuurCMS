@@ -1277,3 +1277,5 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .dfind-head { display: block; margin-bottom: 20px; }
 .dfind-head h2 { margin: 0 0 6px; }
 .dfind-head p { max-width: 640px; font-size: 15px; }
+.dfind-head p { max-width: none; }
+@media (min-width: 1000px) { .dfind-head p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } }
