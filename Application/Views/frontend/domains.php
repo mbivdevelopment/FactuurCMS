@@ -1,14 +1,15 @@
 <?php $extend('frontend', ['title' => $name !== '' ? 'Domeinnaam ' . $name : 'Domeinnaam zoeken']);
 $inCart = array_column($cart, 'actie', 'domein'); $total = array_sum(array_map(static fn (array $i): int => (int) $i['product']->Prijs, $cart));
 ?>
-<?= $partial('frontend._hero', ['title' => $name !== '' ? 'Domeinnaam "' . $name . '"' : 'Registreren of verhuizen', 'intro' => 'Typ je domeinnaam; wij laten per extensie zien of je hem kunt registreren of verhuizen.', 'icon' => 'globe', 'crumbs' => [['/oplossingen/domeinnaam-registreren', 'Domeinen'], [null, 'Zoeken']], 'searchValue' => $name]) ?>
+<?= $partial('frontend._hero', ['title' => $name !== '' ? ($actie === 'verhuizen' ? 'Verhuis "' . $name . '"' : 'Domeinnaam "' . $name . '"') : 'Registreren of verhuizen', 'intro' => 'Typ je domeinnaam; wij laten per extensie zien of je hem kunt registreren of verhuizen.', 'icon' => 'globe', 'crumbs' => [['/oplossingen/domeinnaam-registreren', 'Domeinen'], [null, 'Zoeken']], 'searchValue' => $name]) ?>
 <section class="sec"><div class="container">
 <?php if ($name === '' || $main === null): ?>
     <div class="sec-head center"><div><span class="eyebrow"><?= icon('globe', 'icon icon-sm') ?> Domeinextensies</span><h2>Kies je domeinnaam</h2><p>Typ alleen de naam, de extensies controleren wij. Prijzen per jaar, exclusief btw.</p></div></div>
     <?= $partial('frontend._extensions', ['domains' => array_values($products)]) ?>
 <?php else: $mainDomain = $name . '.' . $main; ?>
     <?php if ($typedExt !== null && !isset($products[$typedExt])): ?><div class="alert alert-bad">.<?= e($typedExt) ?> kunnen we (nog) niet leveren. Hieronder zie je de extensies die wel kunnen.</div><?php endif; ?>
-    <div class="dorder" data-domains>
+    <?php if ($actie === 'verhuizen'): ?><div class="alert dtransfer-note"><?= icon('refresh', 'icon icon-sm') ?> <strong>Domeinnaam verhuizen:</strong> klik op <b>Verhuizen</b> bij jouw domeinnaam. De verhuiscode (auth-code) vul je in bij het afrekenen; verhuizen is gratis en je lopende jaar blijft staan.</div><?php endif; ?>
+    <div class="dorder<?= $actie === 'verhuizen' ? ' mode-transfer' : '' ?>" data-domains>
         <div class="dorder-main">
             <div class="dmain is-laden<?= isset($inCart[$mainDomain]) ? ' in-cart' : '' ?>" data-row data-domain="<?= e($mainDomain) ?>">
                 <div class="dmain-l">

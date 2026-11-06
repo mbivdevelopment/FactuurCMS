@@ -43,7 +43,7 @@ final class DomainController extends Controller
             }
         }
 
-        return $this->view('frontend.domains', ['name' => $name, 'typedExt' => $ext, 'main' => $main, 'popular' => array_slice($popular, 0, 8), 'products' => $products, 'cart' => self::cart()]);
+        return $this->view('frontend.domains', ['name' => $name, 'typedExt' => $ext, 'main' => $main, 'popular' => array_slice($popular, 0, 8), 'products' => $products, 'cart' => self::cart(), 'actie' => $request->string('actie') === 'verhuizen' ? 'verhuizen' : '']);
     }
 
     public function check(Request $request): Response

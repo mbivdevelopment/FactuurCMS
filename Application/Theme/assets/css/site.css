@@ -1279,3 +1279,10 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .dfind-head p { max-width: 640px; font-size: 15px; }
 .dfind-head p { max-width: none; }
 @media (min-width: 1000px) { .dfind-head p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } }
+.dfind .dsearch .ds-transfer { background: #fff; border-color: var(--line); color: var(--navy); }
+.dfind .dsearch .ds-transfer:hover { border-color: var(--primary); color: var(--primary); }
+.dtransfer-note { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--primary) 35%, #fff); color: var(--navy); border-radius: 8px; padding: 14px 18px; margin-bottom: 18px; }
+.dtransfer-note .icon { color: var(--primary); }
+.mode-transfer .is-vrij .act-trans, .mode-transfer .is-bezet .act-trans, .mode-transfer .is-onbekend .act-trans { display: flex; }
+.mode-transfer .is-vrij .act-trans .btn, .mode-transfer .is-bezet .act-trans .btn, .mode-transfer .is-onbekend .act-trans .btn { background: var(--primary); border-color: var(--primary); color: #fff; }
+.mode-transfer .is-vrij .act-reg .btn { background: #fff; border-color: var(--line); color: var(--navy); }

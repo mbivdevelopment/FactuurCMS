@@ -41,14 +41,14 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
     <div class="container">
         <div class="dfind-card">
             <div class="dfind-head"><span class="eyebrow"><?= icon('globe', 'icon icon-sm') ?> Domeinnaam</span><h2><?= e((string) (setting('hero.titel', '') ?: 'Begin met jouw domeinnaam')) ?></h2><p><?= e((string) (setting('hero.tekst', '') ?: 'Typ je naam en zie direct welke extensies vrij zijn — inclusief gratis DNS-beheer.')) ?></p></div>
-            <?= $partial('frontend._domain-search', ['placeholder' => 'jouwdomein.nl']) ?>
+            <?= $partial('frontend._domain-search', ['placeholder' => 'jouwdomein.nl', 'transfer' => true]) ?>
             <?php if ($extProducts !== []): ?>
             <div class="dfind-exts">
                 <?php foreach (array_slice($extProducts, 0, 11) as $p): ?><a href="<?= e(url($p->path())) ?>"><strong><?= e($p->extensionLabel()) ?></strong><span><?= e(money((int) $p->Prijs)) ?></span><small>per jaar</small></a><?php endforeach; ?>
                 <a class="dfind-all" href="<?= e(url('/domeinen')) ?>">Alle extensies <?= icon('arrow-right', 'icon icon-sm') ?></a>
             </div>
             <?php endif; ?>
-            <div class="dfind-note">Prijzen excl. btw · Verhuizen kan ook: voer je domeinnaam in en kies "Verhuizen".</div>
+            <div class="dfind-note">Prijzen excl. btw · Bestaande domeinnaam? Voer hem in en klik op "Verhuizen" — gratis en je lopende jaar blijft staan.</div>
         </div>
     </div>
 </section>
