@@ -53,6 +53,31 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
     </div>
 </section>
 
+<section class="sec sec-about">
+    <div class="container about-split">
+        <div class="about-text">
+            <span class="eyebrow"><?= icon('building', 'icon icon-sm') ?> Over <?= e(company_name()) ?></span>
+            <h2 class="h-xl"><?= e((string) setting('over.titel', 'Over ons')) ?></h2>
+            <div class="prose"><?= rich_text((string) setting('over.tekst', '') ?: (string) setting('website.intro', '')) ?></div>
+            <div class="about-btns"><a class="btn btn-lg" href="<?= e(url('/over-ons')) ?>">Meer over ons <?= icon('arrow-right', 'icon icon-sm') ?></a><a class="btn btn-lg btn-ghost" href="<?= e(url('/contact')) ?>"><?= icon('chat', 'icon icon-sm') ?> Kennismaken</a></div>
+        </div>
+        <div class="about-visual<?= $overImg !== '' ? ' has-img' : '' ?>">
+            <?php if ($overImg !== ''): ?><img src="<?= e($overImg) ?>" alt="<?= e(company_name()) ?>"><?php else: ?>
+                <div class="av-card">
+                    <div class="av-head"><span class="av-dot"></span><span class="av-dot"></span><span class="av-dot"></span><small>Eigen infrastructuur · Nederland</small></div>
+                    <div class="av-rack"><?php foreach (['Webhosting', 'Cloud VPS', 'E-mail', 'Back-ups'] as $r): ?><span><i></i><i></i><i></i><em><?= $r ?></em><b></b></span><?php endforeach; ?></div>
+                    <div class="av-stats">
+                        <div><?= icon('zap', 'icon icon-sm') ?><strong>99,9%</strong><small>uptime</small></div>
+                        <div><?= icon('headset', 'icon icon-sm') ?><strong>24/7</strong><small>monitoring</small></div>
+                        <?php if ($datacenters !== []): ?><div><?= icon('pin', 'icon icon-sm') ?><strong><?= count($datacenters) ?></strong><small>datacenter<?= count($datacenters) === 1 ? '' : 's' ?></small></div><?php else: ?><div><?= icon('server', 'icon icon-sm') ?><strong>NVMe</strong><small>opslag</small></div><?php endif; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <div class="av-badge"><?= icon('shield') ?><div><strong>Ijzersterk verbonden</strong><small>Eigen netwerk en datacenters</small></div></div>
+        </div>
+    </div>
+</section>
+
 <?php if ($cards !== []): ?>
 <section class="sec kc-sec">
     <div class="container"><div class="kc-wrap">
@@ -113,26 +138,6 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
     </div>
 </section>
 <?php endif; ?>
-
-<section class="sec">
-    <div class="container about-split">
-        <div>
-            <span class="eyebrow"><?= icon('building', 'icon icon-sm') ?> Over <?= e(company_name()) ?></span>
-            <h2 class="h-xl"><?= e((string) setting('over.titel', 'Over ons')) ?></h2>
-            <div class="prose"><?= rich_text((string) setting('over.tekst', '') ?: (string) setting('website.intro', '')) ?></div>
-            <div class="row" style="margin-top:22px"><a class="btn btn-lg" href="<?= e(url('/over-ons')) ?>">Meer over ons <?= icon('arrow-right', 'icon icon-sm') ?></a><a class="btn btn-lg btn-ghost" href="<?= e(url('/contact')) ?>"><?= icon('chat', 'icon icon-sm') ?> Kennismaken</a></div>
-        </div>
-        <div class="about-visual<?= $overImg !== '' ? ' has-img' : '' ?>">
-            <?php if ($overImg !== ''): ?><img src="<?= e($overImg) ?>" alt="<?= e(company_name()) ?>"><?php else: ?>
-                <div class="av-card">
-                    <div class="av-rack"><?php for ($i = 0; $i < 4; $i++): ?><span><i></i><i></i><i></i><b></b></span><?php endfor; ?></div>
-                    <div class="av-stats"><div><strong>99,9%</strong><small>uptime</small></div><div><strong>24/7</strong><small>monitoring</small></div><?php if ($datacenters !== []): ?><div><strong><?= count($datacenters) ?></strong><small>datacenter<?= count($datacenters) === 1 ? '' : 's' ?></small></div><?php else: ?><div><strong>NVMe</strong><small>opslag</small></div><?php endif; ?></div>
-                </div>
-            <?php endif; ?>
-            <div class="av-badge"><?= icon('shield') ?><div><strong>Ijzersterk verbonden</strong><small>Eigen netwerk en datacenters</small></div></div>
-        </div>
-    </div>
-</section>
 
 <?php if ($projects !== []): ?>
 <section class="sec sec-alt">
