@@ -1,9 +1,30 @@
 <?php $extend('frontend', ['title' => (string) setting('website.titel', 'Hosting')]); $overImg = branding_url('over'); $heroImg = branding_url('hero');
-$homeTitle = preg_replace('/\{([^}]+)\}/', '<span>$1</span>', e((string) (setting('home.titel', '') ?: 'Hosting die gewoon {werkt}.')));
-$homeText = (string) (setting('home.tekst', '') ?: 'Bij ' . company_name() . ' draait je website, webshop of applicatie op snelle NVMe-servers in Nederlandse datacenters. Wij regelen de techniek, de beveiliging en de back-ups, zodat jij kunt ondernemen.'); ?>
-<section class="hhero">
+$homeTitle = preg_replace('/\{([^}]+)\}/', '<span>$1</span>', e((string) (setting('home.titel', '') ?: 'Het startpunt van jouw {online succes}.')));
+$homeText = (string) (setting('home.tekst', '') ?: 'Domeinnaam, hosting, e-mail en servers op snelle NVMe-infrastructuur in Nederlandse datacenters. Wij regelen de techniek, de beveiliging en de back-ups — jij onderneemt.');
+$per = static fn (string $p): string => ['maand' => 'p/m', 'kwartaal' => 'p/kw', 'jaar' => 'p/j'][$p] ?? 'eenmalig';
+$kindOrder = ['Webhosting', 'Domeinnamen', 'Cloud VPS', 'E-mail Hosting', 'Informatieve Websites', 'Reseller Hosting', 'Webshops', 'Marketing SEO'];
+$kindTag = ['Webhosting' => 'Klaar om mee te groeien', 'Domeinnamen' => 'Jouw naam, direct geregeld', 'Cloud VPS' => 'Flexibel, simpel, schaalbaar', 'E-mail Hosting' => 'Professionele e-mail op je domein', 'Informatieve Websites' => 'Een website die werkt', 'Reseller Hosting' => 'Hosting onder jouw merk', 'Webshops' => 'Verkoop zonder grenzen', 'Marketing SEO' => 'Gevonden worden in Google'];
+$cards = [];
+foreach ($kindOrder as $k) { if (isset($kindPrices[$k]) && count($cards) < 4) { $cards[$k] = $kindPrices[$k]; } }
+foreach ($kindPrices as $k => $v) { if (count($cards) < 4 && !isset($cards[$k])) { $cards[$k] = $v; } }
+$kindUrl = static fn (string $k): string => isset($soortPages[$k]) ? '/oplossingen/' . $soortPages[$k] : ($k === 'Domeinnamen' ? '/domeinen' : '/diensten#' . slugify($k));
+$tabs = [];
+foreach (['Domeinnamen', 'Webhosting', 'E-mail Hosting', 'Cloud VPS', 'Informatieve Websites', 'Webshops', 'VPN', 'Werkplek Beheer'] as $k) { if (isset($soortPages[$k]) || isset($kindPrices[$k])) { $tabs[] = $k; } }
+$score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent::faq(null, 'onze diensten', true); ?>
+<section class="hhero hero2">
     <div class="hh-float" aria-hidden="true"><?php foreach (['cloud', 'shield', 'server', 'globe', 'lock', 'zap', 'cpu', 'mail'] as $i => $ic): ?><span class="hh-f hh-f<?= $i ?>"><?= icon($ic) ?></span><?php endforeach; ?></div>
     <div class="container hh-in">
+        <div class="hh-text">
+            <span class="hh-label"><?= icon('server', 'icon icon-sm') ?> <?= e((string) (setting('home.label', '') ?: 'Hosting & cloud uit Nederland')) ?></span>
+            <h1><?= $homeTitle ?></h1>
+            <p><?= e($homeText) ?></p>
+            <ul class="hh-checks">
+                <li><?= icon('check', 'icon icon-sm') ?> Gratis SSL en dagelijkse back-ups</li>
+                <li><?= icon('check', 'icon icon-sm') ?> Nederlandse datacenters, 24/7 monitoring</li>
+                <li><?= icon('check', 'icon icon-sm') ?> Persoonlijke support van specialisten</li>
+            </ul>
+            <div class="hh-btns"><a class="btn btn-lg" href="<?= e(url('/oplossingen/webhosting')) ?>"><?= icon('box', 'icon icon-sm') ?> Bekijk hosting</a><a class="btn btn-lg btn-ghost" href="<?= e(url('/diensten')) ?>">Alle diensten <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+        </div>
         <div class="hh-visual">
             <?php if ($heroImg !== ''): ?><img class="hh-img" src="<?= e($heroImg) ?>" alt="<?= e(company_name()) ?>"><?php else: ?>
             <div class="hh-rack" aria-hidden="true">
@@ -11,16 +32,106 @@ $homeText = (string) (setting('home.tekst', '') ?: 'Bij ' . company_name() . ' d
                 <div class="hh-base"></div>
             </div>
             <?php endif; ?>
-        </div>
-        <div class="hh-text">
-            <span class="hh-label"><?= icon('server', 'icon icon-sm') ?> <?= e((string) (setting('home.label', '') ?: 'Hosting & cloud uit Nederland')) ?></span>
-            <h1><?= $homeTitle ?></h1>
-            <p><?= e($homeText) ?></p>
-            <div class="hh-btns"><a class="btn btn-lg" href="<?= e(url('/oplossingen/webhosting')) ?>"><?= icon('box', 'icon icon-sm') ?> Bekijk pakketten</a><a class="btn btn-lg btn-ghost" href="<?= e(url('/domeinen')) ?>"><?= icon('globe', 'icon icon-sm') ?> Domein zoeken</a></div>
+            <div class="hh-badge hh-b1"><?= icon('zap') ?><div><strong>99,9% uptime</strong><small>gegarandeerd</small></div></div>
+            <div class="hh-badge hh-b2"><?= icon('headset') ?><div><strong>24/7 support</strong><small>echte specialisten</small></div></div>
         </div>
     </div>
 </section>
-<section class="sec sec-trust"><div class="container"><?= $partial('frontend._trust', ['datacenters' => count($datacenters)]) ?></div></section>
+<section class="dfind">
+    <div class="container">
+        <div class="dfind-card">
+            <div class="dfind-head"><div><span class="eyebrow"><?= icon('globe', 'icon icon-sm') ?> Domeinnaam</span><h2><?= e((string) (setting('hero.titel', '') ?: 'Begin met jouw domeinnaam')) ?></h2></div><p><?= e((string) (setting('hero.tekst', '') ?: 'Typ je naam en zie direct welke extensies vrij zijn. Inclusief gratis DNS-beheer en automatische verlenging.')) ?></p></div>
+            <?= $partial('frontend._domain-search', ['placeholder' => 'jouwdomein.nl']) ?>
+            <?php if ($extProducts !== []): ?>
+            <div class="dfind-exts">
+                <?php foreach (array_slice($extProducts, 0, 8) as $p): ?><a href="<?= e(url($p->path())) ?>"><strong><?= e($p->extensionLabel()) ?></strong><span><?= e(money((int) $p->Prijs)) ?></span><small>per jaar</small></a><?php endforeach; ?>
+                <a class="dfind-all" href="<?= e(url('/domeinen')) ?>">Alle extensies <?= icon('arrow-right', 'icon icon-sm') ?></a>
+            </div>
+            <?php endif; ?>
+            <div class="dfind-note">Prijzen excl. btw · Verhuizen kan ook: voer je domeinnaam in en kies "Verhuizen".</div>
+        </div>
+    </div>
+</section>
+
+<?php if ($cards !== []): ?>
+<section class="sec">
+    <div class="container">
+        <div class="sec-head center"><div><span class="eyebrow"><?= icon('star', 'icon icon-sm') ?> Onze diensten</span><h2>Internet voor elk idee</h2><p>Van eerste website tot eigen server: alles wat je online nodig hebt, bij één betrouwbare partner.</p></div></div>
+        <div class="kc-grid kc-n<?= count($cards) ?>">
+            <?php foreach ($cards as $k => $kp): $b = array_slice(\App\Services\PageContent::benefits($k), 0, 3); ?>
+            <a class="kc" href="<?= e(url($kindUrl($k))) ?>">
+                <div class="kc-visual"><span class="kc-i"><?= icon(\App\Models\Product::soortIcon($k)) ?></span><span class="kc-ring"></span></div>
+                <div class="kc-body">
+                    <span class="pk-kind"><?= e(\App\Models\Product::soortLabel($k)) ?></span>
+                    <h3><?= e($kindTag[$k] ?? \App\Models\Product::soortText($k) ?: $k) ?></h3>
+                    <ul><?php foreach ($b as [$ic, $t]): ?><li><?= icon('check', 'icon icon-sm') ?> <?= e($t) ?></li><?php endforeach; ?></ul>
+                    <div class="kc-foot"><span class="kc-from"><small>Vanaf</small><strong><?= e(money($kp['min'])) ?> <em><?= e($per($kp['periode'])) ?></em></strong></span><span class="btn btn-sm">Bekijk de pakketten</span></div>
+                </div>
+            </a>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+<?php endif; ?>
+
+<?php if ($tabs !== []): ?>
+<section class="sec sec-alt">
+    <div class="container">
+        <div class="sec-head center"><div><span class="eyebrow"><?= icon('layout', 'icon icon-sm') ?> Totaalpakket</span><h2>Een totaalpakket voor je online aanwezigheid</h2><p>Alles wat je nodig hebt onder één dak — kies een onderdeel en zie wat erin zit.</p></div></div>
+        <div class="tp" data-logo-tabs>
+            <div class="tp-tabs"><?php foreach ($tabs as $i => $k): ?><button type="button" class="tp-tab<?= $i === 0 ? ' active' : '' ?>" data-logo-tab="<?= e(slugify($k)) ?>"><?= icon(\App\Models\Product::soortIcon($k), 'icon icon-sm') ?> <?= e(\App\Models\Product::soortLabel($k)) ?><?= icon('chevron-right', 'icon icon-sm tp-chev') ?></button><?php endforeach; ?></div>
+            <div class="tp-panes">
+                <?php foreach ($tabs as $i => $k): ?>
+                <div class="tp-pane<?= $i === 0 ? ' active' : '' ?>" data-logo-pane="<?= e(slugify($k)) ?>">
+                    <div class="tp-grid"><?php foreach (\App\Services\PageContent::benefits($k) as [$ic, $t, $txt]): ?><div class="tp-item"><span class="tp-i"><?= icon($ic) ?></span><div><strong><?= e($t) ?></strong><small><?= e($txt) ?></small></div></div><?php endforeach; ?></div>
+                    <div class="tp-foot"><?php if (isset($kindPrices[$k])): ?><span>Vanaf <strong><?= e(money($kindPrices[$k]['min'])) ?></strong> <?= e($per($kindPrices[$k]['periode'])) ?> · <?= (int) $kindPrices[$k]['n'] ?> pakketten</span><?php else: ?><span>Op maat — vraag een vrijblijvend voorstel aan</span><?php endif; ?><a class="btn" href="<?= e(url($kindUrl($k))) ?>">Meer over <?= e(mb_strtolower(\App\Models\Product::soortLabel($k))) ?> <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</section>
+<?php endif; ?>
+
+<?php if ($packages !== []): ?>
+<section class="sec sec-plans">
+    <div class="container">
+        <div class="sec-head"><div><span class="eyebrow"><?= icon('server', 'icon icon-sm') ?> Webhosting</span><h2>Hostingpakketten voor elke website</h2><p>Snelle NVMe-servers met LiteSpeed in Nederlandse datacenters. Gratis SSL, dagelijkse back-ups en gratis verhuizing — upgraden kan altijd.</p></div><a class="btn btn-ghost" href="<?= e(url('/oplossingen/webhosting')) ?>">Alle hostingpakketten <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+        <div class="pk-grid pk-n4"><?php foreach ($packages as $p): ?><?= $partial('frontend._plan', ['p' => $p, 'max' => 4]) ?><?php endforeach; ?></div>
+    </div>
+</section>
+<?php endif; ?>
+
+<?php if ($score !== ''): $num = (float) str_replace(',', '.', $score); $stars = (int) round($num > 5 ? $num / 2 : $num); ?>
+<section class="revbar"><div class="container"><a class="revbar-in" href="<?= e((string) (setting('reviews.url', '') ?: url('/over-ons'))) ?>"<?= setting('reviews.url') ? ' target="_blank" rel="noopener"' : '' ?>>
+    <span class="revbar-stars"><?php for ($i = 0; $i < 5; $i++): ?><?= icon('star', 'icon icon-sm' . ($i < $stars ? ' on' : '')) ?><?php endfor; ?></span>
+    <strong><?= e(company_name()) ?>: beoordeeld met <?= e($score) ?><?= $num > 5 ? '' : ' van 5' ?></strong>
+    <span><?php if (setting('reviews.aantal')): ?>op basis van <?= e((string) setting('reviews.aantal')) ?> beoordelingen<?php endif; ?><?php if (setting('reviews.bron')): ?> via <?= e((string) setting('reviews.bron')) ?><?php endif; ?></span>
+    <?= icon('arrow-right', 'icon icon-sm') ?>
+</a></div></section>
+<?php endif; ?>
+
+<section class="sec">
+    <div class="container">
+        <div class="sec-head center"><div><span class="eyebrow"><?= icon('heart', 'icon icon-sm') ?> Waarom <?= e(company_name()) ?></span><h2>Vind jouw online succes</h2><p>Geen gedoe, geen verrassingen: wij regelen de techniek zodat jij kunt ondernemen.</p></div></div>
+        <div class="succ-grid">
+            <div class="succ"><span class="succ-i"><?= icon('headset') ?></span><h3>Fantastische support</h3><p>Even snel iets regelen of een lastig probleem? Je krijgt een specialist aan de lijn die je kent en meedenkt — geen scripts, geen wachtrijen.</p><a href="<?= e(url('/contact')) ?>">Kom in contact <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+            <div class="succ"><span class="succ-i"><?= icon('zap') ?></span><h3>Snelste hosting</h3><p>NVMe-opslag, LiteSpeed en serverside caching in Nederlandse datacenters. Je website laadt merkbaar sneller — goed voor bezoekers én Google.</p><a href="<?= e(url('/oplossingen/webhosting')) ?>">Bekijk webhosting <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+            <div class="succ"><span class="succ-i"><?= icon('tag') ?></span><h3>Duidelijke prijzen</h3><p>Je ziet vooraf precies wat je betaalt, zonder verborgen kosten of verrassingen bij verlenging. Maandelijks opzegbaar waar het kan.</p><a href="<?= e(url('/diensten')) ?>">Bekijk de prijzen <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+        </div>
+        <div class="succ-band"><div><?= icon('shield') ?><strong>Veilig in Nederland</strong><span>ISO 27001-gecertificeerde datacenters, dagelijkse back-ups en 24/7 monitoring.</span></div><a class="btn btn-ghost" href="<?= e(url('/over-ons')) ?>">Meer over ons netwerk <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+    </div>
+</section>
+
+<?php if ($solutionPages !== []): ?>
+<section class="sec sec-tight sec-alt">
+    <div class="container">
+        <div class="sec-head center"><div><h2>Onze producten</h2></div></div>
+        <div class="prod-tiles"><?php foreach ($solutionPages as $sp): ?><a class="prod-tile" href="<?= e(url('/oplossingen/' . $sp['Slug'])) ?>"><span class="prod-tile-i"><?= icon($sp['Icoon']) ?></span><strong><?= e($sp['Titel']) ?></strong></a><?php endforeach; ?></div>
+        <p class="prod-tiles-help">Hulp nodig of wil je meer weten over onze producten? We staan altijd voor je klaar. <a class="btn btn-sm" href="<?= e(url('/contact')) ?>"><?= icon('headset', 'icon icon-sm') ?> Contact</a></p>
+    </div>
+</section>
+<?php endif; ?>
 
 <section class="sec">
     <div class="container about-split">
@@ -42,33 +153,6 @@ $homeText = (string) (setting('home.tekst', '') ?: 'Bij ' . company_name() . ' d
     </div>
 </section>
 
-<?php if ($packages !== []): ?>
-<section class="sec sec-alt">
-    <div class="container">
-        <div class="sec-head"><div><span class="eyebrow"><?= icon('server', 'icon icon-sm') ?> Shared hosting</span><h2>Onze hostingpakketten</h2><p>Snelle NVMe-servers in Nederlandse datacenters; upgraden kan altijd.</p></div><a class="btn btn-ghost" href="<?= e(url('/oplossingen/webhosting')) ?>">Alle hostingpakketten <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
-        <div class="pk-grid pk-n4"><?php foreach ($packages as $p): ?><?= $partial('frontend._plan', ['p' => $p, 'max' => 4]) ?><?php endforeach; ?></div>
-    </div>
-</section>
-<?php endif; ?>
-
-<section class="sec">
-    <div class="container">
-        <div class="sec-head center"><div><span class="eyebrow"><?= icon('star', 'icon icon-sm') ?> Waarom <?= e(company_name()) ?></span><h2>Daarom kiezen ondernemers voor ons</h2><p>Geen gedoe, geen verrassingen: wij regelen de techniek zodat jij kunt ondernemen.</p></div></div>
-        <div class="why-grid">
-            <?php foreach ([
-                ['zap', 'orange', 'Supersnelle NVMe-servers', 'Razendsnelle SSD-opslag in Nederlandse datacenters.'],
-                ['shield', 'navy', 'Eigen netwerk & 24/7-monitoring', 'Dag en nacht een oogje op de servers.'],
-                ['headset', 'green', 'Support van echte specialisten', 'Korte lijnen met mensen die je kennen.'],
-                ['tag', 'purple', 'Eerlijke, heldere prijzen', 'Je ziet vooraf wat je betaalt — geen verrassingen.'],
-                ['refresh', 'blue', 'Dagelijkse back-ups', 'Van alles staat een kopie klaar.'],
-                ['lock', 'red', 'Gratis SSL bij iedere domeinnaam', 'Veilig vanaf dag één, automatisch geregeld.'],
-            ] as [$ic, $tint, $titel, $tekst]): ?>
-            <div class="why-card why-<?= $tint ?>"><span class="pk-i"><?= icon($ic) ?></span><span class="why-t"><strong><?= e($titel) ?></strong><small><?= e($tekst) ?></small></span></div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</section>
-
 <?php if ($projects !== []): ?>
 <section class="sec sec-alt">
     <div class="container">
@@ -77,6 +161,11 @@ $homeText = (string) (setting('home.tekst', '') ?: 'Bij ' . company_name() . ' d
     </div>
 </section>
 <?php endif; ?>
+
+<section class="sec sec-dark"><div class="container">
+    <div class="sec-head center"><div><span class="eyebrow"><?= icon('refresh', 'icon icon-sm') ?> Hoe het werkt</span><h2>In vier stappen online</h2><p>Van bestelling tot actieve dienst: snel, duidelijk en zonder gedoe.</p></div></div>
+    <?= $partial('frontend._steps', ['items' => \App\Services\PageContent::steps(null, true)]) ?>
+</div></section>
 
 <section class="sec">
     <div class="container about-split">
@@ -88,7 +177,6 @@ $homeText = (string) (setting('home.tekst', '') ?: 'Bij ' . company_name() . ' d
             <h2 class="h-xl">Onze datacenters</h2>
             <div class="prose">
                 <p>Jouw diensten draaien in moderne datacenters met redundante stroom en verbindingen, dichtbij in Nederland en met partners wereldwijd. Valt er iets uit, dan neemt een onderdeel het automatisch over. Daardoor blijft je website, webshop of applicatie gewoon bereikbaar.</p>
-                <p>Dankzij 24/7-monitoring, dagelijkse back-ups en ons eigen netwerk sta jij er nooit alleen voor. Wij houden de infrastructuur veilig en snel, zodat jij je niet druk hoeft te maken over de techniek.</p>
                 <ul class="dc-perks">
                     <li><?= icon('check', 'icon icon-sm') ?> Redundante stroom, koeling en verbindingen</li>
                     <li><?= icon('check', 'icon icon-sm') ?> Dichtbij: Nederlandse datacenters en lage ping</li>
@@ -101,8 +189,32 @@ $homeText = (string) (setting('home.tekst', '') ?: 'Bij ' . company_name() . ' d
     </div>
 </section>
 
-<?php if ($articles !== []): ?>
 <section class="sec sec-alt">
+    <div class="container news-faq">
+        <div>
+            <div class="sec-head"><div><span class="eyebrow"><?= icon('note', 'icon icon-sm') ?> Nieuws</span><h2>Laatste nieuwsberichten</h2></div></div>
+            <?php if ($posts !== []): ?>
+            <div class="news-list">
+                <?php foreach (array_slice($posts, 0, 3) as $post): $img = media_url((string) ($post['Afbeelding'] ?? '')); ?>
+                <a class="news-item" href="<?= e(url('/blog/' . $post['Slug'])) ?>">
+                    <span class="news-img"><?php if ($img !== ''): ?><img src="<?= e($img) ?>" alt="" loading="lazy"><?php else: ?><?= icon('note') ?><?php endif; ?></span>
+                    <span class="news-body"><small><?= e($post['Categorie']) ?> · <?= e(date('d-m-Y', strtotime((string) $post['PublicatieDatum']))) ?></small><strong><?= e($post['Titel']) ?></strong><span><?= e(mb_strimwidth((string) ($post['Samenvatting'] ?? ''), 0, 140, '…')) ?></span><em>Lees verder <?= icon('arrow-right', 'icon icon-sm') ?></em></span>
+                </a>
+                <?php endforeach; ?>
+            </div>
+            <a class="news-more" href="<?= e(url('/blog')) ?>">Alle berichten <?= icon('arrow-right', 'icon icon-sm') ?></a>
+            <?php else: ?><p class="muted">Binnenkort meer nieuws.</p><?php endif; ?>
+        </div>
+        <div>
+            <div class="sec-head"><div><span class="eyebrow"><?= icon('chat', 'icon icon-sm') ?> Veelgestelde vragen</span><h2>Goed om te weten</h2></div></div>
+            <?= $partial('frontend._faq', ['items' => $faq]) ?>
+            <a class="news-more" href="<?= e(url('/kennisbank')) ?>">Naar de kennisbank <?= icon('arrow-right', 'icon icon-sm') ?></a>
+        </div>
+    </div>
+</section>
+
+<?php if ($articles !== []): ?>
+<section class="sec">
     <div class="container">
         <div class="sec-head"><div><span class="eyebrow"><?= icon('book', 'icon icon-sm') ?> Kennisbank</span><h2>Zelf aan de slag</h2><p>Handleidingen en antwoorden op veelgestelde vragen, stap voor stap uitgelegd.</p></div><a class="btn btn-ghost" href="<?= e(url('/kennisbank')) ?>">Naar de kennisbank <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
         <div class="kb-list kb-2rows">
@@ -114,30 +226,11 @@ $homeText = (string) (setting('home.tekst', '') ?: 'Bij ' . company_name() . ' d
 </section>
 <?php endif; ?>
 
-<?php if ($posts !== []): ?>
-<section class="sec">
-    <div class="container">
-        <div class="sec-head"><div><span class="eyebrow"><?= icon('note', 'icon icon-sm') ?> Blog</span><h2>Laatste nieuws &amp; tips</h2><p>Updates over onze diensten en handige tips voor je online aanwezigheid.</p></div><a class="btn btn-ghost" href="<?= e(url('/blog')) ?>">Alle berichten <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
-        <?= $partial('frontend._carousel', ['items' => $posts, 'base' => '/blog/', 'icon' => 'note']) ?>
-    </div>
-</section>
-<?php endif; ?>
-
-<section class="sec sec-dark"><div class="container">
-    <div class="sec-head center"><div><span class="eyebrow"><?= icon('refresh', 'icon icon-sm') ?> Hoe het werkt</span><h2>In vier stappen online</h2><p>Van bestelling tot actieve dienst: snel, duidelijk en zonder gedoe.</p></div></div>
-    <?= $partial('frontend._steps', ['items' => \App\Services\PageContent::steps(null, true)]) ?>
-</div></section>
-
-<section class="sec"><div class="container faq-split">
-    <div class="faq-side"><span class="eyebrow"><?= icon('chat', 'icon icon-sm') ?> Veelgestelde vragen</span><h2 class="h-xl">Goed om te weten</h2><p class="muted">De antwoorden op de vragen die we het vaakst krijgen. Iets anders? We helpen je graag persoonlijk.</p><a class="btn btn-ghost" href="<?= e(url('/contact')) ?>"><?= icon('chat', 'icon icon-sm') ?> Stel je vraag</a></div>
-    <?= $partial('frontend._faq', ['items' => \App\Services\PageContent::faq('Webhosting', 'hosting', true)]) ?>
-</div></section>
-
 <?php $logos = ['almalinux' => 'AlmaLinux', 'apache' => 'Apache', 'cloudflare' => 'Cloudflare', 'debian' => 'Debian', 'docker' => 'Docker', 'drupal' => 'Drupal', 'joomla' => 'Joomla', 'laravel' => 'Laravel', 'letsencrypt' => 'Let\'s Encrypt', 'magento' => 'Magento', 'mariadb' => 'MariaDB', 'mysql' => 'MySQL', 'nginx' => 'nginx', 'nodedotjs' => 'Node.js', 'openlitespeed' => 'OpenLiteSpeed', 'php' => 'PHP', 'prestashop' => 'PrestaShop', 'python' => 'Python', 'redis' => 'Redis', 'ubuntu' => 'Ubuntu', 'woocommerce' => 'WooCommerce', 'wordpress' => 'WordPress']; ?>
-<section class="sec">
+<section class="sec sec-alt">
     <div class="container">
         <div class="logo-bar">
-            <div class="logo-bar-head"><div><h2>Bewezen software waarop we draaien</h2><p>Van besturingssysteem en webserver tot framework en CMS. Alles wat we inzet is bewezen, snel en veilig — software waar je op kunt bouwen.</p></div></div>
+            <div class="logo-bar-head"><div><h2>Bewezen software waarop we draaien</h2><p>Van besturingssysteem en webserver tot framework en CMS. Alles wat we inzetten is bewezen, snel en veilig — software waar je op kunt bouwen.</p></div></div>
             <div class="marquee"><div class="marquee-track">
                 <?php foreach ([false, true] as $hidden): foreach ($logos as $slug => $name): ?><span class="logo-item"<?= $hidden ? ' aria-hidden="true"' : '' ?>><img src="<?= e(asset('img/logos/' . $slug . '.svg')) ?>" alt="" loading="lazy"><?= e($name) ?></span><?php endforeach; endforeach; ?>
             </div></div>

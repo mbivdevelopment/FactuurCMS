@@ -37,7 +37,30 @@ final class SiteController extends Controller
             'datacenters' => Database::all('SELECT * FROM Datacenters WHERE Zichtbaar = 1 ORDER BY Volgorde, Id'),
             'articles' => Database::all('SELECT * FROM KennisbankArtikelen WHERE Zichtbaar = 1 ORDER BY Weergaven DESC, Volgorde, Id LIMIT 6'),
             'extensions' => DomainCheck::extensions(),
+            'extProducts' => self::extensionProducts(),
+            'kindPrices' => self::kindPrices(),
+            'soortPages' => self::soortPages(),
+            'solutionPages' => Database::all("SELECT Titel, Slug, Icoon, Samenvatting, Groep FROM Paginas WHERE Zichtbaar = 1 AND Categorie = 'cloud' ORDER BY Groep, Volgorde, Id"),
         ]);
+    }
+
+    /** Domeinextensies als producten, in de volgorde van de hero-extensies. @return list<Product> */
+    private static function extensionProducts(): array
+    {
+        [$domains] = self::splitExtensions(Product::query("SELECT * FROM Producten WHERE Zichtbaar = 1 AND (Dienstsoort = 'Domeinnamen' OR (Dienstsoort IS NULL AND Groep = 'Domeinen')) ORDER BY Volgorde, Id"));
+
+        return $domains;
+    }
+
+    /** Laagste prijs en aantal per dienstsoort. @return array<string, array{min:int, n:int, periode:string}> */
+    private static function kindPrices(): array
+    {
+        $out = [];
+        foreach (Database::all("SELECT Dienstsoort, MIN(Prijs) AS MinPrijs, COUNT(*) AS Aantal, MIN(Periode) AS Periode FROM Producten WHERE Zichtbaar = 1 AND Dienstsoort IS NOT NULL GROUP BY Dienstsoort") as $r) {
+            $out[(string) $r['Dienstsoort']] = ['min' => (int) $r['MinPrijs'], 'n' => (int) $r['Aantal'], 'periode' => (string) $r['Periode']];
+        }
+
+        return $out;
     }
 
     public function page(Request $request): Response
