@@ -90,11 +90,11 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
         <div class="rsn-grid">
             <?php foreach ([
                 ['headset', 'Persoonlijke support', 'Een specialist die je kent en meedenkt.'],
-                ['zap', 'Razendsnelle hosting', 'NVMe en LiteSpeed: merkbaar snellere websites.'],
+                ['zap', 'Razendsnelle hosting', 'NVMe en LiteSpeed: merkbaar sneller.'],
                 ['tag', 'Duidelijke prijzen', 'Vooraf duidelijk, zonder verborgen kosten.'],
-                ['shield', 'Veilig in Nederland', 'ISO 27001-datacenters, data binnen de EU.'],
+                ['shield', 'Veilig in Nederland', 'ISO 27001-datacenters in de EU.'],
                 ['refresh', 'Dagelijkse back-ups', 'Elke nacht een back-up, zelf terug te zetten.'],
-                ['box', 'Alles onder één dak', 'Domeinen, hosting, servers en ICT bij één partner.'],
+                ['box', 'Alles onder één dak', 'Hosting, servers en ICT bij één partner.'],
             ] as [$ic, $t, $txt]): ?>
             <div class="rsn"><span class="rsn-i"><?= icon($ic) ?></span><div><h3><?= e($t) ?></h3><p><?= e($txt) ?></p></div></div>
             <?php endforeach; ?>
