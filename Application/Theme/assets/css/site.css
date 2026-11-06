@@ -1530,3 +1530,6 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .pk4-fi .icon { width: 14px; height: 14px; }
 .pk4-more { display: inline-flex; align-items: center; gap: 6px; margin-top: 22px; color: var(--muted); font-size: 13.5px; font-weight: 600; }
 .pk4-more:hover { color: var(--primary); gap: 9px; }
+.pk4-head h3 { font-size: 21px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pk4-head { min-height: 104px; }
+.pk4-head p { min-height: 0; }
