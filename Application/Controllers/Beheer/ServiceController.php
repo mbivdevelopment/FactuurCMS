@@ -215,9 +215,9 @@ final class ServiceController extends Controller
         } catch (\Throwable $e) {
             return $this->redirect('/beheer/diensten/' . $service->id())->with('error', 'Inloggen op het paneel mislukt: ' . $e->getMessage());
         }
-        $url = (string) ($res['url'] ?? '');
-        if ($url === '') {
-            return $this->redirect('/beheer/diensten/' . $service->id())->with('error', 'Het paneel gaf geen inloglink terug.');
+        $url = safe_external_url((string) ($res['url'] ?? ''));
+        if ($url === null) {
+            return $this->redirect('/beheer/diensten/' . $service->id())->with('error', 'Het paneel gaf geen geldige inloglink terug.');
         }
 
         return $this->redirect($url);

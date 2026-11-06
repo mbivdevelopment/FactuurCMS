@@ -152,9 +152,9 @@ final class PortalController extends Controller
         } catch (\Throwable $e) {
             return $this->redirect('/klant/diensten/' . $service->id())->with('error', 'Inloggen op het paneel mislukt: ' . $e->getMessage());
         }
-        $url = (string) ($res['url'] ?? '');
-        if ($url === '') {
-            return $this->redirect('/klant/diensten/' . $service->id())->with('error', 'Het paneel gaf geen inloglink terug.');
+        $url = safe_external_url((string) ($res['url'] ?? ''));
+        if ($url === null) {
+            return $this->redirect('/klant/diensten/' . $service->id())->with('error', 'Het paneel gaf geen geldige inloglink terug.');
         }
 
         return $this->redirect($url);
@@ -208,9 +208,12 @@ final class PortalController extends Controller
             return $this->redirect('/klant/documenten/' . $doc->id())->with('success', 'Betaald met je tegoed.');
         }
         try {
-            $url = OnlinePayment::start($doc, $methode);
+            $url = safe_external_url(OnlinePayment::start($doc, $methode));
         } catch (\Throwable $e) {
             return $this->redirect('/klant/documenten/' . $doc->id())->with('error', 'Online betalen lukt nu niet: ' . $e->getMessage());
+        }
+        if ($url === null) {
+            return $this->redirect('/klant/documenten/' . $doc->id())->with('error', 'De betaalprovider gaf een ongeldige link terug.');
         }
 
         return Response::redirect($url, 303);

@@ -109,6 +109,25 @@ function rich_text(?string $text): string
     return $html;
 }
 
+/** Externe redirect-URL valideren: alleen absolute https-URL's (en http op localhost). */
+function safe_external_url(string $url): ?string
+{
+    $url = trim($url);
+    if ($url === '' || strlen($url) > 2000) {
+        return null;
+    }
+    $parts = parse_url($url);
+    if ($parts === false || !isset($parts['scheme'], $parts['host']) || !in_array(strtolower((string) $parts['scheme']), ['https', 'http'], true)) {
+        return null;
+    }
+    $host = strtolower((string) $parts['host']);
+    if ($parts['scheme'] === 'http' && !in_array($host, ['localhost', '127.0.0.1'], true)) {
+        return null;
+    }
+
+    return $url;
+}
+
 function company_name(): string
 {
     return (string) setting('bedrijf.naam', config('app.name', 'FactuurCMS'));

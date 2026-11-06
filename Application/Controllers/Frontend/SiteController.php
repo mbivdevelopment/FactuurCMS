@@ -292,7 +292,8 @@ final class SiteController extends Controller
         }
         if (isset(OnlinePayment::enabled()[$method])) {
             try {
-                return Response::redirect(OnlinePayment::start($doc, $method), 303);
+                $payUrl = safe_external_url(OnlinePayment::start($doc, $method));
+                return Response::redirect($payUrl ?? '/klant/documenten/' . $doc->id(), 303);
             } catch (\Throwable $e) {
                 return $this->redirect('/klant/documenten/' . $doc->id())->with('error', 'Je bestelling is geplaatst, maar online betalen lukt nu niet: ' . $e->getMessage());
             }
