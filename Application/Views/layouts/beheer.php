@@ -1,7 +1,8 @@
 <?php
 $admin = (bool) auth_user()?->isAdmin();
-$openTickets = (int) \App\Core\Database::scalar("SELECT COUNT(*) FROM Tickets WHERE Status = 'open'");
-$pendingServices = (int) \App\Core\Database::scalar("SELECT COUNT(*) FROM Diensten WHERE Status = 'in_afwachting'");
+$counts = \App\Core\Database::first("SELECT (SELECT COUNT(*) FROM Tickets WHERE Status = 'open') AS t, (SELECT COUNT(*) FROM Diensten WHERE Status = 'in_afwachting') AS s");
+$openTickets = (int) ($counts['t'] ?? 0);
+$pendingServices = (int) ($counts['s'] ?? 0);
 $navSections = array_values(array_filter([
     ['key' => 'dashboard', 'label' => 'Dashboard', 'icon' => 'dashboard', 'items' => [['/beheer', 'dashboard', 'Overzicht']]],
     ['key' => 'klanten', 'label' => 'Klanten', 'icon' => 'users', 'count' => $openTickets, 'items' => [['/beheer/klanten', 'users', 'Klanten', 'Alle klanten en klantkaarten'], ['/beheer/crediteuren', 'building', 'Crediteuren', 'Leveranciers en hun gegevens'], ['/beheer/leads', 'target', 'Leads', 'Potentiële klanten opvolgen'], ['/beheer/projecten', 'layout', 'Projecten', 'Lopende en geplande projecten'], ['/beheer/afspraken', 'calendar', 'Afspraken', 'Agenda met klantafspraken'], ['/beheer/contracten', 'file', 'Contracten', 'SLA\'s, onderhoud en abonnementen'], ['/beheer/facturen', 'file', 'Facturen', 'Verkoopfacturen en betalingen'], ['/beheer/offertes', 'quote', 'Offertes', 'Offertes en akkoorden'], ['/beheer/inkoopfacturen', 'wallet', 'Inkoopfacturen', 'Facturen van leveranciers'], ['/beheer/btw', 'euro', 'BTW Overzicht', 'Btw-aangifte per kwartaal'], ['/beheer/tickets', 'ticket', 'Tickets', 'Vragen en storingen van klanten', $openTickets], ['/beheer/website/kennisbank', 'book', 'Kennisbank', 'Hulpartikelen voor klanten'], ['/beheer/storingen', 'zap', 'Storingen', 'Storingen en gepland onderhoud'], ['/beheer/snelle-antwoorden', 'chat', 'Snelle antwoorden', 'Standaardteksten voor tickets']], 'columns' => ['Relaties' => [0, 1, 2], 'Werk' => [3, 4, 5], 'Financieel' => [6, 7, 8, 9], 'Support' => [10, 11, 12, 13]], 'action' => ['/beheer/klanten/nieuw', 'Nieuwe klant'], 'also' => ['/beheer/documenten'], 'sidebar' => true],

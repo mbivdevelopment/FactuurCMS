@@ -100,6 +100,18 @@ final class Response
                 header($name . ': ' . $value);
             }
         }
-        echo $this->content;
+        $content = $this->content;
+        if (($this->headers['Content-Type'] ?? '') === 'text/html; charset=UTF-8' && str_contains((string) ($_SERVER['HTTP_ACCEPT_ENCODING'] ?? ''), 'gzip') && extension_loaded('zlib')) {
+            $gz = gzencode($content, 6);
+            if ($gz !== false) {
+                if (!headers_sent()) {
+                    header('Content-Encoding: gzip');
+                    header('Vary: Accept-Encoding');
+                    header('Content-Length: ' . strlen($gz));
+                }
+                $content = $gz;
+            }
+        }
+        echo $content;
     }
 }
