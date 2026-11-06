@@ -13,7 +13,7 @@ $per = ['maand' => '/ maand', 'kwartaal' => '/ kwartaal', 'jaar' => '/ jaar'][(s
                     <span class="pk-kind"><?= e($kind) ?></span>
                     <h2><?= e($product->Naam) ?></h2>
                     <?php if ((string) $product->Omschrijving !== ''): ?><p class="muted"><?= nl2br(e($product->Omschrijving)) ?></p><?php endif; ?>
-                    <div class="pk-price"><span class="pk-eur"><?= preg_replace('/,(\d\d)$/', '<sup>,$1</sup>', e(money((int) $product->Prijs))) ?></span><span class="pk-per"><?= e($per) ?></span><span class="pk-vat" style="margin:0 0 0 6px">excl. btw</span></div>
+                    <div class="pk-price"><span class="pk-eur"><?= preg_replace('/,(\d\d)$/', '<sup>,$1</sup>', e(money((int) $product->Prijs))) ?></span><span class="pk-per"><?= e($per) ?></span></div>
                     <?php if ($product->featureItems() !== []): ?>
                         <h3 class="prod-h">Wat zit erin</h3>
                         <ul class="feat-grid"><?php foreach ($product->featureItems() as $f): ?><li><span class="pk-fi"><?= icon($f['icoon'], 'icon icon-sm') ?></span><span><?= e($f['tekst']) ?></span></li><?php endforeach; ?></ul>
