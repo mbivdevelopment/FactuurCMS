@@ -74,17 +74,17 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
 </section>
 <?php endif; ?>
 
-<?php if ($tabs !== []): ?>
 <section class="sec sec-alt">
     <div class="container">
-        <div class="sec-head center"><div><span class="eyebrow"><?= icon('layout', 'icon icon-sm') ?> Totaalpakket</span><h2>Een totaalpakket voor je online aanwezigheid</h2><p>Alles wat je nodig hebt onder één dak — kies een onderdeel en zie wat erin zit.</p></div></div>
-        <div class="tp" data-logo-tabs>
-            <div class="tp-tabs"><?php foreach ($tabs as $i => $k): ?><button type="button" class="tp-tab<?= $i === 0 ? ' active' : '' ?>" data-logo-tab="<?= e(slugify($k)) ?>"><?= icon(\App\Models\Product::soortIcon($k), 'icon icon-sm') ?> <?= e(\App\Models\Product::soortLabel($k)) ?><?= icon('chevron-right', 'icon icon-sm tp-chev') ?></button><?php endforeach; ?></div>
-            <div class="tp-panes">
-                <?php foreach ($tabs as $i => $k): ?>
-                <div class="tp-pane<?= $i === 0 ? ' active' : '' ?>" data-logo-pane="<?= e(slugify($k)) ?>">
-                    <div class="tp-grid"><?php foreach (\App\Services\PageContent::benefits($k) as [$ic, $t, $txt]): ?><div class="tp-item"><span class="tp-i"><?= icon($ic) ?></span><div><strong><?= e($t) ?></strong><small><?= e($txt) ?></small></div></div><?php endforeach; ?></div>
-                    <div class="tp-foot"><?php if (isset($kindPrices[$k])): ?><span>Vanaf <strong><?= e(money($kindPrices[$k]['min'])) ?></strong> <?= e($per($kindPrices[$k]['periode'])) ?> · <?= (int) $kindPrices[$k]['n'] ?> pakketten</span><?php else: ?><span>Op maat — vraag een vrijblijvend voorstel aan</span><?php endif; ?><a class="btn" href="<?= e(url($kindUrl($k))) ?>">Meer over <?= e(mb_strtolower(\App\Models\Product::soortLabel($k))) ?> <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+        <div class="sec-head center"><div><span class="eyebrow"><?= icon('heart', 'icon icon-sm') ?> Waarom <?= e(company_name()) ?></span><h2>Vind jouw online succes</h2><p>Geen gedoe, geen verrassingen: wij regelen de techniek zodat jij kunt ondernemen.</p></div></div>
+        <div class="succ-grid">
+            <div class="succ"><span class="succ-i"><?= icon('headset') ?></span><h3>Fantastische support</h3><p>Even snel iets regelen of een lastig probleem? Je krijgt een specialist aan de lijn die je kent en meedenkt — geen scripts, geen wachtrijen.</p><a href="<?= e(url('/contact')) ?>">Kom in contact <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+            <div class="succ"><span class="succ-i"><?= icon('zap') ?></span><h3>Snelste hosting</h3><p>NVMe-opslag, LiteSpeed en serverside caching in Nederlandse datacenters. Je website laadt merkbaar sneller — goed voor bezoekers én Google.</p><a href="<?= e(url('/oplossingen/webhosting')) ?>">Bekijk webhosting <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+            <div class="succ"><span class="succ-i"><?= icon('tag') ?></span><h3>Duidelijke prijzen</h3><p>Je ziet vooraf precies wat je betaalt, zonder verborgen kosten of verrassingen bij verlenging. Maandelijks opzegbaar waar het kan.</p><a href="<?= e(url('/diensten')) ?>">Bekijk de prijzen <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+        </div>
+        <div class="succ-band"><div><?= icon('shield') ?><strong>Veilig in Nederland</strong><span>ISO 27001-gecertificeerde datacenters, dagelijkse back-ups en 24/7 monitoring.</span></div><a class="btn btn-ghost" href="<?= e(url('/over-ons')) ?>">Meer over ons netwerk <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+    </div>
+</section><a class="btn" href="<?= e(url($kindUrl($k))) ?>">Meer over <?= e(mb_strtolower(\App\Models\Product::soortLabel($k))) ?> <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
                 </div>
                 <?php endforeach; ?>
             </div>
@@ -110,18 +110,6 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
     <?= icon('arrow-right', 'icon icon-sm') ?>
 </a></div></section>
 <?php endif; ?>
-
-<section class="sec">
-    <div class="container">
-        <div class="sec-head center"><div><span class="eyebrow"><?= icon('heart', 'icon icon-sm') ?> Waarom <?= e(company_name()) ?></span><h2>Vind jouw online succes</h2><p>Geen gedoe, geen verrassingen: wij regelen de techniek zodat jij kunt ondernemen.</p></div></div>
-        <div class="succ-grid">
-            <div class="succ"><span class="succ-i"><?= icon('headset') ?></span><h3>Fantastische support</h3><p>Even snel iets regelen of een lastig probleem? Je krijgt een specialist aan de lijn die je kent en meedenkt — geen scripts, geen wachtrijen.</p><a href="<?= e(url('/contact')) ?>">Kom in contact <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
-            <div class="succ"><span class="succ-i"><?= icon('zap') ?></span><h3>Snelste hosting</h3><p>NVMe-opslag, LiteSpeed en serverside caching in Nederlandse datacenters. Je website laadt merkbaar sneller — goed voor bezoekers én Google.</p><a href="<?= e(url('/oplossingen/webhosting')) ?>">Bekijk webhosting <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
-            <div class="succ"><span class="succ-i"><?= icon('tag') ?></span><h3>Duidelijke prijzen</h3><p>Je ziet vooraf precies wat je betaalt, zonder verborgen kosten of verrassingen bij verlenging. Maandelijks opzegbaar waar het kan.</p><a href="<?= e(url('/diensten')) ?>">Bekijk de prijzen <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
-        </div>
-        <div class="succ-band"><div><?= icon('shield') ?><strong>Veilig in Nederland</strong><span>ISO 27001-gecertificeerde datacenters, dagelijkse back-ups en 24/7 monitoring.</span></div><a class="btn btn-ghost" href="<?= e(url('/over-ons')) ?>">Meer over ons netwerk <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
-    </div>
-</section>
 
 <?php if ($solutionPages !== []): ?>
 <section class="sec sec-tight sec-alt">
