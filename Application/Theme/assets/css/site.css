@@ -1321,3 +1321,4 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .kc-wrap { background: none; border: 0; border-radius: 0; padding: 0; overflow: visible; }
 .kc-wrap::before { display: none; }
 @media (max-width: 700px) { .kc-sec { padding: 48px 0; } .kc-wrap { padding: 0; } }
+.dfind { padding-bottom: 60px; }
