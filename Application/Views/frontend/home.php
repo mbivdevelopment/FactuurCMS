@@ -105,7 +105,7 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
 <section class="sec sec-plans">
     <div class="container">
         <div class="sec-head center"><div><span class="eyebrow"><?= icon('server', 'icon icon-sm') ?> Webhosting</span><h2>Hostingpakketten voor elke website</h2><p>Snelle NVMe-servers met LiteSpeed in Nederlandse datacenters. Gratis SSL, dagelijkse back-ups en gratis verhuizing — upgraden kan altijd.</p></div></div>
-        <div class="pk-grid pk-n4"><?php foreach ($packages as $p): ?><?= $partial('frontend._plan', ['p' => $p, 'max' => 6]) ?><?php endforeach; ?></div>
+        <?= $partial('frontend._plans', ['products' => $packages]) ?>
         <div class="pk-note">
             <span><?= icon('check', 'icon icon-sm') ?> Alle prijzen excl. btw</span><span><?= icon('check', 'icon icon-sm') ?> Gratis SSL &amp; verhuizing</span><span><?= icon('check', 'icon icon-sm') ?> Dagelijkse back-ups</span><span><?= icon('check', 'icon icon-sm') ?> Maandelijks opzegbaar</span>
             <a class="btn btn-ghost" href="<?= e(url('/oplossingen/webhosting')) ?>">Alle hostingpakketten <?= icon('arrow-right', 'icon icon-sm') ?></a>

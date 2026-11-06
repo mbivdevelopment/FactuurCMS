@@ -1566,3 +1566,10 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .pk5-title h3 { font-size: 18px; }
 .pk5-title h3 a { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .pk5-feats li { font-size: 12.5px; }
+/* Pakketten-carousel: 3 zichtbaar */
+.pk-car .car-track { align-items: stretch; padding: 12px 4px 16px; gap: 24px; }
+.pk-car .car-item { flex: 0 0 calc((100% - 48px) / 3); display: flex; }
+.pk-car .car-item .pk { width: 100%; }
+.pk-car .car-nav { margin-top: 10px; }
+@media (max-width: 1000px) { .pk-car .car-item { flex-basis: calc((100% - 24px) / 2); } }
+@media (max-width: 640px) { .pk-car .car-item { flex-basis: 100%; } }
