@@ -209,16 +209,19 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
                 <div><span class="eyebrow"><?= icon('zap', 'icon icon-sm') ?> Netwerkstatus</span><h2><?= $uptime['actief'] === [] ? 'Alle systemen operationeel' : 'Er loopt een incident' ?></h2><p><?= $uptime['pct'] ?>% uptime in de laatste 90 dagen — per dienst hieronder.</p></div>
                 <a class="btn btn-ghost" href="<?= e(url('/storingen')) ?>">Bekijk alle storingen <?= icon('arrow-right', 'icon icon-sm') ?></a>
             </div>
-            <div class="up-grid">
+            <div class="car up-car" data-carousel>
+                <div class="car-track">
                 <?php foreach ($uptime['services'] as $svc): ?>
-                <a class="up-svc" href="<?= e(url('/storingen')) ?>">
+                <div class="car-item"><a class="up-svc" href="<?= e(url('/storingen')) ?>">
                     <div class="up-svc-top"><strong><?= e($svc['naam']) ?></strong><span class="up-state <?= $svc['st'] === 'ok' ? 'is-ok' : ($svc['st'] === 'down' ? 'is-down' : 'is-warn') ?>"><?= $svc['st'] === 'ok' ? 'Operationeel' : ($svc['st'] === 'down' ? 'Storing' : ($svc['st'] === 'warn' ? 'Beperkt' : 'Onderhoud')) ?></span></div>
                     <div class="up-bar up-bar-sm"><?php foreach ($svc['dagen'] as [$dag, $st]): ?><span class="up-d up-<?= $st ?>" title="<?= e(date('d-m-Y', strtotime($dag))) ?>"></span><?php endforeach; ?></div>
                     <div class="up-svc-foot"><span><?= e($svc['pct']) ?>% uptime</span><span class="muted">90 dagen</span></div>
-                </a>
+                </a></div>
                 <?php endforeach; ?>
+                </div>
+                <div class="car-nav"><button type="button" class="car-btn" data-car-prev aria-label="Vorige"><?= icon('chevron-left') ?></button><span class="car-dots"></span><button type="button" class="car-btn" data-car-next aria-label="Volgende"><?= icon('chevron-right') ?></button></div>
             </div>
-            <div class="up-foot"><span>90 dagen geleden</span><span class="up-leg"><i class="up-d up-ok"></i> Operationeel <i class="up-d up-warn"></i> Beperkt <i class="up-d up-down"></i> Storing <i class="up-d up-plan"></i> Onderhoud</span><span>Vandaag</span></div>
+            <div class="up-card up-leg"><div class="up-foot" style="margin:0"><span class="muted">90 dagen geleden</span><span class="up-leg"><i class="up-d up-ok"></i> Operationeel <i class="up-d up-warn"></i> Beperkt <i class="up-d up-down"></i> Storing <i class="up-d up-plan"></i> Onderhoud</span><span class="muted">Vandaag</span></div></div>
         </div>
     </div>
 </section>
