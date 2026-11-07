@@ -1718,7 +1718,7 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .st-text { margin: 8px 0 0; font-size: 14.5px; color: var(--muted); }
 @media (max-width: 700px) { .up-bar { grid-template-columns: repeat(45, minmax(0, 1fr)); } .up-bar .up-d:nth-child(n+46) { display: none; } }
 
-.up-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; }
+.up-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
 .up-svc { background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px 14px; }
 .up-svc-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; }
 .up-svc-top strong { font-size: 14.5px; color: var(--navy); }
@@ -1733,7 +1733,7 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .up-wrap { }
 .up-wrap .up-head { margin-bottom: 20px; }
 .up-wrap .up-foot { margin-top: 16px; }
-.up-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; }
+.up-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
 a.up-svc { text-decoration: none; color: inherit; }
 
 /* Statuskaarten als carousel in witte kaart */
@@ -1749,3 +1749,6 @@ a.up-svc { text-decoration: none; color: inherit; }
 
 .up-svc { background: #fff; }
 .up-card.up-leg { width: 100%; }
+
+@media (max-width: 1000px) { .up-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .up-grid { grid-template-columns: 1fr; } }
