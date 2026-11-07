@@ -1629,20 +1629,24 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 @media (max-width: 1000px) { .cta-grid { grid-template-columns: 1fr; gap: 40px; } .cta-l h2 { font-size: 30px; } }
 @media (max-width: 560px) { .cta-stats { grid-template-columns: 1fr 1fr; } .cta-stat { padding: 18px; } .cta-stat b { font-size: 26px; } }
 
-/* Onze projecten: wit, kaarten met grote visual en nette footer */
+/* Onze projecten: grote visual met gradient-footer in de afbeelding */
 .sec-proj { background: #fff; }
-.sec-proj .car-item .pc { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 6px 24px rgba(11, 21, 51, .06); }
-.sec-proj .car-item .pc:hover { border-color: var(--line); transform: translateY(-6px); box-shadow: 0 22px 48px rgba(11, 21, 51, .14); }
-.sec-proj .pc-img { aspect-ratio: 16 / 10; border-bottom: 1px solid var(--line); }
-.sec-proj .car-item .pc:hover .pc-img img { transform: scale(1.045); }
-.sec-proj .pc-tag { top: 16px; left: 16px; background: rgba(11, 21, 51, .85); color: #fff; backdrop-filter: blur(4px); border-radius: 8px; font-size: 11.5px; letter-spacing: .02em; }
-.sec-proj .pc-body { padding: 22px 24px 24px; gap: 8px; }
-.sec-proj .pc-meta { font-size: 12.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: #8a94ad; }
-.sec-proj .pc-body strong { font-size: 21px; letter-spacing: -.01em; color: var(--navy); }
-.sec-proj .pc-text { font-size: 14.5px; line-height: 1.55; }
+.sec-proj .car-item .pc { border: 0; border-radius: 12px; overflow: hidden; background: var(--navy); box-shadow: 0 10px 34px rgba(11, 21, 51, .12); }
+.sec-proj .car-item .pc:hover { transform: translateY(-6px); box-shadow: 0 26px 56px rgba(11, 21, 51, .22); }
+.sec-proj .pc-img { aspect-ratio: 16 / 11; border-bottom: 0; }
+.sec-proj .pc-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 38%, rgba(7, 13, 36, .82) 92%); }
+.sec-proj .car-item .pc:hover .pc-img img { transform: scale(1.05); }
+.sec-proj .pc-tag { top: 16px; left: 16px; background: rgba(255, 255, 255, .92); color: var(--navy); backdrop-filter: blur(4px); border-radius: 8px; font-size: 11.5px; font-weight: 800; letter-spacing: .03em; }
+.sec-proj .pc-body { position: relative; display: flex; flex-direction: column; gap: 6px; padding: 18px 22px 20px; flex: 1; background: linear-gradient(180deg, #0d1838, var(--navy)); }
+.sec-proj .pc-meta { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: rgba(255, 255, 255, .55); }
+.sec-proj .pc-meta .icon { color: rgba(255, 255, 255, .45); }
 .sec-proj .pc-titlerow { display: flex; justify-content: space-between; align-items: center; gap: 14px; }
-.sec-proj .pc-arrow { width: 34px; height: 34px; border-radius: 50%; background: var(--soft); color: var(--navy); display: grid; place-items: center; font-style: normal; flex: none; transition: background .15s, color .15s, transform .15s; }
-.sec-proj .car-item .pc:hover .pc-arrow { background: var(--primary); color: #fff; transform: translateX(3px); }
+.sec-proj .pc-body strong { font-size: 21px; letter-spacing: -.01em; color: #fff; }
+.sec-proj .pc-text { display: none; }
+.sec-proj .pc-arrow { width: 36px; height: 36px; border-radius: 50%; background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .22); color: #fff; display: grid; place-items: center; font-style: normal; flex: none; transition: background .15s, transform .15s, border-color .15s; }
+.sec-proj .pc-arrow.pc-arrow-img { display: none; }
+.sec-proj .car-item .pc:hover .pc-arrow { background: var(--primary); border-color: var(--primary); transform: translateX(3px) scale(1.06); }
+.sec-proj .pc-img.is-empty { min-height: 0; }
 
 /* Klantenservice-pagina (contact) */
 .cs-hero { position: relative; overflow: hidden; padding: 110px 0 76px; color: #fff; background: var(--hero-grad); }

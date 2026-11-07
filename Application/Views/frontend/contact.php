@@ -16,6 +16,7 @@
     <div class="container">
         <div class="cs-topics">
             <?php foreach ([
+                ['book', 'Kennisbank', 'Handleidingen en veelgestelde vragen.', '/kennisbank'],
                 ['globe', 'Domeinnamen', 'Registreren, verhuizen en DNS instellen.', '/domeinen'],
                 ['server', 'Webhosting & e-mail', 'Accounts, FTP, SSL en mailboxen.', '/oplossingen/webhosting'],
                 ['send', 'SMTP Relay', 'Verzendgegevens en e-mailbezorging.', '/oplossingen/smtp-relay'],
