@@ -1737,7 +1737,7 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 a.up-svc { text-decoration: none; color: inherit; }
 
 /* Statuskaarten als carousel in witte kaart */
-.up-wrap { background: #fff; border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow-sm); padding: 26px 28px 18px; }
+.up-wrap { }
 .up-wrap .up-head { margin-bottom: 18px; }
 .up-car .car-track { gap: 14px; padding: 2px 2px 14px; align-items: stretch; }
 .up-car .car-item { flex: 0 0 calc((100% - 28px) / 3); display: flex; }
