@@ -1746,3 +1746,6 @@ a.up-svc { text-decoration: none; color: inherit; }
 @media (max-width: 1000px) { .up-car .car-item { flex-basis: calc((100% - 14px) / 2); } }
 @media (max-width: 640px) { .up-car .car-item { flex-basis: 100%; } }
 .up-card.up-leg { margin-top: 14px; }
+
+.up-svc { background: #fff; }
+.up-card.up-leg { width: 100%; }

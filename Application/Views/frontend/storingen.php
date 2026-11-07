@@ -3,17 +3,14 @@
 <section class="sec"><div class="container">
     <div class="up-wrap" style="margin-bottom:26px">
         <div class="up-head"><div><h2 style="margin:0 0 4px"><?= $open === [] ? 'Alle systemen operationeel' : 'Actieve incidenten' ?></h2><p><?= e($uptime['pct']) ?>% uptime in de laatste 90 dagen.</p></div></div>
-        <div class="car up-car" data-carousel>
-            <div class="car-track">
+        <div class="up-grid">
             <?php foreach ($uptime['services'] as $svc): ?>
-            <div class="car-item"><a class="up-svc" href="#incidenten">
+            <a class="up-svc" href="#incidenten">
                 <div class="up-svc-top"><strong><?= e($svc['naam']) ?></strong><span class="up-state <?= $svc['st'] === 'ok' ? 'is-ok' : ($svc['st'] === 'down' ? 'is-down' : 'is-warn') ?>"><?= $svc['st'] === 'ok' ? 'Operationeel' : ($svc['st'] === 'down' ? 'Storing' : ($svc['st'] === 'warn' ? 'Beperkt' : 'Onderhoud')) ?></span></div>
                 <div class="up-bar up-bar-sm"><?php foreach ($svc['dagen'] as [$dag, $st]): ?><span class="up-d up-<?= $st ?>" title="<?= e(date('d-m-Y', strtotime($dag))) ?>"></span><?php endforeach; ?></div>
                 <div class="up-svc-foot"><span><?= e($svc['pct']) ?>% uptime</span><span class="muted">90 dagen</span></div>
-            </a></div>
+            </a>
             <?php endforeach; ?>
-            </div>
-            <div class="car-nav"><button type="button" class="car-btn" data-car-prev aria-label="Vorige"><?= icon('chevron-left') ?></button><span class="car-dots"></span><button type="button" class="car-btn" data-car-next aria-label="Volgende"><?= icon('chevron-right') ?></button></div>
         </div>
         <div class="up-card up-leg"><div class="up-foot" style="margin:0"><span class="muted">90 dagen geleden</span><span class="up-leg"><i class="up-d up-ok"></i> Operationeel <i class="up-d up-warn"></i> Beperkt <i class="up-d up-down"></i> Storing <i class="up-d up-plan"></i> Onderhoud</span><span class="muted">Vandaag</span></div></div>
     </div>
