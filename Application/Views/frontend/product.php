@@ -1,7 +1,7 @@
 <?php $extend('frontend', ['title' => $product->Naam]); $vat = (float) $product->BtwTarief; $first = (int) $product->Prijs + (int) $product->Instelkosten;
 $kind = $product->Dienstsoort ? \App\Models\Product::soortLabel($product->Dienstsoort) : (string) $product->Groep;
-$crumbs = [['/diensten', 'Diensten']];
-if ($soortPage !== null) { $crumbs[] = ['/oplossingen/' . $soortPage, $kind]; } elseif ($kind !== '') { $crumbs[] = ['/diensten#' . slugify($product->isExtension() ? 'domeinextensies' : $kind), $kind]; }
+$crumbs = [['/domeinen', 'Domeinen']];
+
 $crumbs[] = [null, $product->Naam];
 $per = ['maand' => '/ maand', 'kwartaal' => '/ kwartaal', 'jaar' => '/ jaar'][(string) $product->Periode] ?? 'eenmalig'; ?>
 <?= $partial('frontend._hero', ['title' => $product->Naam, 'intro' => (string) $product->Omschrijving, 'icon' => \App\Models\Product::soortIcon($product->Dienstsoort, $product->Groep), 'crumbs' => $crumbs]) ?>

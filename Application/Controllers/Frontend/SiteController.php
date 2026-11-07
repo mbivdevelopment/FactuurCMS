@@ -174,36 +174,6 @@ final class SiteController extends Controller
         return Response::redirect('/oplossingen/webhosting', 301);
     }
 
-    public function services(Request $request): Response
-    {
-        $group = $request->string('groep');
-        $products = $group !== ''
-            ? Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 AND Groep = ? ORDER BY Volgorde, Prijs, Id', [$group])
-            : Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 ORDER BY Volgorde, Prijs, Id');
-        [$domains, $products] = self::splitExtensions($products);
-        $sections = [];
-        foreach (Product::SOORTEN as $kinds) {
-            foreach (array_keys($kinds) as $kind) {
-                $list = array_values(array_filter($products, static fn (Product $p): bool => $p->Dienstsoort === $kind));
-                if ($list !== []) {
-                    $sections[$kind] = $list;
-                }
-            }
-        }
-        $rest = array_values(array_filter($products, static fn (Product $p): bool => !isset($sections[(string) $p->Dienstsoort])));
-        if ($rest !== []) {
-            $sections['Overige diensten'] = $rest;
-        }
-
-        return $this->view('frontend.services', [
-            'kinds' => $sections,
-            'domains' => $domains,
-            'soortPages' => self::soortPages(),
-            'group' => $group,
-            'groups' => array_column(Database::all('SELECT DISTINCT Groep FROM Producten WHERE Zichtbaar = 1 ORDER BY Groep'), 'Groep'),
-        ]);
-    }
-
     public function product(Request $request): Response
     {
         $product = $this->findProduct($request);
@@ -213,15 +183,11 @@ final class SiteController extends Controller
             return Response::redirect($product->path() . ($query !== '' ? '?' . $query : ''), 301);
         }
 
-        $siblings = $product->Dienstsoort !== null && !$product->isExtension()
-            ? Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 AND Dienstsoort = ? ORDER BY Volgorde, Prijs, Id', [$product->Dienstsoort])
-            : [];
+        if (!$product->isExtension()) {
+            return Response::redirect($product->path() . '/bestellen', 301);
+        }
 
-        return $this->view('frontend.product', [
-            'product' => $product,
-            'siblings' => count($siblings) > 1 ? $siblings : [],
-            'soortPage' => self::soortPages()[(string) $product->Dienstsoort] ?? null,
-        ]);
+        return $this->view('frontend.product', ['product' => $product, 'siblings' => [], 'soortPage' => null]);
     }
 
     public function checkout(Request $request): Response

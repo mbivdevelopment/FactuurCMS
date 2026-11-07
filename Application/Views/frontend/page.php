@@ -50,7 +50,7 @@ $benefits = \App\Services\PageContent::benefits($soort, $page['Titel']); $steps 
 </div></section>
 <?php if ($related !== []): ?>
 <section class="sec sec-alt"><div class="container">
-    <div class="sec-head"><div><span class="eyebrow"><?= icon('layout', 'icon icon-sm') ?> <?= e($catLabel) ?></span><h2>Bekijk ook</h2><p>Andere oplossingen die hier goed bij passen.</p></div><a class="btn btn-ghost" href="<?= e(url('/diensten')) ?>">Alle diensten <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+    <div class="sec-head"><div><span class="eyebrow"><?= icon('layout', 'icon icon-sm') ?> <?= e($catLabel) ?></span><h2>Bekijk ook</h2><p>Andere oplossingen die hier goed bij passen.</p></div></div>
     <div class="tiles"><?php foreach ($related as $r): ?><a class="mega-tile tile-card" href="<?= e(url('/oplossingen/' . $r['Slug'])) ?>"><span class="mt-i"><?= icon($r['Icoon']) ?></span><span><strong><?= e($r['Titel']) ?></strong><small><?= e((string) $r['Samenvatting']) ?></small></span></a><?php endforeach; ?></div>
 </div></section>
 <?php endif; ?>

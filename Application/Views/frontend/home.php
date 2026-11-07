@@ -7,7 +7,7 @@ $kindTag = ['Webhosting' => 'Klaar om mee te groeien', 'Domeinnamen' => 'Jouw na
 $cards = [];
 foreach ($kindOrder as $k) { if (isset($kindPrices[$k]) && count($cards) < 4) { $cards[$k] = $kindPrices[$k]; } }
 foreach ($kindPrices as $k => $v) { if (count($cards) < 4 && !isset($cards[$k])) { $cards[$k] = $v; } }
-$kindUrl = static fn (string $k): string => isset($soortPages[$k]) ? '/oplossingen/' . $soortPages[$k] : ($k === 'Domeinnamen' ? '/domeinen' : '/diensten#' . slugify($k));
+$kindUrl = static fn (string $k): string => isset($soortPages[$k]) ? '/oplossingen/' . $soortPages[$k] : ($k === 'Domeinnamen' ? '/domeinen' : '/contact');
 $tabs = [];
 foreach (['Domeinnamen', 'Webhosting', 'E-mail Hosting', 'Cloud VPS', 'Informatieve Websites', 'Webshops', 'VPN', 'Werkplek Beheer'] as $k) { if (isset($soortPages[$k]) || isset($kindPrices[$k])) { $tabs[] = $k; } }
 $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent::faq(null, 'onze diensten', true); ?>
@@ -18,7 +18,7 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
             <span class="hh-label"><?= icon('server', 'icon icon-sm') ?> <?= e((string) (setting('home.label', '') ?: 'Hosting & cloud uit Nederland')) ?></span>
             <h1><?= $homeTitle ?></h1>
             <p><?= e($homeText) ?></p>
-            <div class="hh-btns"><a class="btn btn-lg" href="<?= e(url('/oplossingen/webhosting')) ?>"><?= icon('box', 'icon icon-sm') ?> Bekijk hosting</a><a class="btn btn-lg btn-ghost" href="<?= e(url('/diensten')) ?>">Alle diensten <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+            <div class="hh-btns"><a class="btn btn-lg" href="<?= e(url('/oplossingen/webhosting')) ?>"><?= icon('box', 'icon icon-sm') ?> Bekijk hosting</a><a class="btn btn-lg btn-ghost" href="<?= e(url('/domeinen')) ?>">Domeinnaam zoeken <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
         </div>
         <div class="hh-visual">
             <?php if ($heroImg !== ''): ?><img class="hh-img" src="<?= e($heroImg) ?>" alt="<?= e(company_name()) ?>"><?php else: ?>

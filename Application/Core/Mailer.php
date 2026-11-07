@@ -173,7 +173,7 @@ Met vriendelijke groet,
             $i++;
             $groups .= '<td align="center" width="' . round($width) . '%" style="padding:12px 4px 10px;' . ($i < $count ? 'border-right:1px solid #e5e7eb;' : '') . '">'
                 . '<span style="display:block;font-size:16px;color:' . $primary . ';line-height:1;margin-bottom:5px">' . ($icons[$g] ?? '•') . '</span>'
-                . '<a href="' . e(absolute_url('/diensten')) . '" style="font-size:12px;font-weight:bold;color:#1f2937;text-decoration:none">' . e($g) . '</a></td>';
+                . '<a href="' . e(absolute_url('/')) . '" style="font-size:12px;font-weight:bold;color:#1f2937;text-decoration:none">' . e($g) . '</a></td>';
         }
 
         return '<div style="background:#fff;border-radius:8px;margin-top:12px;padding:20px 24px 16px;font-size:12.5px">'
