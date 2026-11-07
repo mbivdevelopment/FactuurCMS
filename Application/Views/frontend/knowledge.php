@@ -7,7 +7,7 @@
         <?php if ($articles === []): ?><div class="empty">Geen artikelen gevonden<?= $q !== '' ? ' voor "' . e($q) . '"' : '' ?>.</div><?php endif; ?>
         <?php foreach ($articles as $cat => $items): ?>
             <h2 class="kb-cat"><?= icon('book', 'icon icon-sm') ?> <?= e($cat) ?></h2>
-            <div class="kb-list"><?php foreach ($items as $a): ?><a class="kb-item" href="<?= e(url('/kennisbank/' . $a['Slug'])) ?>"><span class="kb-ic"><?= icon('note', 'icon icon-sm') ?></span><span><strong><?= e($a['Titel']) ?></strong><small><?= e((string) $a['Samenvatting']) ?></small></span><?= icon('chevron-right', 'icon icon-sm') ?></a><?php endforeach; ?></div>
+            <div class="kb-list"><?php foreach ($items as $a): ?><a class="kb-item" href="<?= e(url('/kennisbank/' . $a['Slug'])) ?>"><span class="kb-ic"><?= icon('note', 'icon icon-sm') ?></span><span><strong><?= e($a['Titel']) ?></strong><small><?= e((string) $a['Samenvatting']) ?></small></span></a><?php endforeach; ?></div>
         <?php endforeach; ?>
     </div>
 </div></section>

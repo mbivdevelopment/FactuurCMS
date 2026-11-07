@@ -144,8 +144,8 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
 <?php if ($projects !== []): ?>
 <section class="sec sec-proj">
     <div class="container">
-        <div class="sec-head"><div><span class="eyebrow"><?= icon('image', 'icon icon-sm') ?> Projecten</span><h2>Onze projecten</h2><p>Een greep uit de projecten die we voor ondernemers realiseerden.</p></div><a class="btn btn-ghost" href="<?= e(url('/portfolio')) ?>">Alle projecten <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
-        <?= $partial('frontend._carousel', ['items' => $projects, 'base' => '/portfolio/', 'icon' => 'image', 'more' => '', 'autoplay' => true]) ?>
+        <div class="sec-head"><div><span class="eyebrow"><?= icon('image', 'icon icon-sm') ?> Projecten</span><h2>Onze projecten</h2><p>Een greep uit de projecten die we voor ondernemers realiseerden.</p></div></div>
+        <?= $partial('frontend._carousel', ['items' => $projects, 'base' => '/portfolio/', 'icon' => 'image', 'more' => '', 'autoplay' => true, 'nav_top' => true]) ?>
     </div>
 </section>
 <?php endif; ?>
@@ -225,8 +225,8 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
 <?php if (($posts ?? []) !== []): ?>
 <section class="sec">
     <div class="container">
-        <div class="sec-head"><div><span class="eyebrow"><?= icon('note', 'icon icon-sm') ?> Blog</span><h2>Laatste berichten</h2></div><a class="btn btn-ghost" href="<?= e(url('/blog')) ?>">Alle berichten <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
-        <?= $partial('frontend._carousel', ['items' => $posts, 'base' => '/blog/', 'icon' => 'note', 'more' => 'Lees verder', 'autoplay' => true]) ?>
+        <div class="sec-head"><div><span class="eyebrow"><?= icon('note', 'icon icon-sm') ?> Blog</span><h2>Laatste berichten</h2></div></div>
+        <?= $partial('frontend._carousel', ['items' => $posts, 'base' => '/blog/', 'icon' => 'note', 'more' => 'Lees verder', 'autoplay' => true, 'nav_top' => true]) ?>
     </div>
 </section>
 <?php endif; ?>

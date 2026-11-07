@@ -1761,3 +1761,13 @@ a.up-svc { text-decoration: none; color: inherit; }
 .side-split { grid-template-columns: 380px minmax(0, 1fr); }
 .read-split { grid-template-columns: minmax(0, 1fr) 380px; }
 .read-solo { max-width: 860px; }
+
+/* Carousels: navigatie rechts in de sectietitel */
+.car { position: relative; }
+.car-nav.car-nav-top { position: absolute; top: -74px; right: 0; margin: 0; }
+@media (max-width: 640px) { .car-nav.car-nav-top { position: static; margin-top: 10px; justify-content: center; } }
+
+/* Kennisbankkaarten mooier */
+.kb-item { border-radius: 8px; padding: 18px 20px; border-left: 3px solid var(--primary); transition: transform .15s, box-shadow .15s, border-color .15s; }
+.kb-item:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(15,27,61,.12); }
+.kb-item strong { font-size: 15.5px; }

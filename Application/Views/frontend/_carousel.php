@@ -2,5 +2,5 @@
     <div class="car-track">
         <?php foreach ($items as $p): ?><div class="car-item"><?= $partial('frontend._post-card', ['p' => $p, 'base' => $base, 'icon' => $icon, 'more' => $more ?? null]) ?></div><?php endforeach; ?>
     </div>
-    <div class="car-nav"><button type="button" class="car-btn" data-car-prev aria-label="Vorige"><?= icon('chevron-left') ?></button><span class="car-dots"></span><button type="button" class="car-btn" data-car-next aria-label="Volgende"><?= icon('chevron-right') ?></button></div>
+    <div class="car-nav<?= !empty($nav_top) ? ' car-nav-top' : '' ?>"><button type="button" class="car-btn" data-car-prev aria-label="Vorige"><?= icon('chevron-left') ?></button><span class="car-dots"></span><button type="button" class="car-btn" data-car-next aria-label="Volgende"><?= icon('chevron-right') ?></button></div>
 </div>
