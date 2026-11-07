@@ -32,4 +32,10 @@
     <?php endif; ?>
     <p class="muted" style="margin-top:18px">Problemen met je eigen dienst? Open een <a href="<?= e(url('/klant/tickets/nieuw')) ?>">ticket</a> — storingen pakken we 24/7 op.</p>
 </div></section>
-<section class="sec sec-alt"><div class="container"><?= $partial('frontend._trust') ?></div></section>
+<?php if (($posts ?? []) !== []): ?>
+<section class="sec sec-alt"><div class="container">
+    <div class="sec-head"><div><span class="eyebrow"><?= icon('note', 'icon icon-sm') ?> Blog</span><h2>Laatste berichten</h2></div><a class="btn btn-ghost" href="<?= e(url('/blog')) ?>">Alle berichten <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+    <?= $partial('frontend._carousel', ['items' => $posts, 'base' => '/blog/', 'icon' => 'note', 'more' => 'Lees verder', 'autoplay' => true]) ?>
+</div></section>
+<?php endif; ?>
+<section class="sec"><div class="container"><?= $partial('frontend._trust') ?></div></section>

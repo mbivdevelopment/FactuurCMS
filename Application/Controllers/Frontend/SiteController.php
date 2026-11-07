@@ -356,7 +356,13 @@ final class SiteController extends Controller
             $open = $done = [];
         }
 
-        return $this->view('frontend.storingen', ['open' => $open, 'done' => $done, 'uptime' => self::uptime()]);
+        try {
+            $posts = Database::all('SELECT * FROM BlogBerichten WHERE Zichtbaar = 1 AND PublicatieDatum <= CURDATE() ORDER BY PublicatieDatum DESC, Id DESC LIMIT 9');
+        } catch (\Throwable) {
+            $posts = [];
+        }
+
+        return $this->view('frontend.storingen', ['open' => $open, 'done' => $done, 'uptime' => self::uptime(), 'posts' => $posts]);
     }
 
     public function contact(Request $request): Response
