@@ -1786,3 +1786,8 @@ a.sf-line { transition: color .15s; text-decoration: none; border-bottom: 0; }
 a.sf-line:hover span { color: #fff; }
 .sf-brand img { height: 30px; width: auto; }
 .sf-brand .brand-mark { color: var(--primary); }
+
+/* Scroll-in animaties */
+.rv { opacity: 0; transform: translateY(26px); transition: opacity .55s ease var(--rv-delay, 0ms), transform .55s cubic-bezier(.2,.7,.2,1) var(--rv-delay, 0ms); }
+.rv.is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .rv { opacity: 1; transform: none; transition: none; } }

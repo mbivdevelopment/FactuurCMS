@@ -272,3 +272,21 @@ document.addEventListener('click', ev => {
         if (dlg) dlg.close();
     }
 });
+
+/* Secties en kaarten subtiel animeren zodra ze in beeld komen. */
+(() => {
+    const els = document.querySelectorAll('.sec, .tile-card, .pcard, .kb-item, .up-svc, .st-item, .mega-tile, .step, .ext, .dfind-ext');
+    if (!('IntersectionObserver' in window) || els.length === 0) return;
+    const io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            e.target.classList.add('is-in');
+            io.unobserve(e.target);
+        });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    els.forEach((el, i) => {
+        el.classList.add('rv');
+        el.style.setProperty('--rv-delay', (i % 6) * 60 + 'ms');
+        io.observe(el);
+    });
+})();
