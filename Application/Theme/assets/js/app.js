@@ -280,8 +280,12 @@ document.addEventListener('click', ev => {
     const io = new IntersectionObserver(entries => {
         entries.forEach(e => {
             if (!e.isIntersecting) return;
-            e.target.classList.add('is-in');
-            io.unobserve(e.target);
+            const el = e.target;
+            el.classList.add('is-in');
+            io.unobserve(el);
+            // Animatie volledig opruimen zodat het nooit opnieuw afspeelt.
+            el.addEventListener('transitionend', () => el.classList.remove('rv', 'is-in'), { once: true });
+            setTimeout(() => el.classList.remove('rv', 'is-in'), 1600);
         });
     }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
     els.forEach((el, i) => {
