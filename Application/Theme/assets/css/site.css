@@ -1702,7 +1702,8 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .up-leg { display: inline-flex; align-items: center; gap: 6px; }
 .up-leg .up-d { width: 10px; height: 10px; border-radius: 2px; margin-left: 10px; }
 .st-list { display: flex; flex-direction: column; gap: 12px; }
-.st-item { display: flex; gap: 16px; background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 18px 22px; }
+.st-item { display: flex; gap: 16px; background: #fff; border: 1px solid var(--line); border-top: 3px solid var(--primary); border-radius: 8px; padding: 20px 22px; box-shadow: var(--shadow-sm); transition: box-shadow .18s ease; }
+.st-item:hover { box-shadow: var(--shadow); }
 .st-dot { display: block; width: 12px; height: 12px; border-radius: 50%; margin-top: 5px; background: #22c55e; }
 .st-dot.st-onderhoud { background: #94a3b8; } .st-dot.st-klein { background: #f5a524; } .st-dot.st-groot, .st-dot.st-uitval { background: #ef4444; }
 .st-main { flex: 1; min-width: 0; }
