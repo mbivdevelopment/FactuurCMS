@@ -1780,7 +1780,7 @@ a.up-svc { text-decoration: none; color: inherit; }
 .sf-line { display: flex; align-items: flex-start; gap: 9px; color: rgba(255,255,255,.75); font-size: 14.5px; line-height: 1.5; padding: 0; }
 .sf-line .icon { width: 15px; height: 15px; flex: none; margin-top: 2px; color: var(--primary); }
 .sf-line span { display: block; }
-.sf-cols a.sf-line { padding: 0; }
+.sf-cols a.sf-line { display: flex; align-items: flex-start; gap: 9px; padding: 0; }
 a.sf-line { transition: color .15s; text-decoration: none; border-bottom: 0; }
 a.sf-line:hover span { color: #fff; }
 .sf-brand img { height: 30px; width: auto; }
