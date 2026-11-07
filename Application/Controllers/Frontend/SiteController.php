@@ -206,7 +206,7 @@ final class SiteController extends Controller
         $product = $this->findProduct($request);
         $user = Auth::user();
         // Ook beheerders/medewerkers bestellen op hun eigen account.
-        $hosting = $product->Periode !== 'eenmalig' && $product->Groep !== 'Domeinen' && !in_array($product->Dienstsoort, ['Domeinnamen', 'SMTP Relay'], true);
+        $hosting = $product->Periode !== 'eenmalig' && $product->Groep !== 'Domeinen' && $product->Dienstsoort !== 'Domeinnamen';
         $rules = ['Akkoord' => 'required'];
         if ($hosting) {
             $rules += ['Domeinnaam' => 'required|max:200', 'DomeinActie' => 'required|in:hebik,registreren,verhuizen'];

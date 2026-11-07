@@ -133,6 +133,30 @@ final class PortalController extends Controller
         return $this->redirect('/klant/diensten/' . $service->id() . '/werkplek')->with($type, $message);
     }
 
+    public function serviceSmtpPage(Request $request): Response
+    {
+        $service = $this->ownService($request);
+        if (!$service->isSmtp()) {
+            throw new HttpException(404, 'Deze dienst is geen SMTP Relay.');
+        }
+
+        return $this->view('klant.smtp', ['service' => $service]);
+    }
+
+    /** Nieuw SMTP-wachtwoord genereren voor de dienst (gebruiker kan direct opnieuw inloggen via SMTP). */
+    public function serviceSmtpPassword(Request $request): Response
+    {
+        $service = $this->ownService($request);
+        if (!$service->isSmtp()) {
+            throw new HttpException(404, 'Deze dienst is geen SMTP Relay.');
+        }
+        $geo = is_array($service->Gegevens) ? $service->Gegevens : (json_decode((string) $service->Gegevens, true) ?: []);
+        $geo['smtp'] = array_merge((array) ($geo['smtp'] ?? []), ['wachtwoord' => bin2hex(random_bytes(10))]);
+        Database::update('Diensten', ['Gegevens' => json_encode($geo, JSON_UNESCAPED_UNICODE), 'BijgewerktOp' => now()], ['Id' => $service->id()]);
+
+        return $this->redirect('/klant/diensten/' . $service->id() . '/smtp')->with('success', 'Nieuw SMTP-wachtwoord gegenereerd. Vergeet niet je applicatie bij te werken.');
+    }
+
     public function serviceSso(Request $request): Response
     {
         $service = $this->ownService($request);

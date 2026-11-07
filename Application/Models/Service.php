@@ -17,6 +17,7 @@ final class Service extends Model
         'webhosting' => ['Webhosting', ['Webhosting', 'Reseller Hosting', 'E-mailhosting'], 'server'],
         'reseller' => ['Reseller hosting', ['Reseller Hosting'], 'users'],
         'e-mailhosting' => ['E-mailhosting', ['E-mailhosting'], 'mail'],
+        'smtp' => ['SMTP relay', ['SMTP Relay'], 'send'],
         'vps' => ['CloudVPS', ['Cloud VPS', 'VPS'], 'cloud'],
         'dedicated' => ['Dedicated', ['Dedicated Server', 'Dedicated'], 'cpu'],
         'big-storage' => ['Big Storage', ['Big Storage'], 'box'],
@@ -30,7 +31,7 @@ final class Service extends Model
     public const CAT_GROUPS = [
         'domeinen' => ['Domeinnamen', 'globe', ['domeinnamen']],
         'ssl' => ['SSL certificaten', 'shield', ['ssl']],
-        'webhosting' => ['Webhosting', 'server', ['webhosting', 'reseller', 'e-mailhosting']],
+        'webhosting' => ['Webhosting', 'server', ['webhosting', 'reseller', 'e-mailhosting', 'smtp']],
         'servers' => ['Servers', 'cpu', ['vps', 'dedicated', 'big-storage']],
         'ict' => ['ICT', 'zap', ['connectiviteit', 'ict']],
         'development' => ['Development', 'code', ['websites']],
@@ -99,6 +100,12 @@ final class Service extends Model
     public function isVps(): bool
     {
         return (string) $this->Bron === 'interserver';
+    }
+
+    /** Is dit een SMTP Relay-dienst? */
+    public function isSmtp(): bool
+    {
+        return $this->product()?->Dienstsoort === 'SMTP Relay';
     }
 
     /** Is dit een werkplekbeheer-dienst (Qevanto werkplekpakket)? */
