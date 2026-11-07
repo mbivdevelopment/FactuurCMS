@@ -233,7 +233,7 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .pa-i { width: 52px; height: 52px; border-radius: 8px; background: var(--navy); color: #fff; display: grid; place-items: center; }
 .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 .tile-card { border-color: var(--line); background: #fff; }
-.read-split { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 48px; align-items: start; }
+.read-split { display: grid; grid-template-columns: 380px minmax(0, 1fr); gap: 36px; align-items: start; }
 .side-split { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 36px; align-items: start; }
 .read-meta { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; color: var(--muted); font-size: 14px; margin-bottom: 18px; }
 .read-meta span { display: inline-flex; gap: 6px; align-items: center; }
@@ -1760,7 +1760,6 @@ a.up-svc { text-decoration: none; color: inherit; }
 .read-card { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 34px 38px; box-shadow: var(--shadow-sm); }
 .read-card .btn { margin-top: 22px; }
 .side-split { grid-template-columns: 380px minmax(0, 1fr); }
-.read-split { grid-template-columns: minmax(0, 1fr) 380px; }
 .read-solo { max-width: 860px; }
 
 /* Carousels: navigatie rechts in de sectietitel */
