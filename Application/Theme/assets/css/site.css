@@ -146,9 +146,10 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .car-track::-webkit-scrollbar { display: none; }
 .car-item { flex: 0 0 calc((100% - 72px) / 4); scroll-snap-align: start; }
 .car-nav { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 22px; }
-.car-btn { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: #fff; color: var(--navy); display: grid; place-items: center; cursor: pointer; box-shadow: var(--shadow-sm); }
+.car-btn { width: 44px; height: 44px; border-radius: 8px; border: 1px solid var(--navy); background: var(--navy); color: #fff; display: grid; place-items: center; cursor: pointer; box-shadow: var(--shadow-sm); transition: background .15s, border-color .15s, transform .15s; }
+.car-btn:hover { background: var(--primary); border-color: var(--primary); color: #fff; transform: translateY(-2px); }
 .car-btn:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
-.car-dots { display: flex; gap: 6px; }
+.car-dots { display: none; }
 .car-dots button { width: 8px; height: 8px; border-radius: 8px; border: 0; padding: 0; background: #cdd4e3; cursor: pointer; transition: width .2s; }
 .car-dots button.active { width: 26px; background: var(--primary); }
 
