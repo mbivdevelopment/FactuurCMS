@@ -7,7 +7,7 @@
     </div></div>
     <div class="dc-list">
         <?php foreach ($datacenters as $dc): ?>
-            <div class="dc-item"><span class="dc-ic"><?= icon('server') ?></span><div><strong><?= e($dc['Stad']) ?>, <?= e($dc['Land']) ?></strong> <span class="badge <?= $dc['Status'] === 'actief' ? 'is-ok' : 'is-warn' ?>"><?= $dc['Status'] === 'actief' ? 'Actief' : 'Binnenkort' ?></span><div class="small muted"><?= e($dc['Naam']) ?> · <?= e((string) $dc['Omschrijving']) ?></div></div></div>
+            <div class="dc-item"><span class="badge dc-badge <?= $dc['Status'] === 'actief' ? 'is-ok' : 'is-warn' ?>"><?= $dc['Status'] === 'actief' ? 'Actief' : 'Binnenkort' ?></span><span class="dc-ic"><?= icon('server') ?></span><div><strong><?= e($dc['Stad']) ?>, <?= e($dc['Land']) ?></strong><div class="small muted"><?= e($dc['Naam']) ?> · <?= e((string) $dc['Omschrijving']) ?></div></div></div>
         <?php endforeach; ?>
     </div>
 </div>

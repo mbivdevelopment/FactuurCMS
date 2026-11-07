@@ -1791,3 +1791,9 @@ a.sf-line:hover span { color: #fff; }
 .rv { opacity: 0; transform: translateY(26px); transition: opacity .55s ease var(--rv-delay, 0ms), transform .55s cubic-bezier(.2,.7,.2,1) var(--rv-delay, 0ms); }
 .rv.is-in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .rv { opacity: 1; transform: none; transition: none; } }
+
+/* Datacenterkaart: badge rechtsboven, bredere tekst */
+.dc-item { position: relative; }
+.dc-badge { position: absolute; top: 12px; right: 14px; }
+.dc-item > div { flex: 1; min-width: 0; padding-right: 70px; }
+.dc-item .muted { line-height: 1.6; }
