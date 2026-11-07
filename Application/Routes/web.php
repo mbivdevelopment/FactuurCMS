@@ -145,6 +145,14 @@ $router->group('beheer', ['csrf', 'auth', 'staff'], static function ($router): v
     $router->post('/tickets/{id}/status', 'Beheer\\TicketController@status');
     $router->delete('/tickets/{id}', 'Beheer\\TicketController@destroy');
 
+    $router->get('/storingen', 'Beheer\\OutageController@index');
+    $router->get('/storingen/nieuw', 'Beheer\\OutageController@create');
+    $router->post('/storingen', 'Beheer\\OutageController@store');
+    $router->get('/storingen/{id}', 'Beheer\\OutageController@edit');
+    $router->post('/storingen/{id}', 'Beheer\\OutageController@update');
+    $router->post('/storingen/{id}/status', 'Beheer\\OutageController@status');
+    $router->delete('/storingen/{id}', 'Beheer\\OutageController@destroy');
+
     $router->get('/projecten', 'Beheer\\ContentController@index');
     $router->get('/projecten/nieuw', 'Beheer\\ContentController@create');
     $router->post('/projecten', 'Beheer\\ContentController@store');
@@ -192,12 +200,6 @@ $router->group('beheer', ['csrf', 'auth', 'staff'], static function ($router): v
     $router->post('/inkoopfacturen/{id}', 'Beheer\\ContentController@update');
     $router->delete('/inkoopfacturen/{id}', 'Beheer\\ContentController@destroy');
 
-    $router->get('/storingen', 'Beheer\\ContentController@index');
-    $router->get('/storingen/nieuw', 'Beheer\\ContentController@create');
-    $router->post('/storingen', 'Beheer\\ContentController@store');
-    $router->get('/storingen/{id}', 'Beheer\\ContentController@edit');
-    $router->post('/storingen/{id}', 'Beheer\\ContentController@update');
-    $router->delete('/storingen/{id}', 'Beheer\\ContentController@destroy');
 
     $router->get('/snelle-antwoorden', 'Beheer\\ContentController@index');
     $router->get('/snelle-antwoorden/nieuw', 'Beheer\\ContentController@create');

@@ -375,14 +375,16 @@ CREATE TABLE IF NOT EXISTS Inkoopfacturen (
 
 CREATE TABLE IF NOT EXISTS Storingen (
     Id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    Titel VARCHAR(150) NOT NULL,
-    Status ENUM('onderzoek','opgelost','onderhoud') NOT NULL DEFAULT 'onderzoek',
-    Ernst ENUM('laag','middel','hoog') NOT NULL DEFAULT 'middel',
-    StartDatum DATE NOT NULL,
-    EindDatum DATE NULL,
+    Titel VARCHAR(190) NOT NULL,
     Omschrijving TEXT NULL,
+    Dienst VARCHAR(60) NULL,
+    Ernst ENUM('onderhoud','klein','groot','uitval') NOT NULL DEFAULT 'klein',
+    Status ENUM('onderzocht','bevestigd','monitoring','opgelost','gepland') NOT NULL DEFAULT 'onderzocht',
+    StartTijd DATETIME NOT NULL,
+    EindTijd DATETIME NULL,
     AangemaaktOp DATETIME NOT NULL,
-    BijgewerktOp DATETIME NULL
+    BijgewerktOp DATETIME NULL,
+    KEY IxStatus (Status, StartTijd)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS SnelleAntwoorden (

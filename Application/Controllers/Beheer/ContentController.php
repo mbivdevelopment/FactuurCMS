@@ -162,7 +162,7 @@ final class ContentController extends Controller
     private function type(Request $request): array
     {
         $key = (string) $request->param('type');
-        foreach (['projecten', 'afspraken', 'contracten', 'inkoopfacturen', 'storingen', 'snelle-antwoorden', 'crediteuren', 'leads'] as $fixed) {
+        foreach (['projecten', 'afspraken', 'contracten', 'inkoopfacturen', 'snelle-antwoorden', 'crediteuren', 'leads'] as $fixed) {
             if ($key === '' && $request->is('/beheer/' . $fixed)) {
                 $key = $fixed;
             }

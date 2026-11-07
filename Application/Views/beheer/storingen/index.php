@@ -1,0 +1,17 @@
+<?php $extend('beheer', ['title' => 'Storingen']); $sev = \App\Controllers\Beheer\OutageController::SEVERITIES; $stat = \App\Controllers\Beheer\OutageController::STATUSES; ?>
+<div class="page-head"><div class="ph-icon"><?= icon('zap') ?></div><div class="ph-text"><h1>Storingen</h1><div class="sub"><?= count($open) ?> actief · <a href="<?= e(url('/storingen')) ?>" target="_blank">statuspagina bekijken</a></div></div>
+    <a class="btn" href="<?= e(url('/beheer/storingen/nieuw')) ?>"><?= icon('plus', 'icon icon-sm') ?> Nieuwe storing</a></div>
+<div class="card"><h2 class="card-title">Actief &amp; gepland</h2><?php if ($open === []): ?><div class="empty">Geen actieve storingen of gepland onderhoud.</div><?php else: ?>
+<div class="table-wrap"><table class="table"><thead><tr><th>Titel</th><th>Dienst</th><th>Ernst</th><th>Status</th><th>Start</th><th></th></tr></thead><tbody>
+<?php foreach ($open as $i): ?><tr><td><a href="<?= e(url('/beheer/storingen/' . $i['Id'])) ?>"><strong><?= e($i['Titel']) ?></strong></a></td><td><?= e($i['Dienst'] ?: 'Alle diensten') ?></td><td><?= badge($i['Ernst'] === 'uitval' || $i['Ernst'] === 'groot' ? 'rood' : ($i['Ernst'] === 'klein' ? 'oranje' : 'grijs'), $sev[$i['Ernst']] ?? $i['Ernst']) ?></td>
+<td><?= badge($i['Status'] === 'opgelost' ? 'groen' : 'accent', $stat[$i['Status']] ?? $i['Status']) ?></td><td><?= e(nl_date($i['StartTijd'], true)) ?></td>
+<td class="actions"><form method="post" action="<?= e(url('/beheer/storingen/' . $i['Id'] . '/status')) ?>" class="inline"><?= csrf_field() ?><input type="hidden" name="Status" value="opgelost"><button class="btn btn-sm btn-ghost" title="Markeer als opgelost"><?= icon('check', 'icon icon-sm') ?></button></form>
+<a class="btn btn-sm btn-ghost" href="<?= e(url('/beheer/storingen/' . $i['Id'])) ?>"><?= icon('edit', 'icon icon-sm') ?></a>
+<form method="post" action="<?= e(url('/beheer/storingen/' . $i['Id'])) ?>" class="inline" onsubmit="return confirm('Storing verwijderen?')"><?= csrf_field() ?><?= method_field('DELETE') ?><button class="btn btn-sm btn-ghost" title="Verwijderen"><?= icon('trash', 'icon icon-sm') ?></button></form></td></tr><?php endforeach; ?>
+</tbody></table></div><?php endif; ?></div>
+<div class="card"><h2 class="card-title">Opgelost</h2><?php if ($done['rows'] === []): ?><div class="empty">Nog geen opgeloste storingen.</div><?php else: ?>
+<div class="table-wrap"><table class="table"><thead><tr><th>Titel</th><th>Dienst</th><th>Ernst</th><th>Start</th><th>Einde</th><th></th></tr></thead><tbody>
+<?php foreach ($done['rows'] as $i): ?><tr><td><a href="<?= e(url('/beheer/storingen/' . $i['Id'])) ?>"><?= e($i['Titel']) ?></a></td><td><?= e($i['Dienst'] ?: 'Alle diensten') ?></td><td><?= e($sev[$i['Ernst']] ?? $i['Ernst']) ?></td><td><?= e(nl_date($i['StartTijd'], true)) ?></td><td><?= e(nl_date($i['EindTijd'], true)) ?></td>
+<td class="actions"><a class="btn btn-sm btn-ghost" href="<?= e(url('/beheer/storingen/' . $i['Id'])) ?>"><?= icon('edit', 'icon icon-sm') ?></a>
+<form method="post" action="<?= e(url('/beheer/storingen/' . $i['Id'])) ?>" class="inline" onsubmit="return confirm('Storing verwijderen?')"><?= csrf_field() ?><?= method_field('DELETE') ?><button class="btn btn-sm btn-ghost" title="Verwijderen"><?= icon('trash', 'icon icon-sm') ?></button></form></td></tr><?php endforeach; ?>
+</tbody></table></div><?= pagination($done) ?><?php endif; ?></div>

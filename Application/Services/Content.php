@@ -91,18 +91,6 @@ final class Content
                 ],
                 'columns' => ['Datum' => 'date', 'Leverancier' => 'title', 'Factuurnummer' => 'text', 'Bedrag' => 'money', 'BtwBedrag' => 'money', 'Status' => 'badge'],
             ],
-            'storingen' => [
-                'table' => 'Storingen', 'label' => 'Storingen', 'single' => 'storing', 'icon' => 'zap', 'title' => 'Titel', 'base' => '/beheer/storingen',
-                'desc' => 'Storingen en gepland onderhoud', 'order' => "FIELD(Status, 'onderzoek', 'onderhoud', 'opgelost'), StartDatum DESC", 'public' => null,
-                'fields' => [
-                    'Titel' => ['Titel', 'tag', 'text', true],
-                    'Status' => ['Status', 'flag', 'select', true, ['onderzoek' => 'In onderzoek', 'onderhoud' => 'Gepland onderhoud', 'opgelost' => 'Opgelost']],
-                    'Ernst' => ['Ernst', 'zap', 'select', true, ['laag' => 'Laag', 'middel' => 'Middel', 'hoog' => 'Hoog']],
-                    'StartDatum' => ['Begonnen op', 'calendar', 'date', true], 'EindDatum' => ['Opgelost op', 'calendar', 'date'],
-                    'Omschrijving' => ['Omschrijving en updates', 'note', 'textarea'],
-                ],
-                'columns' => ['StartDatum' => 'date', 'Titel' => 'title', 'Ernst' => 'badge', 'Status' => 'badge', 'EindDatum' => 'date'],
-            ],
             'snelle-antwoorden' => [
                 'table' => 'SnelleAntwoorden', 'label' => 'Snelle antwoorden', 'single' => 'snel antwoord', 'icon' => 'chat', 'title' => 'Titel', 'base' => '/beheer/snelle-antwoorden',
                 'desc' => 'Standaardteksten die je met één klik in een ticketreactie invoegt', 'order' => 'Volgorde, Titel', 'public' => null,
