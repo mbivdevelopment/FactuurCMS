@@ -177,18 +177,10 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
     </div>
 </section>
 
-<section class="sec sec-alt">
-    <div class="container news-faq">
-        <div class="news-faq-solo">
-            <div class="sec-head"><div><span class="eyebrow"><?= icon('chat', 'icon icon-sm') ?> Veelgestelde vragen</span><h2>Goed om te weten</h2></div></div>
-            <?= $partial('frontend._faq', ['items' => $faq]) ?>
-            <a class="news-more" href="<?= e(url('/kennisbank')) ?>">Naar de kennisbank <?= icon('arrow-right', 'icon icon-sm') ?></a>
-        </div>
-    </div>
-</section>
+
 
 <?php if ($articles !== []): ?>
-<section class="sec">
+<section class="sec sec-kb">
     <div class="container">
         <div class="sec-head"><div><span class="eyebrow"><?= icon('book', 'icon icon-sm') ?> Kennisbank</span><h2>Zelf aan de slag</h2><p>Handleidingen en antwoorden op veelgestelde vragen, stap voor stap uitgelegd.</p></div><a class="btn btn-ghost" href="<?= e(url('/kennisbank')) ?>">Naar de kennisbank <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
         <div class="kb-list kb-2rows">
