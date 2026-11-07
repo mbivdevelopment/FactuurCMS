@@ -73,7 +73,7 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
                 <div class="kc-body">
                     <span class="pk-kind"><?= icon(\App\Models\Product::soortIcon($k), 'icon icon-sm') ?><?= e(\App\Models\Product::soortLabel($k)) ?></span>
                     <h3><?= e($kindTag[$k] ?? \App\Models\Product::soortText($k) ?: $k) ?></h3>
-                    <ul><?php foreach ($b as [$ic, $t]): ?><li><?= icon('check', 'icon icon-sm') ?> <?= e($t) ?></li><?php endforeach; ?></ul>
+                    <ul><?php foreach ($b as [$ic, $t]): ?><li><?= e($t) ?></li><?php endforeach; ?></ul>
                     <div class="kc-foot"><span class="kc-from"><small>Vanaf</small><strong><?= e(money($kp['min'])) ?> <em><?= e($per($kp['periode'])) ?></em></strong></span><span class="btn btn-sm">Bekijk pakketten</span></div>
                 </div>
             </a>
@@ -168,12 +168,12 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
                 <p>We kiezen bewust voor Tier III-faciliteiten: dubbele stroomtoevoer, meerdere netwerkcarriers en strenge beveiliging met toegangscontrole en camerabewaking. Jouw data blijft binnen Europa, volledig conform de AVG. En omdat onze eigen engineers dag en nacht meekijken, merken we problemen vaak op voordat jij ze ervaart.</p>
                 <p>Nieuw platform of juist extra schaal nodig? We schalen mee: van een enkele website tot complete VPS-clusters met eigen netwerk. Je hoeft niet te verhuizen naar een andere partij als je groeit — onze datacenters groeien met je mee.</p>
                 <ul class="dc-perks">
-                    <li><?= icon('check', 'icon icon-sm') ?> Redundante stroom, koeling en verbindingen (N+1)</li>
-                    <li><?= icon('check', 'icon icon-sm') ?> Dichtbij: Nederlandse datacenters en lage ping</li>
-                    <li><?= icon('check', 'icon icon-sm') ?> 24/7-monitoring en storingbestrijding door eigen engineers</li>
-                    <li><?= icon('check', 'icon icon-sm') ?> Dagelijkse back-ups op een aparte locatie</li>
-                    <li><?= icon('check', 'icon icon-sm') ?> Data in Europa, volledig AVG-proof</li>
-                    <li><?= icon('check', 'icon icon-sm') ?> Tier III-faciliteiten met dubbele stroomtoevoer</li>
+                    <li>Redundante stroom, koeling en verbindingen (N+1)</li>
+                    <li>Dichtbij: Nederlandse datacenters en lage ping</li>
+                    <li>24/7-monitoring en storingbestrijding door eigen engineers</li>
+                    <li>Dagelijkse back-ups op een aparte locatie</li>
+                    <li>Data in Europa, volledig AVG-proof</li>
+                    <li>Tier III-faciliteiten met dubbele stroomtoevoer</li>
                 </ul>
             </div>
             <div class="row" style="margin-top:22px"><a class="btn btn-lg" href="<?= e(url('/contact')) ?>">Vraag advies <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
