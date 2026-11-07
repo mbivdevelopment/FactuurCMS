@@ -12,7 +12,7 @@ final class Product extends Model
     /** Dienstsoorten per megamenu-kolom: naam => [icoon, omschrijving]. */
     public const SOORTEN = [
         'Domeinen' => ['Domeinnamen' => ['globe', 'Registraties en verhuizingen'], 'SSL Certificaten' => ['lock', 'Beveiligde verbindingen']],
-        'Hosting' => ['Webhosting' => ['server', 'Hosting voor websites'], 'Reseller Hosting' => ['users', 'Hosting voor doorverkoop'], 'E-mail Hosting' => ['mail', 'Zakelijke mailboxen']],
+        'Hosting' => ['Webhosting' => ['server', 'Hosting voor websites'], 'Reseller Hosting' => ['users', 'Hosting voor doorverkoop'], 'E-mail Hosting' => ['mail', 'Zakelijke mailboxen'], 'SMTP Relay' => ['send', 'Transactiemail en nieuwsbrieven']],
         'Servers' => ['Cloud VPS' => ['cloud', 'Virtuele servers'], 'Dedicated Server' => ['cpu', 'Eigen fysieke server'], 'Big Storage' => ['box', 'Grote opslag en back-ups']],
         'Connectiviteit' => ['VPN' => ['shield', 'Veilig verbinden op afstand'], 'VoIP' => ['phone', 'Zakelijke telefonie'], 'Licenties' => ['tag', 'Software en Microsoft 365'], 'Werkplek Beheer' => ['headset', 'Beheer van werkplekken']],
         'Development' => ['Informatieve Websites' => ['layout', 'Bedrijfs- en informatiesites'], 'Webshops' => ['cart', 'Online winkels'], 'API Koppelingen' => ['code', 'Koppelingen tussen systemen']],

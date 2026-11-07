@@ -120,20 +120,21 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
 <?php endif; ?>
 
 <?php if ($solutionPages !== []): ?>
+<?php $smtp = \App\Models\Product::firstWhere(['Dienstsoort' => 'SMTP Relay', 'Zichtbaar' => 1]); ?>
 <section class="sec sec-cat">
     <div class="container">
         <div class="cta-grid">
             <div class="cta-l">
-                <span class="eyebrow eyebrow-light"><?= icon('zap', 'icon icon-sm') ?> Klaar voor je volgende stap?</span>
-                <h2>Start vandaag met hosting en e-mail die gewoon werkt.</h2>
-                <p>Registreer je domein, kies een hostingpakket en je bent online — met gratis verhuizing, dagelijkse back-ups en persoonlijke support vanuit Nederland.</p>
-                <div class="cta-btns"><a class="btn" href="<?= e(url('/domeinen')) ?>"><?= icon('search', 'icon icon-sm') ?> Zoek je domeinnaam</a><a class="btn btn-ghost-light" href="<?= e(url('/contact')) ?>"><?= icon('headset', 'icon icon-sm') ?> Vraag advies</a></div>
+                <span class="eyebrow eyebrow-light"><?= icon('send', 'icon icon-sm') ?> Nieuw · SMTP Relay</span>
+                <h2>Verstuur e-mail die aankomt via onze SMTP Relay.</h2>
+                <p>Orderbevestigingen, wachtwoordresets en nieuwsbrieven vanuit je website of app verzonden via onze betrouwbare mailinfrastructuur — met SPF, DKIM en DMARC goed geregeld.</p>
+                <div class="cta-btns"><a class="btn" href="<?= e(url($smtp !== null ? $smtp->path() . '/bestellen' : '/contact')) ?>"><?= icon('send', 'icon icon-sm') ?> Start met SMTP Relay</a><a class="btn btn-ghost-light" href="<?= e(url('/contact')) ?>"><?= icon('headset', 'icon icon-sm') ?> Vraag advies</a></div>
             </div>
             <div class="cta-stats">
-                <div class="cta-stat"><b>99,9%</b><span>Uptime-garantie op al onze platformen</span></div>
-                <div class="cta-stat"><b>24/7</b><span>Monitoring en bereikbare support</span></div>
-                <div class="cta-stat"><b>NL</b><span>Data en support in Nederlandse datacenters</span></div>
-                <div class="cta-stat"><b>Dagelijks</b><span>Automatische back-ups van je data</span></div>
+                <div class="cta-stat"><b>Inbox</b><span>Hoge inbox-komst met correcte SPF, DKIM en DMARC</span></div>
+                <div class="cta-stat"><b>SMTP &amp; API</b><span>Verzenden via standaard SMTP of de e-mail-API</span></div>
+                <div class="cta-stat"><b>Realtime</b><span>Inzage in verzonden, bezorgde en gebouncte e-mail</span></div>
+                <div class="cta-stat"><b>Schaalbaar</b><span>Van honderd tot miljoenen e-mails per maand</span></div>
             </div>
         </div>
     </div>
