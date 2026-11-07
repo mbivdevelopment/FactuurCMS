@@ -1678,3 +1678,9 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .sec-kb { position: relative; overflow: hidden; background: #f3f5f9 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='700' viewBox='0 0 1600 700' fill='none' stroke='%230b1533' stroke-opacity='.07' stroke-width='1.5'%3E%3Cpath d='M1380 40l80 46v92l-80 46-80-46V86z'/%3E%3Cpath d='M1470 160l80 46v92l-80 46-80-46v-92z'/%3E%3Cpath d='M1290 160l80 46v92l-80 46-80-46v-92z'/%3E%3Cpath d='M1380 280l80 46v92l-80 46-80-46v-92z'/%3E%3Cpath d='M160 420l80 46v92l-80 46-80-46v-92z'/%3E%3Cpath d='M70 540l80 46v92l-80 46-80-46v-92z'/%3E%3Cpath d='M250 540l80 46v92l-80 46-80-46v-92z'/%3E%3Cpath d='M-100 700L500 100M0 700L600 100M100 700L700 100' stroke-opacity='.045'/%3E%3Cpath d='M900 700l600-600M1000 700l600-600' stroke-opacity='.045'/%3E%3C/svg%3E") center / cover no-repeat; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .sec-kb::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(11, 21, 51, .035) 1px, transparent 1px), linear-gradient(90deg, rgba(11, 21, 51, .035) 1px, transparent 1px); background-size: 44px 44px; pointer-events: none; }
 .sec-kb .container { position: relative; z-index: 1; }
+
+/* Softwarelogo's als grid op witte sectie */
+.logo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+.logo-grid .logo-item { flex-direction: column; justify-content: center; height: auto; padding: 20px 14px; gap: 10px; white-space: normal; text-align: center; font-size: 13.5px; transition: transform .15s, box-shadow .15s, border-color .15s; }
+.logo-grid .logo-item:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(11, 21, 51, .1); border-color: color-mix(in srgb, var(--primary) 30%, var(--line)); }
+.logo-grid .logo-item img { height: 34px; width: 34px; }

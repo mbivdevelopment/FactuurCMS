@@ -193,14 +193,11 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
 <?php endif; ?>
 
 <?php $logos = ['almalinux' => 'AlmaLinux', 'apache' => 'Apache', 'cloudflare' => 'Cloudflare', 'debian' => 'Debian', 'docker' => 'Docker', 'drupal' => 'Drupal', 'joomla' => 'Joomla', 'laravel' => 'Laravel', 'letsencrypt' => 'Let\'s Encrypt', 'magento' => 'Magento', 'mariadb' => 'MariaDB', 'mysql' => 'MySQL', 'nginx' => 'nginx', 'nodedotjs' => 'Node.js', 'openlitespeed' => 'OpenLiteSpeed', 'php' => 'PHP', 'prestashop' => 'PrestaShop', 'python' => 'Python', 'redis' => 'Redis', 'ubuntu' => 'Ubuntu', 'woocommerce' => 'WooCommerce', 'wordpress' => 'WordPress']; ?>
-<section class="sec sec-alt">
+<section class="sec">
     <div class="container">
-        <div class="logo-bar">
-            <div class="logo-bar-head"><div><h2>Bewezen software waarop we draaien</h2><p>Van besturingssysteem en webserver tot framework en CMS. Alles wat we inzetten is bewezen, snel en veilig — software waar je op kunt bouwen.</p></div></div>
-            <div class="marquee"><div class="marquee-track">
-                <?php foreach ([false, true] as $hidden): foreach ($logos as $slug => $name): ?><span class="logo-item"<?= $hidden ? ' aria-hidden="true"' : '' ?>><img src="<?= e(asset('img/logos/' . $slug . '.svg')) ?>" alt="" loading="lazy"><?= e($name) ?></span><?php endforeach; endforeach; ?>
-            </div></div>
+        <div class="sec-head center"><div><span class="eyebrow"><?= icon('box', 'icon icon-sm') ?> Onze stack</span><h2>Bewezen software waarop we draaien</h2><p>Van besturingssysteem en webserver tot framework en CMS. Alles wat we inzetten is bewezen, snel en veilig — software waar je op kunt bouwen.</p></div></div>
+        <div class="logo-grid">
+            <?php foreach ($logos as $slug => $name): ?><span class="logo-item"><img src="<?= e(asset('img/logos/' . $slug . '.svg')) ?>" alt="" loading="lazy"><?= e($name) ?></span><?php endforeach; ?>
         </div>
     </div>
 </section>
-<?= $partial('frontend._cta', ['title' => 'Klaar om te starten?', 'text' => 'Bestel direct online of laat je vrijblijvend adviseren door onze specialisten.']) ?>
