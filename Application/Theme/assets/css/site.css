@@ -1604,3 +1604,23 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .pk7-more:hover { color: var(--primary); }
 @media (max-width: 1100px) { .pk-grid, .pk-grid.pk-n4, .pk-grid.pk-n3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 640px) { .pk-grid, .pk-grid.pk-n4, .pk-grid.pk-n3, .pk-grid.pk-n2 { grid-template-columns: minmax(0, 1fr); } }
+
+/* Onze producten: grijze full-width band met golflijnen-patroon, tegels met omschrijving en vanaf-prijs */
+.sec-prod { position: relative; overflow: hidden; padding: 80px 0; background: #f3f5f9 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='700' viewBox='0 0 1600 700' fill='none' stroke='%230b1533' stroke-opacity='.07' stroke-width='1.5'%3E%3Cpath d='M-50 120c200-90 400 90 600 0s400-90 600 0 400 90 600 0'/%3E%3Cpath d='M-50 170c200-90 400 90 600 0s400-90 600 0 400 90 600 0' stroke-opacity='.05'/%3E%3Cpath d='M-50 560c200-90 400 90 600 0s400-90 600 0 400 90 600 0'/%3E%3Cpath d='M-50 610c200-90 400 90 600 0s400-90 600 0 400 90 600 0' stroke-opacity='.05'/%3E%3Crect x='1380' y='60' width='120' height='120' rx='8' transform='rotate(15 1440 120)'/%3E%3Crect x='1450' y='170' width='70' height='70' rx='8' transform='rotate(-10 1485 205)' stroke-opacity='.05'/%3E%3Crect x='80' y='500' width='120' height='120' rx='8' transform='rotate(-15 140 560)'/%3E%3Crect x='40' y='410' width='60' height='60' rx='8' transform='rotate(20 70 440)' stroke-opacity='.05'/%3E%3Cpath d='M300 40v30M285 55h30M1200 640v30M1185 655h30' stroke-opacity='.1'/%3E%3C/svg%3E") center / cover no-repeat; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.sec-prod::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(rgba(11, 21, 51, .07) 1px, transparent 1px); background-size: 26px 26px; pointer-events: none; }
+.sec-prod .container { position: relative; z-index: 1; }
+.sec-prod .prod-tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
+.sec-prod .prod-tile { flex-direction: column; align-items: stretch; text-align: left; gap: 0; padding: 26px 24px 20px; border-radius: 8px; border: 1px solid #fff; box-shadow: 0 6px 24px rgba(11, 21, 51, .06); }
+.sec-prod .prod-tile:hover { border-color: var(--primary); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(11, 21, 51, .1); }
+.sec-prod .prod-tile-i { width: 52px; height: 52px; border-radius: 8px; margin-bottom: 18px; }
+.prod-tile-t { display: grid; gap: 4px; flex: 1; }
+.prod-tile-t strong { font-size: 18px; font-weight: 700; letter-spacing: -.01em; }
+.prod-tile-t small { font-size: 14px; color: var(--muted); line-height: 1.5; }
+.prod-tile-f { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+.prod-tile-p { font-size: 13.5px; color: var(--muted); font-weight: 600; }
+.prod-tile-p b { color: var(--navy); font-size: 16px; font-weight: 800; }
+.prod-tile-f i { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; background: var(--soft); color: var(--navy); font-style: normal; flex: none; transition: background .15s, color .15s; }
+.prod-tile:hover .prod-tile-f i { background: var(--primary); color: #fff; }
+.sec-prod .prod-tiles-help { margin-top: 34px; }
+@media (max-width: 1000px) { .sec-prod .prod-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .sec-prod .prod-tiles { grid-template-columns: 1fr; } }

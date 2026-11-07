@@ -120,10 +120,11 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
 <?php endif; ?>
 
 <?php if ($solutionPages !== []): ?>
-<section class="sec sec-tight sec-alt">
+<?php $pageSoort = array_flip($soortPages); ?>
+<section class="sec sec-prod">
     <div class="container">
-        <div class="sec-head center"><div><h2>Onze producten</h2></div></div>
-        <div class="prod-tiles"><?php foreach ($solutionPages as $sp): ?><a class="prod-tile" href="<?= e(url('/oplossingen/' . $sp['Slug'])) ?>"><span class="prod-tile-i"><?= icon($sp['Icoon']) ?></span><strong><?= e($sp['Titel']) ?></strong></a><?php endforeach; ?></div>
+        <div class="sec-head center"><div><span class="eyebrow"><?= icon('box', 'icon icon-sm') ?> Aanbod</span><h2>Onze producten</h2><p>Alles voor je online aanwezigheid, van domeinnaam tot server.</p></div></div>
+        <div class="prod-tiles"><?php foreach ($solutionPages as $sp): $kp = $kindPrices[$pageSoort[$sp['Slug']] ?? ''] ?? null; ?><a class="prod-tile" href="<?= e(url('/oplossingen/' . $sp['Slug'])) ?>"><span class="prod-tile-i"><?= icon($sp['Icoon']) ?></span><span class="prod-tile-t"><strong><?= e($sp['Titel']) ?></strong><small><?= e((string) $sp['Samenvatting']) ?></small></span><span class="prod-tile-f"><?php if ($kp !== null): ?><span class="prod-tile-p">Vanaf <b><?= e(money($kp['min'])) ?></b> <?= e($per($kp['periode'])) ?></span><?php else: ?><span class="prod-tile-p">Meer informatie</span><?php endif; ?><i><?= icon('arrow-right', 'icon icon-sm') ?></i></span></a><?php endforeach; ?></div>
         <p class="prod-tiles-help">Hulp nodig of wil je meer weten over onze producten? We staan altijd voor je klaar. <a class="btn btn-sm" href="<?= e(url('/contact')) ?>"><?= icon('headset', 'icon icon-sm') ?> Contact</a></p>
     </div>
 </section>
