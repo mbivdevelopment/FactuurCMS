@@ -1156,8 +1156,9 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .dfind .dsearch input { height: 54px; font-size: 18px; background: transparent; }
 .dfind .dsearch .btn { border-radius: 10px; height: 54px; padding: 0 28px; }
 .dfind-exts { display: flex; gap: 8px; flex-wrap: wrap; align-items: stretch; margin-top: 16px; }
-.dfind-exts a { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 94px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); color: var(--navy); background: #fff; line-height: 1.2; transition: border-color .15s, transform .15s, box-shadow .15s; }
+.dfind-exts a, .dfind-exts .dfind-ext { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 94px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); color: var(--navy); background: #fff; line-height: 1.2; transition: border-color .15s, transform .15s, box-shadow .15s; }
 .dfind-exts a:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.dfind-exts .dfind-ext:hover { border-color: var(--primary); }
 .dfind-exts strong { font-size: 16px; font-weight: 800; color: var(--primary); }
 .dfind-exts span { font-size: 14px; font-weight: 700; margin-top: 3px; }
 .dfind-exts small { color: var(--muted); font-size: 11px; }
@@ -1268,7 +1269,7 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .dfind-card { border-radius: 8px; }
 .dfind .dsearch, .dfind .dsearch .btn { border-radius: 8px; }
 .dfind-exts { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
-.dfind-exts a { min-width: 0; border-radius: 8px; padding: 12px 10px; }
+.dfind-exts a, .dfind-exts .dfind-ext { min-width: 0; border-radius: 8px; padding: 12px 10px; }
 .dfind-exts .dfind-all { grid-column: span 1; }
 @media (max-width: 1000px) { .dfind-exts { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (max-width: 600px) { .dfind-exts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
