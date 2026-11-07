@@ -13,5 +13,4 @@ $short = preg_replace('/^' . preg_quote($kind, '/') . '\s+/iu', '', $naam) ?: $n
     <div class="pk7-pr"><b><?= e(money((int) $p->Prijs)) ?></b><span><?= e($per) ?></span></div>
     <a class="btn pk7-btn" href="<?= e(url($p->path() . '/bestellen')) ?>">Direct bestellen</a>
     <ul class="pk7-f"><?php foreach ($p->featureItems() as $f): ?><li><i class="pk7-ck"><?= icon('check', 'icon icon-sm') ?></i><?= e($f['tekst']) ?></li><?php endforeach; ?></ul>
-    <a class="pk7-more" href="<?= e(url($p->path())) ?>">Alle details</a>
 </article>
