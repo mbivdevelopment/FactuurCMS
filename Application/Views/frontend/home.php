@@ -222,3 +222,11 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
         </div>
     </div>
 </section>
+<?php if (($posts ?? []) !== []): ?>
+<section class="sec">
+    <div class="container">
+        <div class="sec-head"><div><span class="eyebrow"><?= icon('note', 'icon icon-sm') ?> Blog</span><h2>Laatste berichten</h2></div><a class="btn btn-ghost" href="<?= e(url('/blog')) ?>">Alle berichten <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+        <?= $partial('frontend._carousel', ['items' => $posts, 'base' => '/blog/', 'icon' => 'note', 'more' => 'Lees verder', 'autoplay' => true]) ?>
+    </div>
+</section>
+<?php endif; ?>
