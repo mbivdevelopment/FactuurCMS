@@ -7,7 +7,7 @@ $short = preg_replace('/^' . preg_quote($kind, '/') . '\s+/iu', '', $naam) ?: $n
 <article class="pk pk7<?= $p->Uitgelicht ? ' pk-hot' : '' ?>">
     <?php if ($p->Uitgelicht): ?><span class="pk7-hot">Populair</span><?php endif; ?>
     <div class="pk7-head">
-        <span class="pk7-k"><?= e($kind) ?></span>
+        <span class="pk7-k"><?= icon(\App\Models\Product::soortIcon($p->Dienstsoort, $p->Groep), 'icon icon-sm') ?><?= e($kind) ?></span>
         <h3 class="pk7-t"><a href="<?= e(url($p->path())) ?>"><?= e($short) ?></a></h3>
     </div>
     <div class="pk7-pr"><b><?= e(money((int) $p->Prijs)) ?></b><span><?= e($per) ?></span></div>
