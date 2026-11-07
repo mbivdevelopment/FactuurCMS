@@ -1593,8 +1593,9 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .site .pk7-btn:hover { background: var(--navy-2); border-color: var(--navy-2); transform: none; box-shadow: none; }
 .site .pk7.pk-hot .pk7-btn { background: var(--primary); border-color: var(--primary); }
 .site .pk7.pk-hot .pk7-btn:hover { background: #e84d12; border-color: #e84d12; }
-.pk7-f { list-style: none; margin: 0 0 18px; padding: 22px 22px 0; border-top: 1px solid var(--line); display: grid; gap: 10px; flex: 1; align-content: start; }
-.pk7-f li { display: flex; gap: 10px; align-items: center; font-size: 14px; color: #2b3756; line-height: 1.35; }
+.pk7-f { list-style: none; margin: 0 0 18px; padding: 0; border-top: 1px solid var(--line); display: grid; gap: 0; flex: 1; align-content: start; }
+.pk7-f li { display: flex; gap: 10px; align-items: center; font-size: 14px; color: #2b3756; line-height: 1.35; padding: 10px 22px; }
+.pk7-f li:nth-child(odd) { background: var(--soft); }
 .pk7-ck { width: 18px; height: 18px; border-radius: 50%; background: #dcfce7; color: #15803d; display: inline-grid; place-items: center; flex: none; font-style: normal; }
 .pk7-ck .icon { width: 11px; height: 11px; }
 .pk7-more { display: block; text-align: center; font-size: 13px; font-weight: 600; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
