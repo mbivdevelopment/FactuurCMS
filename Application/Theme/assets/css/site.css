@@ -1638,5 +1638,6 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .sec-proj .pc-meta { font-size: 12.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: #8a94ad; }
 .sec-proj .pc-body strong { font-size: 21px; letter-spacing: -.01em; color: var(--navy); }
 .sec-proj .pc-text { font-size: 14.5px; line-height: 1.55; }
-.sec-proj .pc-more { margin-top: 12px; align-self: flex-start; padding: 9px 18px; border-radius: 8px; border: 1.5px solid rgba(255, 90, 31, .35); background: var(--accent-soft); }
-.sec-proj .car-item .pc:hover .pc-more { background: var(--primary); border-color: var(--primary); color: #fff; }
+.sec-proj .pc-titlerow { display: flex; justify-content: space-between; align-items: center; gap: 14px; }
+.sec-proj .pc-arrow { width: 34px; height: 34px; border-radius: 50%; background: var(--soft); color: var(--navy); display: grid; place-items: center; font-style: normal; flex: none; transition: background .15s, color .15s, transform .15s; }
+.sec-proj .car-item .pc:hover .pc-arrow { background: var(--primary); color: #fff; transform: translateX(3px); }
