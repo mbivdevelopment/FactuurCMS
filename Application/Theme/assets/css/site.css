@@ -1772,3 +1772,9 @@ a.up-svc { text-decoration: none; color: inherit; }
 .kb-item { border-radius: 8px; padding: 18px 20px; border-left: 3px solid var(--primary); transition: transform .15s, box-shadow .15s, border-color .15s; }
 .kb-item:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(15,27,61,.12); }
 .kb-item strong { font-size: 15.5px; }
+
+/* Footer: bedrijfsgegevens-kolom */
+.sf-info { max-width: 260px; }
+.sf-line { display: block; color: rgba(255,255,255,.72); font-size: 14px; line-height: 1.7; margin: 8px 0; }
+a.sf-line:hover { color: var(--primary); }
+.sf-line .icon { margin-right: 4px; }

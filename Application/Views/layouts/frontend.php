@@ -97,6 +97,13 @@ $colIcons = ['Domeinen' => 'globe', 'Hosting' => 'server', 'Servers' => 'cpu', '
 <footer class="sfoot">
     <div class="container">
         <div class="sf-cols">
+            <div class="sf-info"><h3><?= e(company_name()) ?></h3>
+                <?php if (setting('bedrijf.adres') !== '' || setting('bedrijf.plaats') !== ''): ?><span class="sf-line"><?= e(trim(setting('bedrijf.adres'))) ?><br><?= e(trim(setting('bedrijf.postcode') . ' ' . setting('bedrijf.plaats'))) ?></span><?php endif; ?>
+                <?php if (setting('bedrijf.telefoon') !== ''): ?><a class="sf-line" href="tel:<?= e(preg_replace('/[^0-9+]/', '', setting('bedrijf.telefoon'))) ?>"><?= icon('phone', 'icon icon-sm') ?> <?= e(setting('bedrijf.telefoon')) ?></a><?php endif; ?>
+                <?php if (setting('bedrijf.email') !== ''): ?><a class="sf-line" href="mailto:<?= e(setting('bedrijf.email')) ?>"><?= icon('mail', 'icon icon-sm') ?> <?= e(setting('bedrijf.email')) ?></a><?php endif; ?>
+                <?php if (setting('bedrijf.kvk') !== ''): ?><span class="sf-line">KvK <?= e(setting('bedrijf.kvk')) ?></span><?php endif; ?>
+                <?php if (setting('bedrijf.btw') !== ''): ?><span class="sf-line">Btw <?= e(setting('bedrijf.btw')) ?></span><?php endif; ?>
+            </div>
             <div><h3>Cloudoplossingen</h3><?php foreach ($menu['cloud'] as $items): foreach ($items as $mp): ?><a href="<?= e(url('/oplossingen/' . $mp['Slug'])) ?>"><?= e($mp['Titel']) ?></a><?php endforeach; endforeach; ?></div>
             <div><h3>ICT &amp; Development</h3><?php foreach ($menu['ict'] as $items): foreach ($items as $mp): ?><a href="<?= e(url('/oplossingen/' . $mp['Slug'])) ?>"><?= e($mp['Titel']) ?></a><?php endforeach; endforeach; ?></div>
             <div><h3><?= e(company_name()) ?></h3><a href="<?= e(url('/over-ons')) ?>">Over ons</a><a href="<?= e(url('/portfolio')) ?>">Portfolio</a><a href="<?= e(url('/blog')) ?>">Blog</a><a href="<?= e(url('/kennisbank')) ?>">Kennisbank</a><a href="<?= e(url('/contact')) ?>">Contact</a></div>
