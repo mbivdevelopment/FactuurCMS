@@ -96,18 +96,6 @@ $colIcons = ['Domeinen' => 'globe', 'Hosting' => 'server', 'Servers' => 'cpu', '
 <?= $yield('content') ?>
 <footer class="sfoot">
     <div class="container">
-        <div class="sf-top">
-            <a class="sf-logo" href="<?= e(url('/')) ?>"><?= $partial('partials.brand', ['dark' => true]) ?></a>
-            <p><?= e((string) setting('footer.tekst', (string) setting('website.intro', ''))) ?></p>
-            <div class="sf-pills">
-                <?php if ($tel !== ''): ?><a href="tel:<?= e(preg_replace('/[^0-9+]/', '', $tel)) ?>"><?= icon('phone', 'icon icon-sm') ?> <?= e($tel) ?></a><?php endif; ?>
-                <?php if ($mail !== ''): ?><a href="mailto:<?= e($mail) ?>"><?= icon('mail', 'icon icon-sm') ?> <?= e($mail) ?></a><?php endif; ?>
-                <a href="<?= e(url('/klant/tickets/nieuw')) ?>"><?= icon('headset', 'icon icon-sm') ?> Support</a>
-            </div>
-            <div class="sf-social">
-                <?php foreach (['linkedin', 'facebook', 'instagram'] as $net): $u = (string) setting('social.' . $net, ''); if ($u === '') { continue; } ?><a href="<?= e($u) ?>" target="_blank" rel="noopener" aria-label="<?= e(ucfirst($net)) ?>"><?= icon($net) ?></a><?php endforeach; ?>
-            </div>
-        </div>
         <div class="sf-cols">
             <div><h3>Cloudoplossingen</h3><?php foreach ($menu['cloud'] as $items): foreach ($items as $mp): ?><a href="<?= e(url('/oplossingen/' . $mp['Slug'])) ?>"><?= e($mp['Titel']) ?></a><?php endforeach; endforeach; ?></div>
             <div><h3>ICT &amp; Development</h3><?php foreach ($menu['ict'] as $items): foreach ($items as $mp): ?><a href="<?= e(url('/oplossingen/' . $mp['Slug'])) ?>"><?= e($mp['Titel']) ?></a><?php endforeach; endforeach; ?></div>
