@@ -217,7 +217,7 @@ final class SiteController extends Controller
         $article = Database::first('SELECT * FROM KennisbankArtikelen WHERE Slug = ? AND Zichtbaar = 1', [(string) $request->param('slug')]) ?? throw new HttpException(404, 'Dit artikel bestaat niet (meer).');
         Database::run('UPDATE KennisbankArtikelen SET Weergaven = Weergaven + 1 WHERE Id = ?', [$article['Id']]);
 
-        return $this->view('frontend.article', ['article' => $article, 'related' => Database::all('SELECT * FROM KennisbankArtikelen WHERE Zichtbaar = 1 AND Categorie = ? AND Id <> ? ORDER BY Volgorde LIMIT 6', [$article['Categorie'], $article['Id']])]);
+        return $this->view('frontend.article', ['article' => $article, 'categories' => Database::all('SELECT Categorie, COUNT(*) AS Aantal FROM KennisbankArtikelen WHERE Zichtbaar = 1 GROUP BY Categorie ORDER BY Categorie')]);
     }
 
     public function about(Request $request): Response
