@@ -120,24 +120,22 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
 <?php endif; ?>
 
 <?php if ($solutionPages !== []): ?>
-<?php $pageSoort = array_flip($soortPages); $groups = []; foreach ($solutionPages as $sp) { $groups[(string) ($sp['Groep'] ?: 'Overig')][] = $sp; }
-$groupMeta = ['Domeinen' => ['globe', 'Registreer, verhuis en beveilig je domeinnaam.'], 'Hosting' => ['server', 'Snelle hosting en zakelijke e-mail op NVMe.'], 'Servers' => ['cpu', 'Eigen rekenkracht en opslag, volledig beheerd.']]; ?>
 <section class="sec sec-cat">
     <div class="container">
-        <div class="cat-head"><div><span class="eyebrow eyebrow-light"><?= icon('box', 'icon icon-sm') ?> Compleet aanbod</span><h2>Alles voor je online aanwezigheid</h2></div><p>Van een enkele domeinnaam tot een complete serveromgeving: kies wat je nodig hebt, wij regelen de techniek.</p></div>
-        <div class="cat-cols">
-            <?php foreach ($groups as $g => $items): [$gi, $gt] = $groupMeta[$g] ?? ['box', '']; ?>
-            <div class="cat-col">
-                <div class="cat-col-h"><span class="cat-col-i"><?= icon($gi) ?></span><div><h3><?= e($g) ?></h3><?php if ($gt !== ''): ?><p><?= e($gt) ?></p><?php endif; ?></div></div>
-                <ul class="cat-list">
-                    <?php foreach ($items as $sp): $kp = $kindPrices[$pageSoort[$sp['Slug']] ?? ''] ?? null; ?>
-                    <li><a href="<?= e(url('/oplossingen/' . $sp['Slug'])) ?>"><span class="cat-ic"><?= icon($sp['Icoon'], 'icon icon-sm') ?></span><span class="cat-t"><strong><?= e($sp['Titel']) ?></strong><small><?= e((string) $sp['Samenvatting']) ?></small></span><span class="cat-p"><?php if ($kp !== null): ?><small>vanaf</small><b><?= e(money($kp['min'])) ?></b><?php else: ?><b class="cat-p-info">Info</b><?php endif; ?></span><i><?= icon('arrow-right', 'icon icon-sm') ?></i></a></li>
-                    <?php endforeach; ?>
-                </ul>
+        <div class="cta-grid">
+            <div class="cta-l">
+                <span class="eyebrow eyebrow-light"><?= icon('zap', 'icon icon-sm') ?> Klaar voor je volgende stap?</span>
+                <h2>Start vandaag met hosting en e-mail die gewoon werkt.</h2>
+                <p>Registreer je domein, kies een hostingpakket en je bent online — met gratis verhuizing, dagelijkse back-ups en persoonlijke support vanuit Nederland.</p>
+                <div class="cta-btns"><a class="btn" href="<?= e(url('/domeinen')) ?>"><?= icon('search', 'icon icon-sm') ?> Zoek je domeinnaam</a><a class="btn btn-ghost-light" href="<?= e(url('/contact')) ?>"><?= icon('headset', 'icon icon-sm') ?> Vraag advies</a></div>
             </div>
-            <?php endforeach; ?>
+            <div class="cta-stats">
+                <div class="cta-stat"><b>99,9%</b><span>Uptime-garantie op al onze platformen</span></div>
+                <div class="cta-stat"><b>24/7</b><span>Monitoring en bereikbare support</span></div>
+                <div class="cta-stat"><b>NL</b><span>Data en support in Nederlandse datacenters</span></div>
+                <div class="cta-stat"><b>Dagelijks</b><span>Automatische back-ups van je data</span></div>
+            </div>
         </div>
-        <div class="cat-foot"><span><?= icon('headset', 'icon icon-sm') ?> Twijfel je wat bij je past? Onze specialisten denken graag mee.</span><a class="btn" href="<?= e(url('/contact')) ?>">Neem contact op <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
     </div>
 </section>
 <?php endif; ?>
