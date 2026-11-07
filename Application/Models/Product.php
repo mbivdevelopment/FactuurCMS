@@ -67,7 +67,7 @@ final class Product extends Model
     {
         $extension = $soort === 'Domeinnamen' || (($soort === null || $soort === '') && $groep === 'Domeinen');
 
-        return ($extension ? '/extensies/' : '/diensten/') . $slug;
+        return $extension ? '/domeinen' : '/diensten/' . $slug;
     }
 
     /** Slug van een dienstsoort in het beheer (bv. ssl-certificaten); bij producten op de weergavenaam (domeinextensies). */

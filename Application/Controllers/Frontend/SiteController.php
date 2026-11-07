@@ -229,6 +229,11 @@ final class SiteController extends Controller
         ]);
     }
 
+    public function extensieRedirect(Request $request): Response
+    {
+        return $this->redirect('/domeinen');
+    }
+
     public function servicesRedirect(Request $request): Response
     {
         return Response::redirect('/oplossingen/webhosting', 301);

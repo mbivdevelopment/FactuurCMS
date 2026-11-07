@@ -11,6 +11,7 @@ $router->group('', ['csrf'], static function ($router): void {
     $router->get('/diensten/{slug}', 'Frontend\\SiteController@product');
     $router->get('/diensten/{slug}/bestellen', 'Frontend\\SiteController@checkout');
     $router->post('/diensten/{slug}/bestellen', 'Frontend\\SiteController@order', ['throttle:bestellen,10,60']);
+    $router->get('/extensies/{slug}', 'Frontend\\SiteController@extensieRedirect');
     $router->get('/oplossingen/{slug}', 'Frontend\\SiteController@page');
     $router->get('/domeinen', 'Frontend\\DomainController@search', ['throttle:domein,30,60']);
     $router->get('/domeinen/check', 'Frontend\\DomainController@check', ['throttle:domeincheck,240,60']);
