@@ -179,21 +179,7 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
 
 <section class="sec sec-alt">
     <div class="container news-faq">
-        <div>
-            <div class="sec-head"><div><span class="eyebrow"><?= icon('note', 'icon icon-sm') ?> Nieuws</span><h2>Laatste nieuwsberichten</h2></div></div>
-            <?php if ($posts !== []): ?>
-            <div class="news-list">
-                <?php foreach (array_slice($posts, 0, 3) as $post): $img = media_url((string) ($post['Afbeelding'] ?? '')); ?>
-                <a class="news-item" href="<?= e(url('/blog/' . $post['Slug'])) ?>">
-                    <span class="news-img"><?php if ($img !== ''): ?><img src="<?= e($img) ?>" alt="" loading="lazy"><?php else: ?><?= icon('note') ?><?php endif; ?></span>
-                    <span class="news-body"><small><?= e($post['Categorie']) ?> · <?= e(date('d-m-Y', strtotime((string) $post['PublicatieDatum']))) ?></small><strong><?= e($post['Titel']) ?></strong><span><?= e(mb_strimwidth((string) ($post['Samenvatting'] ?? ''), 0, 140, '…')) ?></span><em>Lees verder <?= icon('arrow-right', 'icon icon-sm') ?></em></span>
-                </a>
-                <?php endforeach; ?>
-            </div>
-            <a class="news-more" href="<?= e(url('/blog')) ?>">Alle berichten <?= icon('arrow-right', 'icon icon-sm') ?></a>
-            <?php else: ?><p class="muted">Binnenkort meer nieuws.</p><?php endif; ?>
-        </div>
-        <div>
+        <div class="news-faq-solo">
             <div class="sec-head"><div><span class="eyebrow"><?= icon('chat', 'icon icon-sm') ?> Veelgestelde vragen</span><h2>Goed om te weten</h2></div></div>
             <?= $partial('frontend._faq', ['items' => $faq]) ?>
             <a class="news-more" href="<?= e(url('/kennisbank')) ?>">Naar de kennisbank <?= icon('arrow-right', 'icon icon-sm') ?></a>

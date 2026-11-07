@@ -1672,3 +1672,4 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .cs-ch-l { font-weight: 700; color: var(--primary); font-size: 15px; }
 .cs-ch p { margin: 8px 0 0; font-size: 13px; line-height: 1.5; }
 @media (max-width: 720px) { .cs-hero { padding: 80px 0 60px; } .cs-topics { margin-top: -40px; } }
+.news-faq-solo { max-width: 760px; margin: 0 auto; }
