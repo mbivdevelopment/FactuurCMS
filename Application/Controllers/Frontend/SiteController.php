@@ -54,7 +54,7 @@ final class SiteController extends Controller
             $rows = [];
         }
         $rank = ['ok' => 0, 'plan' => 1, 'warn' => 2, 'down' => 3];
-        $diensten = ['Webhosting', 'E-mail & SMTP', 'Domeinen', 'Cloud VPS', 'Klantportaal'];
+        $diensten = ['Webhosting', 'E-mail', 'SMTP Relay', 'Domeinen', 'Cloud VPS', 'Klantportaal'];
         $maps = ['*' => []];
         foreach ($rows as $r) {
             $sev = match ($r['Ernst']) { 'uitval', 'groot' => 'down', 'klein' => 'warn', default => 'plan' };

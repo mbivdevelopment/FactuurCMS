@@ -15,7 +15,7 @@ final class OutageController extends Controller
 {
     public const SEVERITIES = ['onderhoud' => 'Onderhoud', 'klein' => 'Kleine verstoring', 'groot' => 'Grote verstoring', 'uitval' => 'Uitval'];
     public const STATUSES = ['onderzocht' => 'Wordt onderzocht', 'bevestigd' => 'Bevestigd', 'monitoring' => 'Wordt gemonitord', 'opgelost' => 'Opgelost', 'gepland' => 'Gepland'];
-    public const SERVICES = ['Webhosting', 'E-mail & SMTP', 'Domeinen', 'Cloud VPS', 'Klantportaal'];
+    public const SERVICES = ['Webhosting', 'E-mail', 'SMTP Relay', 'Domeinen', 'Cloud VPS', 'Klantportaal'];
 
     public function index(Request $request): Response
     {
