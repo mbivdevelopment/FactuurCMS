@@ -100,11 +100,12 @@ $colIcons = ['Domeinen' => 'globe', 'Hosting' => 'server', 'Servers' => 'cpu', '
             <div class="sf-info">
                 <a class="sf-brand" href="<?= e(url('/')) ?>"><?= $partial('partials.brand', ['dark' => true]) ?></a>
                 <div class="sf-lines">
-                    <?php if (setting('bedrijf.adres') !== '' || setting('bedrijf.plaats') !== ''): ?><span class="sf-line"><?= icon('map-pin') ?><span><?= e(trim(setting('bedrijf.adres'))) ?><br><?= e(trim(setting('bedrijf.postcode') . ' ' . setting('bedrijf.plaats'))) ?></span></span><?php endif; ?>
+                    <?php if (setting('bedrijf.adres') !== '' || setting('bedrijf.plaats') !== ''): ?><span class="sf-line"><?= icon('map-pin') ?><span><?= e(trim(setting('bedrijf.adres'))) ?>, <?= e(trim(setting('bedrijf.postcode') . ' ' . setting('bedrijf.plaats'))) ?></span></span><?php endif; ?>
                     <?php if (setting('bedrijf.telefoon') !== ''): ?><a class="sf-line" href="tel:<?= e(preg_replace('/[^0-9+]/', '', setting('bedrijf.telefoon'))) ?>"><?= icon('phone') ?><span><?= e(setting('bedrijf.telefoon')) ?></span></a><?php endif; ?>
                     <?php if (setting('bedrijf.email') !== ''): ?><a class="sf-line" href="mailto:<?= e(setting('bedrijf.email')) ?>"><?= icon('mail') ?><span><?= e(setting('bedrijf.email')) ?></span></a><?php endif; ?>
+                    <?php if (setting('bedrijf.kvk') !== ''): ?><span class="sf-line"><?= icon('building') ?><span>KvK <?= e(setting('bedrijf.kvk')) ?></span></span><?php endif; ?>
+                    <?php if (setting('bedrijf.btw') !== ''): ?><span class="sf-line"><?= icon('hash') ?><span>Btw <?= e(setting('bedrijf.btw')) ?></span></span><?php endif; ?>
                 </div>
-                <?php if (setting('bedrijf.kvk') !== '' || setting('bedrijf.btw') !== ''): ?><div class="sf-meta"><?= e(implode(' · ', array_filter([setting('bedrijf.kvk') !== '' ? 'KvK ' . setting('bedrijf.kvk') : '', setting('bedrijf.btw') !== '' ? 'Btw ' . setting('bedrijf.btw') : '']))) ?></div><?php endif; ?>
             </div>
             <div><h3>Cloudoplossingen</h3><?php foreach ($menu['cloud'] as $items): foreach ($items as $mp): ?><a href="<?= e(url('/oplossingen/' . $mp['Slug'])) ?>"><?= e($mp['Titel']) ?></a><?php endforeach; endforeach; ?></div>
             <div><h3>ICT &amp; Development</h3><?php foreach ($menu['ict'] as $items): foreach ($items as $mp): ?><a href="<?= e(url('/oplossingen/' . $mp['Slug'])) ?>"><?= e($mp['Titel']) ?></a><?php endforeach; endforeach; ?></div>
