@@ -49,33 +49,55 @@ final class SiteController extends Controller
     private static function uptime(): array
     {
         try {
-            $rows = Database::all("SELECT Ernst, StartTijd, EindTijd FROM Storingen WHERE StartTijd >= CURDATE() - INTERVAL 91 DAY");
+            $rows = Database::all("SELECT Ernst, Dienst, StartTijd, EindTijd FROM Storingen WHERE StartTijd >= CURDATE() - INTERVAL 91 DAY");
         } catch (\Throwable) {
             $rows = [];
         }
-        $rank = ['ok' => 0, 'plan' => 1, 'warn' => 2, 'down' => 3]; $map = [];
+        $rank = ['ok' => 0, 'plan' => 1, 'warn' => 2, 'down' => 3];
+        $diensten = ['Webhosting', 'E-mail & SMTP', 'Domeinen', 'Cloud VPS', 'Klantportaal'];
+        $maps = ['*' => []];
         foreach ($rows as $r) {
             $sev = match ($r['Ernst']) { 'uitval', 'groot' => 'down', 'klein' => 'warn', default => 'plan' };
+            $key = trim((string) ($r['Dienst'] ?? ''));
             $start = strtotime('today', strtotime((string) $r['StartTijd'])); $end = $r['EindTijd'] !== null ? strtotime((string) $r['EindTijd']) : time();
             for ($t = $start; $t <= $end; $t += 86400) {
                 $d = date('Y-m-d', $t);
-                if ($rank[$sev] > $rank[$map[$d] ?? 'ok']) { $map[$d] = $sev; }
+                if ($rank[$sev] > $rank[$maps[$key][$d] ?? 'ok']) { $maps[$key][$d] = $sev; }
             }
         }
-        $dagen = []; $down = 0;
-        for ($i = 89; $i >= 0; $i--) {
-            $d = date('Y-m-d', strtotime("-{$i} days"));
-            $st = $map[$d] ?? 'ok';
-            if ($st === 'down') { $down++; }
-            $dagen[] = [$d, $st];
+        foreach ($maps as $k => $m) {
+            if ($k === '*') { continue; }
+            foreach ($m as $d => $sev) {
+                if ($rank[$sev] > $rank[$maps['*'][$d] ?? 'ok']) { $maps['*'][$d] = $sev; }
+            }
         }
+        $card = static function (string $key) use ($maps, $rank): array {
+            $map = $key === '*' ? $maps['*'] : array_merge($maps['*'], array_filter($maps[$key] ?? [], static fn (string $v): bool => $rank[$v] > 0));
+            if ($key !== '*') {
+                $map = $maps['*'];
+                foreach (($maps[$key] ?? []) as $d => $sev) {
+                    if ($rank[$sev] > $rank[$map[$d] ?? 'ok']) { $map[$d] = $sev; }
+                }
+            }
+            $dagen = []; $down = 0;
+            for ($i = 89; $i >= 0; $i--) {
+                $d = date('Y-m-d', strtotime("-{$i} days"));
+                $st = $map[$d] ?? 'ok';
+                if ($st === 'down') { $down++; }
+                $dagen[] = [$d, $st];
+            }
+
+            return ['dagen' => $dagen, 'pct' => number_format(100 * (90 - $down) / 90, 2, ',', ''), 'st' => ($map[date('Y-m-d')] ?? 'ok')];
+        };
+        $services = array_map(static fn (string $d): array => ['naam' => $d] + $card($d), $diensten);
+        $alles = $card('*');
         try {
             $actief = Database::all("SELECT * FROM Storingen WHERE Status <> 'opgelost' AND Status <> 'gepland' ORDER BY StartTijd DESC LIMIT 5");
         } catch (\Throwable) {
             $actief = [];
         }
 
-        return ['dagen' => $dagen, 'pct' => number_format(100 * (90 - $down) / 90, 2, ',', ''), 'actief' => $actief];
+        return ['dagen' => $alles['dagen'], 'pct' => $alles['pct'], 'actief' => $actief, 'services' => $services];
     }
 
     /** Domeinextensies als producten, in de volgorde van de hero-extensies. @return list<Product> */

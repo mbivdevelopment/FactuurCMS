@@ -3,7 +3,15 @@
 <section class="sec"><div class="container">
     <div class="up-card" style="margin-bottom:26px">
         <div class="up-head"><div><h2 style="margin:0 0 4px"><?= $open === [] ? 'Alle systemen operationeel' : 'Actieve incidenten' ?></h2><p><?= e($uptime['pct']) ?>% uptime in de laatste 90 dagen.</p></div></div>
-        <div class="up-bar"><?php foreach ($uptime['dagen'] as [$dag, $st]): ?><span class="up-d up-<?= $st ?>" title="<?= e(date('d-m-Y', strtotime($dag))) ?>"></span><?php endforeach; ?></div>
+        <div class="up-grid">
+            <?php foreach ($uptime['services'] as $svc): ?>
+            <div class="up-svc">
+                <div class="up-svc-top"><strong><?= e($svc['naam']) ?></strong><span class="up-state <?= $svc['st'] === 'ok' ? 'is-ok' : ($svc['st'] === 'down' ? 'is-down' : 'is-warn') ?>"><?= $svc['st'] === 'ok' ? 'Operationeel' : ($svc['st'] === 'down' ? 'Storing' : ($svc['st'] === 'warn' ? 'Beperkt' : 'Onderhoud')) ?></span></div>
+                <div class="up-bar up-bar-sm"><?php foreach ($svc['dagen'] as [$dag, $st]): ?><span class="up-d up-<?= $st ?>" title="<?= e(date('d-m-Y', strtotime($dag))) ?>"></span><?php endforeach; ?></div>
+                <div class="up-svc-foot"><span><?= e($svc['pct']) ?>% uptime</span><span class="muted">90 dagen</span></div>
+            </div>
+            <?php endforeach; ?>
+        </div>
         <div class="up-foot"><span>90 dagen geleden</span><span class="up-leg"><i class="up-d up-ok"></i> Operationeel <i class="up-d up-warn"></i> Beperkt <i class="up-d up-down"></i> Storing <i class="up-d up-plan"></i> Onderhoud</span><span>Vandaag</span></div>
     </div>
     <?php if ($open === [] && $done === []): ?>
