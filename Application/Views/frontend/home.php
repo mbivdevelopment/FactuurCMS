@@ -120,12 +120,24 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
 <?php endif; ?>
 
 <?php if ($solutionPages !== []): ?>
-<?php $pageSoort = array_flip($soortPages); ?>
-<section class="sec sec-prod">
+<?php $pageSoort = array_flip($soortPages); $groups = []; foreach ($solutionPages as $sp) { $groups[(string) ($sp['Groep'] ?: 'Overig')][] = $sp; }
+$groupMeta = ['Domeinen' => ['globe', 'Registreer, verhuis en beveilig je domeinnaam.'], 'Hosting' => ['server', 'Snelle hosting en zakelijke e-mail op NVMe.'], 'Servers' => ['cpu', 'Eigen rekenkracht en opslag, volledig beheerd.']]; ?>
+<section class="sec sec-cat">
     <div class="container">
-        <div class="sec-head center"><div><span class="eyebrow"><?= icon('box', 'icon icon-sm') ?> Aanbod</span><h2>Onze producten</h2><p>Alles voor je online aanwezigheid, van domeinnaam tot server.</p></div></div>
-        <div class="prod-tiles"><?php foreach ($solutionPages as $sp): $kp = $kindPrices[$pageSoort[$sp['Slug']] ?? ''] ?? null; ?><a class="prod-tile" href="<?= e(url('/oplossingen/' . $sp['Slug'])) ?>"><span class="prod-tile-i"><?= icon($sp['Icoon']) ?></span><span class="prod-tile-t"><strong><?= e($sp['Titel']) ?></strong><small><?= e((string) $sp['Samenvatting']) ?></small></span><span class="prod-tile-f"><?php if ($kp !== null): ?><span class="prod-tile-p">Vanaf <b><?= e(money($kp['min'])) ?></b> <?= e($per($kp['periode'])) ?></span><?php else: ?><span class="prod-tile-p">Meer informatie</span><?php endif; ?><i><?= icon('arrow-right', 'icon icon-sm') ?></i></span></a><?php endforeach; ?></div>
-        <p class="prod-tiles-help">Hulp nodig of wil je meer weten over onze producten? We staan altijd voor je klaar. <a class="btn btn-sm" href="<?= e(url('/contact')) ?>"><?= icon('headset', 'icon icon-sm') ?> Contact</a></p>
+        <div class="cat-head"><div><span class="eyebrow eyebrow-light"><?= icon('box', 'icon icon-sm') ?> Compleet aanbod</span><h2>Alles voor je online aanwezigheid</h2></div><p>Van een enkele domeinnaam tot een complete serveromgeving: kies wat je nodig hebt, wij regelen de techniek.</p></div>
+        <div class="cat-cols">
+            <?php foreach ($groups as $g => $items): [$gi, $gt] = $groupMeta[$g] ?? ['box', '']; ?>
+            <div class="cat-col">
+                <div class="cat-col-h"><span class="cat-col-i"><?= icon($gi) ?></span><div><h3><?= e($g) ?></h3><?php if ($gt !== ''): ?><p><?= e($gt) ?></p><?php endif; ?></div></div>
+                <ul class="cat-list">
+                    <?php foreach ($items as $sp): $kp = $kindPrices[$pageSoort[$sp['Slug']] ?? ''] ?? null; ?>
+                    <li><a href="<?= e(url('/oplossingen/' . $sp['Slug'])) ?>"><span class="cat-ic"><?= icon($sp['Icoon'], 'icon icon-sm') ?></span><span class="cat-t"><strong><?= e($sp['Titel']) ?></strong><small><?= e((string) $sp['Samenvatting']) ?></small></span><span class="cat-p"><?php if ($kp !== null): ?><small>vanaf</small><b><?= e(money($kp['min'])) ?></b><?php else: ?><b class="cat-p-info">Info</b><?php endif; ?></span><i><?= icon('arrow-right', 'icon icon-sm') ?></i></a></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            <?php endforeach; ?>
+        </div>
+        <div class="cat-foot"><span><?= icon('headset', 'icon icon-sm') ?> Twijfel je wat bij je past? Onze specialisten denken graag mee.</span><a class="btn" href="<?= e(url('/contact')) ?>">Neem contact op <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
     </div>
 </section>
 <?php endif; ?>
