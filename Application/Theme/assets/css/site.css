@@ -1754,3 +1754,10 @@ a.up-svc { text-decoration: none; color: inherit; }
 @media (max-width: 640px) { .up-grid { grid-template-columns: 1fr; } }
 
 .read-solo { max-width: 780px; }
+
+/* Artikelpagina's: inhoud in witte kaart, bredere layout */
+.read-card { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 34px 38px; box-shadow: var(--shadow-sm); }
+.read-card .btn { margin-top: 22px; }
+.side-split { grid-template-columns: 380px minmax(0, 1fr); }
+.read-split { grid-template-columns: minmax(0, 1fr) 380px; }
+.read-solo { max-width: 860px; }

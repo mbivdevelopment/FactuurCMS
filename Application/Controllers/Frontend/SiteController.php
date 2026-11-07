@@ -140,11 +140,13 @@ final class SiteController extends Controller
     public function blog(Request $request): Response
     {
         $category = $request->string('categorie');
+        $categories = Database::all('SELECT Categorie, COUNT(*) AS Aantal FROM BlogBerichten WHERE Zichtbaar = 1 AND PublicatieDatum <= CURDATE() GROUP BY Categorie ORDER BY Categorie');
+        if ($category === '' && $categories !== []) { $category = $categories[0]['Categorie']; }
         $where = 'Zichtbaar = 1 AND PublicatieDatum <= CURDATE()' . ($category !== '' ? ' AND Categorie = ?' : '');
 
         return $this->view('frontend.blog', [
             'posts' => Database::all("SELECT * FROM BlogBerichten WHERE $where ORDER BY PublicatieDatum DESC, Id DESC", $category !== '' ? [$category] : []),
-            'categories' => Database::all('SELECT Categorie, COUNT(*) AS Aantal FROM BlogBerichten WHERE Zichtbaar = 1 AND PublicatieDatum <= CURDATE() GROUP BY Categorie ORDER BY Categorie'),
+            'categories' => $categories,
             'category' => $category,
         ]);
     }
@@ -198,13 +200,15 @@ final class SiteController extends Controller
             $params[] = $category;
         }
         $articles = [];
+        $cats = Database::all('SELECT Categorie, COUNT(*) AS Aantal FROM KennisbankArtikelen WHERE Zichtbaar = 1 GROUP BY Categorie ORDER BY Categorie');
+        if ($category === '' && $q === '' && $cats !== []) { $category = $cats[0]['Categorie']; $where = ['Zichtbaar = 1', 'Categorie = ?']; $params = [$category]; }
         foreach (Database::all('SELECT * FROM KennisbankArtikelen WHERE ' . implode(' AND ', $where) . ' ORDER BY Categorie, Volgorde, Id', $params) as $a) {
             $articles[$a['Categorie']][] = $a;
         }
 
         return $this->view('frontend.knowledge', [
             'articles' => $articles, 'q' => $q, 'category' => $category,
-            'categories' => Database::all('SELECT Categorie, COUNT(*) AS Aantal FROM KennisbankArtikelen WHERE Zichtbaar = 1 GROUP BY Categorie ORDER BY Categorie'),
+            'categories' => $cats,
         ]);
     }
 
