@@ -71,7 +71,7 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
             <a class="kc" href="<?= e(url($kindUrl($k))) ?>">
                 <div class="kc-visual"><span class="kc-i"><?= icon(\App\Models\Product::soortIcon($k)) ?></span><span class="kc-ring"></span></div>
                 <div class="kc-body">
-                    <span class="pk-kind"><?= e(\App\Models\Product::soortLabel($k)) ?></span>
+                    <span class="pk-kind"><?= icon(\App\Models\Product::soortIcon($k), 'icon icon-sm') ?><?= e(\App\Models\Product::soortLabel($k)) ?></span>
                     <h3><?= e($kindTag[$k] ?? \App\Models\Product::soortText($k) ?: $k) ?></h3>
                     <ul><?php foreach ($b as [$ic, $t]): ?><li><?= icon('check', 'icon icon-sm') ?> <?= e($t) ?></li><?php endforeach; ?></ul>
                     <div class="kc-foot"><span class="kc-from"><small>Vanaf</small><strong><?= e(money($kp['min'])) ?> <em><?= e($per($kp['periode'])) ?></em></strong></span><span class="btn btn-sm">Bekijk pakketten</span></div>
