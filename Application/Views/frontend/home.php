@@ -201,3 +201,16 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
         </div>
     </div>
 </section>
+
+<section class="sec sec-status">
+    <div class="container">
+        <div class="up-card">
+            <div class="up-head">
+                <div><span class="eyebrow"><?= icon('zap', 'icon icon-sm') ?> Netwerkstatus</span><h2><?= $uptime['actief'] === [] ? 'Alle systemen operationeel' : 'Er loopt een incident' ?></h2><p><?= $uptime['pct'] ?>% uptime in de laatste 90 dagen — gemeten over al onze platformen.</p></div>
+                <a class="btn btn-ghost" href="<?= e(url('/storingen')) ?>">Bekijk alle storingen <?= icon('arrow-right', 'icon icon-sm') ?></a>
+            </div>
+            <div class="up-bar"><?php foreach ($uptime['dagen'] as [$dag, $st]): ?><span class="up-d up-<?= $st ?>" title="<?= e(date('d-m-Y', strtotime($dag))) ?>"></span><?php endforeach; ?></div>
+            <div class="up-foot"><span>90 dagen geleden</span><span class="up-leg"><i class="up-d up-ok"></i> Operationeel <i class="up-d up-warn"></i> Beperkt <i class="up-d up-down"></i> Storing <i class="up-d up-plan"></i> Onderhoud</span><span>Vandaag</span></div>
+        </div>
+    </div>
+</section>

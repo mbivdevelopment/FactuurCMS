@@ -34,6 +34,7 @@ $router->group('', ['csrf'], static function ($router): void {
     $router->get('/kennisbank', 'Frontend\\SiteController@knowledge');
     $router->get('/kennisbank/{slug}', 'Frontend\\SiteController@article');
     $router->get('/over-ons', 'Frontend\\SiteController@about');
+    $router->get('/storingen', 'Frontend\\SiteController@status');
     $router->get('/contact', 'Frontend\\SiteController@contact');
     $router->post('/contact', 'Frontend\\SiteController@sendContact', ['throttle:contact,5,60']);
     $router->get('/cron/{key}', 'Frontend\\SiteController@cron');

@@ -40,8 +40,42 @@ final class SiteController extends Controller
             'extProducts' => self::extensionProducts(),
             'kindPrices' => self::kindPrices(),
             'soortPages' => self::soortPages(),
+            'uptime' => self::uptime(),
             'solutionPages' => Database::all("SELECT Titel, Slug, Icoon, Samenvatting, Groep FROM Paginas WHERE Zichtbaar = 1 AND Categorie = 'cloud' ORDER BY Groep, Volgorde, Id"),
         ]);
+    }
+
+    /** Netwerkstatus: dagstatussen van de laatste 90 dagen + uptime-percentage. @return array{dagen: list<array{0:string,1:string}>, pct: string, actief: list<array>} */
+    private static function uptime(): array
+    {
+        try {
+            $rows = Database::all("SELECT Ernst, StartTijd, EindTijd FROM Storingen WHERE StartTijd >= CURDATE() - INTERVAL 91 DAY");
+        } catch (\Throwable) {
+            $rows = [];
+        }
+        $rank = ['ok' => 0, 'plan' => 1, 'warn' => 2, 'down' => 3]; $map = [];
+        foreach ($rows as $r) {
+            $sev = match ($r['Ernst']) { 'uitval', 'groot' => 'down', 'klein' => 'warn', default => 'plan' };
+            $start = strtotime('today', strtotime((string) $r['StartTijd'])); $end = $r['EindTijd'] !== null ? strtotime((string) $r['EindTijd']) : time();
+            for ($t = $start; $t <= $end; $t += 86400) {
+                $d = date('Y-m-d', $t);
+                if ($rank[$sev] > $rank[$map[$d] ?? 'ok']) { $map[$d] = $sev; }
+            }
+        }
+        $dagen = []; $down = 0;
+        for ($i = 89; $i >= 0; $i--) {
+            $d = date('Y-m-d', strtotime("-{$i} days"));
+            $st = $map[$d] ?? 'ok';
+            if ($st === 'down') { $down++; }
+            $dagen[] = [$d, $st];
+        }
+        try {
+            $actief = Database::all("SELECT * FROM Storingen WHERE Status <> 'opgelost' AND Status <> 'gepland' ORDER BY StartTijd DESC LIMIT 5");
+        } catch (\Throwable) {
+            $actief = [];
+        }
+
+        return ['dagen' => $dagen, 'pct' => number_format(100 * (90 - $down) / 90, 2, ',', ''), 'actief' => $actief];
     }
 
     /** Domeinextensies als producten, in de volgorde van de hero-extensies. @return list<Product> */
@@ -289,6 +323,18 @@ final class SiteController extends Controller
         }
 
         return $this->redirect('/klant/documenten/' . $doc->id())->with('success', 'Bedankt voor je bestelling! De dienst wordt geactiveerd zodra de factuur is betaald.');
+    }
+
+    public function status(Request $request): Response
+    {
+        try {
+            $open = Database::all("SELECT * FROM Storingen WHERE Status <> 'opgelost' ORDER BY StartTijd DESC");
+            $done = Database::all("SELECT * FROM Storingen WHERE Status = 'opgelost' ORDER BY StartTijd DESC LIMIT 30");
+        } catch (\Throwable) {
+            $open = $done = [];
+        }
+
+        return $this->view('frontend.storingen', ['open' => $open, 'done' => $done, 'uptime' => self::uptime()]);
     }
 
     public function contact(Request $request): Response
