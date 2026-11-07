@@ -75,13 +75,17 @@ final class QevantoPaneel
 
     private const FEATURE_ICONS = ['websites' => 'globe', 'diskGb' => 'box', 'bandwidthGb' => 'zap', 'mailboxes' => 'mail', 'databases' => 'server', 'ftpAccounts' => 'link', 'cronJobs' => 'clock', 'memoryMb' => 'cpu', 'phpWorkers' => 'code', 'cpuPercent' => 'cpu', 'netMbit' => 'zap', 'cacheMb' => 'zap', 'customers' => 'users', 'subscriptions' => 'server', 'peers' => 'shield', 'workplaces' => 'headset'];
 
+    private const SINGULAR = ['websites' => 'website', 'mailboxen' => 'mailbox', 'databases' => 'database', 'FTP-accounts' => 'FTP-account', 'cronjobs' => 'cronjob', 'PHP-workers' => 'PHP-worker', 'klanten' => 'klant', 'abonnementen' => 'abonnement', 'apparaten' => 'apparaat', 'werkplekken' => 'werkplek'];
+
     /** Pakketlimieten als kenmerken met icoon. @param array<string, mixed> $limits @return list<array{icoon: string, tekst: string}> */
     public static function features(array $limits): array
     {
         $out = [];
         foreach (self::FEATURES as $key => $format) {
             if (isset($limits[$key]) && is_numeric($limits[$key])) {
-                $out[] = ['icoon' => self::FEATURE_ICONS[$key] ?? 'check', 'tekst' => (int) $limits[$key] === 0 ? 'Onbeperkt ' . trim(str_replace(['%s%%', '%s'], '', $format)) : sprintf($format, (int) $limits[$key])];
+                $n = (int) $limits[$key];
+                $text = $n === 0 ? 'Onbeperkt ' . trim(str_replace(['%s%%', '%s'], '', $format)) : sprintf($format, $n);
+                $out[] = ['icoon' => self::FEATURE_ICONS[$key] ?? 'check', 'tekst' => $n === 1 ? strtr($text, self::SINGULAR) : $text];
             }
         }
         if (!empty($limits['backups'])) {

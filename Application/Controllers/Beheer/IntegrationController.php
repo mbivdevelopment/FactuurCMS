@@ -422,7 +422,7 @@ final class IntegrationController extends Controller
             if ($existing !== null) {
                 $current = (string) Database::scalar('SELECT Kenmerken FROM Producten WHERE Id = ?', [$existing['Id']]);
                 $keep = json_decode($current, true);
-                Database::update('Producten', ['Prijs' => $price, 'Periode' => $period, 'Bron' => 'qevanto', 'ExternId' => 'pakket-' . $id, 'Kenmerken' => json_encode(is_array($keep) && $keep !== [] ? $keep : $features, JSON_UNESCAPED_UNICODE), 'BijgewerktOp' => now()], ['Id' => $existing['Id']]);
+                Database::update('Producten', ['Prijs' => $price, 'Periode' => $period, 'Bron' => 'qevanto', 'ExternId' => 'pakket-' . $id, 'Kenmerken' => json_encode($features !== [] || !is_array($keep) ? $features : $keep, JSON_UNESCAPED_UNICODE), 'BijgewerktOp' => now()], ['Id' => $existing['Id']]);
                 $updated++;
                 continue;
             }
