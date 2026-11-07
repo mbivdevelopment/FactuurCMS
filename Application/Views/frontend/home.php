@@ -144,7 +144,7 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
 <section class="sec sec-proj">
     <div class="container">
         <div class="sec-head"><div><span class="eyebrow"><?= icon('image', 'icon icon-sm') ?> Projecten</span><h2>Onze projecten</h2><p>Een greep uit de projecten die we voor ondernemers realiseerden.</p></div><a class="btn btn-ghost" href="<?= e(url('/portfolio')) ?>">Alle projecten <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
-        <?= $partial('frontend._carousel', ['items' => $projects, 'base' => '/portfolio/', 'icon' => 'image', 'more' => 'Bekijk project', 'autoplay' => true]) ?>
+        <?= $partial('frontend._carousel', ['items' => $projects, 'base' => '/portfolio/', 'icon' => 'image', 'more' => '', 'autoplay' => true]) ?>
     </div>
 </section>
 <?php endif; ?>
