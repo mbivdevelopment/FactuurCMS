@@ -13,7 +13,7 @@ final class DemoData
     private const CUSTOMER_COMPANIES = ['De Vries Webdesign', 'Bakkerij Jansen'];
     private const SUPPLIER_EMAILS = ['facturen@datacenterpartners.nl', 'billing@registrar.example'];
     private const LEAD_EMAILS = ['sophie@jansenadvies.nl', 'ruben@bakkerlogistiek.nl'];
-    private const PRODUCT_SLUGS = ['webhosting-start', 'webhosting-pro', 'webhosting-business', 'nl-domeinnaam', 'vps-basic', 'website-laten-maken', 'com-domeinnaam', 'eu-domeinnaam', 'be-domeinnaam'];
+    private const PRODUCT_SLUGS = ['webhosting-start', 'webhosting-pro', 'webhosting-business', 'webhosting-premium', 'nl-domeinnaam', 'vps-basic', 'website-laten-maken', 'com-domeinnaam', 'eu-domeinnaam', 'be-domeinnaam'];
 
     /** @return list<array<string, mixed>> */
     public static function customers(): array
@@ -122,6 +122,19 @@ final class DemoData
 
             return $n;
         });
+    }
+
+    /** Demoproducten van een dienstsoort opruimen zodra er echte (gekoppelde) producten zijn: ongebruikt weg, in gebruik verbergen. */
+    public static function retireProducts(?string $soort): int
+    {
+        if ($soort === null || $soort === '' || !self::hasColumn('Producten', 'Bron')) {
+            return 0;
+        }
+        $marks = self::marks(self::PRODUCT_SLUGS);
+        $n = Database::run('DELETE FROM Producten WHERE Bron IS NULL AND Dienstsoort = ? AND Slug IN (' . $marks . ') AND NOT EXISTS (SELECT 1 FROM Diensten d WHERE d.ProductId = Producten.Id)', [$soort, ...self::PRODUCT_SLUGS])->rowCount();
+        $n += Database::run('UPDATE Producten SET Zichtbaar = 0 WHERE Bron IS NULL AND Dienstsoort = ? AND Zichtbaar = 1 AND Slug IN (' . $marks . ')', [$soort, ...self::PRODUCT_SLUGS])->rowCount();
+
+        return $n;
     }
 
     /** @return list<int> */

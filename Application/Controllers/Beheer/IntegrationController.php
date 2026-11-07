@@ -16,6 +16,7 @@ use App\Models\User;
 use App\Services\Cryptomus;
 use App\Services\Interserver;
 use App\Services\Mollie;
+use App\Services\DemoData;
 use App\Services\QevantoPaneel;
 use App\Services\RealtimeRegister;
 
@@ -406,6 +407,8 @@ final class IntegrationController extends Controller
         $periods = (array) ($request->input('periode') ?? []);
         $new = 0;
         $updated = 0;
+        $retired = 0;
+        $soorten = [];
         foreach ((array) ($request->input('pakket') ?? []) as $id) {
             $id = (int) $id;
             $pkg = $packages[$id] ?? null;
@@ -426,6 +429,7 @@ final class IntegrationController extends Controller
                 $updated++;
                 continue;
             }
+            $soorten[(string) $soort] = $soort;
             Product::create([
                 'Groep' => $group,
                 'Dienstsoort' => $soort,
@@ -443,7 +447,11 @@ final class IntegrationController extends Controller
             $new++;
         }
 
-        return $this->redirect('/beheer/koppelingen/qevanto/pakketten')->with('success', $new . ' pakket(ten) als product toegevoegd, ' . $updated . ' bestaand(e) bijgewerkt.');
+        foreach ($soorten as $soort) {
+            $retired += DemoData::retireProducts($soort);
+        }
+
+        return $this->redirect('/beheer/koppelingen/qevanto/pakketten')->with('success', $new . ' pakket(ten) als product toegevoegd, ' . $updated . ' bestaand(e) bijgewerkt' . ($retired > 0 ? ', ' . $retired . ' demo-pakket(ten) opgeruimd' : '') . '.');
     }
 
     /** @param array<string, mixed> $user @return array{0: int, 1: bool} */
