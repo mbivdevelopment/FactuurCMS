@@ -1752,3 +1752,5 @@ a.up-svc { text-decoration: none; color: inherit; }
 
 @media (max-width: 1000px) { .up-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 640px) { .up-grid { grid-template-columns: 1fr; } }
+
+.read-solo { max-width: 780px; }
