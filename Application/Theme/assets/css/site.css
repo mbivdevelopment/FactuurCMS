@@ -1776,10 +1776,11 @@ a.up-svc { text-decoration: none; color: inherit; }
 .sf-info { max-width: 280px; }
 .sf-brand { display: inline-flex; align-items: center; gap: 10px; color: #fff; font-size: 19px; font-weight: 800; letter-spacing: -.01em; }
 .sf-brand .icon { color: var(--primary); }
-.sf-lines { display: grid; gap: 9px; margin-top: 18px; }
-.sf-line { display: flex; align-items: flex-start; gap: 9px; color: rgba(255,255,255,.75); font-size: 14.5px; line-height: 1.5; }
+.sf-lines { display: grid; gap: 11px; margin-top: 18px; }
+.sf-line { display: flex; align-items: flex-start; gap: 9px; color: rgba(255,255,255,.75); font-size: 14.5px; line-height: 1.5; padding: 0; }
 .sf-line .icon { width: 15px; height: 15px; flex: none; margin-top: 2px; color: var(--primary); }
-a.sf-line { transition: color .15s; }
+.sf-line span { display: block; }
+a.sf-line { transition: color .15s; text-decoration: none; border-bottom: 0; }
 a.sf-line:hover span { color: #fff; }
 .sf-brand img { height: 30px; width: auto; }
 .sf-brand .brand-mark { color: var(--primary); }
