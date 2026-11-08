@@ -26,7 +26,7 @@ final class DomainController extends Controller
     public function search(Request $request): Response
     {
         $raw = $request->string('domein');
-        if (trim($raw) === '' && $request->string('ext') === '') {
+        if (trim($raw) === '' && $request->string('ext') === '' && $request->string('alle') === '') {
             return $this->view('frontend.domeinnaam', [
                 'extProducts' => SiteController::extensionProducts(),
                 'benefits' => \App\Services\PageContent::benefits('Domeinnamen'),

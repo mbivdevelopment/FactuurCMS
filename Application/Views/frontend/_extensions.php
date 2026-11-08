@@ -2,4 +2,4 @@
 <div class="ext-grid"><?php foreach (array_slice($domains, 0, $max) as $d): ?>
     <span class="ext"><strong><?= e($d->extensionLabel()) ?></strong><span><b><?= e(money((int) $d->Prijs)) ?></b> / jaar</span><small>Registreren <?= icon('arrow-right', 'icon icon-sm') ?></small></span>
 <?php endforeach; ?></div>
-<?php if (count($domains) > $max): ?><p class="ext-more"><a class="btn btn-ghost" href="<?= e(url('/domeinen')) ?>">Alle <?= count($domains) ?> extensies bekijken <?= icon('arrow-right', 'icon icon-sm') ?></span></p><?php endif; ?>
+<?php if (count($domains) > $max): ?><p class="ext-more"><a class="btn btn-ghost" href="<?= e(url($more_url ?? '/domeinen?alle=1')) ?>">Alle <?= count($domains) ?> extensies bekijken <?= icon('arrow-right', 'icon icon-sm') ?></a></p><?php endif; ?>
