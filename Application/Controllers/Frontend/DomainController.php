@@ -26,6 +26,14 @@ final class DomainController extends Controller
     public function search(Request $request): Response
     {
         $raw = $request->string('domein');
+        if (trim($raw) === '' && $request->string('ext') === '') {
+            return $this->view('frontend.domeinnaam', [
+                'extProducts' => SiteController::extensionProducts(),
+                'benefits' => \App\Services\PageContent::benefits('Domeinnamen'),
+                'steps' => \App\Services\PageContent::steps('Domeinnamen', true),
+                'faq' => \App\Services\PageContent::faq('Domeinnamen', 'domeinnamen', true),
+            ]);
+        }
         if ($request->string('ext') !== '') {
             $raw = DomainCheck::parse($raw)[0] . '.' . ltrim(strtolower(trim($request->string('ext'))), '.');
         }

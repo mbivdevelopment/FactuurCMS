@@ -101,7 +101,7 @@ final class SiteController extends Controller
     }
 
     /** Domeinextensies als producten, in de volgorde van de hero-extensies. @return list<Product> */
-    private static function extensionProducts(): array
+    public static function extensionProducts(): array
     {
         [$domains] = self::splitExtensions(Product::query("SELECT * FROM Producten WHERE Zichtbaar = 1 AND (Dienstsoort = 'Domeinnamen' OR (Dienstsoort IS NULL AND Groep = 'Domeinen')) ORDER BY Volgorde, Id"));
 
@@ -231,12 +231,7 @@ final class SiteController extends Controller
 
     public function domeinnaam(Request $request): Response
     {
-        return $this->view('frontend.domeinnaam', [
-            'extProducts' => self::extensionProducts(),
-            'benefits' => \App\Services\PageContent::benefits('Domeinnamen'),
-            'steps' => \App\Services\PageContent::steps('Domeinnamen', true),
-            'faq' => \App\Services\PageContent::faq('Domeinnamen', 'domeinnamen', true),
-        ]);
+        return $this->redirect('/domeinen');
     }
 
     public function extensieRedirect(Request $request): Response
