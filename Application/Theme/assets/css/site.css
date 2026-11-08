@@ -1877,3 +1877,5 @@ a.sf-line:hover span { color: #fff; }
 .sm-set .dn-val { color: var(--navy); }
 .sm-save { display: flex; gap: 8px; margin-top: 6px; }
 .sm-save .btn { pointer-events: none; }
+.sm-visual .dn-c2 { bottom: -26px; }
+.sm-visual .dn-browser { margin-bottom: 14px; }

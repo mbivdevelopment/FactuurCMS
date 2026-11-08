@@ -83,7 +83,7 @@
 </div></section>
 
 <section class="sec"><div class="container intro-split dn-split">
-    <div class="dn-visual" aria-hidden="true">
+    <div class="dn-visual sm-visual" aria-hidden="true">
         <div class="dn-browser">
             <div class="dn-bar"><i></i><i></i><i></i><span class="dn-url"><?= icon('settings', 'icon icon-sm') ?> WordPress · Instellingen · E-mail (SMTP)</span></div>
             <div class="dn-body dn-dns">
