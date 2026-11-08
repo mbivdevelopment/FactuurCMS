@@ -65,8 +65,8 @@ $blogLabel = $isReseller ? 'Reseller Hosting' : ($isEmailHosting ? 'E-mail Hosti
     </div>
     <?php else: ?>
     <div class="solution-intro-photo">
-        <img src="<?= e(asset($isWebhosting ? 'img/qevanto-webhosting.png' : 'img/qevanto-datacenter.jpg')) ?>" alt="<?= e($isWebhosting ? 'Webhostingservers van Qevanto' : 'Servers in een datacenter van Qevanto') ?>">
-        <span class="solution-photo-caption"><?= icon('server', 'icon icon-sm') ?> Hostinginfrastructuur van Qevanto</span>
+        <img src="<?= e(asset($isWebhosting ? 'img/qevanto-webhosting.png' : ($isCloudVps ? 'img/qevanto-cloudvps.png' : 'img/qevanto-datacenter.jpg'))) ?>" alt="<?= e($isWebhosting ? 'Webhostingservers van Qevanto' : ($isCloudVps ? 'Cloud VPS-infrastructuur van Qevanto' : 'Servers in een datacenter van Qevanto')) ?>">
+        <span class="solution-photo-caption"><?= icon($isCloudVps ? 'cloud' : 'server', 'icon icon-sm') ?> <?= $isCloudVps ? 'Cloud VPS bij Qevanto' : 'Hostinginfrastructuur van Qevanto' ?></span>
     </div>
     <?php endif; ?>
     <div>
