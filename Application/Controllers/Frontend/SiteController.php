@@ -264,7 +264,7 @@ final class SiteController extends Controller
 
     public function product(Request $request): Response
     {
-        $product = $this->findProduct($request);
+        $product = $this->findProduct($request) ?? throw new HttpException(404, 'Deze dienst bestaat niet (meer).');
         if ('/' . trim($request->path, '/') !== $product->path()) {
             $query = (string) ($_SERVER['QUERY_STRING'] ?? '');
 
@@ -276,7 +276,12 @@ final class SiteController extends Controller
 
     public function checkout(Request $request): Response
     {
-        $product = $this->findProduct($request);
+        $product = $this->findProduct($request, false);
+        if ($product === null) {
+            $products = Product::query("SELECT * FROM Producten WHERE Zichtbaar = 1 AND (Periode <> 'eenmalig' OR Dienstsoort IS NOT NULL) AND Groep <> 'Domeinen' ORDER BY Dienstsoort, Volgorde, Prijs, Id");
+
+            return $this->view('frontend.order-start', ['products' => $products]);
+        }
         $extPrijzen = [];
         foreach (DomainCheck::products() as $ext => $extProduct) {
             $extPrijzen[$ext] = ['prijs' => (int) $extProduct->Prijs, 'btw' => (float) $extProduct->BtwTarief];
@@ -287,7 +292,17 @@ final class SiteController extends Controller
 
     public function order(Request $request): Response
     {
-        $product = $this->findProduct($request);
+        $selected = $request->string('product');
+        if ($request->string('KiesProduct') === '1') {
+            $product = Product::firstWhere(['Slug' => $selected, 'Zichtbaar' => 1]);
+            if ($product === null) {
+                return $this->redirect('/bestellen')->with('error', 'Kies eerst een geldig pakket.');
+            }
+            Session::set('bestel_product', $product->Slug);
+
+            return $this->redirect('/bestellen');
+        }
+        $product = $this->findProduct($request) ?? throw new HttpException(404, 'Deze dienst bestaat niet (meer).');
         $user = Auth::user();
         // Ook beheerders/medewerkers bestellen op hun eigen account.
         $hosting = $product->Periode !== 'eenmalig' && $product->Groep !== 'Domeinen' && $product->Dienstsoort !== 'Domeinnamen';
@@ -346,6 +361,7 @@ final class SiteController extends Controller
             ]];
         }
         $doc = Billing::order($user, $product, $hosting ? $domein : $request->string('Notitie'), $request->string('Termijn'), $domain, $gegevens);
+        Session::forget('bestel_product');
         Billing::send($doc);
         $admin = (string) setting('bedrijf.email', '');
         if ($admin !== '') {
@@ -459,10 +475,10 @@ final class SiteController extends Controller
         return [$domains, array_values(array_filter($products, static fn (Product $p): bool => !$p->isExtension()))];
     }
 
-    private function findProduct(Request $request): Product
+    private function findProduct(Request $request, bool $required = true): ?Product
     {
         $category = (string) $request->param('category');
-        $slug = (string) ($request->param('slug') ?? $request->string('product'));
+        $slug = (string) ($request->param('slug') ?? $request->string('product') ?: Session::get('bestel_product', ''));
         $product = null;
         $candidates = [$slug];
         if ($category !== '') {
@@ -483,7 +499,7 @@ final class SiteController extends Controller
         if ($product === null && str_starts_with($slug, 'domein-')) {
             $product = Product::firstWhere(['Slug' => substr($slug, 7), 'Zichtbaar' => 1]);
         }
-        if ($product === null) {
+        if ($product === null && $required) {
             throw new HttpException(404, 'Deze dienst bestaat niet (meer).');
         }
 

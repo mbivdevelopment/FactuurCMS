@@ -137,7 +137,7 @@ final class Product extends Model
 
     public function orderPath(): string
     {
-        return '/bestellen?product=' . rawurlencode((string) $this->Slug);
+        return '/bestellen';
     }
 
     protected static ?string $prefix = 'A';
