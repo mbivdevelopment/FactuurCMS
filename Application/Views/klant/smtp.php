@@ -1,6 +1,6 @@
 <?php $extend('klant', ['title' => dienst_naam($service)]); ?>
 <?php $geo = is_array($service->Gegevens) ? $service->Gegevens : (json_decode((string) $service->Gegevens, true) ?: []); $smtp = (array) ($geo['smtp'] ?? []);
-$host = $smtp['host'] ?? setting('smtp.relay_host', 'smtp.qevanto.nl'); $poort = (int) ($smtp['poort'] ?? 587); $user = $smtp['gebruiker'] ?? ($geo['domein'] ?? 'relay-' . strtolower((string) $service->Nummer)); $pass = (string) ($smtp['wachtwoord'] ?? ''); $limiet = (int) ($smtp['limiet'] ?? 10000); ?>
+$host = $smtp['host'] ?? setting('smtp.relay_host', 'smtp.qevanto.nl'); $poort = (int) ($smtp['poort'] ?? 587); $user = $smtp['gebruiker'] ?? ($geo['domein'] ?? 'relay-' . strtolower((string) $service->Nummer)); $pass = !empty($smtp['wachtwoord']) ? \App\Core\Crypt::decrypt((string) $smtp['wachtwoord']) : ''; $limiet = (int) ($smtp['limiet'] ?? 10000); ?>
 <div class="page-head"><div class="ph-icon"><?= icon('send') ?></div><div class="ph-text"><h1><?= e(dienst_naam($service)) ?></h1><div class="sub"><?= e($service->Nummer) ?> · <?= badge((string) $service->Status, \App\Models\Service::STATUSES[$service->Status] ?? '') ?></div></div><div class="row" style="display:flex;gap:8px;align-items:center"><a class="btn btn-ghost" href="<?= e(url('/klant/diensten/' . $service->id())) ?>">Terug</a></div></div>
 <div class="grid grid-2">
     <div class="card"><div class="card-body">

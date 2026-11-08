@@ -15,6 +15,7 @@ final class QevantoPaneel
         'reseller' => ['Reseller', 'Hosting', 'Reseller Hosting', 'users'],
         'vpn' => ['VPN', 'Overig', 'VPN', 'shield'],
         'workplace' => ['Werkplek', 'Overig', 'Werkplek Beheer', 'headset'],
+        'smtp' => ['SMTP Relay', 'Overig', 'SMTP Relay', 'send'],
     ];
 
     /** Hostingabonnementen, resellers, VPN en werkplekken. @return list<array<string, mixed>> */
@@ -57,6 +58,33 @@ final class QevantoPaneel
     public static function newWorkplaceCode(int $id): array
     {
         return self::post('/api/subscriptions/' . $id . '/workplaces/code', []);
+    }
+
+    /** Klantgerichte SMTP Relay-resource voor een QEVANTO-abonnement. */
+    public static function smtpRelay(int $id): array
+    {
+        [$url, $token] = self::credentials();
+        return Http::json('GET', $url . '/api/smtp-relays/' . $id, ['Authorization: Bearer ' . $token]);
+    }
+
+    /** Maak een SMTP Relay-resource aan; het wachtwoord wordt alleen bij aanmaak teruggegeven. */
+    public static function createSmtpRelay(int $id): array
+    {
+        return self::post('/api/smtp-relays/' . $id, []);
+    }
+
+    /** Wijzig relayopties. */
+    public static function updateSmtpRelay(int $id, array $body): array
+    {
+        [$url, $token] = self::credentials();
+        return Http::json('PATCH', $url . '/api/smtp-relays/' . $id, ['Authorization: Bearer ' . $token],
+            (string) json_encode($body, JSON_UNESCAPED_UNICODE));
+    }
+
+    /** Genereer een nieuw relaywachtwoord. */
+    public static function resetSmtpRelay(int $id): array
+    {
+        return self::post('/api/smtp-relays/' . $id . '/reset', []);
     }
 
     /** Zet de status van een abonnement (active/suspended). */

@@ -7,6 +7,7 @@ namespace App\Controllers\Klant;
 use App\Core\Auth;
 use App\Core\Controller;
 use App\Core\Database;
+use App\Core\Crypt;
 use App\Core\HttpException;
 use App\Core\Mailer;
 use App\Core\Request;
@@ -151,7 +152,18 @@ final class PortalController extends Controller
             throw new HttpException(404, 'Deze dienst is geen SMTP Relay.');
         }
         $geo = is_array($service->Gegevens) ? $service->Gegevens : (json_decode((string) $service->Gegevens, true) ?: []);
-        $geo['smtp'] = array_merge((array) ($geo['smtp'] ?? []), ['wachtwoord' => bin2hex(random_bytes(10))]);
+        try {
+            $relay = QevantoPaneel::resetSmtpRelay((int) $service->ExternId);
+            $geo['smtp'] = array_merge((array) ($geo['smtp'] ?? []), [
+                'host' => $relay['host'] ?? 'smtp.qevanto.nl',
+                'poort' => (int) ($relay['port'] ?? 587),
+                'gebruiker' => $relay['username'] ?? null,
+                'wachtwoord' => Crypt::encrypt((string) ($relay['password'] ?? '')),
+                'limiet' => (int) ($relay['monthlyLimit'] ?? 10000),
+            ]);
+        } catch (\Throwable $e) {
+            return $this->redirect('/klant/diensten/' . $service->id() . '/smtp')->with('error', 'Nieuw SMTP-wachtwoord genereren mislukt: ' . $e->getMessage());
+        }
         Database::update('Diensten', ['Gegevens' => json_encode($geo, JSON_UNESCAPED_UNICODE), 'BijgewerktOp' => now()], ['Id' => $service->id()]);
 
         return $this->redirect('/klant/diensten/' . $service->id() . '/smtp')->with('success', 'Nieuw SMTP-wachtwoord gegenereerd. Vergeet niet je applicatie bij te werken.');

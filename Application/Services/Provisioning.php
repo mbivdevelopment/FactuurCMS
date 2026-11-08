@@ -54,10 +54,15 @@ final class Provisioning
                 'packageId' => (int) substr((string) $product->ExternId, 7),
                 'label' => (string) ($service->Omschrijving ?: $product->Naam),
             ]);
+            $relay = null;
+            if (($sub['package']['kind'] ?? '') === 'smtp') {
+                $relay = QevantoPaneel::createSmtpRelay((int) ($sub['id'] ?? 0));
+            }
             Database::update('Diensten', [
                 'Bron' => 'qevanto',
                 'ExternId' => (string) ($sub['id'] ?? ''),
-                'Gegevens' => json_encode(['qevanto' => ['nummer' => $sub['number'] ?? null, 'systeemgebruiker' => $sub['unixUser'] ?? null, 'pakket' => $product->Naam, 'kind' => $sub['package']['kind'] ?? null, 'automatisch' => date('Y-m-d H:i')]], JSON_UNESCAPED_UNICODE),
+                'Gegevens' => json_encode(['qevanto' => ['nummer' => $sub['number'] ?? null, 'systeemgebruiker' => $sub['unixUser'] ?? null, 'pakket' => $product->Naam, 'kind' => $sub['package']['kind'] ?? null, 'automatisch' => date('Y-m-d H:i')],
+                    'smtp' => $relay ? ['host' => $relay['host'] ?? 'smtp.qevanto.nl', 'poort' => $relay['port'] ?? 587, 'gebruiker' => $relay['username'] ?? null, 'wachtwoord' => \App\Core\Crypt::encrypt((string) ($relay['password'] ?? '')), 'limiet' => $relay['monthlyLimit'] ?? 10000] : null], JSON_UNESCAPED_UNICODE),
                 'Status' => 'actief',
                 'BijgewerktOp' => now(),
             ], ['Id' => $serviceId]);
