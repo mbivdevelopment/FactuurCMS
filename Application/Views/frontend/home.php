@@ -55,8 +55,8 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
             <div class="prose"><?= rich_text((string) setting('over.tekst', '') ?: (string) setting('website.intro', '')) ?></div>
             <div class="about-btns"><a class="btn btn-lg" href="<?= e(url('/over-ons')) ?>">Meer over ons <?= icon('arrow-right', 'icon icon-sm') ?></a><a class="btn btn-lg btn-ghost" href="<?= e(url('/contact')) ?>"><?= icon('chat', 'icon icon-sm') ?> Kennismaken</a></div>
         </div>
-        <div class="about-visual has-img about-illu<?= $overImg !== '' ? ' is-photo' : '' ?>">
-            <img src="<?= e($overImg !== '' ? $overImg : asset('img/over-team.webp')) ?>" alt="<?= e(company_name()) ?>" loading="lazy">
+        <div class="about-visual has-img about-illu is-photo">
+            <img src="<?= e(asset('img/qevanto-ict-partner.png')) ?>" alt="Qevanto, jouw ICT-partner" loading="lazy">
             <div class="av-badge"><?= icon('shield') ?><div><strong>Ijzersterk verbonden</strong><small>Eigen netwerk en datacenters</small></div></div>
         </div>
     </div>
