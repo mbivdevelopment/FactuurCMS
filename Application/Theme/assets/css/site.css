@@ -747,12 +747,12 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .ck-sec .dline-code:focus-within { background: #fff; border-color: var(--primary); }
 /* keuzes */
 .ck-sec .dopts { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 10px; row-gap: 18px; }
-.ck-sec .dopt-b { padding: 16px 16px 16px 46px; border-width: 1px; border-radius: 8px; position: relative; }
+.ck-sec .dopt-b { padding: 16px 16px 16px 46px; border-width: 1px; border-radius: 8px; position: relative; gap: 2px; }
 .ck-sec .dopt-b::before { content: ''; position: absolute; left: 16px; top: 18px; width: 18px; height: 18px; border-radius: 50%; border: 2px solid #c8cfdc; background: #fff; transition: border-color .15s, box-shadow .15s; }
 .ck-sec .dopt input:checked + .dopt-b { border-color: var(--primary); box-shadow: 0 0 0 1px var(--primary); background: #fff; }
 .ck-sec .dopt input:checked + .dopt-b::before { border-color: var(--primary); box-shadow: inset 0 0 0 4px #fff; background: var(--primary); }
-.ck-sec .dopt-b strong { font-size: 15px; padding-right: 90px; }
-.ck-sec .dopt-b small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ck-sec .dopt-b strong { font-size: 15px; line-height: 1.2; padding-right: 90px; }
+.ck-sec .dopt-b small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2; }
 .ck-sec .dopt-b em { position: absolute; top: -9px; right: 12px; }
 .ck-sec .dopt-b b { position: absolute; top: 16px; right: 16px; margin: 0; font-size: 16px; }
 /* overzicht rechts */
