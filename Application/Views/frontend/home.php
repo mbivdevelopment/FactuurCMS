@@ -40,7 +40,7 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
             <?php if ($extProducts !== []): ?>
             <div class="dfind-exts">
                 <?php foreach (array_slice($extProducts, 0, 11) as $p): ?><span class="dfind-ext"><strong><?= e($p->extensionLabel()) ?></strong><span><?= e(money((int) $p->Prijs)) ?></span><small>per jaar</small></span><?php endforeach; ?>
-                <a class="dfind-all" href="<?= e(url('/domeinen')) ?>">Alle extensies <?= icon('arrow-right', 'icon icon-sm') ?></a>
+                <a class="dfind-all" href="#" data-open="ext-dlg">Alle extensies <?= icon('arrow-right', 'icon icon-sm') ?></a><?= $partial('frontend._ext-dialog', ['domains' => $extProducts]) ?>
             </div>
             <?php endif; ?>
         </div>

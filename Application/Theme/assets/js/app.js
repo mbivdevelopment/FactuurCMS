@@ -262,6 +262,7 @@ document.addEventListener('click', ev => {
 document.addEventListener('click', ev => {
     const open = ev.target.closest('[data-open]');
     if (open) {
+        ev.preventDefault();
         const dlg = document.getElementById(open.dataset.open);
         if (dlg && dlg.showModal) dlg.showModal();
         return;
@@ -294,3 +295,16 @@ document.addEventListener('click', ev => {
         io.observe(el);
     });
 })();
+
+/* Extensie-popup: filteren op zoekterm en sluiten bij klik op de achtergrond. */
+document.addEventListener('input', ev => {
+    const inp = ev.target.closest('[data-ext-filter]');
+    if (!inp) return;
+    const q = inp.value.trim().toLowerCase().replace(/^\./, '');
+    const dlg = inp.closest('dialog');
+    let n = 0;
+    dlg.querySelectorAll('.exd-row').forEach(r => { const hit = q === '' || r.dataset.ext.replace(/^\./, '').includes(q); r.hidden = !hit; if (hit) n++; });
+    const empty = dlg.querySelector('.exd-empty');
+    if (empty) empty.hidden = n > 0;
+});
+document.addEventListener('click', ev => { if (ev.target.matches('dialog.ext-dlg')) ev.target.close(); });

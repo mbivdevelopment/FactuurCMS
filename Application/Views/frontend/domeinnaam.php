@@ -6,7 +6,7 @@
             <span class="hh-label"><?= icon('globe', 'icon icon-sm') ?> Domeinnamen &amp; DNS</span>
             <h1>Jouw <span>domeinnaam</span>, direct geregeld.</h1>
             <p>Zoek, registreer of verhuis je domeinnaam in een paar minuten. Met gratis DNS-beheer, automatische verlenging en eerlijke prijzen — zonder kleine lettertjes.</p>
-            <div class="hh-btns"><a class="btn btn-lg" href="#zoeken"><?= icon('search', 'icon icon-sm') ?> Zoek je domein</a><a class="btn btn-lg btn-ghost" href="<?= e(url('/domeinen?alle=1')) ?>">Alle extensies <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+            <div class="hh-btns"><a class="btn btn-lg" href="#zoeken"><?= icon('search', 'icon icon-sm') ?> Zoek je domein</a><a class="btn btn-lg btn-ghost" href="#" data-open="ext-dlg">Alle extensies <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
         </div>
         <div class="hh-visual">
             <div class="hh-rack" aria-hidden="true">
@@ -26,7 +26,7 @@
             <?php if ($extProducts !== []): ?>
             <div class="dfind-exts">
                 <?php foreach (array_slice($extProducts, 0, 11) as $p): ?><span class="dfind-ext"><strong><?= e($p->extensionLabel()) ?></strong><span><?= e(money((int) $p->Prijs)) ?></span><small>per jaar</small></span><?php endforeach; ?>
-                <a class="dfind-all" href="<?= e(url('/domeinen?alle=1')) ?>">Alle extensies <?= icon('arrow-right', 'icon icon-sm') ?></a>
+                <a class="dfind-all" href="#" data-open="ext-dlg">Alle extensies <?= icon('arrow-right', 'icon icon-sm') ?></a>
             </div>
             <?php endif; ?>
         </div>
@@ -61,7 +61,7 @@
 <?php if ($extProducts !== []): ?>
 <section class="sec"><div class="container">
     <div class="sec-head center"><div><span class="eyebrow"><?= icon('globe', 'icon icon-sm') ?> Domeinextensies</span><h2>Populaire extensies en prijzen</h2><p>Prijzen per jaar, exclusief btw. Inclusief gratis DNS-beheer en automatische verlenging.</p></div></div>
-    <?= $partial('frontend._extensions', ['domains' => $extProducts, 'max' => 12]) ?>
+    <?= $partial('frontend._extensions', ['domains' => $extProducts, 'max' => 12, 'dialog' => true]) ?>
 </div></section>
 <?php endif; ?>
 
