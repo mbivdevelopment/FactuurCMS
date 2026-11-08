@@ -1931,4 +1931,5 @@ a.sf-line:hover span { color: #fff; }
 .solution-intro-photo .solution-photo-caption { bottom: 18px; }
 .solution-intro-webhosting .prose p { max-width: 640px; }
 .solution-blog-section { background: #fff; }
+.solution-rack { width: min(430px, 100%); }
 @media (max-width: 900px) { .solution-photo-card { transform: none; } }

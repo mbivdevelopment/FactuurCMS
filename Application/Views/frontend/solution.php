@@ -31,8 +31,6 @@ $isWebhosting = $soort === 'Webhosting';
                 <span class="solution-photo-caption"><?= icon('server', 'icon icon-sm') ?> Qevanto-infrastructuur in Nederland</span>
             </div>
             <?php endif; ?>
-            <div class="hh-badge hh-b1"><?= icon('zap') ?><div><strong>Direct actief</strong><small>na betaling</small></div></div>
-            <div class="hh-badge hh-b2"><?= icon('shield') ?><div><strong>Veilig geregeld</strong><small>via Qevanto Hostingpaneel</small></div></div>
         </div>
     </div>
 </section>
