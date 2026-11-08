@@ -1639,9 +1639,9 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .pk7-pr span { display: block; margin-top: 8px; font-size: 13.5px; color: var(--muted); font-weight: 600; }
 .site .pk7-btn { display: flex; justify-content: center; align-items: center; gap: 7px; width: calc(100% - 44px); height: 40px; border-radius: 8px; font-weight: 700; font-size: 14px; color: #fff; background: var(--navy); border-color: var(--navy); margin: 0 22px 16px; }
 .site .pk7-btn .icon { width: 15px; height: 15px; }
-.site .pk7-btn:hover { background: var(--navy-2); border-color: var(--navy-2); transform: none; box-shadow: none; }
+.site .pk7-btn:hover { background: var(--navy-2); border-color: var(--navy-2); transform: none; box-shadow: none !important; }
 .site .pk7.pk-hot .pk7-btn { background: var(--primary); border-color: var(--primary); }
-.site .pk7.pk-hot .pk7-btn:hover { background: #e84d12; border-color: #e84d12; }
+.site .pk7.pk-hot .pk7-btn:hover { background: #e84d12; border-color: #e84d12; box-shadow: none !important; }
 .pk7-f { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); display: grid; gap: 0; flex: 1; align-content: start; }
 .pk7-f li { display: flex; gap: 10px; align-items: center; font-size: 14px; color: #2b3756; line-height: 1.35; padding: 10px 22px; }
 .pk7-f li:nth-child(odd) { background: var(--soft); }
