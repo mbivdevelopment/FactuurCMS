@@ -1,8 +1,27 @@
 <?php $extend('frontend', ['title' => 'Domeinnaam registreren']); ?>
-<section class="hero2 sec-dark"><div class="container">
-    <div class="dfind">
+<section class="hhero hero2">
+    <div class="hh-float" aria-hidden="true"><?php foreach (['globe', 'shield', 'server', 'cloud', 'lock', 'zap', 'link', 'mail'] as $i => $ic): ?><span class="hh-f hh-f<?= $i ?>"><?= icon($ic) ?></span><?php endforeach; ?></div>
+    <div class="container hh-in">
+        <div class="hh-text">
+            <span class="hh-label"><?= icon('globe', 'icon icon-sm') ?> Domeinnamen &amp; DNS</span>
+            <h1>Jouw <span>domeinnaam</span>, direct geregeld.</h1>
+            <p>Zoek, registreer of verhuis je domeinnaam in een paar minuten. Met gratis DNS-beheer, automatische verlenging en eerlijke prijzen — zonder kleine lettertjes.</p>
+            <div class="hh-btns"><a class="btn btn-lg" href="#zoeken"><?= icon('search', 'icon icon-sm') ?> Zoek je domein</a><a class="btn btn-lg btn-ghost" href="<?= e(url('/domeinen')) ?>">Alle extensies <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+        </div>
+        <div class="hh-visual">
+            <div class="hh-rack" aria-hidden="true">
+                <?php for ($i = 0; $i < 5; $i++): ?><div class="hh-unit"><span class="hh-bays"><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="hh-leds"><b></b><b></b><b></b></span></div><?php endfor; ?>
+                <div class="hh-base"></div>
+            </div>
+            <div class="hh-badge hh-b1"><?= icon('zap') ?><div><strong>Direct actief</strong><small>na betaling</small></div></div>
+            <div class="hh-badge hh-b2"><?= icon('shield') ?><div><strong>Gratis DNS-beheer</strong><small>volledige controle</small></div></div>
+        </div>
+    </div>
+</section>
+<section class="dfind" id="zoeken">
+    <div class="container">
         <div class="dfind-card">
-            <div class="dfind-head"><span class="eyebrow"><?= icon('globe', 'icon icon-sm') ?> Domeinnaam</span><h1>Domeinnaam registreren</h1><p>Vind direct of jouw naam vrij is. Registreren in een paar minuten, inclusief gratis DNS-beheer en automatische verlenging.</p></div>
+            <div class="dfind-head"><span class="eyebrow"><?= icon('globe', 'icon icon-sm') ?> Domeinnaam</span><h2>Begin met jouw domeinnaam</h2><p>Typ je naam en zie direct welke extensies vrij zijn — inclusief gratis DNS-beheer.</p></div>
             <?= $partial('frontend._domain-search', ['placeholder' => 'jouwdomein.nl', 'transfer' => true]) ?>
             <?php if ($extProducts !== []): ?>
             <div class="dfind-exts">
@@ -12,6 +31,8 @@
             <?php endif; ?>
         </div>
     </div>
+</section>
+
 </div></section>
 
 <section class="sec"><div class="container intro-split">
