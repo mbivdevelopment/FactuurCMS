@@ -13,6 +13,8 @@ $isWebhosting = $soort === 'Webhosting';
 $isEmailHosting = $soort === 'E-mail Hosting';
 $isReseller = $soort === 'Reseller Hosting';
 $isApi = $soort === 'API Koppelingen';
+$isInformativeWebsite = $soort === 'Informatieve Websites';
+$isWebshop = $soort === 'Webshops';
 $blogLabel = $isReseller ? 'Reseller Hosting' : ($isEmailHosting ? 'E-mail Hosting' : 'Webhosting');
 ?>
 <section class="hhero hero2">
@@ -42,17 +44,17 @@ $blogLabel = $isReseller ? 'Reseller Hosting' : ($isEmailHosting ? 'E-mail Hosti
     </div>
 </section>
 
-<section class="sec"><div class="container intro-split dn-split<?= ($isWebhosting || $isEmailHosting || $isReseller || $isApi) ? ' solution-intro-webhosting' : '' ?>">
-    <?php if ($isWebhosting || $isEmailHosting || $isReseller || $isApi): ?>
+<section class="sec"><div class="container intro-split dn-split<?= ($isWebhosting || $isEmailHosting || $isReseller || $isApi || $isInformativeWebsite || $isWebshop) ? ' solution-intro-webhosting' : '' ?>">
+    <?php if ($isWebhosting || $isEmailHosting || $isReseller || $isApi || $isInformativeWebsite || $isWebshop): ?>
     <?php if ($isEmailHosting): ?>
     <div class="solution-intro-photo">
         <img src="<?= e(asset('img/qevanto-emailhosting.png')) ?>" alt="E-mailhosting-infrastructuur van Qevanto">
         <span class="solution-photo-caption"><?= icon('mail', 'icon icon-sm') ?> E-mailhosting bij Qevanto</span>
     </div>
-    <?php elseif ($isReseller || $isApi): ?>
+    <?php elseif ($isReseller || $isApi || $isInformativeWebsite || $isWebshop): ?>
     <div class="solution-intro-photo">
-        <img src="<?= e(asset($isReseller ? 'img/qevanto-resellerhosting.png' : 'img/qevanto-datacenter.jpg')) ?>" alt="<?= e($isApi ? 'API-infrastructuur van Qevanto' : 'Resellerhosting-infrastructuur van Qevanto') ?>">
-        <span class="solution-photo-caption"><?= icon($isApi ? 'code' : 'users', 'icon icon-sm') ?> <?= $isApi ? 'API-infrastructuur bij Qevanto' : 'Resellerhosting bij Qevanto' ?></span>
+        <img src="<?= e(asset($isReseller ? 'img/qevanto-resellerhosting.png' : ($isApi ? 'img/qevanto-datacenter.jpg' : ($isInformativeWebsite ? 'img/qevanto-website.png' : 'img/qevanto-webshop.png')))) ?>" alt="<?= e($isReseller ? 'Resellerhosting-infrastructuur van Qevanto' : ($isApi ? 'API-infrastructuur van Qevanto' : ($isInformativeWebsite ? 'Website-infrastructuur van Qevanto' : 'Webshop-infrastructuur van Qevanto'))) ?>">
+        <span class="solution-photo-caption"><?= icon($isReseller ? 'users' : ($isApi ? 'code' : ($isInformativeWebsite ? 'layout' : 'cart')), 'icon icon-sm') ?> <?= $isReseller ? 'Resellerhosting bij Qevanto' : ($isApi ? 'API-infrastructuur bij Qevanto' : ($isInformativeWebsite ? 'Websites bij Qevanto' : 'Webshops bij Qevanto')) ?></span>
     </div>
     <?php else: ?>
     <div class="solution-intro-photo">
@@ -76,6 +78,14 @@ $blogLabel = $isReseller ? 'Reseller Hosting' : ($isEmailHosting ? 'E-mail Hosti
             <p>API-koppelingen zorgen ervoor dat je systemen automatisch met elkaar samenwerken. In plaats van gegevens telkens handmatig over te typen, wisselen je webshop, boekhouding, CRM, voorraadbeheer en andere applicaties informatie uit wanneer dat nodig is.</p>
             <p>Qevanto ontwikkelt koppelingen die passen bij jouw processen en bestaande software. We brengen eerst in kaart welke gegevens moeten worden uitgewisseld en bouwen daarna een veilige verbinding met duidelijke logging en foutafhandeling.</p>
             <p>Zo blijven gegevens actueel, worden fouten sneller zichtbaar en houd je meer tijd over voor je organisatie. De koppeling kan meegroeien met je volumes en wordt onderhouden wanneer een aangesloten systeem of API verandert.</p>
+            <?php elseif ($isInformativeWebsite): ?>
+            <p>Een informatieve website is vaak het eerste contactmoment tussen jouw organisatie en een potentiële klant. Daarom moet de website helder uitleggen wat je doet, vertrouwen opbouwen en bezoekers op een natuurlijke manier naar contact of een aanvraag begeleiden.</p>
+            <p>Qevanto bouwt websites die passen bij je merk, doelgroep en manier van werken. De inhoud, structuur en vormgeving worden afgestemd op de informatie die bezoekers nodig hebben, met aandacht voor snelheid, toegankelijkheid en een goede weergave op ieder scherm.</p>
+            <p>Na oplevering beschik je over een professionele online basis die je zelf kunt beheren en die kan meegroeien met je organisatie. Hosting, SSL, back-ups en technisch onderhoud kunnen vanuit dezelfde Qevanto-omgeving worden geregeld.</p>
+            <?php elseif ($isWebshop): ?>
+            <p>Een webshop moet meer doen dan producten tonen. Hij moet bezoekers helpen kiezen, vertrouwen geven tijdens het afrekenen en bestellingen overzichtelijk verwerken. Een duidelijke structuur en een soepel bestelproces maken het verschil tussen rondkijken en daadwerkelijk bestellen.</p>
+            <p>Qevanto bouwt webshops die aansluiten op je assortiment, betaalmethoden en dagelijkse werkzaamheden. Producten, voorraad, orders en klantgegevens komen samen in een omgeving die prettig werkt voor jou én voor je klanten.</p>
+            <p>De webshop kan worden verbonden met betaalproviders, boekhouding, voorraadbeheer en andere systemen. Zo blijft je administratie actueel en houd je tijd over voor verkoop, service en de verdere groei van je online winkel.</p>
             <?php else: ?>
             <p>Webhosting is de serverruimte waar de bestanden, afbeeldingen en databases van je website worden opgeslagen. Zodra iemand je domeinnaam bezoekt, zorgt onze infrastructuur ervoor dat je website snel en veilig wordt geladen.</p>
             <p>Bij Qevanto draait je website op moderne NVMe-servers in Nederlandse datacenters. Je krijgt een stabiele basis voor een bedrijfswebsite, webshop, blog of online platform, zonder dat je zelf servers hoeft te beheren.</p>
