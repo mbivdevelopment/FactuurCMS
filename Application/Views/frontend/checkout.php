@@ -20,7 +20,7 @@ $user = auth_user(); ?>
     </div>
 </div></section>
 <section class="ck-sec"><div class="container">
-    <form class="dcheck" method="post" action="<?= e(url($product->path() . '/bestellen')) ?>"><?= csrf_field() ?>
+    <form class="dcheck" method="post" action="<?= e(url('/bestellen')) ?>" data-order-form data-order-key="<?= e((string) $product->Slug) ?>"><?= csrf_field() ?><input type="hidden" name="product" value="<?= e((string) $product->Slug) ?>">
         <div class="dcheck-main stack">
             <?php if ($user === null): ?>
             <div class="card"><div class="card-head"><h2><?= icon('user') ?> Je gegevens</h2><a class="btn btn-ghost btn-sm" href="<?= e(url('/login')) ?>">Al klant? Inloggen</a></div><div class="card-body form-grid">
@@ -124,5 +124,33 @@ $user = auth_user(); ?>
     document.addEventListener('change', compute);
     document.addEventListener('input', compute);
     compute();
+
+    var form = document.querySelector('[data-order-form]');
+    var storageKey = 'qevanto-order-' + (form ? form.dataset.orderKey : '');
+    var remember = ['Domeinnaam', 'DomeinActie', 'EppCode', 'VpsPlatform', 'VpsSlices', 'VpsLocatie', 'VpsOs', 'Termijn', 'Betaalmethode', 'Notitie'];
+    if (form && storageKey !== 'qevanto-order-') {
+        try {
+            var saved = JSON.parse(sessionStorage.getItem(storageKey) || '{}');
+            remember.forEach(function (name) {
+                if (saved[name] === undefined) { return; }
+                form.querySelectorAll('[name="' + name + '"]').forEach(function (el) {
+                    if (el.type === 'radio' || el.type === 'checkbox') {
+                        el.checked = String(saved[name]) === el.value;
+                    } else {
+                        el.value = saved[name];
+                    }
+                });
+            });
+            compute();
+        } catch (e) {}
+        form.addEventListener('input', function () {
+            var values = {};
+            remember.forEach(function (name) {
+                var field = form.querySelector('[name="' + name + '"]:checked') || form.querySelector('[name="' + name + '"]');
+                if (field && field.value) { values[name] = field.value; }
+            });
+            try { sessionStorage.setItem(storageKey, JSON.stringify(values)); } catch (e) {}
+        });
+    }
 })();
 </script>

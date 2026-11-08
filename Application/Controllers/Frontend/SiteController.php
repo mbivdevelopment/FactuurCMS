@@ -271,22 +271,12 @@ final class SiteController extends Controller
             return Response::redirect($product->path() . ($query !== '' ? '?' . $query : ''), 301);
         }
 
-        if (!$product->isExtension()) {
-            return Response::redirect($product->path() . '/bestellen', 301);
-        }
-
         return $this->view('frontend.product', ['product' => $product, 'siblings' => [], 'soortPage' => null]);
     }
 
     public function checkout(Request $request): Response
     {
         $product = $this->findProduct($request);
-        $canonical = $product->path() . '/bestellen';
-        if ('/' . trim($request->path, '/') !== $canonical) {
-            $query = (string) ($_SERVER['QUERY_STRING'] ?? '');
-
-            return Response::redirect($canonical . ($query !== '' ? '?' . $query : ''), 301);
-        }
         $extPrijzen = [];
         foreach (DomainCheck::products() as $ext => $extProduct) {
             $extPrijzen[$ext] = ['prijs' => (int) $extProduct->Prijs, 'btw' => (float) $extProduct->BtwTarief];
@@ -324,13 +314,13 @@ final class SiteController extends Controller
         if ($hosting) {
             $domein = strtolower(trim((string) $data['Domeinnaam']));
             if (!preg_match('/^(?=.{4,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\\.)+[a-z]{2,}$/', $domein)) {
-                return Response::back($product->path() . '/bestellen')->withInput($request->all())->with('error', 'Vul een geldige domeinnaam in, bijvoorbeeld mijnbedrijf.nl.');
+                return Response::back($product->orderPath())->withInput($request->all())->with('error', 'Vul een geldige domeinnaam in, bijvoorbeeld mijnbedrijf.nl.');
             }
             if ($data['DomeinActie'] === 'registreren' || $data['DomeinActie'] === 'verhuizen') {
                 $ext = strtolower(substr((string) strrchr('.' . $domein, '.'), 1));
                 $extProduct = DomainCheck::products()[$ext] ?? null;
                 if ($extProduct === null) {
-                    return Response::back($product->path() . '/bestellen')->withInput($request->all())->with('error', 'De extensie .' . $ext . ' kunnen we niet verwerken; kies "Ik heb deze domeinnaam al".');
+                    return Response::back($product->orderPath())->withInput($request->all())->with('error', 'De extensie .' . $ext . ' kunnen we niet verwerken; kies "Ik heb deze domeinnaam al".');
                 }
                 $domain = ['domein' => $domein, 'product' => $extProduct, 'actie' => $data['DomeinActie'] === 'verhuizen' ? 'verhuizen' : 'registreren', 'authcode' => trim((string) $request->string('EppCode'))];
             }
@@ -340,7 +330,7 @@ final class SiteController extends Controller
             $platform = $request->string('VpsPlatform');
             $os = $request->string('VpsOs');
             if (!isset(\App\Services\Interserver::PLATFORMS[$platform]) || !isset(\App\Services\Interserver::OS[$os])) {
-                return Response::back($product->path() . '/bestellen')->withInput($request->all())->with('error', 'Kies een platform en besturingssysteem voor je VPS.');
+                return Response::back($product->orderPath())->withInput($request->all())->with('error', 'Kies een platform en besturingssysteem voor je VPS.');
             }
             [$osDistro, $osVersion] = explode('|', $os, 2);
             $termijn = $request->string('Termijn');
@@ -472,7 +462,7 @@ final class SiteController extends Controller
     private function findProduct(Request $request): Product
     {
         $category = (string) $request->param('category');
-        $slug = (string) $request->param('slug');
+        $slug = (string) ($request->param('slug') ?? $request->string('product'));
         $product = null;
         $candidates = [$slug];
         if ($category !== '') {

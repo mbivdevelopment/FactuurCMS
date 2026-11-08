@@ -135,6 +135,11 @@ final class Product extends Model
         return self::pathFor((string) $this->Slug, $this->Dienstsoort, $this->Groep);
     }
 
+    public function orderPath(): string
+    {
+        return '/bestellen?product=' . rawurlencode((string) $this->Slug);
+    }
+
     protected static ?string $prefix = 'A';
     protected static array $json = ['Kenmerken'];
 

@@ -8,6 +8,8 @@ declare(strict_types=1);
 $router->group('', ['csrf'], static function ($router): void {
     $router->get('/', 'Frontend\\SiteController@home');
     $router->get('/diensten', 'Frontend\\SiteController@servicesRedirect');
+    $router->get('/bestellen', 'Frontend\\SiteController@checkout');
+    $router->post('/bestellen', 'Frontend\\SiteController@order', ['throttle:bestellen,10,60']);
     $router->get('/extensies/{slug}', 'Frontend\\SiteController@extensieRedirect');
     $router->get('/smtp-relay', 'Frontend\\SiteController@smtpRelay');
     $router->get('/oplossingen/{slug}', 'Frontend\\SiteController@page');
@@ -270,5 +272,3 @@ $router->post('/betalen/cryptomus/webhook', 'Frontend\\WebhookController@cryptom
 
 // Publieke product-URL's: /categorie/productslug.
 $router->get('/{category}/{slug}', 'Frontend\\SiteController@product');
-$router->get('/{category}/{slug}/bestellen', 'Frontend\\SiteController@checkout');
-$router->post('/{category}/{slug}/bestellen', 'Frontend\\SiteController@order', ['csrf', 'throttle:bestellen,10,60']);
