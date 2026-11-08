@@ -10,6 +10,7 @@ $copy = [
 ];
 $c = $copy[(string) $soort] ?? ['icon' => $page['Icoon'], 'headline' => $page['Titel'], 'sub' => $page['Samenvatting'], 'visual' => $page['Titel']];
 $isWebhosting = $soort === 'Webhosting';
+$isEmailHosting = $soort === 'E-mail Hosting';
 ?>
 <section class="hhero hero2">
     <div class="hh-float" aria-hidden="true"><?php foreach ([$c['icon'], 'shield', 'zap', 'server', 'lock', 'cloud', 'users', 'refresh'] as $i => $ic): ?><span class="hh-f hh-f<?= $i ?>"><?= icon($ic) ?></span><?php endforeach; ?></div>
@@ -21,10 +22,10 @@ $isWebhosting = $soort === 'Webhosting';
             <div class="hh-btns"><a class="btn btn-lg" href="#pakketten"><?= icon('cart', 'icon icon-sm') ?> Bekijk pakketten</a><a class="btn btn-lg btn-ghost" href="#werking">Hoe het werkt <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
         </div>
         <div class="hh-visual solution-photo-wrap">
-            <?php if ($isWebhosting): ?>
-            <div class="hh-rack solution-rack" aria-label="Rack-server met actieve statuslampjes">
+            <?php if ($isWebhosting || $isEmailHosting): ?>
+            <div class="hh-rack solution-rack<?= $isEmailHosting ? ' mail-rack' : '' ?>" aria-label="<?= $isEmailHosting ? 'Mailserver met actieve statuslampjes' : 'Rack-server met actieve statuslampjes' ?>">
                 <?php for ($i = 0; $i < 6; $i++): ?>
-                <div class="hh-unit"><span class="hh-bays"><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="hh-leds"><b></b><b></b><b></b></span></div>
+                <div class="hh-unit"><span class="hh-bays"><?= $isEmailHosting ? icon('mail', 'icon icon-sm') : '' ?><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="hh-leds"><b></b><b></b><b></b></span></div>
                 <?php endfor; ?>
                 <div class="hh-base"></div>
             </div>
