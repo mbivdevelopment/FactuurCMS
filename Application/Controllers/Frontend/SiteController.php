@@ -131,6 +131,10 @@ final class SiteController extends Controller
         $products = $products !== [] ? $products : ((string) $page['ProductGroep'] !== '' ? Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 AND Groep = ? ORDER BY Volgorde, Id', [$page['ProductGroep']]) : []);
         [$domains, $products] = self::splitExtensions($products);
         if (in_array($soort, ['Webhosting', 'Reseller Hosting', 'E-mail Hosting'], true)) {
+            $posts = $soort === 'Webhosting'
+                ? Database::all("SELECT * FROM BlogBerichten WHERE Zichtbaar = 1 AND PublicatieDatum <= CURDATE() AND Categorie = 'Webhosting' ORDER BY PublicatieDatum DESC, Id DESC LIMIT 9")
+                : [];
+
             return $this->view('frontend.solution', [
                 'page' => $page,
                 'soort' => $soort,
@@ -138,6 +142,7 @@ final class SiteController extends Controller
                 'benefits' => PageContent::benefits($soort, $page['Titel']),
                 'steps' => PageContent::steps($soort, $products !== []),
                 'faq' => PageContent::faq($soort, $page['Titel'], $products !== []),
+                'posts' => $posts,
             ]);
         }
         if ($page['Slug'] === 'smtp-relay') {

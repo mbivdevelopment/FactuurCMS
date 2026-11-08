@@ -66,5 +66,11 @@ $isWebhosting = $soort === 'Webhosting';
 
 <section class="sec"><div class="container"><div class="sec-head center"><div><span class="eyebrow"><?= icon('star', 'icon icon-sm') ?> Voordelen</span><h2>Waarom <?= e(mb_strtolower((string) $page['Titel'])) ?> bij <?= e(company_name()) ?></h2></div></div><?= $partial('frontend._benefits', ['items' => $benefits]) ?></div></section>
 <section class="sec sec-dark" id="werking"><div class="container"><div class="sec-head center"><div><span class="eyebrow"><?= icon('refresh', 'icon icon-sm') ?> Hoe het werkt</span><h2>In vier stappen geregeld</h2><p>Van bestelling tot actieve dienst: snel, duidelijk en zonder gedoe.</p></div></div><?= $partial('frontend._steps', ['items' => $steps]) ?></div></section>
+<?php if (($posts ?? []) !== []): ?>
+<section class="sec sec-grey"><div class="container">
+    <div class="sec-head"><div><span class="eyebrow"><?= icon('note', 'icon icon-sm') ?> Webhosting kennisbank</span><h2>Lees meer over webhosting</h2><p>Praktische uitleg over snelheid, veiligheid, updates en het beheer van je website.</p></div><a class="btn btn-ghost" href="<?= e(url('/blog?categorie=Webhosting')) ?>">Alle webhostingartikelen <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+    <?= $partial('frontend._carousel', ['items' => $posts, 'base' => '/blog/', 'icon' => 'note', 'more' => 'Lees artikel', 'autoplay' => true, 'nav_top' => true]) ?>
+</div></section>
+<?php endif; ?>
 <section class="sec"><div class="container faq-split"><div class="faq-side"><span class="eyebrow"><?= icon('chat', 'icon icon-sm') ?> Veelgestelde vragen</span><h2 class="h-xl">Vragen over <?= e(mb_strtolower((string) $page['Titel'])) ?>?</h2><p class="muted">Staat je vraag er niet bij? Onze specialisten helpen je graag persoonlijk verder.</p><a class="btn btn-ghost" href="<?= e(url('/contact')) ?>"><?= icon('chat', 'icon icon-sm') ?> Stel je vraag</a></div><?= $partial('frontend._faq', ['items' => $faq]) ?></div></section>
 <?= $partial('frontend._cta', ['title' => 'Klaar om te starten?', 'text' => 'Kies je pakket en regel het direct online. Onze specialisten helpen je graag bij de overstap.']) ?>
