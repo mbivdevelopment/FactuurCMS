@@ -11,6 +11,8 @@ $copy = [
 $c = $copy[(string) $soort] ?? ['icon' => $page['Icoon'], 'headline' => $page['Titel'], 'sub' => $page['Samenvatting'], 'visual' => $page['Titel']];
 $isWebhosting = $soort === 'Webhosting';
 $isEmailHosting = $soort === 'E-mail Hosting';
+$isReseller = $soort === 'Reseller Hosting';
+$blogLabel = $isReseller ? 'Reseller Hosting' : 'Webhosting';
 ?>
 <section class="hhero hero2">
     <div class="hh-float" aria-hidden="true"><?php foreach ([$c['icon'], 'shield', 'zap', 'server', 'lock', 'cloud', 'users', 'refresh'] as $i => $ic): ?><span class="hh-f hh-f<?= $i ?>"><?= icon($ic) ?></span><?php endforeach; ?></div>
@@ -22,10 +24,10 @@ $isEmailHosting = $soort === 'E-mail Hosting';
             <div class="hh-btns"><a class="btn btn-lg" href="#pakketten"><?= icon('cart', 'icon icon-sm') ?> Bekijk pakketten</a><a class="btn btn-lg btn-ghost" href="#werking">Hoe het werkt <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
         </div>
         <div class="hh-visual solution-photo-wrap">
-            <?php if ($isWebhosting || $isEmailHosting): ?>
-            <div class="hh-rack solution-rack<?= $isEmailHosting ? ' mail-rack' : '' ?>" aria-label="<?= $isEmailHosting ? 'Mailserver met actieve statuslampjes' : 'Rack-server met actieve statuslampjes' ?>">
+            <?php if ($isWebhosting || $isEmailHosting || $isReseller): ?>
+            <div class="hh-rack solution-rack<?= $isEmailHosting ? ' mail-rack' : ($isReseller ? ' reseller-rack' : '') ?>" aria-label="<?= $isEmailHosting ? 'Mailserver met actieve statuslampjes' : ($isReseller ? 'Reseller-server met actieve statuslampjes' : 'Rack-server met actieve statuslampjes') ?>">
                 <?php for ($i = 0; $i < 6; $i++): ?>
-                <div class="hh-unit"><span class="hh-bays"><?= $isEmailHosting ? icon('mail', 'icon icon-sm') : '' ?><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="hh-leds"><b></b><b></b><b></b></span></div>
+                <div class="hh-unit"><span class="hh-bays"><?= $isEmailHosting ? icon('mail', 'icon icon-sm') : ($isReseller ? icon('users', 'icon icon-sm') : '') ?><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="hh-leds"><b></b><b></b><b></b></span></div>
                 <?php endfor; ?>
                 <div class="hh-base"></div>
             </div>
@@ -39,14 +41,19 @@ $isEmailHosting = $soort === 'E-mail Hosting';
     </div>
 </section>
 
-<section class="sec"><div class="container intro-split dn-split<?= ($isWebhosting || $isEmailHosting) ? ' solution-intro-webhosting' : '' ?>">
-    <?php if ($isWebhosting || $isEmailHosting): ?>
+<section class="sec"><div class="container intro-split dn-split<?= ($isWebhosting || $isEmailHosting || $isReseller) ? ' solution-intro-webhosting' : '' ?>">
+    <?php if ($isWebhosting || $isEmailHosting || $isReseller): ?>
     <?php if ($isEmailHosting): ?>
     <div class="solution-intro-server">
         <div class="hh-rack solution-rack mail-rack" aria-label="Mailserver met actieve statuslampjes">
             <?php for ($i = 0; $i < 5; $i++): ?><div class="hh-unit"><span class="hh-bays"><?= icon('mail', 'icon icon-sm') ?><i></i><i></i><i></i><i></i><i></i></span><span class="hh-leds"><b></b><b></b><b></b></span></div><?php endfor; ?>
             <div class="hh-base"></div>
         </div>
+    </div>
+    <?php elseif ($isReseller): ?>
+    <div class="solution-intro-photo">
+        <img src="<?= e(asset('img/qevanto-datacenter.jpg')) ?>" alt="Resellerhosting-infrastructuur van Qevanto">
+        <span class="solution-photo-caption"><?= icon('users', 'icon icon-sm') ?> Resellerhosting bij Qevanto</span>
     </div>
     <?php else: ?>
     <div class="solution-intro-photo">
@@ -62,6 +69,10 @@ $isEmailHosting = $soort === 'E-mail Hosting';
             <p>E-mail is voor iedere organisatie een belangrijk communicatiekanaal. Met Qevanto E-mail Hosting krijg je professionele mailboxen op je eigen domeinnaam, zonder dat je zelf een mailserver hoeft te beheren of je zorgen hoeft te maken over updates, opslag en beveiliging.</p>
             <p>Onze mailinfrastructuur verwerkt je berichten veilig en betrouwbaar. Je gebruikt je mailbox op je computer, telefoon en tablet via webmail en standaardprotocollen, terwijl spam- en virusfilters ongewenste berichten tegenhouden voordat ze je inbox bereiken.</p>
             <p>Via het eigen Qevanto Hostingpaneel beheer je mailboxen, aliassen, wachtwoorden en domeininstellingen vanuit één duidelijke omgeving. TLS, SPF, DKIM en DMARC helpen je e-mail beter te beveiligen en zorgen ervoor dat berichten namens jouw domein herkenbaar en betrouwbaar worden afgeleverd.</p>
+            <?php elseif ($isReseller): ?>
+            <p>Resellerhosting geeft je de mogelijkheid om zelf hosting aan te bieden aan klanten, terwijl Qevanto de servers, beveiliging en technische infrastructuur beheert. Je bouwt je eigen dienstverlening op zonder zelf een datacenter of serveromgeving te hoeven onderhouden.</p>
+            <p>Via het eigen Qevanto Hostingpaneel maak je klantaccounts aan, beheer je pakketten en houd je overzicht over je hostingomgeving. Je kunt onder je eigen merk werken met eigen nameservers en een professionele klantbeleving.</p>
+            <p>De infrastructuur is ontworpen om mee te groeien met jouw klantenbestand. Nieuwe accounts voeg je eenvoudig toe, terwijl back-ups, monitoring en de dagelijkse technische werking op de achtergrond geregeld blijven.</p>
             <?php else: ?>
             <p>Webhosting is de serverruimte waar de bestanden, afbeeldingen en databases van je website worden opgeslagen. Zodra iemand je domeinnaam bezoekt, zorgt onze infrastructuur ervoor dat je website snel en veilig wordt geladen.</p>
             <p>Bij Qevanto draait je website op moderne NVMe-servers in Nederlandse datacenters. Je krijgt een stabiele basis voor een bedrijfswebsite, webshop, blog of online platform, zonder dat je zelf servers hoeft te beheren.</p>
@@ -99,7 +110,7 @@ $isEmailHosting = $soort === 'E-mail Hosting';
 <section class="sec sec-dark" id="werking"><div class="container"><div class="sec-head center"><div><span class="eyebrow"><?= icon('refresh', 'icon icon-sm') ?> Hoe het werkt</span><h2>In vier stappen geregeld</h2><p>Van bestelling tot actieve dienst: snel, duidelijk en zonder gedoe.</p></div></div><?= $partial('frontend._steps', ['items' => $steps]) ?></div></section>
 <?php if (($posts ?? []) !== []): ?>
 <section class="sec solution-blog-section"><div class="container">
-    <div class="sec-head"><div><span class="eyebrow"><?= icon('note', 'icon icon-sm') ?> Webhosting kennisbank</span><h2>Lees meer over webhosting</h2><p>Praktische uitleg over snelheid, veiligheid, updates en het beheer van je website.</p></div></div>
+    <div class="sec-head"><div><span class="eyebrow"><?= icon('note', 'icon icon-sm') ?> <?= e($blogLabel) ?> kennisbank</span><h2>Lees meer over <?= e(mb_strtolower($blogLabel)) ?></h2><p>Praktische uitleg, tips en inzichten voor jouw hostingbedrijf.</p></div></div>
     <?= $partial('frontend._carousel', ['items' => $posts, 'base' => '/blog/', 'icon' => 'note', 'more' => 'Lees artikel', 'autoplay' => true, 'nav_top' => true]) ?>
 </div></section>
 <?php endif; ?>

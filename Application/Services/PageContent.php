@@ -22,12 +22,12 @@ final class PageContent
                 ['refresh', 'Gratis verhuizing', 'Gratis verhuizing zonder downtime.'],
             ],
             'Reseller Hosting' => [
-                ['users', 'Eigen klantenaccounts', 'Maak onbeperkt hostingaccounts aan voor je eigen klanten via het Qevanto Hostingpaneel.'],
-                ['palette', 'White-label', 'Jouw merk, jouw nameservers en jouw huisstijl: wij blijven onzichtbaar.'],
-                ['zap', 'Dezelfde snelle servers', 'NVMe-opslag, LiteSpeed en caching: dezelfde prestaties als onze eigen hosting.'],
-                ['shield', 'Back-ups per account', 'Dagelijkse back-ups per klantaccount, afzonderlijk terug te zetten.'],
-                ['headset', 'Technische ondersteuning', 'Jij helpt je klant, wij helpen jou — op elk uur van de dag.'],
-                ['euro', 'Eén vast maandbedrag', 'Geen afrekening per account: één voorspelbaar tarief, hoe vol je ook zit.'],
+                ['users', 'Eigen klantenaccounts', 'Beheer accounts voor al je klanten.'],
+                ['palette', 'White-label', 'Jouw merk, nameservers en huisstijl.'],
+                ['zap', 'Dezelfde snelle servers', 'Snelle hosting met NVMe-opslag en caching.'],
+                ['shield', 'Back-ups per account', 'Aparte back-ups voor ieder klantaccount.'],
+                ['headset', 'Technische ondersteuning', 'Wij helpen jou met technische vragen.'],
+                ['euro', 'Eén vast maandbedrag', 'Eén vast tarief zonder verrassingen.'],
             ],
             'E-mail Hosting' => [
                 ['mail', 'Zakelijke mailboxen', 'Professioneel e-mailen op je eigen domeinnaam, met ruime opslag per mailbox.'],
