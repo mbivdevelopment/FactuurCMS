@@ -33,17 +33,29 @@
     </div>
 </section>
 
-<section class="sec"><div class="container intro-split">
+<section class="sec"><div class="container intro-split dn-split">
+    <div class="dn-visual" aria-hidden="true">
+        <div class="dn-browser">
+            <div class="dn-bar"><i></i><i></i><i></i><span class="dn-url"><?= icon('lock', 'icon icon-sm') ?> <?= e(company_name()) ?>.nl/domeinen</span></div>
+            <div class="dn-body">
+                <div class="dn-search"><?= icon('search', 'icon icon-sm') ?> jouwdomein<span class="dn-caret">|</span></div>
+                <?php foreach (array_slice($extProducts, 0, 4) as $p): ?><div class="dn-row"><span class="dn-dot dn-ok"></span><strong>jouwdomein<?= e($p->extensionLabel()) ?></strong><span class="dn-price"><?= e(money((int) $p->Prijs)) ?></span><em>beschikbaar</em></div><?php endforeach; ?>
+                <div class="dn-row dn-faded"><span class="dn-dot dn-warn"></span><strong>jouwdomein.be</strong><span class="dn-price">—</span><em>bezet · verhuis</em></div>
+            </div>
+        </div>
+        <div class="dn-chip dn-c1"><?= icon('globe') ?> 700+ extensies</div>
+        <div class="dn-chip dn-c2"><?= icon('zap') ?> Direct actief</div>
+    </div>
     <div>
         <span class="eyebrow"><?= icon('globe', 'icon icon-sm') ?> Domeinnaam registreren</span>
         <h2 class="h-xl">Jouw adres op internet</h2>
         <div class="prose">
             <p>Een domeinnaam is het adres waarop klanten jou vinden. Bij <?= e(company_name()) ?> registreer je hem in een paar minuten: zoek, bestel en je domein staat direct in je klantportaal — met volledig DNS-beheer in het hostingpaneel.</p>
             <p>Je betaalt per jaar, zonder verrassingen. Alle standaardfuncties zitten erbij: gratis doorsturen naar een bestaande website, e-mail doorsturen en bescherming van je gegevens.</p>
+            <p>Meerdere extensies vastleggen? Voeg ze in één bestelling toe. En heb je al een domein ergens anders, dan verhuizen wij hem gratis naar ons toe — zonder downtime en zonder dat je verkeer kwijtraakt.</p>
         </div>
         <div class="info-box"><?= icon('globe') ?><div><strong>Goed om te weten</strong><p>Een domeinnaam is direct actief na betaling en inclusief gratis DNS-beheer en automatische verlenging. Verhuizen kan ook — wij regelen de overstap.</p></div></div>
     </div>
-
 </div></section>
 
 <?php if ($extProducts !== []): ?>
