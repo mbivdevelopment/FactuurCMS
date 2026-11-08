@@ -53,7 +53,7 @@ $blogLabel = $isReseller ? 'Reseller Hosting' : 'Webhosting';
     </div>
     <?php elseif ($isReseller || $isApi): ?>
     <div class="solution-intro-photo">
-        <img src="<?= e(asset('img/qevanto-datacenter.jpg')) ?>" alt="<?= e($isApi ? 'API-infrastructuur van Qevanto' : 'Resellerhosting-infrastructuur van Qevanto') ?>">
+        <img src="<?= e(asset($isReseller ? 'img/qevanto-resellerhosting.png' : 'img/qevanto-datacenter.jpg')) ?>" alt="<?= e($isApi ? 'API-infrastructuur van Qevanto' : 'Resellerhosting-infrastructuur van Qevanto') ?>">
         <span class="solution-photo-caption"><?= icon($isApi ? 'code' : 'users', 'icon icon-sm') ?> <?= $isApi ? 'API-infrastructuur bij Qevanto' : 'Resellerhosting bij Qevanto' ?></span>
     </div>
     <?php else: ?>
