@@ -58,7 +58,7 @@ $blogLabel = $isReseller ? 'Reseller Hosting' : 'Webhosting';
     </div>
     <?php else: ?>
     <div class="solution-intro-photo">
-        <img src="<?= e(asset('img/qevanto-datacenter.jpg')) ?>" alt="Servers in een datacenter van Qevanto">
+        <img src="<?= e(asset($isWebhosting ? 'img/qevanto-webhosting.png' : 'img/qevanto-datacenter.jpg')) ?>" alt="<?= e($isWebhosting ? 'Webhostingservers van Qevanto' : 'Servers in een datacenter van Qevanto') ?>">
         <span class="solution-photo-caption"><?= icon('server', 'icon icon-sm') ?> Hostinginfrastructuur van Qevanto</span>
     </div>
     <?php endif; ?>
