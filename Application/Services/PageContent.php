@@ -14,12 +14,12 @@ final class PageContent
     {
         $map = [
             'Webhosting' => [
-                ['zap', 'NVMe-snelheid', 'LiteSpeed-webserver met NVMe-opslag en serverside caching: je site laadt merkbaar sneller.'],
-                ['shield', 'Dagelijkse back-ups', 'Elke nacht een back-up op een aparte locatie, zelf terug te zetten vanuit het paneel.'],
-                ['lock', 'Gratis SSL', 'Automatisch een Let\'s Encrypt-certificaat op elk domein, inclusief verlenging.'],
-                ['layout', 'Eén-klik installaties', 'WordPress, Joomla of een webshop in enkele seconden geïnstalleerd.'],
-                ['mail', 'E-mail inbegrepen', 'Mailboxen, webmail, spamfilter en SPF/DKIM standaard geregeld.'],
-                ['refresh', 'Gratis verhuizing', 'Wij verhuizen je website en e-mail zonder downtime, kosteloos.'],
+                ['zap', 'NVMe-snelheid', 'Snelle NVMe-opslag met serverside caching.'],
+                ['shield', 'Dagelijkse back-ups', 'Nachtelijke back-ups op aparte locatie.'],
+                ['lock', 'Gratis SSL', 'Automatisch SSL op ieder domein.'],
+                ['layout', 'Eén-klik installaties', 'Installeer WordPress en webshops direct.'],
+                ['mail', 'E-mail inbegrepen', 'Mailboxen, webmail en spamfilter inbegrepen.'],
+                ['refresh', 'Gratis verhuizing', 'Gratis verhuizing zonder downtime.'],
             ],
             'Reseller Hosting' => [
                 ['users', 'Eigen klantenaccounts', 'Maak onbeperkt hostingaccounts aan voor je eigen klanten via het Qevanto Hostingpaneel.'],
