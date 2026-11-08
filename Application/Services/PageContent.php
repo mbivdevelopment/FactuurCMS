@@ -62,11 +62,11 @@ final class PageContent
                 ['euro', 'Lage prijs per GB', 'Betaal alleen voor wat je nodig hebt.'],
             ],
             'Domeinnamen' => [
-                ['globe', '400+ extensies', 'Van .nl en .com tot .shop en .cloud: registreer of verhuis in één keer.'],
-                ['server', 'Gratis DNS-beheer', 'Eigen DNS-zonebeheer met alle recordtypes, direct actief.'],
-                ['lock', 'Gratis SSL', 'Elk domein krijgt een Let\'s Encrypt-certificaat bij hosting.'],
-                ['refresh', 'Automatische verlenging', 'Nooit meer een verlopen domein: wij verlengen tijdig.'],
-                ['shield', 'Transferlock en privacy', 'Beveiligd tegen ongewenste verhuizing, met afgeschermde WHOIS waar mogelijk.'],
+                ['globe', '400+ extensies', 'Van .nl en .com tot .shop en .cloud, in één bestelling.'],
+                ['server', 'Gratis DNS-beheer', 'Alle recordtypes zelf beheren, direct actief.'],
+                ['lock', 'Gratis SSL', 'Let\'s Encrypt-certificaat inbegrepen bij hosting.'],
+                ['refresh', 'Automatische verlenging', 'Wij verlengen tijdig; nooit meer een verlopen domein.'],
+                ['shield', 'Transferlock en privacy', 'Beveiligd tegen ongewenste verhuizing en WHOIS-spam.'],
                 ['mail', 'Doorsturen inbegrepen', 'Web- en e-mailforwarding zonder extra kosten.'],
             ],
             'SSL Certificaten' => [
