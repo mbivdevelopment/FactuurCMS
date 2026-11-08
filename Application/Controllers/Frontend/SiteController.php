@@ -473,15 +473,6 @@ final class SiteController extends Controller
     {
         $slug = (string) $request->param('slug');
         $product = Product::firstWhere(['Slug' => $slug, 'Zichtbaar' => 1]);
-        if ($product === null) {
-            $legacy = [
-                'smtp-relay-100' => 'smtp-starter',
-                'smtp-relay-250' => 'smtp-plus',
-                'smtp-relay-1000' => 'smtp-compleet',
-                'smtp-relay-2500' => 'smtp-maximaal',
-            ];
-            $product = isset($legacy[$slug]) ? Product::firstWhere(['Slug' => $legacy[$slug], 'Zichtbaar' => 1]) : null;
-        }
         if ($product === null && str_starts_with($slug, 'domein-')) {
             $product = Product::firstWhere(['Slug' => substr($slug, 7), 'Zichtbaar' => 1]);
         }

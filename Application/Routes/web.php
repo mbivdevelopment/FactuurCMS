@@ -8,9 +8,6 @@ declare(strict_types=1);
 $router->group('', ['csrf'], static function ($router): void {
     $router->get('/', 'Frontend\\SiteController@home');
     $router->get('/diensten', 'Frontend\\SiteController@servicesRedirect');
-    $router->get('/diensten/{slug}', 'Frontend\\SiteController@product');
-    $router->get('/diensten/{slug}/bestellen', 'Frontend\\SiteController@checkout');
-    $router->post('/diensten/{slug}/bestellen', 'Frontend\\SiteController@order', ['throttle:bestellen,10,60']);
     $router->get('/extensies/{slug}', 'Frontend\\SiteController@extensieRedirect');
     $router->get('/smtp-relay', 'Frontend\\SiteController@smtpRelay');
     $router->get('/oplossingen/{slug}', 'Frontend\\SiteController@page');
@@ -271,7 +268,7 @@ $router->group('beheer', ['csrf', 'auth', 'admin'], static function ($router): v
 $router->post('/betalen/mollie/webhook', 'Frontend\\WebhookController@mollie');
 $router->post('/betalen/cryptomus/webhook', 'Frontend\\WebhookController@cryptomus');
 
-// Korte publieke product-URL's; de oude /diensten/{slug}-links blijven redirects.
+// Korte publieke product-URL's.
 $router->get('/{slug}', 'Frontend\\SiteController@product');
 $router->get('/{slug}/bestellen', 'Frontend\\SiteController@checkout');
 $router->post('/{slug}/bestellen', 'Frontend\\SiteController@order', ['csrf', 'throttle:bestellen,10,60']);
