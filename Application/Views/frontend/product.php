@@ -30,7 +30,7 @@ $per = ['maand' => '/ maand', 'kwartaal' => '/ kwartaal', 'halfjaar' => '/ halfj
                         <div><span>Btw <?= e(rtrim(rtrim((string) $vat, '0'), '.')) ?>%</span><span><?= e(money((int) round($first * $vat / 100))) ?></span></div>
                         <div class="grand"><span>Eerste factuur</span><span><?= e(money($first + (int) round($first * $vat / 100))) ?></span></div>
                     </div>
-                    <a class="btn btn-lg" href="<?= e(url($product->orderPath())) ?>" style="justify-content:center"><?= icon('cart') ?> Bestellen</a>
+                    <form method="post" action="<?= e(url($product->orderPath())) ?>" style="margin:0"><?= csrf_field() ?><input type="hidden" name="KiesProduct" value="1"><input type="hidden" name="product" value="<?= e((string) $product->Slug) ?>"><button class="btn btn-lg" type="submit" style="justify-content:center;width:100%"><?= icon('cart') ?> Bestellen</button></form>
                     <p class="small muted" style="margin:0"><?= icon('lock', 'icon icon-sm') ?> Veilig bestellen en direct betalen.</p>
                 </div>
             </div>

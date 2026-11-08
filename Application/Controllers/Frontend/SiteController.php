@@ -278,9 +278,7 @@ final class SiteController extends Controller
     {
         $product = $this->findProduct($request, false);
         if ($product === null) {
-            $products = Product::query("SELECT * FROM Producten WHERE Zichtbaar = 1 AND (Periode <> 'eenmalig' OR Dienstsoort IS NOT NULL) AND Groep <> 'Domeinen' ORDER BY Dienstsoort, Volgorde, Prijs, Id");
-
-            return $this->view('frontend.order-start', ['products' => $products]);
+            return $this->view('frontend.order-empty');
         }
         $extPrijzen = [];
         foreach (DomainCheck::products() as $ext => $extProduct) {
@@ -303,6 +301,7 @@ final class SiteController extends Controller
             return $this->redirect('/bestellen');
         }
         $product = $this->findProduct($request) ?? throw new HttpException(404, 'Deze dienst bestaat niet (meer).');
+        Session::set('bestel_data', $request->only('Domeinnaam', 'DomeinActie', 'EppCode', 'VpsPlatform', 'VpsSlices', 'VpsLocatie', 'VpsOs', 'Termijn', 'Betaalmethode', 'Notitie'));
         $user = Auth::user();
         // Ook beheerders/medewerkers bestellen op hun eigen account.
         $hosting = $product->Periode !== 'eenmalig' && $product->Groep !== 'Domeinen' && $product->Dienstsoort !== 'Domeinnamen';
@@ -362,6 +361,7 @@ final class SiteController extends Controller
         }
         $doc = Billing::order($user, $product, $hosting ? $domein : $request->string('Notitie'), $request->string('Termijn'), $domain, $gegevens);
         Session::forget('bestel_product');
+        Session::forget('bestel_data');
         Billing::send($doc);
         $admin = (string) setting('bedrijf.email', '');
         if ($admin !== '') {
