@@ -18,10 +18,19 @@ $isWebhosting = $soort === 'Webhosting';
             <div class="hh-btns"><a class="btn btn-lg" href="#pakketten"><?= icon('cart', 'icon icon-sm') ?> Bekijk pakketten</a><a class="btn btn-lg btn-ghost" href="#werking">Hoe het werkt <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
         </div>
         <div class="hh-visual solution-photo-wrap">
+            <?php if ($isWebhosting): ?>
+            <div class="hh-rack solution-rack" aria-label="Rack-server met actieve statuslampjes">
+                <?php for ($i = 0; $i < 6; $i++): ?>
+                <div class="hh-unit"><span class="hh-bays"><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="hh-leds"><b></b><b></b><b></b></span></div>
+                <?php endfor; ?>
+                <div class="hh-base"></div>
+            </div>
+            <?php else: ?>
             <div class="solution-photo-card">
                 <img src="<?= e(asset('img/qevanto-datacenter.jpg')) ?>" alt="Datacenter met Qevanto hostinginfrastructuur">
                 <span class="solution-photo-caption"><?= icon('server', 'icon icon-sm') ?> Qevanto-infrastructuur in Nederland</span>
             </div>
+            <?php endif; ?>
             <div class="hh-badge hh-b1"><?= icon('zap') ?><div><strong>Direct actief</strong><small>na betaling</small></div></div>
             <div class="hh-badge hh-b2"><?= icon('shield') ?><div><strong>Veilig geregeld</strong><small>via Qevanto Hostingpaneel</small></div></div>
         </div>
