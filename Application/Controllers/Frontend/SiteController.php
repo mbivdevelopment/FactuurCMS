@@ -14,6 +14,7 @@ use App\Core\Request;
 use App\Core\Response;
 use App\Core\Session;
 use App\Models\Product;
+use App\Services\PageContent;
 use App\Models\User;
 use App\Services\Billing;
 use App\Services\DomainCheck;
@@ -129,6 +130,17 @@ final class SiteController extends Controller
         $products = $soort !== null ? Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 AND Dienstsoort = ? ORDER BY Volgorde, Prijs, Id', [$soort]) : [];
         $products = $products !== [] ? $products : ((string) $page['ProductGroep'] !== '' ? Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 AND Groep = ? ORDER BY Volgorde, Id', [$page['ProductGroep']]) : []);
         [$domains, $products] = self::splitExtensions($products);
+        if ($page['Slug'] === 'smtp-relay') {
+            $posts = Database::all("SELECT * FROM BlogBerichten WHERE Zichtbaar = 1 AND PublicatieDatum <= CURDATE() AND (Titel LIKE '%SMTP%' OR Titel LIKE '%mail%' OR Titel LIKE '%DNS%' OR Titel LIKE '%SSL%' OR Titel LIKE '%PHP%') ORDER BY PublicatieDatum DESC, Id DESC LIMIT 9");
+
+            return $this->view('frontend.smtp-relay', [
+                'page' => $page,
+                'products' => $products,
+                'benefits' => PageContent::benefits('SMTP Relay'),
+                'steps' => PageContent::steps('SMTP Relay', true),
+                'posts' => $posts !== [] ? $posts : Database::all('SELECT * FROM BlogBerichten WHERE Zichtbaar = 1 AND PublicatieDatum <= CURDATE() ORDER BY PublicatieDatum DESC, Id DESC LIMIT 9'),
+            ]);
+        }
 
         return $this->view('frontend.page', [
             'page' => $page,

@@ -69,6 +69,14 @@ final class PageContent
                 ['shield', 'Transferlock en privacy', 'Beveiligd tegen ongewenste verhuizing en WHOIS-spam.'],
                 ['mail', 'Doorsturen inbegrepen', 'Web- en e-mailforwarding zonder extra kosten.'],
             ],
+            'SMTP Relay' => [
+                ['send', 'Hoge inbox-komst', 'Schone IP-reputatie en correcte authenticatie: je mail komt aan.'],
+                ['shield', 'SPF, DKIM en DMARC', 'Wij zetten de records klaar; jij plakt ze in je DNS.'],
+                ['zap', 'Direct actief', 'Na betaling staan je SMTP-gegevens in het klantportaal.'],
+                ['layout', 'Logboek en statistieken', 'Zie per bericht of het bezorgd, gebounced of uitgesteld is.'],
+                ['lock', 'Versleuteld verzenden', 'STARTTLS op poort 587 of SSL op 465, altijd beveiligd.'],
+                ['refresh', 'Schaalt mee', 'Meer verzenden? Verhoog je limiet zonder nieuwe inrichting.'],
+            ],
             'SSL Certificaten' => [
                 ['lock', 'Versleutelde verbinding', 'Bescherm gegevens van bezoekers en klanten met sterke encryptie.'],
                 ['shield', 'Vertrouwen en bedrijfsvalidatie', 'OV- en EV-certificaten tonen wie er achter de website zit.'],
@@ -178,6 +186,7 @@ final class PageContent
     {
         $byKind = [
             'Domeinnamen' => [['Zoek je domeinnaam', 'Typ de naam en zie direct welke extensies vrij zijn of verhuisd kunnen worden.'], ['Kies extensies', 'Voeg één of meerdere extensies toe aan je bestelling.'], ['Betaal veilig online', 'Met iDEAL of creditcard; registratie start automatisch.'], ['Direct actief', 'Binnen minuten staat je domein in je klantportaal, met DNS-beheer.']],
+            'SMTP Relay' => [['Kies je pakket', 'Bepaal hoeveel e-mails je per maand verstuurt; upgraden kan altijd.'], ['Bestel online', 'Vul je domeinnaam in en betaal veilig met iDEAL of creditcard.'], ['Zet de DNS-records', 'Plak de SPF-, DKIM- en DMARC-records die wij voor je klaarzetten.'], ['Verbind je applicatie', 'Vul host, poort en inloggegevens in bij je website of app en verstuur.']],
             'Cloud VPS' => [['Kies je configuratie', 'Selecteer vCPU, geheugen, opslag en besturingssysteem.'], ['Bestel en betaal', 'Veilig online, zonder langlopend contract.'], ['Automatische uitrol', 'Je server wordt binnen minuten uitgerold en ingericht.'], ['Beheer in je portaal', 'Herstarten, snapshots en upgrades regel je zelf.']],
         ];
         if (isset($byKind[(string) $soort])) {

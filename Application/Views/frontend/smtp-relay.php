@@ -1,0 +1,95 @@
+<?php $extend('frontend', ['title' => $page['Titel']]); $host = setting('smtp.relay_host', 'smtp.' . strtolower(company_name()) . '.nl'); ?>
+<section class="hhero hero2">
+    <div class="hh-float" aria-hidden="true"><?php foreach (['send', 'mail', 'shield', 'server', 'lock', 'zap', 'link', 'cloud'] as $i => $ic): ?><span class="hh-f hh-f<?= $i ?>"><?= icon($ic) ?></span><?php endforeach; ?></div>
+    <div class="container hh-in">
+        <div class="hh-text">
+            <span class="hh-label"><?= icon('send', 'icon icon-sm') ?> SMTP Relay</span>
+            <h1>E-mail die <span>aankomt</span>, elke keer.</h1>
+            <p><?= e((string) $page['Samenvatting']) ?> Verbind je website of applicatie via standaard SMTP en verstuur via onze Nederlandse mailinfrastructuur.</p>
+            <div class="hh-btns"><a class="btn btn-lg" href="#pakketten"><?= icon('cart', 'icon icon-sm') ?> Bekijk pakketten</a><a class="btn btn-lg btn-ghost" href="#werking">Hoe het werkt <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+        </div>
+        <div class="hh-visual">
+            <div class="hh-rack" aria-hidden="true">
+                <?php for ($i = 0; $i < 5; $i++): ?><div class="hh-unit"><span class="hh-bays"><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="hh-leds"><b></b><b></b><b></b></span></div><?php endfor; ?>
+                <div class="hh-base"></div>
+            </div>
+            <div class="hh-badge hh-b1"><?= icon('zap') ?><div><strong>Direct actief</strong><small>na betaling</small></div></div>
+            <div class="hh-badge hh-b2"><?= icon('shield') ?><div><strong>SPF · DKIM · DMARC</strong><small>goed geregeld</small></div></div>
+        </div>
+    </div>
+</section>
+
+<section class="sec"><div class="container intro-split dn-split">
+    <div class="dn-visual" aria-hidden="true">
+        <div class="dn-browser">
+            <div class="dn-bar"><i></i><i></i><i></i><span class="dn-url"><?= icon('lock', 'icon icon-sm') ?> klantportaal · SMTP Relay · logboek</span></div>
+            <div class="dn-body dn-dns">
+                <div class="dn-dns-head"><strong><?= e($host) ?>:587</strong><span class="badge is-ok">Verbonden</span></div>
+                <?php foreach ([['ok', 'Orderbevestiging #2041', 'klant@voorbeeld.nl', 'Bezorgd'], ['ok', 'Wachtwoord resetten', 'jan@bedrijf.nl', 'Bezorgd'], ['ok', 'Factuur 2026-0188', 'administratie@klant.nl', 'Bezorgd'], ['warn', 'Nieuwsbrief november', 'info@oudadres.nl', 'Uitgesteld'], ['ok', 'Welkom bij jouwshop.nl', 'nieuw@klant.nl', 'Bezorgd']] as [$st, $sub, $to, $lbl]): ?>
+                <div class="dn-row sm-row"><span class="dn-dot dn-<?= $st ?>"></span><strong><?= e($sub) ?></strong><span class="dn-val"><?= e($to) ?></span><em><?= e($lbl) ?></em></div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <div class="dn-chip dn-c1"><?= icon('zap') ?> 99,8% bezorgd</div>
+        <div class="dn-chip dn-c2"><?= icon('lock') ?> STARTTLS / SSL</div>
+    </div>
+    <div>
+        <span class="eyebrow"><?= icon('send', 'icon icon-sm') ?> SMTP Relay</span>
+        <h2 class="h-xl">Betrouwbaar verzenden vanuit elke applicatie</h2>
+        <div class="prose"><?= rich_text((string) $page['Inhoud']) ?></div>
+        <div class="info-box"><?= icon('mail') ?><div><strong>Goed om te weten</strong><p>SMTP Relay werkt met elke website, webshop of applicatie die e-mail via SMTP kan versturen: WordPress, Magento, Laravel, Microsoft 365-apparaten, printers en scanners. Je eigen domeinnaam blijft de afzender.</p></div></div>
+    </div>
+</div></section>
+
+<?php if ($products !== []): ?>
+<section class="sec sec-grey" id="pakketten"><div class="container">
+    <div class="sec-head center"><div><span class="eyebrow"><?= icon('box', 'icon icon-sm') ?> Pakketten</span><h2>Kies je verzendvolume</h2><p>Alle prijzen zijn exclusief btw. Bestel direct online; na betaling staan je gegevens in het klantportaal. Upgraden kan altijd.</p></div></div>
+    <?= $partial('frontend._plans', ['products' => $products]) ?>
+</div></section>
+<?php endif; ?>
+
+<section class="sec"><div class="container intro-split dn-split dn-split-rev">
+    <div>
+        <span class="eyebrow"><?= icon('shield', 'icon icon-sm') ?> Authenticatie</span>
+        <h2 class="h-xl">SPF, DKIM en DMARC zonder gedoe</h2>
+        <div class="prose">
+            <p>Of je e-mail in de inbox of in de spammap landt, hangt af van authenticatie. Met SPF geef je aan dat onze servers namens jouw domein mogen versturen, DKIM ondertekent elk bericht digitaal en DMARC vertelt ontvangers wat ze met afwijkende mail moeten doen.</p>
+            <p>Bij SMTP Relay zetten wij deze records voor je klaar in het klantportaal. Heb je je domein bij ons, dan voegen we ze met één klik toe aan je DNS. Staat je domein elders, dan kopieer je ze in een minuut over.</p>
+            <ul>
+                <li>SPF-include en DKIM-sleutel per domein, automatisch gegenereerd</li>
+                <li>DMARC-rapportages inzichtelijk in je portaal</li>
+                <li>Eigen afzenderdomein; geen "via" of "namens" in de inbox</li>
+            </ul>
+        </div>
+    </div>
+    <div class="dn-visual" aria-hidden="true">
+        <div class="dn-browser">
+            <div class="dn-bar"><i></i><i></i><i></i><span class="dn-url"><?= icon('lock', 'icon icon-sm') ?> klantportaal · DNS-records voor e-mail</span></div>
+            <div class="dn-body dn-dns">
+                <div class="dn-dns-head"><strong>jouwdomein.nl</strong><span class="badge is-ok">Geverifieerd</span></div>
+                <?php foreach ([['TXT', '@', 'v=spf1 include:_spf.' . strtolower(company_name()) . '.nl ~all'], ['TXT', 'relay._domainkey', 'v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQ…'], ['TXT', '_dmarc', 'v=DMARC1; p=quarantine; rua=mailto:dmarc@jouwdomein.nl'], ['MX', '@', 'mail.jouwdomein.nl'], ['CNAME', 'smtp', e($host)]] as [$t, $n, $v]): ?>
+                <div class="dn-rec"><span class="dn-type"><?= e($t) ?></span><strong><?= e($n) ?></strong><span class="dn-val"><?= $v ?></span></div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <div class="dn-chip dn-c1"><?= icon('shield') ?> SPF · DKIM · DMARC</div>
+        <div class="dn-chip dn-c2"><?= icon('zap') ?> Met één klik in je DNS</div>
+    </div>
+</div></section>
+
+<section class="sec sec-grey"><div class="container">
+    <div class="sec-head center"><div><span class="eyebrow"><?= icon('star', 'icon icon-sm') ?> Voordelen</span><h2>Waarom SMTP Relay bij <?= e(company_name()) ?></h2><p>Alles wat je nodig hebt om e-mail betrouwbaar te versturen, zit erin.</p></div></div>
+    <?= $partial('frontend._benefits', ['items' => $benefits]) ?>
+</div></section>
+
+<section class="sec sec-dark" id="werking"><div class="container">
+    <div class="sec-head center"><div><span class="eyebrow"><?= icon('refresh', 'icon icon-sm') ?> Hoe het werkt</span><h2>In vier stappen verzenden</h2><p>Van bestelling tot eerste bezorgde e-mail: snel, duidelijk en zonder gedoe.</p></div></div>
+    <?= $partial('frontend._steps', ['items' => $steps]) ?>
+</div></section>
+
+<?php if (($posts ?? []) !== []): ?>
+<section class="sec"><div class="container">
+    <div class="sec-head"><div><span class="eyebrow"><?= icon('note', 'icon icon-sm') ?> Blog</span><h2>Lezen over e-mail en bezorging</h2></div></div>
+    <?= $partial('frontend._carousel', ['items' => $posts, 'base' => '/blog/', 'icon' => 'note', 'more' => 'Lees verder', 'autoplay' => true, 'nav_top' => true]) ?>
+</div></section>
+<?php endif; ?>
