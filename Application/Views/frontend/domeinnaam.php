@@ -32,17 +32,9 @@
 </section>
 
 <section class="sec sec-grey"><div class="container intro-split dn-split">
-    <div class="dn-visual" aria-hidden="true">
-        <div class="dn-browser">
-            <div class="dn-bar"><i></i><i></i><i></i><span class="dn-url"><?= icon('lock', 'icon icon-sm') ?> <?= e(company_name()) ?>.nl/domeinen</span></div>
-            <div class="dn-body">
-                <div class="dn-search"><?= icon('search', 'icon icon-sm') ?> jouwdomein<span class="dn-caret">|</span></div>
-                <?php foreach (array_slice($extProducts, 0, 4) as $p): ?><div class="dn-row"><span class="dn-dot dn-ok"></span><strong>jouwdomein<?= e($p->extensionLabel()) ?></strong><span class="dn-price"><?= e(money((int) $p->Prijs)) ?></span><em>beschikbaar</em></div><?php endforeach; ?>
-                <div class="dn-row dn-faded"><span class="dn-dot dn-warn"></span><strong>jouwdomein<?= e(isset($extProducts[4]) ? $extProducts[4]->extensionLabel() : '.shop') ?></strong><span class="dn-price">—</span><em>bezet · verhuis</em></div>
-            </div>
-        </div>
-        <div class="dn-chip dn-c1"><?= icon('globe') ?> 700+ extensies</div>
-        <div class="dn-chip dn-c2"><?= icon('zap') ?> Direct actief</div>
+    <div class="solution-intro-photo">
+        <img src="<?= e(asset('img/qevanto-domeinregistratie.png')) ?>" alt="Domeinregistratie en DNS-beheer bij Qevanto">
+        <span class="solution-photo-caption"><?= icon('globe', 'icon icon-sm') ?> Domeinregistratie bij Qevanto</span>
     </div>
     <div>
         <span class="eyebrow"><?= icon('globe', 'icon icon-sm') ?> Domeinnaam registreren</span>
