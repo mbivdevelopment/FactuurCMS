@@ -229,6 +229,16 @@ final class SiteController extends Controller
         ]);
     }
 
+    public function domeinnaam(Request $request): Response
+    {
+        return $this->view('frontend.domeinnaam', [
+            'extProducts' => self::extensionProducts(),
+            'benefits' => \App\Services\PageContent::benefits('Domeinnamen'),
+            'steps' => \App\Services\PageContent::steps('Domeinnamen', true),
+            'faq' => \App\Services\PageContent::faq('Domeinnamen', 'domeinnamen', true),
+        ]);
+    }
+
     public function extensieRedirect(Request $request): Response
     {
         return $this->redirect('/domeinen');

@@ -13,6 +13,7 @@ $router->group('', ['csrf'], static function ($router): void {
     $router->post('/diensten/{slug}/bestellen', 'Frontend\\SiteController@order', ['throttle:bestellen,10,60']);
     $router->get('/extensies/{slug}', 'Frontend\\SiteController@extensieRedirect');
     $router->get('/oplossingen/{slug}', 'Frontend\\SiteController@page');
+    $router->get('/domeinnaam', 'Frontend\\SiteController@domeinnaam');
     $router->get('/domeinen', 'Frontend\\DomainController@search', ['throttle:domein,30,60']);
     $router->get('/domeinen/check', 'Frontend\\DomainController@check', ['throttle:domeincheck,240,60']);
     $router->post('/domeinen/mand', 'Frontend\\DomainController@add', ['throttle:domeinmand,60,60']);
