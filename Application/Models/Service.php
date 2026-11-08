@@ -165,7 +165,11 @@ final class Service extends Model
     /** Datum + één periode (maand/kwartaal/jaar); null bij eenmalig. */
     public static function addPeriod(string $date, string $period): ?string
     {
-        $modifier = ['maand' => '+1 month', 'kwartaal' => '+3 months', 'jaar' => '+1 year', '2jaar' => '+2 years', '4jaar' => '+4 years'][$period] ?? null;
+        $modifier = [
+            'maand' => '+1 month', 'kwartaal' => '+3 months', 'jaar' => '+1 year',
+            '2jaar' => '+2 years', '3jaar' => '+3 years', '4jaar' => '+4 years',
+            '5jaar' => '+5 years', '6jaar' => '+6 years',
+        ][$period] ?? null;
 
         return $modifier === null ? null : date('Y-m-d', (int) strtotime($date . ' ' . $modifier));
     }

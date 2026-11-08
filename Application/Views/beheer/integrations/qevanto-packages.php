@@ -14,7 +14,7 @@ $limitLabels = ['diskMb' => ['Opslag', 'MB'], 'websites' => ['Websites', ''], 'm
                 <td><?= badge('concept', \App\Services\QevantoPaneel::kindLabel($r['kind'])) ?><div class="small muted"><?= e($kind ? \App\Models\Product::soortLabel($kind[2]) : 'Overig') ?></div></td>
                 <td class="small muted"><?= e($limits ? implode(' · ', array_slice($limits, 0, 6)) : '-') ?></td>
                 <td><input class="cell-input cell-num" name="prijs[<?= (int) $r['id'] ?>]" value="<?= e(cents_input((int) ($r['product']['Prijs'] ?? 0))) ?>" inputmode="decimal"></td>
-                <td><select class="cell-input" name="periode[<?= (int) $r['id'] ?>]" style="min-width:110px"><?php foreach (['maand' => 'Per maand', 'kwartaal' => 'Per kwartaal', 'jaar' => 'Per jaar'] as $k => $v): ?><option value="<?= e($k) ?>"<?= ($r['product']['Periode'] ?? 'maand') === $k ? ' selected' : '' ?>><?= e($v) ?></option><?php endforeach; ?></select></td>
+        <td><select class="cell-input" name="periode[<?= (int) $r['id'] ?>]" style="min-width:160px"><?php foreach (\App\Models\Product::PERIODS as $k => $v): ?><?php if ($k !== 'eenmalig'): ?><option value="<?= e($k) ?>"<?= ($r['product']['Periode'] ?? 'maand') === $k ? ' selected' : '' ?>><?= e($v) ?></option><?php endif; ?><?php endforeach; ?></select></td>
                 <td><?= $r['product'] ? badge('actief', ($r['linked'] ? 'Gekoppeld: ' : 'Bestaat: ') . $r['product']['Naam']) : '<span class="muted small">Nieuw product</span>' ?></td>
             </tr>
         <?php endforeach; ?>

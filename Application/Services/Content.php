@@ -51,7 +51,7 @@ final class Content
                     'Naam' => ['Contractnaam', 'tag', 'text', true], 'KlantId' => ['Klant', 'user', 'customer'], 'Soort' => ['Soort (bv. SLA, onderhoud)', 'layout', 'text'],
                     'Status' => ['Status', 'flag', 'select', true, ['concept' => 'Concept', 'actief' => 'Actief', 'opgezegd' => 'Opgezegd', 'beeindigd' => 'Beëindigd']],
                     'StartDatum' => ['Ingangsdatum', 'calendar', 'date', true], 'EindDatum' => ['Einddatum', 'calendar', 'date'],
-                    'Bedrag' => ['Bedrag excl. btw (€)', 'euro', 'money'], 'Periode' => ['Periode', 'refresh', 'select', true, ['maand' => 'Per maand', 'kwartaal' => 'Per kwartaal', 'jaar' => 'Per jaar', 'eenmalig' => 'Eenmalig']],
+                    'Bedrag' => ['Bedrag excl. btw (€)', 'euro', 'money'], 'Periode' => ['Periode', 'refresh', 'select', true, \App\Models\Product::PERIODS],
                     'Opzegtermijn' => ['Opzegtermijn', 'clock', 'text'], 'Notities' => ['Notities', 'note', 'textarea'],
                 ],
                 'columns' => ['Naam' => 'title', 'KlantId' => 'customer', 'Status' => 'badge', 'StartDatum' => 'date', 'EindDatum' => 'date', 'Bedrag' => 'money'],

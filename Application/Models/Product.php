@@ -18,7 +18,12 @@ final class Product extends Model
         'Development' => ['Informatieve Websites' => ['layout', 'Bedrijfs- en informatiesites'], 'Webshops' => ['cart', 'Online winkels'], 'API Koppelingen' => ['code', 'Koppelingen tussen systemen']],
         'Marketing' => ['Marketing SEO' => ['trend', 'Vindbaarheid in Google'], 'Social Media Onderhoud' => ['chat', 'Beheer van social kanalen'], 'Linkbuilding' => ['link', 'Backlinks en autoriteit']],
     ];
-    public const PERIODS = ['eenmalig' => 'Eenmalig', 'maand' => 'Per maand', 'kwartaal' => 'Per kwartaal', 'jaar' => 'Per jaar'];
+    public const PERIODS = [
+        'eenmalig' => 'Eenmalig', 'maand' => 'Per maand', 'kwartaal' => 'Per kwartaal',
+        'jaar' => 'Per jaar (5% korting)', '2jaar' => 'Per 2 jaar (10% korting)',
+        '3jaar' => 'Per 3 jaar (15% korting)', '4jaar' => 'Per 4 jaar (20% korting)',
+        '5jaar' => 'Per 5 jaar (25% korting)', '6jaar' => 'Per 6 jaar (30% korting)',
+    ];
 
     protected static string $table = 'Producten';
     /** Weergavenaam van een dienstsoort bij producten: een domeinproduct is een extensie. */

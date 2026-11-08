@@ -9,7 +9,7 @@ $recurring = $product->Periode !== 'eenmalig';
 $termijnen = [];
 if ($recurring) {
     foreach (\App\Services\Billing::TERMIJNEN as $tk => [$m, $d]) {
-        $termijnen[$tk] = ['label' => ['maand' => 'Per maand', 'kwartaal' => 'Per kwartaal', 'jaar' => 'Per jaar', '2jaar' => 'Per 2 jaar', '4jaar' => 'Per 4 jaar'][$tk], 'prijs' => \App\Services\Billing::termijnPrijs($product, $tk), 'korting' => $d, 'per' => $m];
+        $termijnen[$tk] = ['label' => \App\Models\Product::PERIODS[$tk] ?? $tk, 'prijs' => \App\Services\Billing::termijnPrijs($product, $tk), 'korting' => $d, 'per' => $m];
     }
 }
 $user = auth_user(); ?>

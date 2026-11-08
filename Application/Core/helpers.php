@@ -227,7 +227,11 @@ function nl_month(string $ym): string
 
 function period_label(string $period): string
 {
-    return ['eenmalig' => 'eenmalig', 'maand' => 'per maand', 'kwartaal' => 'per kwartaal', 'jaar' => 'per jaar', '2jaar' => 'per 2 jaar', '4jaar' => 'per 4 jaar'][$period] ?? $period;
+    return [
+        'eenmalig' => 'eenmalig', 'maand' => 'per maand', 'kwartaal' => 'per kwartaal',
+        'jaar' => 'per jaar', '2jaar' => 'per 2 jaar', '3jaar' => 'per 3 jaar',
+        '4jaar' => 'per 4 jaar', '5jaar' => 'per 5 jaar', '6jaar' => 'per 6 jaar',
+    ][$period] ?? $period;
 }
 
 /** Subtype van een dienst (categorienaam, bijv. 'Domeinnamen' of 'Reseller hosting'). */

@@ -338,7 +338,7 @@ final class SiteController extends Controller
             }
             [$osDistro, $osVersion] = explode('|', $os, 2);
             $termijn = $request->string('Termijn');
-            $months = \App\Services\Billing::TERMIJNEN[$termijn][0] ?? (['maand' => 1, 'kwartaal' => 3, 'jaar' => 12, '2jaar' => 24, '4jaar' => 48][(string) $product->Periode] ?? 1);
+            $months = \App\Services\Billing::TERMIJNEN[$termijn][0] ?? (\App\Services\Billing::TERMIJNEN[(string) $product->Periode][0] ?? 1);
             $gegevens = ['interserver' => [
                 'vpsPlatform' => $platform,
                 'slices' => min(32, max(1, $request->int('VpsSlices') ?: 1)),

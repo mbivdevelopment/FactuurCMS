@@ -81,13 +81,17 @@ final class Billing
 
     /** Bestelling vanuit de frontend: dienst (in afwachting) + direct een open factuur. */
     /** Termijnen met korting voor terugkerende diensten: sleutel => [maanden, korting%]. */
-    public const TERMIJNEN = ['maand' => [1, 0], 'kwartaal' => [3, 0], 'jaar' => [12, 0], '2jaar' => [24, 10], '4jaar' => [48, 25]];
+    public const TERMIJNEN = [
+        'maand' => [1, 0], 'kwartaal' => [3, 0], 'jaar' => [12, 5],
+        '2jaar' => [24, 10], '3jaar' => [36, 15], '4jaar' => [48, 20],
+        '5jaar' => [60, 25], '6jaar' => [72, 30],
+    ];
 
     /** Prijs voor een termijn op basis van de maandprijs van het product. */
     public static function termijnPrijs(Product $product, string $termijn): int
     {
         [$months, $discount] = self::TERMIJNEN[$termijn] ?? [1, 0];
-        $base = ['maand' => 1, 'kwartaal' => 3, 'jaar' => 12, '2jaar' => 24, '4jaar' => 48][(string) $product->Periode] ?? 1;
+        $base = self::TERMIJNEN[(string) $product->Periode][0] ?? 1;
         $monthly = (int) $product->Prijs / $base;
 
         return (int) round($monthly * $months * (100 - $discount) / 100);

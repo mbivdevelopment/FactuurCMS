@@ -1,6 +1,6 @@
 <?php /** @var \App\Models\Product $p */
 $periode = (string) $p->Periode;
-$per = ['maand' => 'per maand', 'kwartaal' => 'per kwartaal', 'jaar' => 'per jaar'][$periode] ?? 'eenmalig';
+$per = period_label($periode);
 $kind = $p->Dienstsoort ? \App\Models\Product::soortLabel($p->Dienstsoort) : (string) $p->Groep;
 $naam = (string) $p->Naam;
 $short = preg_replace('/^' . preg_quote($kind, '/') . '\s+/iu', '', $naam) ?: $naam; ?>

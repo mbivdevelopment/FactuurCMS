@@ -418,7 +418,7 @@ final class IntegrationController extends Controller
             $name = trim((string) ($pkg['name'] ?? '')) ?: 'Pakket ' . $id;
             [, $group, $soort] = QevantoPaneel::KINDS[(string) ($pkg['kind'] ?? '')] ?? ['', 'Overig', null];
             $price = parse_money($prices[$id] ?? '');
-            $period = in_array($periods[$id] ?? '', ['maand', 'kwartaal', 'jaar'], true) ? (string) $periods[$id] : 'maand';
+            $period = in_array($periods[$id] ?? '', array_keys(\App\Models\Product::PERIODS), true) ? (string) $periods[$id] : 'maand';
             $existing = Database::first("SELECT Id FROM Producten WHERE Bron = 'qevanto' AND ExternId = ?", ['pakket-' . $id])
                 ?? Database::first('SELECT Id FROM Producten WHERE LOWER(Naam) = ? AND Bron IS NULL', [strtolower($name)]);
             $features = QevantoPaneel::features((array) ($pkg['limits'] ?? []));
