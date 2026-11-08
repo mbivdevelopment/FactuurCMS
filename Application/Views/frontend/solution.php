@@ -39,19 +39,34 @@ $isEmailHosting = $soort === 'E-mail Hosting';
     </div>
 </section>
 
-<section class="sec"><div class="container intro-split dn-split<?= $isWebhosting ? ' solution-intro-webhosting' : '' ?>">
-    <?php if ($isWebhosting): ?>
+<section class="sec"><div class="container intro-split dn-split<?= ($isWebhosting || $isEmailHosting) ? ' solution-intro-webhosting' : '' ?>">
+    <?php if ($isWebhosting || $isEmailHosting): ?>
+    <?php if ($isEmailHosting): ?>
+    <div class="solution-intro-server">
+        <div class="hh-rack solution-rack mail-rack" aria-label="Mailserver met actieve statuslampjes">
+            <?php for ($i = 0; $i < 5; $i++): ?><div class="hh-unit"><span class="hh-bays"><?= icon('mail', 'icon icon-sm') ?><i></i><i></i><i></i><i></i><i></i></span><span class="hh-leds"><b></b><b></b><b></b></span></div><?php endfor; ?>
+            <div class="hh-base"></div>
+        </div>
+    </div>
+    <?php else: ?>
     <div class="solution-intro-photo">
         <img src="<?= e(asset('img/qevanto-datacenter.jpg')) ?>" alt="Servers in een datacenter van Qevanto">
         <span class="solution-photo-caption"><?= icon('server', 'icon icon-sm') ?> Hostinginfrastructuur van Qevanto</span>
     </div>
+    <?php endif; ?>
     <div>
-        <span class="eyebrow"><?= icon('server', 'icon icon-sm') ?> Webhosting bij Qevanto</span>
-        <h2 class="h-xl">Een betrouwbare plek voor je website</h2>
+        <span class="eyebrow"><?= icon($isEmailHosting ? 'mail' : 'server', 'icon icon-sm') ?> <?= $isEmailHosting ? 'E-mail Hosting bij Qevanto' : 'Webhosting bij Qevanto' ?></span>
+        <h2 class="h-xl"><?= $isEmailHosting ? 'Zakelijke e-mail die overal betrouwbaar werkt' : 'Een betrouwbare plek voor je website' ?></h2>
         <div class="prose">
+            <?php if ($isEmailHosting): ?>
+            <p>E-mail is voor iedere organisatie een belangrijk communicatiekanaal. Met Qevanto E-mail Hosting krijg je professionele mailboxen op je eigen domeinnaam, zonder dat je zelf een mailserver hoeft te beheren of je zorgen hoeft te maken over updates, opslag en beveiliging.</p>
+            <p>Onze mailinfrastructuur verwerkt je berichten veilig en betrouwbaar. Je gebruikt je mailbox op je computer, telefoon en tablet via webmail en standaardprotocollen, terwijl spam- en virusfilters ongewenste berichten tegenhouden voordat ze je inbox bereiken.</p>
+            <p>Via het eigen Qevanto Hostingpaneel beheer je mailboxen, aliassen, wachtwoorden en domeininstellingen vanuit één duidelijke omgeving. TLS, SPF, DKIM en DMARC helpen je e-mail beter te beveiligen en zorgen ervoor dat berichten namens jouw domein herkenbaar en betrouwbaar worden afgeleverd.</p>
+            <?php else: ?>
             <p>Webhosting is de serverruimte waar de bestanden, afbeeldingen en databases van je website worden opgeslagen. Zodra iemand je domeinnaam bezoekt, zorgt onze infrastructuur ervoor dat je website snel en veilig wordt geladen.</p>
             <p>Bij Qevanto draait je website op moderne NVMe-servers in Nederlandse datacenters. Je krijgt een stabiele basis voor een bedrijfswebsite, webshop, blog of online platform, zonder dat je zelf servers hoeft te beheren.</p>
             <p>Via het eigen Qevanto Hostingpaneel regel je alles op één plek. Je beheert je website, domeinen, databases, SSL en e-mail vanuit een duidelijke omgeving. Na betaling wordt je hosting automatisch geactiveerd en kun je direct aan de slag.</p>
+            <?php endif; ?>
         </div>
     </div>
     <?php else: ?>
