@@ -30,11 +30,12 @@ final class Provisioning
 
             return;
         }
-        if ($product->Bron !== 'qevanto' || !str_starts_with((string) $product->ExternId, 'pakket-')) {
-            return;
-        }
         $customer = $service->customer();
         try {
+            $packageId = self::packageId($product);
+            if ($packageId === 0) {
+                return;
+            }
             $email = strtolower((string) $customer?->Email);
             $panelUser = null;
             foreach (QevantoPaneel::customers($email) as $u) {
@@ -51,7 +52,7 @@ final class Provisioning
             ]);
             $sub = QevantoPaneel::post('/api/subscriptions', [
                 'userId' => (int) $panelUser['id'],
-                'packageId' => (int) substr((string) $product->ExternId, 7),
+                'packageId' => $packageId,
                 'label' => (string) ($service->Omschrijving ?: $product->Naam),
             ]);
             $relay = null;
@@ -70,6 +71,38 @@ final class Provisioning
         } catch (\Throwable $e) {
             Log::db('qevanto', 'Automatisch aanmaken mislukt voor dienst ' . $service->Nummer . ': ' . $e->getMessage(), $customer?->id());
         }
+    }
+
+    private static function packageId(Product $product): int
+    {
+        $extern = (string) $product->ExternId;
+        if ($product->Bron === 'qevanto' && str_starts_with($extern, 'pakket-')) {
+            return max(0, (int) substr($extern, 7));
+        }
+        if ((string) $product->Dienstsoort !== 'SMTP Relay') {
+            return 0;
+        }
+
+        foreach (QevantoPaneel::packages() as $package) {
+            if (strtolower(trim((string) ($package['name'] ?? ''))) !== strtolower(trim((string) $product->Naam))) {
+                continue;
+            }
+            if ((string) ($package['kind'] ?? '') !== 'smtp') {
+                continue;
+            }
+            $id = (int) ($package['id'] ?? 0);
+            if ($id > 0) {
+                Database::update('Producten', [
+                    'Bron' => 'qevanto',
+                    'ExternId' => 'pakket-' . $id,
+                    'BijgewerktOp' => now(),
+                ], ['Id' => $product->id()]);
+
+                return $id;
+            }
+        }
+
+        return 0;
     }
 
     /** CloudVPS bestellen bij InterServer; root-wachtwoord versleuteld in Gegevens. */
