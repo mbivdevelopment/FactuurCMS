@@ -1701,8 +1701,11 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .up-d.up-down { background: #ef4444; }
 .up-d.up-plan { background: #94a3b8; }
 .up-foot { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-top: 10px; color: var(--muted); font-size: 12.5px; }
-.up-leg { display: inline-flex; align-items: center; gap: 6px; }
-.up-leg .up-d { width: 10px; height: 10px; border-radius: 2px; margin-left: 10px; }
+.up-leg { display: flex; align-items: center; justify-content: space-between; width: 100%; font-size: 13.5px; color: var(--muted); font-weight: 600; }
+.up-leg > span { display: inline-flex; align-items: center; gap: 8px; }
+.up-leg .up-d { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.up-card.up-leg { padding: 12px 20px; border-radius: 8px; border-top: 3px solid var(--primary); }
+@media (max-width: 640px) { .up-leg { flex-wrap: wrap; gap: 10px 18px; justify-content: flex-start; } }
 .st-list { display: flex; flex-direction: column; gap: 12px; }
 .st-item { display: flex; gap: 16px; background: #fff; border: 1px solid var(--line); border-top: 3px solid var(--primary); border-radius: 8px; padding: 20px 22px; box-shadow: var(--shadow-sm); transition: box-shadow .18s ease; }
 .st-item:hover { box-shadow: var(--shadow); }

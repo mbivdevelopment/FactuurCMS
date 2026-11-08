@@ -222,7 +222,7 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
                 </a>
                 <?php endforeach; ?>
             </div>
-            <div class="up-card up-leg"><div class="up-foot" style="margin:0"><span class="muted">90 dagen geleden</span><span class="up-leg"><i class="up-d up-ok"></i> Operationeel <i class="up-d up-warn"></i> Beperkt <i class="up-d up-down"></i> Storing <i class="up-d up-plan"></i> Onderhoud</span><span class="muted">Vandaag</span></div></div>
+            <div class="up-card up-leg"><span class="up-leg"><span><i class="up-d up-ok"></i> Operationeel</span><span><i class="up-d up-warn"></i> Beperkt</span><span><i class="up-d up-down"></i> Storing</span><span><i class="up-d up-plan"></i> Onderhoud</span></span></div>
         </div>
     </div>
 </section>

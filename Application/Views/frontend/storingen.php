@@ -12,7 +12,7 @@
             </a>
             <?php endforeach; ?>
         </div>
-        <div class="up-card up-leg"><div class="up-foot" style="margin:0"><span class="muted">90 dagen geleden</span><span class="up-leg"><i class="up-d up-ok"></i> Operationeel <i class="up-d up-warn"></i> Beperkt <i class="up-d up-down"></i> Storing <i class="up-d up-plan"></i> Onderhoud</span><span class="muted">Vandaag</span></div></div>
+        <div class="up-card up-leg"><span class="up-leg"><span><i class="up-d up-ok"></i> Operationeel</span><span><i class="up-d up-warn"></i> Beperkt</span><span><i class="up-d up-down"></i> Storing</span><span><i class="up-d up-plan"></i> Onderhoud</span></span></div>
     </div>
     <?php if ($open === [] && $done === []): ?>
         <div class="card"><div class="card-body" style="text-align:center;padding:50px 20px"><p class="muted">Er zijn geen storingen bekend. Ligt er toch iets? Meld het via de <a href="<?= e(url('/contact')) ?>">klantenservice</a> of open een ticket in het klantportaal.</p></div></div>
