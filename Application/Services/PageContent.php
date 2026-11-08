@@ -22,7 +22,7 @@ final class PageContent
                 ['refresh', 'Gratis verhuizing', 'Wij verhuizen je website en e-mail zonder downtime, kosteloos.'],
             ],
             'Reseller Hosting' => [
-                ['users', 'Eigen klantenaccounts', 'Maak onbeperkt hostingaccounts aan voor je eigen klanten via WHM/DirectAdmin.'],
+                ['users', 'Eigen klantenaccounts', 'Maak onbeperkt hostingaccounts aan voor je eigen klanten via het Qevanto Hostingpaneel.'],
                 ['palette', 'White-label', 'Jouw merk, jouw nameservers en jouw huisstijl: wij blijven onzichtbaar.'],
                 ['zap', 'Dezelfde snelle servers', 'NVMe-opslag, LiteSpeed en caching: dezelfde prestaties als onze eigen hosting.'],
                 ['shield', 'Back-ups per account', 'Dagelijkse back-ups per klantaccount, afzonderlijk terug te zetten.'],
@@ -204,7 +204,7 @@ final class PageContent
         $byKind = [
             'Webhosting' => [
                 ['Kan ik mijn bestaande website verhuizen?', 'Ja, wij verhuizen je website en e-mail kosteloos en zonder downtime. Na je bestelling nemen we contact op om de verhuizing in te plannen.'],
-                ['Welk controlepaneel gebruiken jullie?', 'DirectAdmin met Softaculous: beheer bestanden, databases, e-mail en één-klik installaties van WordPress en andere pakketten.'],
+                ['Welk controlepaneel gebruiken jullie?', 'Je beheert bestanden, databases, e-mail en installaties in het eigen Qevanto Hostingpaneel.'],
                 ['Kan ik later upgraden?', 'Altijd. Upgraden naar een groter pakket gebeurt direct, zonder verhuizing en zonder downtime.'],
                 ['Hoe zit het met back-ups?', 'Elke nacht maken we een back-up die we 14 dagen bewaren op een aparte locatie. Terugzetten doe je zelf in het paneel of via onze support.'],
                 ['Wat is de opzegtermijn?', 'Pakketten zijn maandelijks of jaarlijks en opzegbaar tegen het einde van de looptijd, zonder extra kosten.'],

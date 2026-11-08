@@ -1,7 +1,7 @@
 <?php
 $extend('frontend', ['title' => $page['Titel']]);
 $copy = [
-    'Webhosting' => ['icon' => 'server', 'headline' => 'Je website draait gewoon goed.', 'sub' => 'Snel, veilig en beheerd vanuit één duidelijk klantportaal.', 'visual' => 'DirectAdmin · Webhosting · Overzicht'],
+    'Webhosting' => ['icon' => 'server', 'headline' => 'Je website draait gewoon goed.', 'sub' => 'Snel, veilig en beheerd vanuit het eigen Qevanto Hostingpaneel.', 'visual' => 'Qevanto Hostingpaneel · Webhosting · Overzicht'],
     'Reseller Hosting' => ['icon' => 'users', 'headline' => 'Jouw hostingbedrijf, onze infrastructuur.', 'sub' => 'Bied klanten professionele hosting onder je eigen merk.', 'visual' => 'Resellerportaal · Klanten · Accounts'],
     'E-mail Hosting' => ['icon' => 'mail', 'headline' => 'Zakelijke e-mail zonder zorgen.', 'sub' => 'Betrouwbare mailboxen op je eigen domeinnaam, overal beschikbaar.', 'visual' => 'Webmail · Inbox · Beveiligde verbinding'],
 ];
