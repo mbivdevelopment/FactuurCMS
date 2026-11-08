@@ -52,12 +52,15 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
         <div class="about-text">
             <span class="eyebrow"><?= icon('building', 'icon icon-sm') ?> Over <?= e(company_name()) ?></span>
             <h2 class="h-xl"><?= e((string) setting('over.titel', 'Over ons')) ?></h2>
-            <div class="prose"><?= rich_text((string) setting('over.tekst', '') ?: (string) setting('website.intro', '')) ?></div>
+            <div class="prose">
+                <p>Qevanto helpt organisaties met een betrouwbare online basis voor iedere fase van hun groei. Van domeinnaam en webhosting tot websites, webshops, e-mail, servers en slimme API-koppelingen: alle techniek komt samen bij één betrokken ICT-partner.</p>
+                <p>Wij combineren persoonlijke ondersteuning met moderne infrastructuur in Nederlandse en internationale datacenters. Zo krijg je een omgeving die snel, veilig en professioneel werkt, terwijl wij de techniek, beveiliging, back-ups en het dagelijkse beheer voor je overzichtelijk houden.</p>
+                <p>Je kunt bij ons klein beginnen en stap voor stap uitbreiden. Via het eigen Qevanto Hostingpaneel houd je jouw diensten centraal in beeld en krijg je ondersteuning van mensen die met je meedenken over de volgende stap.</p>
+            </div>
             <div class="about-btns"><a class="btn btn-lg" href="<?= e(url('/over-ons')) ?>">Meer over ons <?= icon('arrow-right', 'icon icon-sm') ?></a><a class="btn btn-lg btn-ghost" href="<?= e(url('/contact')) ?>"><?= icon('chat', 'icon icon-sm') ?> Kennismaken</a></div>
         </div>
         <div class="about-visual has-img about-illu is-photo">
             <img src="<?= e(asset('img/qevanto-ict-partner.png')) ?>" alt="Qevanto, jouw ICT-partner" loading="lazy">
-            <div class="av-badge"><?= icon('shield') ?><div><strong>Ijzersterk verbonden</strong><small>Eigen netwerk en datacenters</small></div></div>
         </div>
     </div>
 </section>
