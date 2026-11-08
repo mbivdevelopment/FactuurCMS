@@ -1,6 +1,6 @@
 <?php /** @var \App\Models\Product $product */
 $extend('frontend', ['title' => $product->Naam . ' bestellen']);
-$vat = (float) $product->BtwTarief;
+$vat = 21.0;
 $instel = (int) $product->Instelkosten;
 $per = period_label((string) $product->Periode);
 $kind = $product->Dienstsoort ? \App\Models\Product::soortLabel($product->Dienstsoort) : (string) $product->Groep;
@@ -78,7 +78,7 @@ $user = auth_user(); ?>
                     <div><span data-line-naam><?= e($product->Naam) ?></span><span data-line-bedrag><?= e(money((int) $product->Prijs)) ?></span></div>
                     <div data-dom-line hidden><span data-dom-naam>Domeinnaam</span><span data-dom-bedrag></span></div>
                     <?php if ($instel > 0): ?><div><span>Instelkosten</span><span><?= e(money($instel)) ?></span></div><?php endif; ?>
-                    <div><span>Btw</span><span data-vat></span></div>
+                    <div><span>Btw 21%</span><span data-vat></span></div>
                     <div class="grand"><span>Totaal vandaag</span><span data-total></span></div>
                 </div>
                 <?php if (!$hosting): ?><?= field('Notitie', 'Domeinnaam / opmerking', 'globe', (string) ($_GET['domein'] ?? ''), 'text', [], 'placeholder="bijv. mijnbedrijf.nl"') ?><?php endif; ?>
