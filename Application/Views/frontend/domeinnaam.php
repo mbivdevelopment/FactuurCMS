@@ -40,7 +40,7 @@
             <div class="dn-body">
                 <div class="dn-search"><?= icon('search', 'icon icon-sm') ?> jouwdomein<span class="dn-caret">|</span></div>
                 <?php foreach (array_slice($extProducts, 0, 4) as $p): ?><div class="dn-row"><span class="dn-dot dn-ok"></span><strong>jouwdomein<?= e($p->extensionLabel()) ?></strong><span class="dn-price"><?= e(money((int) $p->Prijs)) ?></span><em>beschikbaar</em></div><?php endforeach; ?>
-                <div class="dn-row dn-faded"><span class="dn-dot dn-warn"></span><strong>jouwdomein.be</strong><span class="dn-price">—</span><em>bezet · verhuis</em></div>
+                <div class="dn-row dn-faded"><span class="dn-dot dn-warn"></span><strong>jouwdomein<?= e(isset($extProducts[4]) ? $extProducts[4]->extensionLabel() : '.shop') ?></strong><span class="dn-price">—</span><em>bezet · verhuis</em></div>
             </div>
         </div>
         <div class="dn-chip dn-c1"><?= icon('globe') ?> 700+ extensies</div>
