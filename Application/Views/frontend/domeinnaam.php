@@ -13,8 +13,6 @@
                 <?php for ($i = 0; $i < 5; $i++): ?><div class="hh-unit"><span class="hh-bays"><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="hh-leds"><b></b><b></b><b></b></span></div><?php endfor; ?>
                 <div class="hh-base"></div>
             </div>
-            <div class="hh-badge hh-b1"><?= icon('zap') ?><div><strong>Direct actief</strong><small>na betaling</small></div></div>
-            <div class="hh-badge hh-b2"><?= icon('shield') ?><div><strong>Gratis DNS-beheer</strong><small>volledige controle</small></div></div>
         </div>
     </div>
 </section>
@@ -77,11 +75,7 @@
         <div class="prose">
             <p>Elk domein komt met gratis DNS-beheer in je klantportaal. Je past A-, CNAME-, MX- en TXT-records zelf aan — wijzigingen zijn binnen minuten actief. Koppel je domein aan onze hosting met één klik, of wijs hem naar een externe server of e-maildienst.</p>
             <p>Verhuis je een domein naar ons? Voer de verhuiscode (EPP/auth-code) in en wij regelen de rest. Je website en e-mail blijven gewoon bereikbaar; de nameservers nemen we desgewenst één-op-één over.</p>
-            <ul>
-                <li>Alle recordtypes, inclusief SPF, DKIM en DMARC voor veilige e-mail</li>
-                <li>Transferlock en WHOIS-privacy standaard aan</li>
-                <li>Automatische verlenging — nooit meer een verlopen domein</li>
-            </ul>
+            <p>Je houdt zelf controle over alle belangrijke instellingen, inclusief SPF, DKIM en DMARC voor veilige e-mail. Met transferlock, privacybescherming en automatische verlenging blijft je domein goed beschermd en hoef je niet bang te zijn dat het onverwacht verloopt.</p>
         </div>
     </div>
     <div class="dn-visual" aria-hidden="true">
