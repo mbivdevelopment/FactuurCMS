@@ -53,7 +53,7 @@ $blogLabel = $isReseller ? 'Reseller Hosting' : ($isEmailHosting ? 'E-mail Hosti
     </div>
     <?php elseif ($isReseller || $isApi || $isInformativeWebsite || $isWebshop): ?>
     <div class="solution-intro-photo">
-        <img src="<?= e(asset($isReseller ? 'img/qevanto-resellerhosting.png' : ($isApi ? 'img/qevanto-datacenter.jpg' : ($isInformativeWebsite ? 'img/qevanto-website.png' : 'img/qevanto-webshop.png')))) ?>" alt="<?= e($isReseller ? 'Resellerhosting-infrastructuur van Qevanto' : ($isApi ? 'API-infrastructuur van Qevanto' : ($isInformativeWebsite ? 'Website-infrastructuur van Qevanto' : 'Webshop-infrastructuur van Qevanto'))) ?>">
+        <img src="<?= e(asset($isReseller ? 'img/qevanto-resellerhosting.png' : ($isApi ? 'img/qevanto-api-koppelingen.png' : ($isInformativeWebsite ? 'img/qevanto-website.png' : 'img/qevanto-webshop.png')))) ?>" alt="<?= e($isReseller ? 'Resellerhosting-infrastructuur van Qevanto' : ($isApi ? 'API-infrastructuur van Qevanto' : ($isInformativeWebsite ? 'Website-infrastructuur van Qevanto' : 'Webshop-infrastructuur van Qevanto'))) ?>">
         <span class="solution-photo-caption"><?= icon($isReseller ? 'users' : ($isApi ? 'code' : ($isInformativeWebsite ? 'layout' : 'cart')), 'icon icon-sm') ?> <?= $isReseller ? 'Resellerhosting bij Qevanto' : ($isApi ? 'API-infrastructuur bij Qevanto' : ($isInformativeWebsite ? 'Websites bij Qevanto' : 'Webshops bij Qevanto')) ?></span>
     </div>
     <?php else: ?>
