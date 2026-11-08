@@ -33,7 +33,7 @@
     </div>
 </section>
 
-<section class="sec"><div class="container intro-split dn-split">
+<section class="sec kc-sec"><div class="container intro-split dn-split">
     <div class="dn-visual" aria-hidden="true">
         <div class="dn-browser">
             <div class="dn-bar"><i></i><i></i><i></i><span class="dn-url"><?= icon('lock', 'icon icon-sm') ?> <?= e(company_name()) ?>.nl/domeinen</span></div>
