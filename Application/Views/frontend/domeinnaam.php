@@ -33,7 +33,7 @@
     </div>
 </section>
 
-<section class="sec kc-sec"><div class="container intro-split dn-split">
+<section class="sec sec-grey"><div class="container intro-split dn-split">
     <div class="dn-visual" aria-hidden="true">
         <div class="dn-browser">
             <div class="dn-bar"><i></i><i></i><i></i><span class="dn-url"><?= icon('lock', 'icon icon-sm') ?> <?= e(company_name()) ?>.nl/domeinen</span></div>
@@ -59,13 +59,13 @@
 </div></section>
 
 <?php if ($extProducts !== []): ?>
-<section class="sec sec-alt"><div class="container">
+<section class="sec"><div class="container">
     <div class="sec-head center"><div><span class="eyebrow"><?= icon('globe', 'icon icon-sm') ?> Domeinextensies</span><h2>Populaire extensies en prijzen</h2><p>Prijzen per jaar, exclusief btw. Inclusief gratis DNS-beheer en automatische verlenging.</p></div></div>
     <?= $partial('frontend._extensions', ['domains' => $extProducts, 'max' => 12]) ?>
 </div></section>
 <?php endif; ?>
 
-<section class="sec sec-alt"><div class="container">
+<section class="sec sec-grey"><div class="container">
     <div class="sec-head center"><div><span class="eyebrow"><?= icon('star', 'icon icon-sm') ?> Voordelen</span><h2>Waarom je domein bij <?= e(company_name()) ?></h2><p>Alles wat je bij een domeinnaam nodig hebt, zit er gewoon bij.</p></div></div>
     <?= $partial('frontend._benefits', ['items' => $benefits]) ?>
 </div></section>
