@@ -741,7 +741,7 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .ck-sec .dline { align-items: start; }
 .ck-sec .dline-t { line-height: 1.2; }
 .ck-sec .dline-t small { display: block; margin-top: 2px; line-height: 1.2; }
-.ck-sec .dline-p { padding-top: 2px; }
+.ck-sec .dline-p { padding-top: 0; margin-top: -3px; line-height: 1.2; }
 .ck-sec .dline-code { height: 40px; border-radius: 8px; background: var(--soft); border-color: transparent; }
 .ck-sec .dline-code input { background: transparent; height: 38px; }
 .ck-sec .dline-code:focus-within { background: #fff; border-color: var(--primary); }
