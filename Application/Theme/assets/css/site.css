@@ -1922,7 +1922,7 @@ a.sf-line:hover span { color: #fff; }
 .sm-visual .dn-browser { margin-bottom: 14px; }
 
 /* Oplossingspagina's: echte infrastructuurfoto en uitlegblokken */
-.solution-photo-wrap { min-height: 0; }
+.solution-photo-wrap { min-height: 0; justify-items: end; }
 .solution-photo-card { position: relative; width: min(560px, 100%); overflow: hidden; border: 1px solid rgba(255,255,255,.2); border-radius: 18px; background: #102044; box-shadow: 0 28px 70px rgba(0,0,0,.34); transform: rotate(1deg); }
 .solution-photo-card img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; filter: saturate(.88) contrast(1.04); }
 .solution-photo-caption { position: absolute; left: 16px; right: 16px; bottom: 14px; display: inline-flex; align-items: center; gap: 8px; width: max-content; max-width: calc(100% - 32px); padding: 9px 12px; border: 1px solid rgba(255,255,255,.18); border-radius: 9px; background: rgba(8,18,43,.78); color: #fff; font-size: 12.5px; font-weight: 700; backdrop-filter: blur(8px); }
@@ -1932,4 +1932,4 @@ a.sf-line:hover span { color: #fff; }
 .solution-intro-webhosting .prose p { max-width: 640px; }
 .solution-blog-section { background: #fff; }
 .solution-rack { width: min(430px, 100%); }
-@media (max-width: 900px) { .solution-photo-card { transform: none; } }
+@media (max-width: 900px) { .solution-photo-wrap { justify-items: center; } .solution-photo-card { transform: none; } }
