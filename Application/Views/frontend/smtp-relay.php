@@ -53,18 +53,9 @@
             </ul>
         </div>
     </div>
-    <div class="dn-visual" aria-hidden="true">
-        <div class="dn-browser">
-            <div class="dn-bar"><i></i><i></i><i></i><span class="dn-url"><?= icon('lock', 'icon icon-sm') ?> klantportaal · DNS-records voor e-mail</span></div>
-            <div class="dn-body dn-dns">
-                <div class="dn-dns-head"><strong>jouwdomein.nl</strong><span class="badge is-ok">Geverifieerd</span></div>
-                <?php foreach ([['TXT', '@', 'v=spf1 include:_spf.' . strtolower(company_name()) . '.nl ~all'], ['TXT', 'relay._domainkey', 'v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQ…'], ['TXT', '_dmarc', 'v=DMARC1; p=quarantine; rua=mailto:dmarc@jouwdomein.nl'], ['MX', '@', 'mail.jouwdomein.nl'], ['CNAME', 'smtp', e($host)]] as [$t, $n, $v]): ?>
-                <div class="dn-rec"><span class="dn-type"><?= e($t) ?></span><strong><?= e($n) ?></strong><span class="dn-val"><?= $v ?></span></div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-        <div class="dn-chip dn-c1"><?= icon('shield') ?> SPF · DKIM · DMARC</div>
-        <div class="dn-chip dn-c2"><?= icon('zap') ?> Met één klik in je DNS</div>
+    <div class="solution-intro-photo">
+        <img src="<?= e(asset('img/qevanto-spf-dkim.png')) ?>" alt="SPF, DKIM en DMARC voor SMTP Relay">
+        <span class="solution-photo-caption"><?= icon('shield', 'icon icon-sm') ?> SPF, DKIM en DMARC</span>
     </div>
 </div></section>
 
