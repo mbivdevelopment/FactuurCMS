@@ -10,6 +10,14 @@ $copy = [
     'Cloud VPS' => ['icon' => 'cloud', 'headline' => 'Meer vrijheid voor je online omgeving.', 'sub' => 'Schaalbare Cloud VPS met vaste resources, root-toegang en controle vanuit één omgeving.', 'visual' => 'Qevanto Cloud VPS · Resources · Overzicht'],
     'Dedicated Server' => ['icon' => 'server', 'headline' => 'Alle serverkracht volledig voor jou.', 'sub' => 'Een dedicated server met exclusieve hardware voor maximale controle, prestaties en continuïteit.', 'visual' => 'Qevanto Dedicated Server · Hardware · Overzicht'],
     'Big Storage' => ['icon' => 'box', 'headline' => 'Veel opslag voor data die telt.', 'sub' => 'Big Storage voor back-ups, archieven, media en grote bestanden met ruimte om door te groeien.', 'visual' => 'Qevanto Big Storage · Capaciteit · Overzicht'],
+    'SSL Certificaten' => ['icon' => 'shield', 'headline' => 'Laat bezoekers veilig vertrouwen op je website.', 'sub' => 'SSL-certificaten versleutelen verkeer, tonen het slotje en geven klanten zekerheid bij ieder bezoek.', 'visual' => 'Qevanto SSL · Certificaat · Beveiligde verbinding'],
+    'VPN' => ['icon' => 'lock', 'headline' => 'Veilig verbonden, waar je ook werkt.', 'sub' => 'Een beheerde VPN voor medewerkers, locaties en apparaten met veilige toegang tot jouw bedrijfsnetwerk.', 'visual' => 'Qevanto VPN · Verbindingen · Beveiligd'],
+    'Werkplek Beheer' => ['icon' => 'headset', 'headline' => 'Werkplekken die veilig en soepel blijven werken.', 'sub' => 'Wij beheren laptops, accounts, updates en beveiliging zodat je medewerkers zonder technische zorgen doorwerken.', 'visual' => 'Qevanto Werkplekbeheer · Apparaten · Overzicht'],
+    'VoIP' => ['icon' => 'phone', 'headline' => 'Zakelijk bereikbaar op ieder apparaat.', 'sub' => 'Professionele VoIP-telefonie met vaste nummers, keuzemenu’s, wachtrijen en flexibel beheer.', 'visual' => 'Qevanto VoIP · Telefonie · Bereikbaarheid'],
+    'Licenties' => ['icon' => 'file', 'headline' => 'De juiste softwarelicenties, goed geregeld.', 'sub' => 'Wij beheren Microsoft 365 en andere softwarelicenties, zodat iedereen toegang heeft tot wat nodig is.', 'visual' => 'Qevanto Licenties · Gebruikers · Overzicht'],
+    'Marketing SEO' => ['icon' => 'trend', 'headline' => 'Word beter gevonden door de juiste klanten.', 'sub' => 'Technische SEO, content en strategie voor duurzame zichtbaarheid en meer relevante bezoekers.', 'visual' => 'Qevanto SEO · Groei · Rapportage'],
+    'Social Media Onderhoud' => ['icon' => 'chat', 'headline' => 'Blijf zichtbaar met social media die doorloopt.', 'sub' => 'Wij plannen, maken en beheren content in jouw stijl, zodat je kanalen actief en professioneel blijven.', 'visual' => 'Qevanto Social Media · Content · Planning'],
+    'Linkbuilding' => ['icon' => 'link', 'headline' => 'Bouw online autoriteit met sterke vermeldingen.', 'sub' => 'Relevante backlinks en inhoudelijke PR die je vindbaarheid duurzaam versterken.', 'visual' => 'Qevanto Linkbuilding · Autoriteit · Groei'],
 ];
 $c = $copy[(string) $soort] ?? ['icon' => $page['Icoon'], 'headline' => $page['Titel'], 'sub' => $page['Samenvatting'], 'visual' => $page['Titel']];
 $isWebhosting = $soort === 'Webhosting';
@@ -22,7 +30,31 @@ $isCloudVps = $soort === 'Cloud VPS';
 $isDedicated = $soort === 'Dedicated Server';
 $isBigStorage = $soort === 'Big Storage';
 $isServerService = $isCloudVps || $isDedicated || $isBigStorage;
+$isSsl = $soort === 'SSL Certificaten';
+$isVpn = $soort === 'VPN';
+$isWorkspace = $soort === 'Werkplek Beheer';
+$isVoip = $soort === 'VoIP';
+$isLicenses = $soort === 'Licenties';
+$isMarketing = $soort === 'Marketing SEO';
+$isSocial = $soort === 'Social Media Onderhoud';
+$isLinkbuilding = $soort === 'Linkbuilding';
+$isEnhanced = $isWebhosting || $isEmailHosting || $isReseller || $isApi || $isInformativeWebsite || $isWebshop || $isServerService || $isSsl || $isVpn || $isWorkspace || $isVoip || $isLicenses || $isMarketing || $isSocial || $isLinkbuilding;
 $blogLabel = $isReseller ? 'Reseller Hosting' : ($isEmailHosting ? 'E-mail Hosting' : ($isInformativeWebsite ? 'Informatieve Websites' : ($isWebshop ? 'Webshops' : ($isApi ? 'API Koppelingen' : 'Webhosting'))));
+$introHeading = match ((string) $soort) {
+    'E-mail Hosting' => 'Zakelijke e-mail die overal betrouwbaar werkt',
+    'Cloud VPS' => 'Een eigen serveromgeving die met je meegroeit',
+    'Dedicated Server' => 'Volledige serverkracht zonder gedeelde hardware',
+    'Big Storage' => 'Ruimte voor al je belangrijke data',
+    'SSL Certificaten' => 'Beveiliging die bezoekers direct herkennen',
+    'VPN' => 'Veilig werken vanaf iedere locatie',
+    'Werkplek Beheer' => 'Een moderne werkplek zonder technische zorgen',
+    'VoIP' => 'Zakelijk bellen met ruimte om te groeien',
+    'Licenties' => 'Softwarebeheer dat rust en overzicht geeft',
+    'Marketing SEO' => 'Structureel groeien in organische vindbaarheid',
+    'Social Media Onderhoud' => 'Een actieve aanwezigheid op de kanalen die tellen',
+    'Linkbuilding' => 'Online autoriteit opbouwen met relevante links',
+    default => 'Een betrouwbare plek voor je website',
+};
 ?>
 <section class="hhero hero2">
     <div class="hh-float" aria-hidden="true"><?php foreach ([$c['icon'], 'shield', 'zap', 'server', 'lock', 'cloud', 'users', 'refresh'] as $i => $ic): ?><span class="hh-f hh-f<?= $i ?>"><?= icon($ic) ?></span><?php endforeach; ?></div>
@@ -31,13 +63,13 @@ $blogLabel = $isReseller ? 'Reseller Hosting' : ($isEmailHosting ? 'E-mail Hosti
             <span class="hh-label"><?= icon($c['icon'], 'icon icon-sm') ?> <?= e($page['Titel']) ?></span>
             <h1><?= e($c['headline']) ?></h1>
             <p><?= e($c['sub']) ?></p>
-            <div class="hh-btns"><a class="btn btn-lg" href="#pakketten"><?= icon('cart', 'icon icon-sm') ?> Bekijk pakketten</a><a class="btn btn-lg btn-ghost" href="#werking">Hoe het werkt <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+            <div class="hh-btns"><a class="btn btn-lg" href="<?= $products !== [] ? '#pakketten' : '/contact' ?>"><?= icon($products !== [] ? 'cart' : 'headset', 'icon icon-sm') ?> <?= $products !== [] ? 'Bekijk pakketten' : 'Bespreek je situatie' ?></a><a class="btn btn-lg btn-ghost" href="#werking">Hoe het werkt <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
         </div>
         <div class="hh-visual solution-photo-wrap">
-            <?php if ($isWebhosting || $isEmailHosting || $isReseller || $isApi || $isServerService): ?>
-            <div class="hh-rack solution-rack<?= $isEmailHosting ? ' mail-rack' : ($isReseller ? ' reseller-rack' : ($isApi ? ' api-rack' : ($isCloudVps ? ' vps-rack' : ($isDedicated ? ' dedicated-rack' : ($isBigStorage ? ' storage-rack' : ''))))) ?>" aria-label="<?= $isEmailHosting ? 'Mailserver met actieve statuslampjes' : ($isReseller ? 'Reseller-server met actieve statuslampjes' : ($isApi ? 'API-server met actieve statuslampjes' : ($isCloudVps ? 'Cloud VPS-server met actieve statuslampjes' : ($isDedicated ? 'Dedicated server met actieve statuslampjes' : ($isBigStorage ? 'Storage-server met actieve statuslampjes' : 'Rack-server met actieve statuslampjes'))))) ?>">
+            <?php if ($isWebhosting || $isEmailHosting || $isReseller || $isApi || $isServerService || $isSsl || $isVpn || $isWorkspace || $isVoip || $isLicenses || $isMarketing || $isSocial || $isLinkbuilding): ?>
+            <div class="hh-rack solution-rack<?= $isEmailHosting ? ' mail-rack' : ($isReseller ? ' reseller-rack' : ($isApi ? ' api-rack' : ($isCloudVps ? ' vps-rack' : ($isDedicated ? ' dedicated-rack' : ($isBigStorage ? ' storage-rack' : ''))))) ?>" aria-label="<?= e($page['Titel']) ?> met actieve statuslampjes">
                 <?php for ($i = 0; $i < 6; $i++): ?>
-                <div class="hh-unit"><span class="hh-bays"><?= $isEmailHosting ? icon('mail', 'icon icon-sm') : ($isReseller ? icon('users', 'icon icon-sm') : ($isApi ? icon('code', 'icon icon-sm') : ($isCloudVps ? icon('cloud', 'icon icon-sm') : ($isDedicated ? icon('server', 'icon icon-sm') : ($isBigStorage ? icon('box', 'icon icon-sm') : ''))))) ?><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="hh-leds"><b></b><b></b><b></b></span></div>
+                <div class="hh-unit"><span class="hh-bays"><?= icon($c['icon'], 'icon icon-sm') ?><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="hh-leds"><b></b><b></b><b></b></span></div>
                 <?php endfor; ?>
                 <div class="hh-base"></div>
             </div>
@@ -51,8 +83,8 @@ $blogLabel = $isReseller ? 'Reseller Hosting' : ($isEmailHosting ? 'E-mail Hosti
     </div>
 </section>
 
-<section class="sec"><div class="container intro-split dn-split<?= ($isWebhosting || $isEmailHosting || $isReseller || $isApi || $isInformativeWebsite || $isWebshop || $isServerService) ? ' solution-intro-webhosting' : '' ?>">
-    <?php if ($isWebhosting || $isEmailHosting || $isReseller || $isApi || $isInformativeWebsite || $isWebshop || $isServerService): ?>
+<section class="sec"><div class="container intro-split dn-split<?= $isEnhanced ? ' solution-intro-webhosting' : '' ?>">
+    <?php if ($isEnhanced): ?>
     <?php if ($isEmailHosting): ?>
     <div class="solution-intro-photo">
         <img src="<?= e(asset('img/qevanto-emailhosting.png')) ?>" alt="E-mailhosting-infrastructuur van Qevanto">
@@ -70,8 +102,8 @@ $blogLabel = $isReseller ? 'Reseller Hosting' : ($isEmailHosting ? 'E-mail Hosti
     </div>
     <?php endif; ?>
     <div>
-        <span class="eyebrow"><?= icon($isEmailHosting ? 'mail' : ($isCloudVps ? 'cloud' : ($isBigStorage ? 'box' : ($isDedicated ? 'server' : 'server'))), 'icon icon-sm') ?> <?= $isEmailHosting ? 'E-mail Hosting bij Qevanto' : ($isCloudVps ? 'Cloud VPS bij Qevanto' : ($isDedicated ? 'Dedicated Server bij Qevanto' : ($isBigStorage ? 'Big Storage bij Qevanto' : 'Webhosting bij Qevanto'))) ?></span>
-        <h2 class="h-xl"><?= $isEmailHosting ? 'Zakelijke e-mail die overal betrouwbaar werkt' : ($isCloudVps ? 'Een eigen serveromgeving die met je meegroeit' : ($isDedicated ? 'Volledige serverkracht zonder gedeelde hardware' : ($isBigStorage ? 'Ruimte voor al je belangrijke data' : 'Een betrouwbare plek voor je website'))) ?></h2>
+        <span class="eyebrow"><?= icon($c['icon'], 'icon icon-sm') ?> <?= e($page['Titel']) ?> bij Qevanto</span>
+        <h2 class="h-xl"><?= e($introHeading) ?></h2>
         <div class="prose">
             <?php if ($isEmailHosting): ?>
             <p>E-mail is voor iedere organisatie een belangrijk communicatiekanaal. Met Qevanto E-mail Hosting krijg je professionele mailboxen op je eigen domeinnaam, zonder dat je zelf een mailserver hoeft te beheren of je zorgen hoeft te maken over updates, opslag en beveiliging.</p>
@@ -105,6 +137,38 @@ $blogLabel = $isReseller ? 'Reseller Hosting' : ($isEmailHosting ? 'E-mail Hosti
             <p>Big Storage biedt ruime en betrouwbare opslag voor back-ups, archieven, mediabestanden en andere data die je veilig wilt bewaren. Je krijgt veel capaciteit tegen een helder tarief, zonder te investeren in een eigen opslagomgeving.</p>
             <p>De opslag is geschikt als centrale datalaag naast je Cloud VPS of als zelfstandige omgeving voor bestanden en back-ups. Door de ruime capaciteit blijft er voldoende ruimte over wanneer je organisatie en datavolume groeien.</p>
             <p>Via het Qevanto Hostingpaneel houd je overzicht over je opslag en beheer je de toegang tot je omgeving. Zo combineer je schaalbaarheid met een praktische oplossing voor dagelijkse opslag en langdurige bewaring.</p>
+            <?php elseif ($isSsl): ?>
+            <p>Een SSL-certificaat versleutelt de verbinding tussen je website en bezoekers. Daardoor blijven gegevens zoals formulieren, inloggegevens en betaalinformatie beschermd terwijl ze tussen browser en server worden uitgewisseld.</p>
+            <p>Bezoekers herkennen een beveiligde website aan het slotje en de HTTPS-verbinding. Voor webshops, klantportalen en zakelijke websites is dat niet alleen technisch belangrijk, maar ook een zichtbaar onderdeel van vertrouwen en professionaliteit.</p>
+            <p>Qevanto helpt met de juiste certificaatkeuze, installatie en verlenging. Van een automatisch certificaat voor een gewone website tot wildcard- en organisatievalidatie voor uitgebreidere omgevingen: alles blijft overzichtelijk geregeld.</p>
+            <?php elseif ($isVpn): ?>
+            <p>Een zakelijke VPN verbindt medewerkers, vestigingen en apparaten veilig met de systemen die zij nodig hebben. De verbinding is versleuteld, zodat medewerkers ook buiten kantoor verantwoord kunnen werken.</p>
+            <p>Qevanto richt de VPN in op de manier waarop jouw organisatie werkt. Gebruikers, locaties en toegangsrechten worden overzichtelijk beheerd, terwijl logging en sterke authenticatie helpen om controle te houden.</p>
+            <p>Of medewerkers nu thuiswerken, onderweg zijn of op verschillende locaties werken, zij krijgen een betrouwbare toegang tot het bedrijfsnetwerk. Wij helpen met installatie, beheer en uitbreiding wanneer je organisatie groeit.</p>
+            <?php elseif ($isWorkspace): ?>
+            <p>Werkplekbeheer zorgt ervoor dat laptops, computers, accounts en mobiele apparaten veilig en bruikbaar blijven. Medewerkers kunnen daardoor werken met een omgeving die goed is ingericht en automatisch wordt bijgewerkt.</p>
+            <p>Qevanto beheert updates, beveiliging, accounts en de belangrijkste instellingen op afstand. Nieuwe medewerkers kunnen sneller starten en bij een vertrek trek je toegang gecontroleerd in zonder losse stappen te vergeten.</p>
+            <p>Je hebt één aanspreekpunt voor technische vragen en dagelijkse ondersteuning. Door monitoring en proactief onderhoud signaleren we problemen voordat ze de productiviteit van je team raken.</p>
+            <?php elseif ($isVoip): ?>
+            <p>Met VoIP bel je zakelijk via internet met je bestaande nummer of een nieuwe nummerreeks. Medewerkers zijn bereikbaar op hun bureautoestel, laptop en smartphone, zonder dat telefonie vastzit aan één werkplek.</p>
+            <p>Een professionele centrale kan worden ingericht met keuzemenu’s, wachtrijen, voicemail naar e-mail en doorschakelingen. Zo krijgt iedere beller snel de juiste medewerker en blijft de telefonie overzichtelijk.</p>
+            <p>Qevanto helpt met nummerbehoud, inrichting en uitbreiding. Nieuwe gebruikers en toestellen voeg je eenvoudig toe wanneer je team groeit, terwijl je inzicht houdt in bereikbaarheid en gebruik.</p>
+            <?php elseif ($isLicenses): ?>
+            <p>De juiste softwarelicenties zorgen ervoor dat medewerkers toegang hebben tot de programma’s die zij nodig hebben. Qevanto helpt met Microsoft 365 en andere zakelijke software, zodat licenties aansluiten op je organisatie.</p>
+            <p>Wij houden gebruikers, abonnementsvormen en wijzigingen overzichtelijk bij. Wanneer iemand start, vertrekt of van rol verandert, pas je de licenties aan zonder onnodig te blijven betalen.</p>
+            <p>Ook beveiligingsfuncties zoals MFA, Defender en back-upsoftware kunnen onderdeel zijn van de inrichting. Zo combineer je legaal gebruik met een werkbare en beter beveiligde digitale omgeving.</p>
+            <?php elseif ($isMarketing): ?>
+            <p>Marketing SEO maakt je website beter vindbaar voor mensen die actief zoeken naar jouw producten of diensten. We combineren technische optimalisatie met inhoud die antwoord geeft op echte vragen van je doelgroep.</p>
+            <p>We starten met onderzoek naar zoekwoorden, concurrenten en de structuur van je website. Daarna verbeteren we pagina’s, content en technische onderdelen stap voor stap, zodat iedere inspanning bijdraagt aan een duidelijk doel.</p>
+            <p>Met maandelijkse rapportage zie je welke posities, bezoekers en conversies zich ontwikkelen. Zo ontstaat een duurzame aanpak die verder gaat dan losse trucs en aansluit op de groei van je organisatie.</p>
+            <?php elseif ($isSocial): ?>
+            <p>Social media werkt beter wanneer er regelmatig iets relevants verschijnt en de stijl herkenbaar blijft. Qevanto helpt je kanalen actief te houden met een duidelijke planning, passende beelden en teksten die bij je organisatie passen.</p>
+            <p>Vooraf spreken we de onderwerpen, tone of voice en goedkeuringsroute af. Daarna maken en plannen we berichten voor de kanalen die voor jouw doelgroep belangrijk zijn, terwijl reacties en vragen netjes worden opgevolgd.</p>
+            <p>Je houdt overzicht met een contentkalender en periodieke rapportage. Zo weet je wat er wordt gepubliceerd, welke onderwerpen werken en waar nieuwe kansen liggen voor bereik en interactie.</p>
+            <?php elseif ($isLinkbuilding): ?>
+            <p>Linkbuilding versterkt de online autoriteit van je website door relevante vermeldingen op betrouwbare platforms op te bouwen. De kwaliteit en context van een link zijn daarbij belangrijker dan zoveel mogelijk links verzamelen.</p>
+            <p>We onderzoeken welke websites, onderwerpen en ankerteksten passen bij jouw branche. Met gastartikelen, PR en inhoudelijke plaatsingen ontstaat een natuurlijk profiel dat aansluit op je merk en zoekstrategie.</p>
+            <p>Je ontvangt duidelijke rapportage over de geplaatste links en de ontwikkeling van autoriteit en posities. Zo blijft zichtbaar welke werkzaamheden bijdragen aan duurzame vindbaarheid.</p>
             <?php else: ?>
             <p>Webhosting is de serverruimte waar de bestanden, afbeeldingen en databases van je website worden opgeslagen. Zodra iemand je domeinnaam bezoekt, zorgt onze infrastructuur ervoor dat je website snel en veilig wordt geladen.</p>
             <p>Bij Qevanto draait je website op moderne NVMe-servers in Nederlandse datacenters. Je krijgt een stabiele basis voor een bedrijfswebsite, webshop, blog of online platform, zonder dat je zelf servers hoeft te beheren.</p>
