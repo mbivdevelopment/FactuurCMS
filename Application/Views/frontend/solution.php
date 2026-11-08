@@ -7,6 +7,9 @@ $copy = [
     'Informatieve Websites' => ['icon' => 'layout', 'headline' => 'Een website die jouw bedrijf laat groeien.', 'sub' => 'Een heldere, snelle en professionele website in jouw huisstijl.', 'visual' => 'Qevanto Webstudio · Website · Overzicht'],
     'Webshops' => ['icon' => 'cart', 'headline' => 'Een webshop die voor je verkoopt.', 'sub' => 'Een gebruiksvriendelijke webshop met betalingen, voorraad en koppelingen.', 'visual' => 'Qevanto Webshop · Bestellingen · Overzicht'],
     'API Koppelingen' => ['icon' => 'code', 'headline' => 'Laat je systemen samenwerken.', 'sub' => 'Betrouwbare koppelingen die gegevens automatisch tussen systemen uitwisselen.', 'visual' => 'Qevanto Integraties · API · Monitoring'],
+    'Cloud VPS' => ['icon' => 'cloud', 'headline' => 'Meer vrijheid voor je online omgeving.', 'sub' => 'Schaalbare Cloud VPS met vaste resources, root-toegang en controle vanuit één omgeving.', 'visual' => 'Qevanto Cloud VPS · Resources · Overzicht'],
+    'Dedicated Server' => ['icon' => 'server', 'headline' => 'Alle serverkracht volledig voor jou.', 'sub' => 'Een dedicated server met exclusieve hardware voor maximale controle, prestaties en continuïteit.', 'visual' => 'Qevanto Dedicated Server · Hardware · Overzicht'],
+    'Big Storage' => ['icon' => 'box', 'headline' => 'Veel opslag voor data die telt.', 'sub' => 'Big Storage voor back-ups, archieven, media en grote bestanden met ruimte om door te groeien.', 'visual' => 'Qevanto Big Storage · Capaciteit · Overzicht'],
 ];
 $c = $copy[(string) $soort] ?? ['icon' => $page['Icoon'], 'headline' => $page['Titel'], 'sub' => $page['Samenvatting'], 'visual' => $page['Titel']];
 $isWebhosting = $soort === 'Webhosting';
@@ -15,6 +18,10 @@ $isReseller = $soort === 'Reseller Hosting';
 $isApi = $soort === 'API Koppelingen';
 $isInformativeWebsite = $soort === 'Informatieve Websites';
 $isWebshop = $soort === 'Webshops';
+$isCloudVps = $soort === 'Cloud VPS';
+$isDedicated = $soort === 'Dedicated Server';
+$isBigStorage = $soort === 'Big Storage';
+$isServerService = $isCloudVps || $isDedicated || $isBigStorage;
 $blogLabel = $isReseller ? 'Reseller Hosting' : ($isEmailHosting ? 'E-mail Hosting' : ($isInformativeWebsite ? 'Informatieve Websites' : ($isWebshop ? 'Webshops' : ($isApi ? 'API Koppelingen' : 'Webhosting'))));
 ?>
 <section class="hhero hero2">
@@ -27,10 +34,10 @@ $blogLabel = $isReseller ? 'Reseller Hosting' : ($isEmailHosting ? 'E-mail Hosti
             <div class="hh-btns"><a class="btn btn-lg" href="#pakketten"><?= icon('cart', 'icon icon-sm') ?> Bekijk pakketten</a><a class="btn btn-lg btn-ghost" href="#werking">Hoe het werkt <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
         </div>
         <div class="hh-visual solution-photo-wrap">
-            <?php if ($isWebhosting || $isEmailHosting || $isReseller || $isApi): ?>
-            <div class="hh-rack solution-rack<?= $isEmailHosting ? ' mail-rack' : ($isReseller ? ' reseller-rack' : ($isApi ? ' api-rack' : '')) ?>" aria-label="<?= $isEmailHosting ? 'Mailserver met actieve statuslampjes' : ($isReseller ? 'Reseller-server met actieve statuslampjes' : ($isApi ? 'API-server met actieve statuslampjes' : 'Rack-server met actieve statuslampjes')) ?>">
+            <?php if ($isWebhosting || $isEmailHosting || $isReseller || $isApi || $isServerService): ?>
+            <div class="hh-rack solution-rack<?= $isEmailHosting ? ' mail-rack' : ($isReseller ? ' reseller-rack' : ($isApi ? ' api-rack' : ($isCloudVps ? ' vps-rack' : ($isDedicated ? ' dedicated-rack' : ($isBigStorage ? ' storage-rack' : ''))))) ?>" aria-label="<?= $isEmailHosting ? 'Mailserver met actieve statuslampjes' : ($isReseller ? 'Reseller-server met actieve statuslampjes' : ($isApi ? 'API-server met actieve statuslampjes' : ($isCloudVps ? 'Cloud VPS-server met actieve statuslampjes' : ($isDedicated ? 'Dedicated server met actieve statuslampjes' : ($isBigStorage ? 'Storage-server met actieve statuslampjes' : 'Rack-server met actieve statuslampjes'))))) ?>">
                 <?php for ($i = 0; $i < 6; $i++): ?>
-                <div class="hh-unit"><span class="hh-bays"><?= $isEmailHosting ? icon('mail', 'icon icon-sm') : ($isReseller ? icon('users', 'icon icon-sm') : ($isApi ? icon('code', 'icon icon-sm') : '')) ?><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="hh-leds"><b></b><b></b><b></b></span></div>
+                <div class="hh-unit"><span class="hh-bays"><?= $isEmailHosting ? icon('mail', 'icon icon-sm') : ($isReseller ? icon('users', 'icon icon-sm') : ($isApi ? icon('code', 'icon icon-sm') : ($isCloudVps ? icon('cloud', 'icon icon-sm') : ($isDedicated ? icon('server', 'icon icon-sm') : ($isBigStorage ? icon('box', 'icon icon-sm') : ''))))) ?><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="hh-leds"><b></b><b></b><b></b></span></div>
                 <?php endfor; ?>
                 <div class="hh-base"></div>
             </div>
@@ -44,8 +51,8 @@ $blogLabel = $isReseller ? 'Reseller Hosting' : ($isEmailHosting ? 'E-mail Hosti
     </div>
 </section>
 
-<section class="sec"><div class="container intro-split dn-split<?= ($isWebhosting || $isEmailHosting || $isReseller || $isApi || $isInformativeWebsite || $isWebshop) ? ' solution-intro-webhosting' : '' ?>">
-    <?php if ($isWebhosting || $isEmailHosting || $isReseller || $isApi || $isInformativeWebsite || $isWebshop): ?>
+<section class="sec"><div class="container intro-split dn-split<?= ($isWebhosting || $isEmailHosting || $isReseller || $isApi || $isInformativeWebsite || $isWebshop || $isServerService) ? ' solution-intro-webhosting' : '' ?>">
+    <?php if ($isWebhosting || $isEmailHosting || $isReseller || $isApi || $isInformativeWebsite || $isWebshop || $isServerService): ?>
     <?php if ($isEmailHosting): ?>
     <div class="solution-intro-photo">
         <img src="<?= e(asset('img/qevanto-emailhosting.png')) ?>" alt="E-mailhosting-infrastructuur van Qevanto">
@@ -63,8 +70,8 @@ $blogLabel = $isReseller ? 'Reseller Hosting' : ($isEmailHosting ? 'E-mail Hosti
     </div>
     <?php endif; ?>
     <div>
-        <span class="eyebrow"><?= icon($isEmailHosting ? 'mail' : 'server', 'icon icon-sm') ?> <?= $isEmailHosting ? 'E-mail Hosting bij Qevanto' : 'Webhosting bij Qevanto' ?></span>
-        <h2 class="h-xl"><?= $isEmailHosting ? 'Zakelijke e-mail die overal betrouwbaar werkt' : 'Een betrouwbare plek voor je website' ?></h2>
+        <span class="eyebrow"><?= icon($isEmailHosting ? 'mail' : ($isCloudVps ? 'cloud' : ($isBigStorage ? 'box' : ($isDedicated ? 'server' : 'server'))), 'icon icon-sm') ?> <?= $isEmailHosting ? 'E-mail Hosting bij Qevanto' : ($isCloudVps ? 'Cloud VPS bij Qevanto' : ($isDedicated ? 'Dedicated Server bij Qevanto' : ($isBigStorage ? 'Big Storage bij Qevanto' : 'Webhosting bij Qevanto'))) ?></span>
+        <h2 class="h-xl"><?= $isEmailHosting ? 'Zakelijke e-mail die overal betrouwbaar werkt' : ($isCloudVps ? 'Een eigen serveromgeving die met je meegroeit' : ($isDedicated ? 'Volledige serverkracht zonder gedeelde hardware' : ($isBigStorage ? 'Ruimte voor al je belangrijke data' : 'Een betrouwbare plek voor je website'))) ?></h2>
         <div class="prose">
             <?php if ($isEmailHosting): ?>
             <p>E-mail is voor iedere organisatie een belangrijk communicatiekanaal. Met Qevanto E-mail Hosting krijg je professionele mailboxen op je eigen domeinnaam, zonder dat je zelf een mailserver hoeft te beheren of je zorgen hoeft te maken over updates, opslag en beveiliging.</p>
@@ -86,6 +93,18 @@ $blogLabel = $isReseller ? 'Reseller Hosting' : ($isEmailHosting ? 'E-mail Hosti
             <p>Een webshop moet meer doen dan producten tonen. Hij moet bezoekers helpen kiezen, vertrouwen geven tijdens het afrekenen en bestellingen overzichtelijk verwerken. Een duidelijke structuur en een soepel bestelproces maken het verschil tussen rondkijken en daadwerkelijk bestellen.</p>
             <p>Qevanto bouwt webshops die aansluiten op je assortiment, betaalmethoden en dagelijkse werkzaamheden. Producten, voorraad, orders en klantgegevens komen samen in een omgeving die prettig werkt voor jou én voor je klanten.</p>
             <p>De webshop kan worden verbonden met betaalproviders, boekhouding, voorraadbeheer en andere systemen. Zo blijft je administratie actueel en houd je tijd over voor verkoop, service en de verdere groei van je online winkel.</p>
+            <?php elseif ($isCloudVps): ?>
+            <p>Een Cloud VPS geeft je een eigen, schaalbare serveromgeving voor websites, applicaties, databases en andere online diensten. Je beschikt over gereserveerde resources en root-toegang, zonder dat je zelf fysieke hardware hoeft aan te schaffen of te onderhouden.</p>
+            <p>Je kiest zelf het besturingssysteem en de configuratie die bij je project past. Vanuit het Qevanto Hostingpaneel beheer je snapshots, herstarts, upgrades en de belangrijkste instellingen vanuit één duidelijke omgeving.</p>
+            <p>Wanneer je organisatie groeit, schaal je CPU, geheugen en opslag eenvoudig mee. Zo blijft je omgeving stabiel tijdens pieken en houd je de vrijheid om software en serverinstellingen zelf te beheren.</p>
+            <?php elseif ($isDedicated): ?>
+            <p>Met een Dedicated Server krijg je een volledige fysieke server exclusief voor jouw organisatie. Alle rekenkracht, geheugen, opslag en netwerkcapaciteit zijn beschikbaar voor jouw toepassingen, zonder invloed van andere gebruikers op dezelfde hardware.</p>
+            <p>Deze oplossing past bij bedrijfskritische applicaties, grote databases, drukbezochte websites en omgevingen waarbij voorspelbare prestaties belangrijk zijn. Je kiest de hardware die aansluit op je workload en houdt volledige controle over de inrichting.</p>
+            <p>Qevanto verzorgt de colocatie, netwerkverbinding en basisinfrastructuur, terwijl jij bepaalt hoe de server wordt ingezet. Met remote beheer en ondersteuning kun je snel ingrijpen wanneer dat nodig is.</p>
+            <?php elseif ($isBigStorage): ?>
+            <p>Big Storage biedt ruime en betrouwbare opslag voor back-ups, archieven, mediabestanden en andere data die je veilig wilt bewaren. Je krijgt veel capaciteit tegen een helder tarief, zonder te investeren in een eigen opslagomgeving.</p>
+            <p>De opslag is geschikt als centrale datalaag naast je Cloud VPS of als zelfstandige omgeving voor bestanden en back-ups. Door de ruime capaciteit blijft er voldoende ruimte over wanneer je organisatie en datavolume groeien.</p>
+            <p>Via het Qevanto Hostingpaneel houd je overzicht over je opslag en beheer je de toegang tot je omgeving. Zo combineer je schaalbaarheid met een praktische oplossing voor dagelijkse opslag en langdurige bewaring.</p>
             <?php else: ?>
             <p>Webhosting is de serverruimte waar de bestanden, afbeeldingen en databases van je website worden opgeslagen. Zodra iemand je domeinnaam bezoekt, zorgt onze infrastructuur ervoor dat je website snel en veilig wordt geladen.</p>
             <p>Bij Qevanto draait je website op moderne NVMe-servers in Nederlandse datacenters. Je krijgt een stabiele basis voor een bedrijfswebsite, webshop, blog of online platform, zonder dat je zelf servers hoeft te beheren.</p>

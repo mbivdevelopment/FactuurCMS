@@ -65,19 +65,9 @@
 </div></section>
 
 <section class="sec"><div class="container intro-split dn-split">
-    <div class="dn-visual sm-visual" aria-hidden="true">
-        <div class="dn-browser">
-            <div class="dn-bar"><i></i><i></i><i></i><span class="dn-url"><?= icon('settings', 'icon icon-sm') ?> WordPress · Instellingen · E-mail (SMTP)</span></div>
-            <div class="dn-body dn-dns">
-                <div class="dn-dns-head"><strong>Uitgaande mailserver</strong><span class="badge is-ok">Testmail verzonden</span></div>
-                <?php foreach ([['Host', e($host)], ['Poort', '587 · STARTTLS'], ['Gebruiker', 'jouwdomein.nl'], ['Wachtwoord', '••••••••••••'], ['Afzender', 'info@jouwdomein.nl']] as [$l, $v]): ?>
-                <div class="dn-rec sm-set"><span class="dn-type"><?= e($l) ?></span><span class="dn-val"><?= $v ?></span></div>
-                <?php endforeach; ?>
-                <div class="sm-save"><span class="btn btn-sm">Opslaan</span><span class="btn btn-sm btn-ghost">Testmail sturen</span></div>
-            </div>
-        </div>
-        <div class="dn-chip dn-c1"><?= icon('zap') ?> In één minuut gekoppeld</div>
-        <div class="dn-chip dn-c2"><?= icon('link') ?> Werkt met elk CMS</div>
+    <div class="solution-intro-photo">
+        <img src="<?= e(asset('img/qevanto-smtp-koppelen.png')) ?>" alt="SMTP Relay koppelen aan websites, shops en applicaties">
+        <span class="solution-photo-caption"><?= icon('link', 'icon icon-sm') ?> Koppelen met SMTP Relay</span>
     </div>
     <div>
         <span class="eyebrow"><?= icon('link', 'icon icon-sm') ?> Koppelen</span>

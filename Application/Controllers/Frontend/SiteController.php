@@ -130,8 +130,8 @@ final class SiteController extends Controller
         $products = $soort !== null ? Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 AND Dienstsoort = ? ORDER BY Volgorde, Prijs, Id', [$soort]) : [];
         $products = $products !== [] ? $products : ((string) $page['ProductGroep'] !== '' ? Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 AND Groep = ? ORDER BY Volgorde, Id', [$page['ProductGroep']]) : []);
         [$domains, $products] = self::splitExtensions($products);
-        if (in_array($soort, ['Webhosting', 'Reseller Hosting', 'E-mail Hosting', 'Informatieve Websites', 'Webshops', 'API Koppelingen'], true)) {
-            $blogCategory = in_array($soort, ['Webhosting', 'Reseller Hosting', 'E-mail Hosting', 'Informatieve Websites', 'Webshops', 'API Koppelingen'], true) ? $soort : null;
+        if (in_array($soort, ['Webhosting', 'Reseller Hosting', 'E-mail Hosting', 'Informatieve Websites', 'Webshops', 'API Koppelingen', 'Cloud VPS', 'Dedicated Server', 'Big Storage'], true)) {
+            $blogCategory = in_array($soort, ['Webhosting', 'Reseller Hosting', 'E-mail Hosting', 'Informatieve Websites', 'Webshops', 'API Koppelingen', 'Cloud VPS', 'Dedicated Server', 'Big Storage'], true) ? $soort : null;
             $posts = $blogCategory !== null
                 ? Database::all('SELECT * FROM BlogBerichten WHERE Zichtbaar = 1 AND PublicatieDatum <= CURDATE() AND Categorie = ? ORDER BY PublicatieDatum DESC, Id DESC LIMIT 9', [$blogCategory])
                 : [];
