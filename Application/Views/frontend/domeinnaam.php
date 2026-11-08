@@ -45,12 +45,7 @@
         </div>
         <div class="info-box"><?= icon('globe') ?><div><strong>Goed om te weten</strong><p>Een domeinnaam is direct actief na betaling en inclusief gratis DNS-beheer en automatische verlenging. Verhuizen kan ook — wij regelen de overstap.</p></div></div>
     </div>
-    <aside class="intro-aside">
-        <div class="ia-card dark"><span class="ia-i"><?= icon('cart') ?></span><div><strong>Direct regelen</strong><small>Zoek je domein hierboven of bekijk alle extensies met prijzen. Na betaling is registratie automatisch geregeld.</small></div><a class="btn" href="<?= e(url('/domeinen')) ?>" style="margin-top:12px"><?= icon('search', 'icon icon-sm') ?> Zoek je domein</a></div>
-        <div class="ia-card"><span class="ia-i"><?= icon('refresh') ?></span><div><strong>Verhuizen kan gewoon</strong><small>Al een domein ergens anders? Wij regelen de verhuizing gratis, zonder downtime.</small></div></div>
-        <div class="ia-card"><span class="ia-i"><?= icon('shield') ?></span><div><strong>Veilig en beschermd</strong><small>Gegevensbescherming, tweestapsverificatie en sloten op je domein tegen ongewenste overdracht.</small></div></div>
-        <div class="ia-card"><span class="ia-i"><?= icon('euro') ?></span><div><strong>Heldere prijzen</strong><small>Prijzen per jaar, exclusief btw — geen verborgen kosten bij verlenging.</small></div></div>
-    </aside>
+
 </div></section>
 
 <?php if ($extProducts !== []): ?>
