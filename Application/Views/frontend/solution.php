@@ -6,7 +6,6 @@ $copy = [
     'E-mail Hosting' => ['icon' => 'mail', 'headline' => 'Zakelijke e-mail zonder zorgen.', 'sub' => 'Betrouwbare mailboxen op je eigen domeinnaam, overal beschikbaar.', 'visual' => 'Webmail · Inbox · Beveiligde verbinding'],
 ];
 $c = $copy[(string) $soort] ?? ['icon' => $page['Icoon'], 'headline' => $page['Titel'], 'sub' => $page['Samenvatting'], 'visual' => $page['Titel']];
-$isWebhosting = $soort === 'Webhosting';
 ?>
 <section class="hhero hero2">
     <div class="hh-float" aria-hidden="true"><?php foreach ([$c['icon'], 'shield', 'zap', 'server', 'lock', 'cloud', 'users', 'refresh'] as $i => $ic): ?><span class="hh-f hh-f<?= $i ?>"><?= icon($ic) ?></span><?php endforeach; ?></div>
@@ -47,17 +46,6 @@ $isWebhosting = $soort === 'Webhosting';
         <div class="info-box"><?= icon('shield') ?><div><strong>Goed om te weten</strong><p>Je beheert alles vanuit één klantportaal. Na betaling wordt je dienst automatisch geactiveerd en staan de gegevens direct klaar.</p></div></div>
     </div>
 </div></section>
-
-<?php if ($isWebhosting): ?>
-<section class="sec sec-grey solution-copy-section"><div class="container">
-    <div class="sec-head center"><div><span class="eyebrow"><?= icon('server', 'icon icon-sm') ?> Webhosting bij Qevanto</span><h2>Alles voor een snelle en betrouwbare website</h2><p>Geen ingewikkelde techniek, wel een solide basis voor je website, webshop of online project.</p></div></div>
-    <div class="solution-info-grid">
-        <article class="solution-info-card"><span class="solution-info-icon"><?= icon('server') ?></span><h3>Webhosting bij Qevanto</h3><p>Je website draait op snelle NVMe-opslag en moderne webservers in Nederlandse datacenters. Wij regelen de infrastructuur, monitoring en beveiliging; jij houdt tijd over voor je bedrijf.</p><p>Met het eigen Qevanto Hostingpaneel beheer je websites, databases, domeinen, SSL en e-mail vanuit één omgeving.</p></article>
-        <article class="solution-info-card"><span class="solution-info-icon"><?= icon('globe') ?></span><h3>Wat is webhosting?</h3><p>Webhosting is de plek waar de bestanden, afbeeldingen en databases van je website worden opgeslagen. Wanneer iemand je domeinnaam bezoekt, levert onze server deze bestanden veilig aan.</p><p>Een goed hostingpakket zorgt dat je website bereikbaar, snel en beschermd blijft — ook wanneer het drukker wordt.</p></article>
-        <article class="solution-info-card"><span class="solution-info-icon"><?= icon('zap') ?></span><h3>Voor wie is dit?</h3><p>Van een eenvoudige bedrijfswebsite en blog tot een WordPress-site of webshop: er is een pakket voor iedere fase.</p><p>Start klein en schaal later eenvoudig op. Je hoeft niet opnieuw te verhuizen en je instellingen blijven behouden.</p></article>
-    </div>
-</div></section>
-<?php endif; ?>
 
 <?php if ($products !== []): ?><section class="sec sec-grey" id="pakketten"><div class="container">
     <div class="sec-head center"><div><span class="eyebrow"><?= icon('box', 'icon icon-sm') ?> Pakketten</span><h2>Kies het pakket dat bij je past</h2><p>Alle prijzen zijn exclusief btw. Bestel direct online; upgraden kan altijd.</p></div></div>
