@@ -104,9 +104,9 @@
     <?= $partial('frontend._steps', ['items' => $steps]) ?>
 </div></section>
 
-<section class="sec"><div class="container faq-split">
-    <div class="faq-side"><span class="eyebrow"><?= icon('chat', 'icon icon-sm') ?> Veelgestelde vragen</span><h2 class="h-xl">Vragen over domeinnamen?</h2><p class="muted">Staat je vraag er niet bij? Onze specialisten helpen je graag persoonlijk verder.</p><a class="btn btn-ghost" href="<?= e(url('/contact')) ?>"><?= icon('chat', 'icon icon-sm') ?> Stel je vraag</a></div>
-    <?= $partial('frontend._faq', ['items' => $faq]) ?>
+<?php if (($posts ?? []) !== []): ?>
+<section class="sec"><div class="container">
+    <div class="sec-head"><div><span class="eyebrow"><?= icon('note', 'icon icon-sm') ?> Blog</span><h2>Lezen over domeinnamen</h2></div></div>
+    <?= $partial('frontend._carousel', ['items' => $posts, 'base' => '/blog/', 'icon' => 'note', 'more' => 'Lees verder', 'autoplay' => true, 'nav_top' => true]) ?>
 </div></section>
-
-<?= $partial('frontend._cta', ['title' => 'Twijfel je over een extensie?', 'text' => 'Onze specialisten adviseren je vrijblijvend over de beste keuze voor jouw naam of merk.']) ?>
+<?php endif; ?>

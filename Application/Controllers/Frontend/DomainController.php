@@ -31,7 +31,7 @@ final class DomainController extends Controller
                 'extProducts' => SiteController::extensionProducts(),
                 'benefits' => \App\Services\PageContent::benefits('Domeinnamen'),
                 'steps' => \App\Services\PageContent::steps('Domeinnamen', true),
-                'faq' => \App\Services\PageContent::faq('Domeinnamen', 'domeinnamen', true),
+                'posts' => \App\Core\Database::all("SELECT * FROM BlogBerichten WHERE Zichtbaar = 1 AND PublicatieDatum <= CURDATE() AND Categorie = 'Domeinen' ORDER BY PublicatieDatum DESC, Id DESC LIMIT 9"),
             ]);
         }
         if ($request->string('ext') !== '') {
