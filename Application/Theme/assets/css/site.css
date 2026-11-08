@@ -1870,3 +1870,10 @@ a.sf-line:hover span { color: #fff; }
 .sm-row .dn-val { flex: 1; }
 .sm-row em { font-style: normal; font-size: 12px; font-weight: 700; color: var(--ok, #1a9c5b); white-space: nowrap; }
 .sm-row .dn-warn + strong + .dn-val + em { color: var(--primary); }
+
+/* SMTP Relay: instellingen-visual */
+.sm-set { grid-template-columns: 96px 1fr; }
+.sm-set .dn-type { text-align: left; padding-left: 8px; }
+.sm-set .dn-val { color: var(--navy); }
+.sm-save { display: flex; gap: 8px; margin-top: 6px; }
+.sm-save .btn { pointer-events: none; }

@@ -82,6 +82,36 @@
     <?= $partial('frontend._benefits', ['items' => $benefits]) ?>
 </div></section>
 
+<section class="sec"><div class="container intro-split dn-split">
+    <div class="dn-visual" aria-hidden="true">
+        <div class="dn-browser">
+            <div class="dn-bar"><i></i><i></i><i></i><span class="dn-url"><?= icon('settings', 'icon icon-sm') ?> WordPress · Instellingen · E-mail (SMTP)</span></div>
+            <div class="dn-body dn-dns">
+                <div class="dn-dns-head"><strong>Uitgaande mailserver</strong><span class="badge is-ok">Testmail verzonden</span></div>
+                <?php foreach ([['Host', e($host)], ['Poort', '587 · STARTTLS'], ['Gebruiker', 'jouwdomein.nl'], ['Wachtwoord', '••••••••••••'], ['Afzender', 'info@jouwdomein.nl']] as [$l, $v]): ?>
+                <div class="dn-rec sm-set"><span class="dn-type"><?= e($l) ?></span><span class="dn-val"><?= $v ?></span></div>
+                <?php endforeach; ?>
+                <div class="sm-save"><span class="btn btn-sm">Opslaan</span><span class="btn btn-sm btn-ghost">Testmail sturen</span></div>
+            </div>
+        </div>
+        <div class="dn-chip dn-c1"><?= icon('zap') ?> In één minuut gekoppeld</div>
+        <div class="dn-chip dn-c2"><?= icon('link') ?> Werkt met elk CMS</div>
+    </div>
+    <div>
+        <span class="eyebrow"><?= icon('link', 'icon icon-sm') ?> Koppelen</span>
+        <h2 class="h-xl">Aansluiten op elke website, shop of applicatie</h2>
+        <div class="prose">
+            <p>SMTP Relay gebruikt het standaard SMTP-protocol, dus je hebt geen plug-ins of maatwerk nodig. Vul host, poort en je inloggegevens in bij je website, webshop of applicatie en alle e-mail loopt via onze servers. In WordPress volstaat een gratis SMTP-plug-in; Laravel, Magento, Shopware en Microsoft 365 ondersteunen het standaard.</p>
+            <p>Ook apparaten die mail versturen — zoals multifunctionals, scanners, NAS-systemen en alarmcentrales — kunnen rechtstreeks via SMTP Relay versturen. Zo verlaten alle berichten je organisatie met dezelfde afzender en authenticatie.</p>
+            <ul>
+                <li>Standaard SMTP met STARTTLS (587) of SSL (465), geen vendor lock-in</li>
+                <li>Meerdere websites of apps op één account; per afzender inzicht in het logboek</li>
+                <li>Hulp nodig? Onze support koppelt het samen met je in</li>
+            </ul>
+        </div>
+    </div>
+</div></section>
+
 <section class="sec sec-dark" id="werking"><div class="container">
     <div class="sec-head center"><div><span class="eyebrow"><?= icon('refresh', 'icon icon-sm') ?> Hoe het werkt</span><h2>In vier stappen verzenden</h2><p>Van bestelling tot eerste bezorgde e-mail: snel, duidelijk en zonder gedoe.</p></div></div>
     <?= $partial('frontend._steps', ['items' => $steps]) ?>
