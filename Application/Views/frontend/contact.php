@@ -19,7 +19,7 @@
                 ['book', 'Kennisbank', 'Handleidingen en veelgestelde vragen.', '/kennisbank'],
                 ['globe', 'Domeinnamen', 'Registreren, verhuizen en DNS instellen.', '/domeinen'],
                 ['server', 'Webhosting & e-mail', 'Accounts, FTP, SSL en mailboxen.', '/oplossingen/webhosting'],
-                ['send', 'SMTP Relay', 'Verzendgegevens en e-mailbezorging.', '/oplossingen/smtp-relay'],
+                ['send', 'SMTP Relay', 'Verzendgegevens en e-mailbezorging.', '/smtp-relay'],
                 ['doc', 'Facturen & betalingen', 'Kosten, betalingsachterstanden en contracten.', '/klant'],
                 ['lock', 'Klantportaal', 'Inloggen, gegevens wijzigen en diensten.', '/klant'],
                 ['ticket', 'Tickets & storingen', 'Open een ticket of meld een storing.', '/klant/tickets/nieuw'],

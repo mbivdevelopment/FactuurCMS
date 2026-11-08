@@ -131,15 +131,7 @@ final class SiteController extends Controller
         $products = $products !== [] ? $products : ((string) $page['ProductGroep'] !== '' ? Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 AND Groep = ? ORDER BY Volgorde, Id', [$page['ProductGroep']]) : []);
         [$domains, $products] = self::splitExtensions($products);
         if ($page['Slug'] === 'smtp-relay') {
-            $posts = Database::all("SELECT * FROM BlogBerichten WHERE Zichtbaar = 1 AND PublicatieDatum <= CURDATE() AND (Titel LIKE '%SMTP%' OR Titel LIKE '%mail%' OR Titel LIKE '%DNS%' OR Titel LIKE '%SSL%' OR Titel LIKE '%PHP%') ORDER BY PublicatieDatum DESC, Id DESC LIMIT 9");
-
-            return $this->view('frontend.smtp-relay', [
-                'page' => $page,
-                'products' => $products,
-                'benefits' => PageContent::benefits('SMTP Relay'),
-                'steps' => PageContent::steps('SMTP Relay', true),
-                'posts' => $posts !== [] ? $posts : Database::all('SELECT * FROM BlogBerichten WHERE Zichtbaar = 1 AND PublicatieDatum <= CURDATE() ORDER BY PublicatieDatum DESC, Id DESC LIMIT 9'),
-            ]);
+            return $this->redirect('/smtp-relay', 301);
         }
 
         return $this->view('frontend.page', [
@@ -149,6 +141,22 @@ final class SiteController extends Controller
             'domains' => $domains,
             'related' => Database::all('SELECT * FROM Paginas WHERE Zichtbaar = 1 AND Categorie = ? AND Id <> ? ORDER BY Groep, Volgorde LIMIT 6', [$page['Categorie'], $page['Id']]),
             'extensions' => DomainCheck::extensions(),
+        ]);
+    }
+
+    public function smtpRelay(Request $request): Response
+    {
+        $page = Database::first('SELECT * FROM Paginas WHERE Slug = ? AND Zichtbaar = 1', ['smtp-relay'])
+            ?? throw new HttpException(404, 'Deze pagina bestaat niet (meer).');
+        $products = Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 AND Dienstsoort = ? ORDER BY Volgorde, Prijs, Id', ['SMTP Relay']);
+        $posts = Database::all("SELECT * FROM BlogBerichten WHERE Zichtbaar = 1 AND PublicatieDatum <= CURDATE() AND (Titel LIKE '%SMTP%' OR Titel LIKE '%mail%' OR Titel LIKE '%DNS%' OR Titel LIKE '%SSL%' OR Titel LIKE '%PHP%') ORDER BY PublicatieDatum DESC, Id DESC LIMIT 9");
+
+        return $this->view('frontend.smtp-relay', [
+            'page' => $page,
+            'products' => $products,
+            'benefits' => PageContent::benefits('SMTP Relay'),
+            'steps' => PageContent::steps('SMTP Relay', true),
+            'posts' => $posts !== [] ? $posts : Database::all('SELECT * FROM BlogBerichten WHERE Zichtbaar = 1 AND PublicatieDatum <= CURDATE() ORDER BY PublicatieDatum DESC, Id DESC LIMIT 9'),
         ]);
     }
 

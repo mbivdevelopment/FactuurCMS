@@ -128,7 +128,7 @@ $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent
                 <span class="eyebrow eyebrow-light"><?= icon('send', 'icon icon-sm') ?> Nieuw · SMTP Relay</span>
                 <h2>Verstuur e-mail die aankomt via onze SMTP Relay.</h2>
                 <p>Orderbevestigingen, wachtwoordresets en nieuwsbrieven vanuit je website of app verzonden via onze betrouwbare mailinfrastructuur — met SPF, DKIM en DMARC goed geregeld.</p>
-                <div class="cta-btns"><a class="btn" href="<?= e(url($smtp !== null ? '/oplossingen/smtp-relay' : '/contact')) ?>"><?= icon('send', 'icon icon-sm') ?> Start met SMTP Relay</a><a class="btn btn-ghost-light" href="<?= e(url('/contact')) ?>"><?= icon('headset', 'icon icon-sm') ?> Vraag advies</a></div>
+                <div class="cta-btns"><a class="btn" href="<?= e(url($smtp !== null ? '/smtp-relay' : '/contact')) ?>"><?= icon('send', 'icon icon-sm') ?> Start met SMTP Relay</a><a class="btn btn-ghost-light" href="<?= e(url('/contact')) ?>"><?= icon('headset', 'icon icon-sm') ?> Vraag advies</a></div>
             </div>
             <div class="cta-stats">
                 <div class="cta-stat"><b>Inbox</b><span>Hoge inbox-komst met correcte SPF, DKIM en DMARC</span></div>
