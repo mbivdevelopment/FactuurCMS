@@ -471,8 +471,25 @@ final class SiteController extends Controller
 
     private function findProduct(Request $request): Product
     {
+        $category = (string) $request->param('category');
         $slug = (string) $request->param('slug');
-        $product = Product::firstWhere(['Slug' => $slug, 'Zichtbaar' => 1]);
+        $product = null;
+        $candidates = [$slug];
+        if ($category !== '') {
+            $candidates[] = $category . '-' . $slug;
+            if ($category === 'reseller') {
+                $candidates[] = 'reseller-hosting-' . $slug;
+            } elseif ($category === 'smtp') {
+                $candidates[] = 'smtp-relay-' . $slug;
+            }
+        }
+        foreach (array_unique($candidates) as $candidate) {
+            $found = Product::firstWhere(['Slug' => $candidate, 'Zichtbaar' => 1]);
+            if ($found !== null && ($category === '' || Product::publicCategorySlug($found->Dienstsoort, $found->Groep) === $category)) {
+                $product = $found;
+                break;
+            }
+        }
         if ($product === null && str_starts_with($slug, 'domein-')) {
             $product = Product::firstWhere(['Slug' => substr($slug, 7), 'Zichtbaar' => 1]);
         }

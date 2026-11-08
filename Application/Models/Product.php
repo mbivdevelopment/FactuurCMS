@@ -67,12 +67,47 @@ final class Product extends Model
         return $soort === 'Domeinnamen' ? 'Domeinextensies' : (string) $soort;
     }
 
-    /** Publieke URL: domeinextensies onder /domeinen, overige producten op hun eigen korte slug. */
+    /** Publieke categorie-slug, los van de interne naam van de dienstsoort. */
+    public static function publicCategorySlug(?string $soort, ?string $groep = null): string
+    {
+        $slugs = [
+            'Webhosting' => 'webhosting',
+            'Reseller Hosting' => 'reseller',
+            'VPN' => 'vpn',
+            'Werkplek Beheer' => 'werkplek',
+            'SMTP Relay' => 'smtp',
+            'E-mail Hosting' => 'email',
+            'Cloud VPS' => 'vps',
+        ];
+
+        return $slugs[(string) $soort] ?? slugify((string) ($soort ?: $groep ?: 'product'));
+    }
+
+    public static function publicProductSlug(string $slug, ?string $soort, ?string $groep = null): string
+    {
+        $category = self::publicCategorySlug($soort, $groep);
+        $prefixes = [$category];
+        if ($category === 'reseller') {
+            $prefixes[] = 'reseller-hosting';
+        }
+        if ($category === 'smtp') {
+            $prefixes[] = 'smtp-relay';
+        }
+        foreach ($prefixes as $prefix) {
+            if (str_starts_with($slug, $prefix . '-')) {
+                return substr($slug, strlen($prefix) + 1);
+            }
+        }
+
+        return $slug;
+    }
+
+    /** Publieke URL: domeinextensies onder /domeinen, overige producten onder /categorie/slug. */
     public static function pathFor(string $slug, ?string $soort, ?string $groep = null): string
     {
         $extension = $soort === 'Domeinnamen' || (($soort === null || $soort === '') && $groep === 'Domeinen');
 
-        return $extension ? '/domeinen' : '/' . $slug;
+        return $extension ? '/domeinen' : '/' . self::publicCategorySlug($soort, $groep) . '/' . self::publicProductSlug($slug, $soort, $groep);
     }
 
     /** Slug van een dienstsoort in het beheer (bv. ssl-certificaten); bij producten op de weergavenaam (domeinextensies). */

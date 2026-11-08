@@ -268,7 +268,7 @@ $router->group('beheer', ['csrf', 'auth', 'admin'], static function ($router): v
 $router->post('/betalen/mollie/webhook', 'Frontend\\WebhookController@mollie');
 $router->post('/betalen/cryptomus/webhook', 'Frontend\\WebhookController@cryptomus');
 
-// Korte publieke product-URL's.
-$router->get('/{slug}', 'Frontend\\SiteController@product');
-$router->get('/{slug}/bestellen', 'Frontend\\SiteController@checkout');
-$router->post('/{slug}/bestellen', 'Frontend\\SiteController@order', ['csrf', 'throttle:bestellen,10,60']);
+// Publieke product-URL's: /categorie/productslug.
+$router->get('/{category}/{slug}', 'Frontend\\SiteController@product');
+$router->get('/{category}/{slug}/bestellen', 'Frontend\\SiteController@checkout');
+$router->post('/{category}/{slug}/bestellen', 'Frontend\\SiteController@order', ['csrf', 'throttle:bestellen,10,60']);
