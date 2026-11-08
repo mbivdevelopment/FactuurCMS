@@ -40,9 +40,9 @@ $user = auth_user(); ?>
             <div class="card"><div class="card-head"><h2><?= icon('globe') ?> Domeinnaam</h2></div><div class="card-body stack">
                 <?= field('Domeinnaam', 'Op welke domeinnaam koppelen we het pakket?', 'globe', (string) ($_GET['domein'] ?? ''), 'text', [], 'placeholder="bijv. mijnbedrijf.nl" required data-domein') ?>
                 <div class="dopts">
-                    <label class="dopt"><input type="radio" name="DomeinActie" value="hebik" checked data-dactie><span class="dopt-b"><strong>Ik heb deze domeinnaam al</strong><small>We koppelen het pakket aan je bestaande domein.</small></span></label>
-                    <label class="dopt"><input type="radio" name="DomeinActie" value="registreren" data-dactie><span class="dopt-b"><strong>Registreer bij <?= e(company_name()) ?></strong><small data-dprijs>Wij registreren de domeinnaam voor je; de prijs komt erbij.</small></span></label>
-                    <label class="dopt"><input type="radio" name="DomeinActie" value="verhuizen" data-dactie><span class="dopt-b"><strong>Verhuis mijn domein</strong><small>We verhuizen je domeinnaam naar ons; de verhuisprijs komt erbij.</small></span></label>
+                    <label class="dopt"><input type="radio" name="DomeinActie" value="hebik" checked data-dactie><span class="dopt-b"><strong>Ik heb deze domeinnaam al</strong><small>Koppel aan bestaand domein.</small></span></label>
+                    <label class="dopt"><input type="radio" name="DomeinActie" value="registreren" data-dactie><span class="dopt-b"><strong>Registreer bij <?= e(company_name()) ?></strong><small data-dprijs>Wij registreren jouw domein.</small></span></label>
+                    <label class="dopt"><input type="radio" name="DomeinActie" value="verhuizen" data-dactie><span class="dopt-b"><strong>Verhuis mijn domein</strong><small>Verhuis domein naar ons.</small></span></label>
                 </div>
                 <div data-epp hidden><?= field('EppCode', 'Verhuiscode (EPP / authcode)', 'lock', '', 'text', [], 'placeholder="bijv. Xk9f-2LpQ-8mZn"') ?></div>
             </div></div>
