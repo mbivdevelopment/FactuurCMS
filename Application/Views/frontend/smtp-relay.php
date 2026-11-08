@@ -20,18 +20,9 @@
 </section>
 
 <section class="sec"><div class="container intro-split dn-split">
-    <div class="dn-visual" aria-hidden="true">
-        <div class="dn-browser">
-            <div class="dn-bar"><i></i><i></i><i></i><span class="dn-url"><?= icon('lock', 'icon icon-sm') ?> klantportaal · SMTP Relay · logboek</span></div>
-            <div class="dn-body dn-dns">
-                <div class="dn-dns-head"><strong><?= e($host) ?>:587</strong><span class="badge is-ok">Verbonden</span></div>
-                <?php foreach ([['ok', 'Orderbevestiging #2041', 'klant@voorbeeld.nl', 'Bezorgd'], ['ok', 'Wachtwoord resetten', 'jan@bedrijf.nl', 'Bezorgd'], ['ok', 'Factuur 2026-0188', 'administratie@klant.nl', 'Bezorgd'], ['warn', 'Nieuwsbrief november', 'info@oudadres.nl', 'Uitgesteld'], ['ok', 'Welkom bij jouwshop.nl', 'nieuw@klant.nl', 'Bezorgd']] as [$st, $sub, $to, $lbl]): ?>
-                <div class="dn-row sm-row"><span class="dn-dot dn-<?= $st ?>"></span><strong><?= e($sub) ?></strong><span class="dn-val"><?= e($to) ?></span><em><?= e($lbl) ?></em></div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-        <div class="dn-chip dn-c1"><?= icon('zap') ?> 99,8% bezorgd</div>
-        <div class="dn-chip dn-c2"><?= icon('lock') ?> STARTTLS / SSL</div>
+    <div class="solution-intro-photo">
+        <img src="<?= e(asset('img/qevanto-smtprelay.png')) ?>" alt="SMTP Relay-infrastructuur van Qevanto">
+        <span class="solution-photo-caption"><?= icon('send', 'icon icon-sm') ?> SMTP Relay bij Qevanto</span>
     </div>
     <div>
         <span class="eyebrow"><?= icon('send', 'icon icon-sm') ?> SMTP Relay</span>
