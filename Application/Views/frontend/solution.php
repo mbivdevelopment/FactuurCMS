@@ -4,6 +4,9 @@ $copy = [
     'Webhosting' => ['icon' => 'server', 'headline' => 'Webhosting voor websites die vooruit willen.', 'sub' => 'Een snelle, veilige en betrouwbare basis voor je website, webshop of online project — beheerd vanuit het eigen Qevanto Hostingpaneel.', 'visual' => 'Qevanto Hostingpaneel · Webhosting · Overzicht'],
     'Reseller Hosting' => ['icon' => 'users', 'headline' => 'Jouw hostingbedrijf, onze infrastructuur.', 'sub' => 'Bied klanten professionele hosting onder je eigen merk.', 'visual' => 'Resellerportaal · Klanten · Accounts'],
     'E-mail Hosting' => ['icon' => 'mail', 'headline' => 'Zakelijke e-mail zonder zorgen.', 'sub' => 'Betrouwbare mailboxen op je eigen domeinnaam, overal beschikbaar.', 'visual' => 'Webmail · Inbox · Beveiligde verbinding'],
+    'Informatieve Websites' => ['icon' => 'layout', 'headline' => 'Een website die jouw bedrijf laat groeien.', 'sub' => 'Een heldere, snelle en professionele website in jouw huisstijl.', 'visual' => 'Qevanto Webstudio · Website · Overzicht'],
+    'Webshops' => ['icon' => 'cart', 'headline' => 'Een webshop die voor je verkoopt.', 'sub' => 'Een gebruiksvriendelijke webshop met betalingen, voorraad en koppelingen.', 'visual' => 'Qevanto Webshop · Bestellingen · Overzicht'],
+    'API Koppelingen' => ['icon' => 'code', 'headline' => 'Laat je systemen samenwerken.', 'sub' => 'Betrouwbare koppelingen die gegevens automatisch tussen systemen uitwisselen.', 'visual' => 'Qevanto Integraties · API · Monitoring'],
 ];
 $c = $copy[(string) $soort] ?? ['icon' => $page['Icoon'], 'headline' => $page['Titel'], 'sub' => $page['Samenvatting'], 'visual' => $page['Titel']];
 $isWebhosting = $soort === 'Webhosting';
