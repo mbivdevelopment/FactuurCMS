@@ -710,7 +710,7 @@ body.site { font: 15.5px/1.6 'Outfit Variable', system-ui, -apple-system, 'Segoe
 .ck-sec .dline-code input { background: transparent; height: 38px; }
 .ck-sec .dline-code:focus-within { background: #fff; border-color: var(--primary); }
 /* keuzes */
-.ck-sec .dopts { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.ck-sec .dopts { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 10px; row-gap: 18px; }
 .ck-sec .dopt-b { padding: 16px 16px 16px 46px; border-width: 1px; border-radius: 8px; position: relative; }
 .ck-sec .dopt-b::before { content: ''; position: absolute; left: 16px; top: 18px; width: 18px; height: 18px; border-radius: 50%; border: 2px solid #c8cfdc; background: #fff; transition: border-color .15s, box-shadow .15s; }
 .ck-sec .dopt input:checked + .dopt-b { border-color: var(--primary); box-shadow: 0 0 0 1px var(--primary); background: #fff; }
