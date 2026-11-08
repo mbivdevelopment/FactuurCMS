@@ -9,6 +9,7 @@ $benefits = \App\Services\PageContent::benefits($soort, $page['Titel']); $steps 
             <span class="eyebrow"><?= icon($page['Icoon'], 'icon icon-sm') ?> <?= e($page['Titel']) ?></span>
             <h2 class="h-xl"><?= e($orderable ? $page['Titel'] . ' die gewoon werkt' : $page['Titel'] . ' zonder zorgen') ?></h2>
             <div class="prose"><?= rich_text((string) $page['Inhoud']) ?></div>
+            <?php if ($isDomain): ?><div class="info-box"><?= icon('info') ?><div><strong>Goed om te weten</strong><p>Een domeinnaam is direct actief na betaling en inclusief gratis DNS-beheer en automatische verlenging. Verhuizen kan ook — wij regelen de overstap.</p></div></div><?php endif; ?>
             <?php if ($img !== ''): ?><img class="page-img" src="<?= e($img) ?>" alt="<?= e($page['Titel']) ?>" style="margin-top:22px"><?php endif; ?>
         </div>
         <aside class="intro-aside">
@@ -37,7 +38,7 @@ $benefits = \App\Services\PageContent::benefits($soort, $page['Titel']); $steps 
 <?php if ($domains !== []): ?>
 <section class="sec<?= $products !== [] ? ' sec-alt' : '' ?>" id="pakketten"><div class="container">
     <div class="sec-head center"><div><span class="eyebrow"><?= icon('globe', 'icon icon-sm') ?> Domeinextensies</span><h2>Populaire extensies</h2><p>Prijzen per jaar, exclusief btw. Inclusief gratis DNS-beheer en automatische verlenging.</p></div></div>
-    <?= $partial('frontend._extensions', ['domains' => $domains]) ?>
+    <?= $partial('frontend._extensions', ['domains' => $domains, 'max' => 8]) ?>
 </div></section>
 <?php endif; ?>
 <section class="sec sec-dark"><div class="container">
