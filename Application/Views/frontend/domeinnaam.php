@@ -70,6 +70,35 @@
     <?= $partial('frontend._benefits', ['items' => $benefits]) ?>
 </div></section>
 
+<section class="sec"><div class="container intro-split dn-split dn-split-rev">
+    <div>
+        <span class="eyebrow"><?= icon('settings', 'icon icon-sm') ?> DNS-beheer &amp; verhuizen</span>
+        <h2 class="h-xl">Volledige controle over je domein</h2>
+        <div class="prose">
+            <p>Elk domein komt met gratis DNS-beheer in je klantportaal. Je past A-, CNAME-, MX- en TXT-records zelf aan — wijzigingen zijn binnen minuten actief. Koppel je domein aan onze hosting met één klik, of wijs hem naar een externe server of e-maildienst.</p>
+            <p>Verhuis je een domein naar ons? Voer de verhuiscode (EPP/auth-code) in en wij regelen de rest. Je website en e-mail blijven gewoon bereikbaar; de nameservers nemen we desgewenst één-op-één over.</p>
+            <ul>
+                <li>Alle recordtypes, inclusief SPF, DKIM en DMARC voor veilige e-mail</li>
+                <li>Transferlock en WHOIS-privacy standaard aan</li>
+                <li>Automatische verlenging — nooit meer een verlopen domein</li>
+            </ul>
+        </div>
+    </div>
+    <div class="dn-visual" aria-hidden="true">
+        <div class="dn-browser">
+            <div class="dn-bar"><i></i><i></i><i></i><span class="dn-url"><?= icon('lock', 'icon icon-sm') ?> klantportaal · DNS-beheer</span></div>
+            <div class="dn-body dn-dns">
+                <div class="dn-dns-head"><strong>jouwdomein.nl</strong><span class="badge is-ok">Actief</span></div>
+                <?php foreach ([['A', '@', '185.12.34.56'], ['A', 'www', '185.12.34.56'], ['MX', '@', 'mail.jouwdomein.nl'], ['TXT', '@', 'v=spf1 include:_spf.' . strtolower(company_name()) . '.nl ~all'], ['CNAME', 'autodiscover', 'mail.jouwdomein.nl']] as [$t, $n, $v]): ?>
+                <div class="dn-rec"><span class="dn-type"><?= e($t) ?></span><strong><?= e($n) ?></strong><span class="dn-val"><?= e($v) ?></span></div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <div class="dn-chip dn-c1"><?= icon('zap') ?> Binnen minuten actief</div>
+        <div class="dn-chip dn-c2"><?= icon('shield') ?> Transferlock aan</div>
+    </div>
+</div></section>
+
 <section class="sec sec-dark"><div class="container">
     <div class="sec-head center"><div><span class="eyebrow"><?= icon('refresh', 'icon icon-sm') ?> Hoe het werkt</span><h2>In vier stappen geregeld</h2><p>Van zoeken tot actief: snel, duidelijk en zonder gedoe.</p></div></div>
     <?= $partial('frontend._steps', ['items' => $steps]) ?>

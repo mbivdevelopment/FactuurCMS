@@ -1840,3 +1840,12 @@ a.sf-line:hover span { color: #fff; }
 .sec-grey { position: relative; overflow: hidden; background: #f3f5f9 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='700' viewBox='0 0 1600 700' fill='none' stroke='%230b1533' stroke-opacity='.07' stroke-width='1.5'%3E%3Cpath d='M1380 40l80 46v92l-80 46-80-46V86z'/%3E%3Cpath d='M1470 160l80 46v92l-80 46-80-46v-92z'/%3E%3Cpath d='M1290 160l80 46v92l-80 46-80-46v-92z'/%3E%3Cpath d='M1380 280l80 46v92l-80 46-80-46v-92z'/%3E%3Cpath d='M160 420l80 46v92l-80 46-80-46v-92z'/%3E%3Cpath d='M70 540l80 46v92l-80 46-80-46v-92z'/%3E%3Cpath d='M250 540l80 46v92l-80 46-80-46v-92z'/%3E%3Cpath d='M-100 700L500 100M0 700L600 100M100 700L700 100' stroke-opacity='.045'/%3E%3Cpath d='M900 700l600-600M1000 700l600-600' stroke-opacity='.045'/%3E%3C/svg%3E") center / cover no-repeat; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .sec-grey::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(11, 21, 51, .035) 1px, transparent 1px), linear-gradient(90deg, rgba(11, 21, 51, .035) 1px, transparent 1px); background-size: 44px 44px; pointer-events: none; }
 .sec-grey .container { position: relative; z-index: 1; }
+
+/* Domeinpagina: DNS-visual */
+.dn-dns { gap: 7px; }
+.dn-dns-head { display: flex; justify-content: space-between; align-items: center; padding: 4px 2px 10px; border-bottom: 1px solid var(--line); margin-bottom: 4px; font-size: 15px; }
+.dn-rec { display: grid; grid-template-columns: 58px 110px 1fr; gap: 12px; align-items: center; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; font-size: 13px; }
+.dn-type { display: inline-block; text-align: center; font-size: 11px; font-weight: 800; letter-spacing: .04em; color: var(--primary); background: var(--accent-soft); border-radius: 6px; padding: 3px 0; }
+.dn-val { color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dn-split-rev { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); }
+@media (max-width: 920px) { .dn-split-rev { grid-template-columns: 1fr; } .dn-split-rev .dn-visual { order: -1; } }
