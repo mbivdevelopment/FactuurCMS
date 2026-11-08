@@ -7,7 +7,7 @@ $kindTag = ['Webhosting' => 'Klaar om mee te groeien', 'Domeinnamen' => 'Jouw na
 $cards = [];
 foreach ($kindOrder as $k) { if (isset($kindPrices[$k]) && count($cards) < 4) { $cards[$k] = $kindPrices[$k]; } }
 foreach ($kindPrices as $k => $v) { if (count($cards) < 4 && !isset($cards[$k])) { $cards[$k] = $v; } }
-$kindUrl = static fn (string $k): string => isset($soortPages[$k]) ? '/oplossingen/' . $soortPages[$k] : ($k === 'Domeinnamen' ? '/domeinen' : '/contact');
+$kindUrl = static fn (string $k): string => isset($soortPages[$k]) ? page_path(['Slug' => $soortPages[$k]]) : ($k === 'Domeinnamen' ? '/domeinen' : '/contact');
 $tabs = [];
 foreach (['Domeinnamen', 'Webhosting', 'E-mail Hosting', 'Cloud VPS', 'Informatieve Websites', 'Webshops', 'VPN', 'Werkplek Beheer'] as $k) { if (isset($soortPages[$k]) || isset($kindPrices[$k])) { $tabs[] = $k; } }
 $score = (string) setting('reviews.score', ''); $faq = \App\Services\PageContent::faq(null, 'onze diensten', true); ?>

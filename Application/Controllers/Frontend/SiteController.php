@@ -121,6 +121,9 @@ final class SiteController extends Controller
 
     public function page(Request $request): Response
     {
+        if ((string) $request->param('slug') === 'domeinnaam-registreren') {
+            return $this->redirect('/domeinen');
+        }
         $page = Database::first('SELECT * FROM Paginas WHERE Slug = ? AND Zichtbaar = 1', [(string) $request->param('slug')]) ?? throw new HttpException(404, 'Deze pagina bestaat niet (meer).');
         $soort = self::soortForPage($page);
         $products = $soort !== null ? Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 AND Dienstsoort = ? ORDER BY Volgorde, Prijs, Id', [$soort]) : [];
@@ -227,11 +230,6 @@ final class SiteController extends Controller
             'timeline' => Database::all('SELECT * FROM Tijdlijn WHERE Zichtbaar = 1 ORDER BY Volgorde, Jaar, Id'),
             'datacenters' => Database::all('SELECT * FROM Datacenters WHERE Zichtbaar = 1 ORDER BY Volgorde, Id'),
         ]);
-    }
-
-    public function domeinnaam(Request $request): Response
-    {
-        return $this->redirect('/domeinen');
     }
 
     public function extensieRedirect(Request $request): Response

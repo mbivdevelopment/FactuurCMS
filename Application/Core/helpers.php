@@ -35,6 +35,12 @@ function base_path_url(): string
     return str_ends_with($script, '/index.php') ? rtrim(dirname($script), '/') : '';
 }
 
+/** Publiek pad van een oplossingenpagina; "Domeinnaam registreren" leeft op /domeinen. @param array<string,mixed> $page */
+function page_path(array $page): string
+{
+    return $page['Slug'] === 'domeinnaam-registreren' ? '/domeinen' : '/oplossingen/' . $page['Slug'];
+}
+
 function url(string $path = '/'): string
 {
     return base_path_url() . '/' . ltrim($path, '/');

@@ -52,7 +52,7 @@ $benefits = \App\Services\PageContent::benefits($soort, $page['Titel']); $steps 
 <?php if ($related !== []): ?>
 <section class="sec sec-alt"><div class="container">
     <div class="sec-head"><div><span class="eyebrow"><?= icon('layout', 'icon icon-sm') ?> <?= e($catLabel) ?></span><h2>Bekijk ook</h2><p>Andere oplossingen die hier goed bij passen.</p></div></div>
-    <div class="tiles"><?php foreach ($related as $r): ?><a class="mega-tile tile-card" href="<?= e(url('/oplossingen/' . $r['Slug'])) ?>"><span class="mt-i"><?= icon($r['Icoon']) ?></span><span><strong><?= e($r['Titel']) ?></strong><small><?= e((string) $r['Samenvatting']) ?></small></span></a><?php endforeach; ?></div>
+    <div class="tiles"><?php foreach ($related as $r): ?><a class="mega-tile tile-card" href="<?= e(url(page_path($r))) ?>"><span class="mt-i"><?= icon($r['Icoon']) ?></span><span><strong><?= e($r['Titel']) ?></strong><small><?= e((string) $r['Samenvatting']) ?></small></span></a><?php endforeach; ?></div>
 </div></section>
 <?php endif; ?>
 <?= $partial('frontend._cta', ['title' => $orderable ? 'Twijfel je welk pakket past?' : 'Benieuwd wat ' . $lower . ' voor jou kan betekenen?', 'text' => $orderable ? 'Onze specialisten adviseren je vrijblijvend over het juiste pakket en helpen bij de overstap.' : 'Plan een vrijblijvende kennismaking; je ontvangt binnen één werkdag een helder voorstel.']) ?>
