@@ -1937,4 +1937,6 @@ a.sf-line:hover span { color: #fff; }
 .solution-rack { width: min(430px, 100%); }
 .mail-rack .hh-bays { align-items: center; gap: 8px; }
 .mail-rack .hh-bays .icon { width: 18px; height: 18px; color: #ffb08e; filter: drop-shadow(0 0 5px rgba(255, 90, 31, .55)); }
+.api-rack .hh-bays { align-items: center; gap: 8px; }
+.api-rack .hh-bays .icon { width: 18px; height: 18px; color: #9fc4ff; filter: drop-shadow(0 0 5px rgba(94, 160, 255, .55)); }
 @media (max-width: 900px) { .solution-photo-wrap { justify-items: center; } .solution-photo-card { transform: none; } }

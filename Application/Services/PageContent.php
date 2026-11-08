@@ -134,12 +134,12 @@ final class PageContent
                 ['shield', 'Veilig en PCI-proof', 'Betaalgegevens blijven bij de betaalprovider.'],
             ],
             'API Koppelingen' => [
-                ['code', 'Systemen die samenwerken', 'Boekhouding, CRM, webshop en voorraad praten automatisch met elkaar.'],
-                ['refresh', 'Realtime synchronisatie', 'Gegevens altijd actueel, zonder handmatig overtypen.'],
-                ['shield', 'Veilig en gelogd', 'Versleutelde koppelingen met monitoring en foutafhandeling.'],
-                ['box', 'Standaard én maatwerk', 'Exact, Moneybird, Shopify, Salesforce of jouw eigen API.'],
-                ['trend', 'Schaalbaar', 'Gebouwd om mee te groeien met je volumes.'],
-                ['headset', 'Beheer en onderhoud', 'Wij houden koppelingen werkend bij API-wijzigingen.'],
+                ['code', 'Systemen die samenwerken', 'Alle systemen werken automatisch samen.'],
+                ['refresh', 'Realtime synchronisatie', 'Gegevens blijven altijd actueel.'],
+                ['shield', 'Veilig en gelogd', 'Veilige koppelingen met duidelijke logging.'],
+                ['box', 'Standaard én maatwerk', 'Koppelingen voor bekende en eigen systemen.'],
+                ['trend', 'Schaalbaar', 'Groeit mee met jouw volumes.'],
+                ['headset', 'Beheer en onderhoud', 'Wij onderhouden koppelingen bij wijzigingen.'],
             ],
             'Marketing SEO' => [
                 ['trend', 'Hoger in Google', 'Technische en inhoudelijke optimalisatie voor duurzame posities.'],

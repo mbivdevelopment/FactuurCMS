@@ -12,6 +12,7 @@ $c = $copy[(string) $soort] ?? ['icon' => $page['Icoon'], 'headline' => $page['T
 $isWebhosting = $soort === 'Webhosting';
 $isEmailHosting = $soort === 'E-mail Hosting';
 $isReseller = $soort === 'Reseller Hosting';
+$isApi = $soort === 'API Koppelingen';
 $blogLabel = $isReseller ? 'Reseller Hosting' : 'Webhosting';
 ?>
 <section class="hhero hero2">
@@ -24,10 +25,10 @@ $blogLabel = $isReseller ? 'Reseller Hosting' : 'Webhosting';
             <div class="hh-btns"><a class="btn btn-lg" href="#pakketten"><?= icon('cart', 'icon icon-sm') ?> Bekijk pakketten</a><a class="btn btn-lg btn-ghost" href="#werking">Hoe het werkt <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
         </div>
         <div class="hh-visual solution-photo-wrap">
-            <?php if ($isWebhosting || $isEmailHosting || $isReseller): ?>
-            <div class="hh-rack solution-rack<?= $isEmailHosting ? ' mail-rack' : ($isReseller ? ' reseller-rack' : '') ?>" aria-label="<?= $isEmailHosting ? 'Mailserver met actieve statuslampjes' : ($isReseller ? 'Reseller-server met actieve statuslampjes' : 'Rack-server met actieve statuslampjes') ?>">
+            <?php if ($isWebhosting || $isEmailHosting || $isReseller || $isApi): ?>
+            <div class="hh-rack solution-rack<?= $isEmailHosting ? ' mail-rack' : ($isReseller ? ' reseller-rack' : ($isApi ? ' api-rack' : '')) ?>" aria-label="<?= $isEmailHosting ? 'Mailserver met actieve statuslampjes' : ($isReseller ? 'Reseller-server met actieve statuslampjes' : ($isApi ? 'API-server met actieve statuslampjes' : 'Rack-server met actieve statuslampjes')) ?>">
                 <?php for ($i = 0; $i < 6; $i++): ?>
-                <div class="hh-unit"><span class="hh-bays"><?= $isEmailHosting ? icon('mail', 'icon icon-sm') : ($isReseller ? icon('users', 'icon icon-sm') : '') ?><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="hh-leds"><b></b><b></b><b></b></span></div>
+                <div class="hh-unit"><span class="hh-bays"><?= $isEmailHosting ? icon('mail', 'icon icon-sm') : ($isReseller ? icon('users', 'icon icon-sm') : ($isApi ? icon('code', 'icon icon-sm') : '')) ?><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="hh-leds"><b></b><b></b><b></b></span></div>
                 <?php endfor; ?>
                 <div class="hh-base"></div>
             </div>
@@ -41,8 +42,8 @@ $blogLabel = $isReseller ? 'Reseller Hosting' : 'Webhosting';
     </div>
 </section>
 
-<section class="sec"><div class="container intro-split dn-split<?= ($isWebhosting || $isEmailHosting || $isReseller) ? ' solution-intro-webhosting' : '' ?>">
-    <?php if ($isWebhosting || $isEmailHosting || $isReseller): ?>
+<section class="sec"><div class="container intro-split dn-split<?= ($isWebhosting || $isEmailHosting || $isReseller || $isApi) ? ' solution-intro-webhosting' : '' ?>">
+    <?php if ($isWebhosting || $isEmailHosting || $isReseller || $isApi): ?>
     <?php if ($isEmailHosting): ?>
     <div class="solution-intro-server">
         <div class="hh-rack solution-rack mail-rack" aria-label="Mailserver met actieve statuslampjes">
@@ -50,10 +51,10 @@ $blogLabel = $isReseller ? 'Reseller Hosting' : 'Webhosting';
             <div class="hh-base"></div>
         </div>
     </div>
-    <?php elseif ($isReseller): ?>
+    <?php elseif ($isReseller || $isApi): ?>
     <div class="solution-intro-photo">
-        <img src="<?= e(asset('img/qevanto-datacenter.jpg')) ?>" alt="Resellerhosting-infrastructuur van Qevanto">
-        <span class="solution-photo-caption"><?= icon('users', 'icon icon-sm') ?> Resellerhosting bij Qevanto</span>
+        <img src="<?= e(asset('img/qevanto-datacenter.jpg')) ?>" alt="<?= e($isApi ? 'API-infrastructuur van Qevanto' : 'Resellerhosting-infrastructuur van Qevanto') ?>">
+        <span class="solution-photo-caption"><?= icon($isApi ? 'code' : 'users', 'icon icon-sm') ?> <?= $isApi ? 'API-infrastructuur bij Qevanto' : 'Resellerhosting bij Qevanto' ?></span>
     </div>
     <?php else: ?>
     <div class="solution-intro-photo">
@@ -73,6 +74,10 @@ $blogLabel = $isReseller ? 'Reseller Hosting' : 'Webhosting';
             <p>Resellerhosting geeft je de mogelijkheid om zelf hosting aan te bieden aan klanten, terwijl Qevanto de servers, beveiliging en technische infrastructuur beheert. Je bouwt je eigen dienstverlening op zonder zelf een datacenter of serveromgeving te hoeven onderhouden.</p>
             <p>Via het eigen Qevanto Hostingpaneel maak je klantaccounts aan, beheer je pakketten en houd je overzicht over je hostingomgeving. Je kunt onder je eigen merk werken met eigen nameservers en een professionele klantbeleving.</p>
             <p>De infrastructuur is ontworpen om mee te groeien met jouw klantenbestand. Nieuwe accounts voeg je eenvoudig toe, terwijl back-ups, monitoring en de dagelijkse technische werking op de achtergrond geregeld blijven.</p>
+            <?php elseif ($isApi): ?>
+            <p>API-koppelingen zorgen ervoor dat je systemen automatisch met elkaar samenwerken. In plaats van gegevens telkens handmatig over te typen, wisselen je webshop, boekhouding, CRM, voorraadbeheer en andere applicaties informatie uit wanneer dat nodig is.</p>
+            <p>Qevanto ontwikkelt koppelingen die passen bij jouw processen en bestaande software. We brengen eerst in kaart welke gegevens moeten worden uitgewisseld en bouwen daarna een veilige verbinding met duidelijke logging en foutafhandeling.</p>
+            <p>Zo blijven gegevens actueel, worden fouten sneller zichtbaar en houd je meer tijd over voor je organisatie. De koppeling kan meegroeien met je volumes en wordt onderhouden wanneer een aangesloten systeem of API verandert.</p>
             <?php else: ?>
             <p>Webhosting is de serverruimte waar de bestanden, afbeeldingen en databases van je website worden opgeslagen. Zodra iemand je domeinnaam bezoekt, zorgt onze infrastructuur ervoor dat je website snel en veilig wordt geladen.</p>
             <p>Bij Qevanto draait je website op moderne NVMe-servers in Nederlandse datacenters. Je krijgt een stabiele basis voor een bedrijfswebsite, webshop, blog of online platform, zonder dat je zelf servers hoeft te beheren.</p>
