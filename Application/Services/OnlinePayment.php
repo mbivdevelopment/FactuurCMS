@@ -16,7 +16,7 @@ final class OnlinePayment
     {
         $out = [];
         if ((bool) setting('mollie.actief', false) && Setting::getSecret('mollie.apikey') !== '') {
-            $out['mollie'] = 'Betalen met iDEAL of kaart';
+            $out['mollie'] = 'Betaal met iDeal';
         }
         if ((bool) setting('cryptomus.actief', false) && Setting::getSecret('cryptomus.apikey') !== '' && (string) setting('cryptomus.merchant', '') !== '') {
             $out['cryptomus'] = 'Betalen met crypto';

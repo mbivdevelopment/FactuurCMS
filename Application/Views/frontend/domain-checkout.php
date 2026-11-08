@@ -91,8 +91,8 @@ $guest = $user === null; $staff = $user !== null && $user->isStaff(); $u = stati
                 </div>
                 <div class="card"><div class="card-head"><h2><?= icon('tag') ?> Betalen</h2></div><div class="card-body stack">
                     <div class="dopts dopts-2">
-                        <?php $first = true; foreach ($methods as $key => $label): ?><label class="dopt"><input type="radio" name="Betaalmethode" value="<?= e($key) ?>"<?= $first ? ' checked' : '' ?>><span class="dopt-b"><strong><?= e($label) ?></strong><small><?= $key === 'mollie' ? 'Direct betaald, direct vastgelegd.' : 'Bitcoin, USDT en meer.' ?></small></span></label><?php $first = false; endforeach; ?>
-                        <label class="dopt"><input type="radio" name="Betaalmethode" value="factuur"<?= $methods === [] ? ' checked' : '' ?>><span class="dopt-b"><strong>Factuur</strong><small>Je betaalt later via de factuur; we leggen vast na betaling.</small></span></label>
+                        <?php $first = true; foreach ($methods as $key => $label): ?><label class="dopt"><input type="radio" name="Betaalmethode" value="<?= e($key) ?>"<?= $first ? ' checked' : '' ?>><span class="dopt-b"><strong><?= e($label) ?></strong><small><?= $key === 'mollie' ? 'Direct en veilig betalen.' : 'Betaal met crypto.' ?></small></span></label><?php $first = false; endforeach; ?>
+                        <label class="dopt"><input type="radio" name="Betaalmethode" value="factuur"<?= $methods === [] ? ' checked' : '' ?>><span class="dopt-b"><strong>Factuur</strong><small>Betaal later per factuur.</small></span></label>
                     </div>
                     <label class="switch"><input type="checkbox" name="Akkoord" value="1" required> Ik ga akkoord met de algemene voorwaarden</label>
                 </div></div>
