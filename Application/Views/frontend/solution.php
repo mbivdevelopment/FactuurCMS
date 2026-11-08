@@ -13,7 +13,7 @@ $isWebhosting = $soort === 'Webhosting';
 $isEmailHosting = $soort === 'E-mail Hosting';
 $isReseller = $soort === 'Reseller Hosting';
 $isApi = $soort === 'API Koppelingen';
-$blogLabel = $isReseller ? 'Reseller Hosting' : 'Webhosting';
+$blogLabel = $isReseller ? 'Reseller Hosting' : ($isEmailHosting ? 'E-mail Hosting' : 'Webhosting');
 ?>
 <section class="hhero hero2">
     <div class="hh-float" aria-hidden="true"><?php foreach ([$c['icon'], 'shield', 'zap', 'server', 'lock', 'cloud', 'users', 'refresh'] as $i => $ic): ?><span class="hh-f hh-f<?= $i ?>"><?= icon($ic) ?></span><?php endforeach; ?></div>
