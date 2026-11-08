@@ -31,7 +31,8 @@ final class Service extends Model
     public const CAT_GROUPS = [
         'domeinen' => ['Domeinnamen', 'globe', ['domeinnamen']],
         'ssl' => ['SSL certificaten', 'shield', ['ssl']],
-        'webhosting' => ['Webhosting', 'server', ['webhosting', 'reseller', 'e-mailhosting', 'smtp']],
+        'webhosting' => ['Webhosting', 'server', ['webhosting', 'reseller', 'e-mailhosting']],
+        'smtp' => ['SMTP Relay', 'send', ['smtp']],
         'servers' => ['Servers', 'cpu', ['vps', 'dedicated', 'big-storage']],
         'ict' => ['ICT', 'zap', ['connectiviteit', 'ict']],
         'development' => ['Development', 'code', ['websites']],
