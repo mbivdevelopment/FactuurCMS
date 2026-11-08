@@ -80,7 +80,7 @@ $isWebhosting = $soort === 'Webhosting';
 <section class="sec sec-dark" id="werking"><div class="container"><div class="sec-head center"><div><span class="eyebrow"><?= icon('refresh', 'icon icon-sm') ?> Hoe het werkt</span><h2>In vier stappen geregeld</h2><p>Van bestelling tot actieve dienst: snel, duidelijk en zonder gedoe.</p></div></div><?= $partial('frontend._steps', ['items' => $steps]) ?></div></section>
 <?php if (($posts ?? []) !== []): ?>
 <section class="sec solution-blog-section"><div class="container">
-    <div class="sec-head"><div><span class="eyebrow"><?= icon('note', 'icon icon-sm') ?> Webhosting kennisbank</span><h2>Lees meer over webhosting</h2><p>Praktische uitleg over snelheid, veiligheid, updates en het beheer van je website.</p></div><a class="btn btn-ghost" href="<?= e(url('/blog?categorie=Webhosting')) ?>">Alle webhostingartikelen <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
+    <div class="sec-head"><div><span class="eyebrow"><?= icon('note', 'icon icon-sm') ?> Webhosting kennisbank</span><h2>Lees meer over webhosting</h2><p>Praktische uitleg over snelheid, veiligheid, updates en het beheer van je website.</p></div></div>
     <?= $partial('frontend._carousel', ['items' => $posts, 'base' => '/blog/', 'icon' => 'note', 'more' => 'Lees artikel', 'autoplay' => true, 'nav_top' => true]) ?>
 </div></section>
 <?php endif; ?>
