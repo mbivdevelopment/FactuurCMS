@@ -114,6 +114,17 @@ $blogLabel = $isReseller ? 'Reseller Hosting' : ($isEmailHosting ? 'E-mail Hosti
     <?php endif; ?>
 </div></section>
 
+<?php if ($isApi): ?>
+<section class="sec integration-logo-section"><div class="container">
+    <div class="sec-head center"><div><span class="eyebrow"><?= icon('link', 'icon icon-sm') ?> Integraties</span><h2>Koppel met de tools die je al gebruikt</h2><p>Van boekhouding en betalingen tot voorraad en bedrijfssoftware: jouw systemen werken samen vanuit één betrouwbare koppeling.</p></div></div>
+    <div class="logo-grid">
+        <?php foreach (['exact' => 'Exact', 'moneybird' => 'Moneybird', 'mollie' => 'Mollie', 'stripe' => 'Stripe', 'odoo' => 'Odoo', 'informer' => 'Informer', 'yuki' => 'Yuki', 'snelstart' => 'SnelStart'] as $slug => $name): ?>
+        <span class="logo-item"><img src="<?= e(asset('img/logos/integrations/' . $slug . '.svg')) ?>" alt="" loading="lazy"><?= e($name) ?></span>
+        <?php endforeach; ?>
+    </div>
+</div></section>
+<?php endif; ?>
+
 <?php if ($products !== []): ?><section class="sec sec-grey" id="pakketten"><div class="container">
     <div class="sec-head center"><div><span class="eyebrow"><?= icon('box', 'icon icon-sm') ?> Pakketten</span><h2>Kies het pakket dat bij je past</h2><p>Alle prijzen zijn exclusief btw. Bestel direct online; upgraden kan altijd.</p></div></div>
     <?= $partial('frontend._plans', ['products' => $products]) ?>
