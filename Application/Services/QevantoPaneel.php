@@ -24,7 +24,7 @@ final class QevantoPaneel
         return self::get('/api/subscriptions');
     }
 
-    /** Pakketten (hosting, reseller, VPN, werkplek). @return list<array<string, mixed>> */
+    /** Pakketten (hosting, reseller, VPN, werkplek en SMTP Relay). @return list<array<string, mixed>> */
     public static function packages(): array
     {
         return self::get('/api/packages');
@@ -99,9 +99,17 @@ final class QevantoPaneel
         'databases' => '%s databases', 'ftpAccounts' => '%s FTP-accounts', 'cronJobs' => '%s cronjobs', 'memoryMb' => '%s MB geheugen',
         'phpWorkers' => '%s PHP-workers', 'cpuPercent' => '%s%% CPU', 'netMbit' => '%s Mbit/s internetsnelheid', 'cacheMb' => '%s MB Redis-cache',
         'customers' => '%s klanten', 'subscriptions' => '%s abonnementen', 'peers' => '%s apparaten', 'workplaces' => '%s werkplekken',
+        'monthlyLimit' => '%s berichten per maand', 'senderDomains' => '%s afzenderdomein(en)',
+        'logRetentionDays' => '%s dagen verzendlogs', 'maxMessageMb' => '%s MB maximale berichtgrootte',
     ];
 
-    private const FEATURE_ICONS = ['websites' => 'globe', 'diskGb' => 'box', 'bandwidthGb' => 'zap', 'mailboxes' => 'mail', 'databases' => 'server', 'ftpAccounts' => 'link', 'cronJobs' => 'clock', 'memoryMb' => 'cpu', 'phpWorkers' => 'code', 'cpuPercent' => 'cpu', 'netMbit' => 'zap', 'cacheMb' => 'zap', 'customers' => 'users', 'subscriptions' => 'server', 'peers' => 'shield', 'workplaces' => 'headset'];
+    private const FEATURE_ICONS = [
+        'websites' => 'globe', 'diskGb' => 'box', 'bandwidthGb' => 'zap', 'mailboxes' => 'mail', 'databases' => 'server',
+        'ftpAccounts' => 'link', 'cronJobs' => 'clock', 'memoryMb' => 'cpu', 'phpWorkers' => 'code', 'cpuPercent' => 'cpu',
+        'netMbit' => 'zap', 'cacheMb' => 'zap', 'customers' => 'users', 'subscriptions' => 'server', 'peers' => 'shield',
+        'workplaces' => 'headset', 'monthlyLimit' => 'send', 'senderDomains' => 'globe', 'logRetentionDays' => 'clock',
+        'maxMessageMb' => 'file',
+    ];
 
     private const SINGULAR = ['websites' => 'website', 'mailboxen' => 'mailbox', 'databases' => 'database', 'FTP-accounts' => 'FTP-account', 'cronjobs' => 'cronjob', 'PHP-workers' => 'PHP-worker', 'klanten' => 'klant', 'abonnementen' => 'abonnement', 'apparaten' => 'apparaat', 'werkplekken' => 'werkplek'];
 
@@ -121,6 +129,18 @@ final class QevantoPaneel
         }
         if (!empty($limits['ssh'])) {
             $out[] = ['icoon' => 'lock', 'tekst' => 'SSH-toegang'];
+        }
+        foreach ([
+            'smtpAccess' => ['SMTP-toegang', 'send'],
+            'spf' => ['SPF', 'shield'],
+            'dkim' => ['DKIM', 'lock'],
+            'dmarc' => ['DMARC', 'shield'],
+            'tls' => ['TLS-versleuteling', 'lock'],
+            'deliveryLogs' => ['Verzendlogs', 'file'],
+        ] as $key => [$label, $icon]) {
+            if (!empty($limits[$key])) {
+                $out[] = ['icoon' => $icon, 'tekst' => $label];
+            }
         }
 
         return $out;
