@@ -131,7 +131,7 @@ final class SiteController extends Controller
         $products = $products !== [] ? $products : ((string) $page['ProductGroep'] !== '' ? Product::query('SELECT * FROM Producten WHERE Zichtbaar = 1 AND Groep = ? ORDER BY Volgorde, Id', [$page['ProductGroep']]) : []);
         [$domains, $products] = self::splitExtensions($products);
         if (in_array($soort, ['Webhosting', 'Reseller Hosting', 'E-mail Hosting', 'Informatieve Websites', 'Webshops', 'API Koppelingen'], true)) {
-            $blogCategory = in_array($soort, ['Webhosting', 'Reseller Hosting', 'E-mail Hosting'], true) ? $soort : null;
+            $blogCategory = in_array($soort, ['Webhosting', 'Reseller Hosting', 'E-mail Hosting', 'Informatieve Websites', 'Webshops', 'API Koppelingen'], true) ? $soort : null;
             $posts = $blogCategory !== null
                 ? Database::all('SELECT * FROM BlogBerichten WHERE Zichtbaar = 1 AND PublicatieDatum <= CURDATE() AND Categorie = ? ORDER BY PublicatieDatum DESC, Id DESC LIMIT 9', [$blogCategory])
                 : [];
