@@ -33,8 +33,6 @@
     </div>
 </section>
 
-</div></section>
-
 <section class="sec"><div class="container intro-split">
     <div>
         <span class="eyebrow"><?= icon('globe', 'icon icon-sm') ?> Domeinnaam registreren</span>
