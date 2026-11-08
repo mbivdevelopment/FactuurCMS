@@ -6,6 +6,7 @@ $copy = [
     'E-mail Hosting' => ['icon' => 'mail', 'headline' => 'Zakelijke e-mail zonder zorgen.', 'sub' => 'Betrouwbare mailboxen op je eigen domeinnaam, overal beschikbaar.', 'visual' => 'Webmail · Inbox · Beveiligde verbinding'],
 ];
 $c = $copy[(string) $soort] ?? ['icon' => $page['Icoon'], 'headline' => $page['Titel'], 'sub' => $page['Samenvatting'], 'visual' => $page['Titel']];
+$isWebhosting = $soort === 'Webhosting';
 ?>
 <section class="hhero hero2">
     <div class="hh-float" aria-hidden="true"><?php foreach ([$c['icon'], 'shield', 'zap', 'server', 'lock', 'cloud', 'users', 'refresh'] as $i => $ic): ?><span class="hh-f hh-f<?= $i ?>"><?= icon($ic) ?></span><?php endforeach; ?></div>
@@ -27,7 +28,22 @@ $c = $copy[(string) $soort] ?? ['icon' => $page['Icoon'], 'headline' => $page['T
     </div>
 </section>
 
-<section class="sec"><div class="container intro-split dn-split">
+<section class="sec"><div class="container intro-split dn-split<?= $isWebhosting ? ' solution-intro-webhosting' : '' ?>">
+    <?php if ($isWebhosting): ?>
+    <div class="solution-intro-photo">
+        <img src="<?= e(asset('img/qevanto-datacenter.jpg')) ?>" alt="Servers in een datacenter van Qevanto">
+        <span class="solution-photo-caption"><?= icon('server', 'icon icon-sm') ?> Hostinginfrastructuur van Qevanto</span>
+    </div>
+    <div>
+        <span class="eyebrow"><?= icon('server', 'icon icon-sm') ?> Webhosting bij Qevanto</span>
+        <h2 class="h-xl">Een betrouwbare plek voor je website</h2>
+        <div class="prose">
+            <p>Webhosting is de serverruimte waar de bestanden, afbeeldingen en databases van je website worden opgeslagen. Zodra iemand je domeinnaam bezoekt, zorgt onze infrastructuur ervoor dat je website snel en veilig wordt geladen.</p>
+            <p>Bij Qevanto draait je website op moderne NVMe-servers in Nederlandse datacenters. Je krijgt een stabiele basis voor een bedrijfswebsite, webshop, blog of online platform, zonder dat je zelf servers hoeft te beheren.</p>
+            <p>Via het eigen Qevanto Hostingpaneel regel je alles op één plek. Je beheert je website, domeinen, databases, SSL en e-mail vanuit een duidelijke omgeving. Na betaling wordt je hosting automatisch geactiveerd en kun je direct aan de slag.</p>
+        </div>
+    </div>
+    <?php else: ?>
     <div class="dn-visual" aria-hidden="true">
         <div class="dn-browser">
             <div class="dn-bar"><i></i><i></i><i></i><span class="dn-url"><?= icon($c['icon'], 'icon icon-sm') ?> <?= e($c['visual']) ?></span></div>
@@ -45,6 +61,7 @@ $c = $copy[(string) $soort] ?? ['icon' => $page['Icoon'], 'headline' => $page['T
         <div class="prose"><?= rich_text((string) $page['Inhoud']) ?></div>
         <div class="info-box"><?= icon('shield') ?><div><strong>Goed om te weten</strong><p>Je beheert alles vanuit één klantportaal. Na betaling wordt je dienst automatisch geactiveerd en staan de gegevens direct klaar.</p></div></div>
     </div>
+    <?php endif; ?>
 </div></section>
 
 <?php if ($products !== []): ?><section class="sec sec-grey" id="pakketten"><div class="container">
