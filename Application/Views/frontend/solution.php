@@ -45,11 +45,9 @@ $blogLabel = $isReseller ? 'Reseller Hosting' : 'Webhosting';
 <section class="sec"><div class="container intro-split dn-split<?= ($isWebhosting || $isEmailHosting || $isReseller || $isApi) ? ' solution-intro-webhosting' : '' ?>">
     <?php if ($isWebhosting || $isEmailHosting || $isReseller || $isApi): ?>
     <?php if ($isEmailHosting): ?>
-    <div class="solution-intro-server">
-        <div class="hh-rack solution-rack mail-rack" aria-label="Mailserver met actieve statuslampjes">
-            <?php for ($i = 0; $i < 5; $i++): ?><div class="hh-unit"><span class="hh-bays"><?= icon('mail', 'icon icon-sm') ?><i></i><i></i><i></i><i></i><i></i></span><span class="hh-leds"><b></b><b></b><b></b></span></div><?php endfor; ?>
-            <div class="hh-base"></div>
-        </div>
+    <div class="solution-intro-photo">
+        <img src="<?= e(asset('img/qevanto-emailhosting.png')) ?>" alt="E-mailhosting-infrastructuur van Qevanto">
+        <span class="solution-photo-caption"><?= icon('mail', 'icon icon-sm') ?> E-mailhosting bij Qevanto</span>
     </div>
     <?php elseif ($isReseller || $isApi): ?>
     <div class="solution-intro-photo">
