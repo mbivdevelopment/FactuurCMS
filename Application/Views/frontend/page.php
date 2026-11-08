@@ -9,7 +9,7 @@ $benefits = \App\Services\PageContent::benefits($soort, $page['Titel']); $steps 
             <span class="eyebrow"><?= icon($page['Icoon'], 'icon icon-sm') ?> <?= e($page['Titel']) ?></span>
             <h2 class="h-xl"><?= e($orderable ? $page['Titel'] . ' die gewoon werkt' : $page['Titel'] . ' zonder zorgen') ?></h2>
             <div class="prose"><?= rich_text((string) $page['Inhoud']) ?></div>
-            <?php if ($isDomain): ?><div class="info-box"><?= icon('info') ?><div><strong>Goed om te weten</strong><p>Een domeinnaam is direct actief na betaling en inclusief gratis DNS-beheer en automatische verlenging. Verhuizen kan ook — wij regelen de overstap.</p></div></div><?php endif; ?>
+            <?php if ($isDomain): ?><div class="info-box"><?= icon('globe') ?><div><strong>Goed om te weten</strong><p>Een domeinnaam is direct actief na betaling en inclusief gratis DNS-beheer en automatische verlenging. Verhuizen kan ook — wij regelen de overstap.</p></div></div><?php endif; ?>
             <?php if ($img !== ''): ?><img class="page-img" src="<?= e($img) ?>" alt="<?= e($page['Titel']) ?>" style="margin-top:22px"><?php endif; ?>
         </div>
         <aside class="intro-aside">
