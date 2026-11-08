@@ -2,6 +2,7 @@
 <h1>Account aanmaken</h1>
 <form method="post" action="<?= e(url('/registreren')) ?>" class="stack">
     <?= csrf_field() ?>
+    <?php if ($request->string('ref') !== ''): ?><input type="hidden" name="ref" value="<?= e($request->string('ref')) ?>"><?php endif; ?>
     <div class="form-grid">
         <?= field('Voornaam', 'Voornaam', 'user', '', 'text', [], 'required') ?>
         <?= field('Achternaam', 'Achternaam', 'user', '', 'text', [], 'required') ?>

@@ -13,6 +13,7 @@ use App\Core\Request;
 use App\Core\Response;
 use App\Core\Session;
 use App\Models\User;
+use App\Services\ReferralService;
 
 final class AuthController extends Controller
 {
@@ -52,6 +53,7 @@ final class AuthController extends Controller
             'Telefoon' => 'max:40',
             'Wachtwoord' => 'required|min:8|confirmed',
         ]);
+        $referralCode = strtoupper(trim($request->string('ref')));
         $user = User::create([
             'Rol' => 'klant',
             'Voornaam' => $data['Voornaam'],
@@ -62,6 +64,8 @@ final class AuthController extends Controller
             'Wachtwoord' => Auth::hash((string) $data['Wachtwoord']),
             'Actief' => 1,
         ]);
+        ReferralService::code($user);
+        ReferralService::attach($user, $referralCode);
         Log::db('registratie', $user->Email, $user->id());
         [$sub, $body] = Mailer::tpl('welkom', ['voornaam' => $user->Voornaam, 'klantnummer' => $user->Nummer, 'link' => absolute_url('/login')]);
         Mailer::send((string) $user->Email, $sub, $body);

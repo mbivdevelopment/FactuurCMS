@@ -69,6 +69,7 @@ $router->group('klant', ['csrf', 'auth', 'klant'], static function ($router): vo
     $router->post('/diensten/{id}/smtp/wachtwoord', 'Klant\\PortalController@serviceSmtpPassword');
     $router->get('/tegoed', 'Klant\\PortalController@wallet');
     $router->post('/tegoed', 'Klant\\PortalController@topup');
+    $router->get('/referrals', 'Klant\\PortalController@referrals');
     $router->get('/facturen', 'Klant\\PortalController@invoices');
     $router->get('/offertes', 'Klant\\PortalController@quotes');
     $router->get('/documenten/{id}', 'Klant\\PortalController@document');
@@ -171,6 +172,7 @@ $router->group('beheer', ['csrf', 'auth', 'staff'], static function ($router): v
     $router->delete('/afspraken/{id}', 'Beheer\\ContentController@destroy');
 
     $router->get('/btw', 'Beheer\\VatController@index');
+    $router->get('/referrals', 'Beheer\\ReferralController@index');
     $router->get('/contracten', 'Beheer\\ContentController@index');
     $router->get('/contracten/nieuw', 'Beheer\\ContentController@create');
     $router->post('/contracten', 'Beheer\\ContentController@store');

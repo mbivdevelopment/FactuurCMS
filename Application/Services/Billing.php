@@ -256,6 +256,7 @@ final class Billing
             if ((string) $doc->Onderwerp === Wallet::TOPUP_SUBJECT && ($customer = $doc->customer()) !== null) {
                 Wallet::mutate($customer, (int) $doc->Totaal, Wallet::TOPUP_SUBJECT . ' (' . $doc->Nummer . ')', $doc->id());
             }
+            ReferralService::rewardForPayment($doc, $amount);
             foreach ($doc->lines() as $line) {
                 if ($line['DienstId'] !== null) {
                     Database::run("UPDATE Diensten SET Status = 'actief' WHERE Id = ? AND Status = 'in_afwachting'", [$line['DienstId']]);

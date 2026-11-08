@@ -264,6 +264,26 @@ final class PortalController extends Controller
         return $this->view('klant.tegoed', ['saldo' => Wallet::balance($user), 'mutaties' => $mutaties, 'methods' => OnlinePayment::enabled()]);
     }
 
+    public function referrals(Request $request): Response
+    {
+        $user = Auth::user();
+        $code = \App\Services\ReferralService::code($user);
+        $rows = Database::all(
+            "SELECT r.*, CONCAT_WS(' ', u.Voornaam, u.Achternaam) AS Naam, COALESCE(SUM(rb.Bedrag), 0) AS Beloond
+             FROM Referrals r JOIN Gebruikers u ON u.Id = r.AangebrachtId
+             LEFT JOIN ReferralBeloningen rb ON rb.ReferralId = r.Id
+             WHERE r.AanbrengerId = ? GROUP BY r.Id ORDER BY r.Id DESC",
+            [$user->id()]
+        );
+
+        return $this->view('klant.referrals', [
+            'code' => $code,
+            'link' => absolute_url('/registreren?ref=' . rawurlencode($code)),
+            'rows' => $rows,
+            'summary' => \App\Services\ReferralService::summary($user->id()),
+        ]);
+    }
+
     /** Maakt een opwaardeer-factuur en stuurt door naar de factuur (daar betalen). */
     public function topup(Request $request): Response
     {

@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS Gebruikers (
     Achternaam VARCHAR(80) NOT NULL DEFAULT '',
     Bedrijfsnaam VARCHAR(150) NULL,
     Tegoed INT NOT NULL DEFAULT 0,
+    ReferralCode VARCHAR(20) NULL,
     Type VARCHAR(20) NOT NULL DEFAULT 'klant',
     Telefoon VARCHAR(40) NULL,
     Adres VARCHAR(150) NULL,
@@ -28,6 +29,7 @@ CREATE TABLE IF NOT EXISTS Gebruikers (
     BijgewerktOp DATETIME NULL,
     UNIQUE KEY UkEmail (Email),
     UNIQUE KEY UkNummer (Nummer),
+    UNIQUE KEY UkReferralCode (ReferralCode),
     KEY IxRol (Rol)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -467,3 +469,31 @@ CREATE TABLE IF NOT EXISTS TegoedMutaties (
     AangemaaktOp DATETIME NOT NULL,
     INDEX IDX_TegoedMutaties_Gebruiker (GebruikerId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS Referrals (
+    Id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    AanbrengerId INT UNSIGNED NOT NULL,
+    AangebrachtId INT UNSIGNED NOT NULL,
+    Code VARCHAR(20) NOT NULL,
+    Drempel INT NOT NULL DEFAULT 50000,
+    Besteed INT NOT NULL DEFAULT 0,
+    GekwalificeerdOp DATETIME NULL,
+    AangemaaktOp DATETIME NOT NULL,
+    UNIQUE KEY UkReferralLid (AangebrachtId),
+    KEY IxReferralAanbrenger (AanbrengerId),
+    CONSTRAINT FkReferralAanbrenger FOREIGN KEY (AanbrengerId) REFERENCES Gebruikers (Id) ON DELETE CASCADE,
+    CONSTRAINT FkReferralAangebracht FOREIGN KEY (AangebrachtId) REFERENCES Gebruikers (Id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS ReferralBeloningen (
+    Id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    ReferralId INT UNSIGNED NOT NULL,
+    DocumentId INT UNSIGNED NOT NULL,
+    BasisBedrag INT NOT NULL DEFAULT 0,
+    Bedrag INT NOT NULL DEFAULT 0,
+    AangemaaktOp DATETIME NOT NULL,
+    UNIQUE KEY UkReferralDocument (ReferralId, DocumentId),
+    KEY IxReferralBeloningDocument (DocumentId),
+    CONSTRAINT FkReferralBeloningReferral FOREIGN KEY (ReferralId) REFERENCES Referrals (Id) ON DELETE CASCADE,
+    CONSTRAINT FkReferralBeloningDocument FOREIGN KEY (DocumentId) REFERENCES Documenten (Id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
