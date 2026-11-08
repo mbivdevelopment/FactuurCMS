@@ -1,7 +1,7 @@
 <?php
 $extend('frontend', ['title' => $page['Titel']]);
 $copy = [
-    'Webhosting' => ['icon' => 'server', 'headline' => 'Je website draait gewoon goed.', 'sub' => 'Snel, veilig en beheerd vanuit het eigen Qevanto Hostingpaneel.', 'visual' => 'Qevanto Hostingpaneel · Webhosting · Overzicht'],
+    'Webhosting' => ['icon' => 'server', 'headline' => 'Webhosting voor websites die vooruit willen.', 'sub' => 'Een snelle, veilige en betrouwbare basis voor je website, webshop of online project — beheerd vanuit het eigen Qevanto Hostingpaneel.', 'visual' => 'Qevanto Hostingpaneel · Webhosting · Overzicht'],
     'Reseller Hosting' => ['icon' => 'users', 'headline' => 'Jouw hostingbedrijf, onze infrastructuur.', 'sub' => 'Bied klanten professionele hosting onder je eigen merk.', 'visual' => 'Resellerportaal · Klanten · Accounts'],
     'E-mail Hosting' => ['icon' => 'mail', 'headline' => 'Zakelijke e-mail zonder zorgen.', 'sub' => 'Betrouwbare mailboxen op je eigen domeinnaam, overal beschikbaar.', 'visual' => 'Webmail · Inbox · Beveiligde verbinding'],
 ];
@@ -14,26 +14,14 @@ $isWebhosting = $soort === 'Webhosting';
         <div class="hh-text">
             <span class="hh-label"><?= icon($c['icon'], 'icon icon-sm') ?> <?= e($page['Titel']) ?></span>
             <h1><?= e($c['headline']) ?></h1>
-            <p><?= e($c['sub']) ?> <?= e((string) $page['Samenvatting']) ?></p>
+            <p><?= e($c['sub']) ?></p>
             <div class="hh-btns"><a class="btn btn-lg" href="#pakketten"><?= icon('cart', 'icon icon-sm') ?> Bekijk pakketten</a><a class="btn btn-lg btn-ghost" href="#werking">Hoe het werkt <?= icon('arrow-right', 'icon icon-sm') ?></a></div>
         </div>
-        <div class="hh-visual<?= $isWebhosting ? ' solution-photo-wrap' : '' ?>">
-            <?php if ($isWebhosting): ?>
+        <div class="hh-visual solution-photo-wrap">
             <div class="solution-photo-card">
                 <img src="<?= e(asset('img/qevanto-datacenter.jpg')) ?>" alt="Datacenter met Qevanto hostinginfrastructuur">
                 <span class="solution-photo-caption"><?= icon('server', 'icon icon-sm') ?> Qevanto-infrastructuur in Nederland</span>
             </div>
-            <?php else: ?>
-            <div class="dn-browser">
-                <div class="dn-bar"><i></i><i></i><i></i><span class="dn-url"><?= icon('lock', 'icon icon-sm') ?> <?= e($c['visual']) ?></span></div>
-                <div class="dn-body dn-dns">
-                    <div class="dn-dns-head"><strong><?= e($page['Titel']) ?></strong><span class="badge is-ok">Actief</span></div>
-                    <?php foreach (array_slice($benefits, 0, 5) as [$ic, $title, $text]): ?>
-                    <div class="dn-row sm-row"><span class="dn-dot dn-ok"></span><strong><?= e($title) ?></strong><span class="dn-val">Inbegrepen</span><em><?= icon($ic, 'icon icon-sm') ?></em></div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-            <?php endif; ?>
             <div class="hh-badge hh-b1"><?= icon('zap') ?><div><strong>Direct actief</strong><small>na betaling</small></div></div>
             <div class="hh-badge hh-b2"><?= icon('shield') ?><div><strong>Veilig geregeld</strong><small>via Qevanto Hostingpaneel</small></div></div>
         </div>
