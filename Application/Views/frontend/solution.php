@@ -118,7 +118,7 @@ $blogLabel = $isReseller ? 'Reseller Hosting' : ($isEmailHosting ? 'E-mail Hosti
 <section class="sec sec-grey integration-logo-section"><div class="container">
     <div class="sec-head center"><div><span class="eyebrow"><?= icon('link', 'icon icon-sm') ?> Integraties</span><h2>Koppel met de tools die je al gebruikt</h2><p>Van boekhouding en betalingen tot voorraad en bedrijfssoftware: jouw systemen werken samen vanuit één betrouwbare koppeling.</p></div></div>
     <div class="logo-grid">
-        <?php foreach (['exact' => 'Exact', 'moneybird' => 'Moneybird', 'mollie' => 'Mollie', 'stripe' => 'Stripe', 'odoo' => 'Odoo', 'informer' => 'Informer', 'yuki' => 'Yuki', 'snelstart' => 'SnelStart', 'onlinefact' => 'OnlineFact'] as $slug => $name): ?>
+        <?php foreach (['exact' => 'Exact', 'moneybird' => 'Moneybird', 'mollie' => 'Mollie', 'stripe' => 'Stripe', 'odoo' => 'Odoo', 'informer' => 'Informer', 'yuki' => 'Yuki', 'snelstart' => 'SnelStart', 'onlinefact' => 'OnlineFact', 'gangbang-sheet' => 'GangBang Sheet', 'postnl' => 'PostNL', 'dhl' => 'DHL'] as $slug => $name): ?>
         <span class="logo-item"><img src="<?= e(asset('img/logos/integrations/' . $slug . '.svg')) ?>" alt="" loading="lazy"><?= e($name) ?></span>
         <?php endforeach; ?>
     </div>
