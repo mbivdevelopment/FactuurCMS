@@ -3,7 +3,7 @@ $kind = $product->Dienstsoort ? \App\Models\Product::soortLabel($product->Dienst
 $crumbs = [['/domeinen', 'Domeinen']];
 
 $crumbs[] = [null, $product->Naam];
-$per = ['maand' => '/ maand', 'kwartaal' => '/ kwartaal', 'jaar' => '/ jaar', '2jaar' => '/ 2 jaar', '3jaar' => '/ 3 jaar', '4jaar' => '/ 4 jaar', '5jaar' => '/ 5 jaar', '6jaar' => '/ 6 jaar'][(string) $product->Periode] ?? 'eenmalig'; ?>
+$per = ['maand' => '/ maand', 'kwartaal' => '/ kwartaal', 'halfjaar' => '/ halfjaar', 'jaar' => '/ jaar', '2jaar' => '/ 2 jaar', '3jaar' => '/ 3 jaar', '4jaar' => '/ 4 jaar', '5jaar' => '/ 5 jaar', '8jaar' => '/ 8 jaar'][(string) $product->Periode] ?? 'eenmalig'; ?>
 <?= $partial('frontend._hero', ['title' => $product->Naam, 'intro' => (string) $product->Omschrijving, 'icon' => \App\Models\Product::soortIcon($product->Dienstsoort, $product->Groep), 'crumbs' => $crumbs]) ?>
 <section class="sec">
     <div class="container">

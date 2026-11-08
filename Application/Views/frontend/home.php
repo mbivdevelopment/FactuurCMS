@@ -1,7 +1,7 @@
 <?php $extend('frontend', ['title' => (string) setting('website.titel', 'Hosting')]); $overImg = branding_url('over'); $heroImg = branding_url('hero');
 $homeTitle = preg_replace('/\{([^}]+)\}/', '<span>$1</span>', e((string) (setting('home.titel', '') ?: 'Het startpunt van jouw {online succes}.')));
 $homeText = (string) (setting('home.tekst', '') ?: 'Domeinnaam, hosting, e-mail en servers op snelle NVMe-infrastructuur in Nederlandse datacenters. Wij regelen de techniek, de beveiliging en de back-ups — jij onderneemt.');
-$per = static fn (string $p): string => ['maand' => 'p/m', 'kwartaal' => 'p/kw', 'jaar' => 'p/j', '2jaar' => 'p/2 jaar', '3jaar' => 'p/3 jaar', '4jaar' => 'p/4 jaar', '5jaar' => 'p/5 jaar', '6jaar' => 'p/6 jaar'][$p] ?? 'eenmalig';
+$per = static fn (string $p): string => ['maand' => 'p/m', 'kwartaal' => 'p/kw', 'halfjaar' => 'p/halfjaar', 'jaar' => 'p/j', '2jaar' => 'p/2 jaar', '3jaar' => 'p/3 jaar', '4jaar' => 'p/4 jaar', '5jaar' => 'p/5 jaar', '8jaar' => 'p/8 jaar'][$p] ?? 'eenmalig';
 $kindOrder = ['Webhosting', 'Domeinnamen', 'Cloud VPS', 'E-mail Hosting', 'Informatieve Websites', 'Reseller Hosting', 'Webshops', 'Marketing SEO'];
 $kindTag = ['Webhosting' => 'Klaar om mee te groeien', 'Domeinnamen' => 'Jouw naam, direct geregeld', 'Cloud VPS' => 'Flexibel, simpel, schaalbaar', 'E-mail Hosting' => 'Professionele e-mail op je domein', 'Informatieve Websites' => 'Een website die werkt', 'Reseller Hosting' => 'Hosting onder jouw merk', 'Webshops' => 'Verkoop zonder grenzen', 'Marketing SEO' => 'Gevonden worden in Google'];
 $cards = [];

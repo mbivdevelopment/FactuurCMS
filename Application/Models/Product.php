@@ -20,9 +20,9 @@ final class Product extends Model
     ];
     public const PERIODS = [
         'eenmalig' => 'Eenmalig', 'maand' => 'Per maand', 'kwartaal' => 'Per kwartaal',
-        'jaar' => 'Per jaar (5% korting)', '2jaar' => 'Per 2 jaar (10% korting)',
-        '3jaar' => 'Per 3 jaar (15% korting)', '4jaar' => 'Per 4 jaar (20% korting)',
-        '5jaar' => 'Per 5 jaar (25% korting)', '6jaar' => 'Per 6 jaar (30% korting)',
+        'halfjaar' => 'Per halfjaar', 'jaar' => 'Per jaar', '2jaar' => 'Per 2 jaar',
+        '3jaar' => 'Per 3 jaar', '4jaar' => 'Per 4 jaar', '5jaar' => 'Per 5 jaar',
+        '8jaar' => 'Per 8 jaar',
     ];
 
     protected static string $table = 'Producten';

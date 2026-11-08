@@ -82,9 +82,9 @@ final class Billing
     /** Bestelling vanuit de frontend: dienst (in afwachting) + direct een open factuur. */
     /** Termijnen met korting voor terugkerende diensten: sleutel => [maanden, korting%]. */
     public const TERMIJNEN = [
-        'maand' => [1, 0], 'kwartaal' => [3, 0], 'jaar' => [12, 5],
-        '2jaar' => [24, 10], '3jaar' => [36, 15], '4jaar' => [48, 20],
-        '5jaar' => [60, 25], '6jaar' => [72, 30],
+        'maand' => [1, 0], 'kwartaal' => [3, 0], 'halfjaar' => [6, 0],
+        'jaar' => [12, 0], '2jaar' => [24, 5], '3jaar' => [36, 10],
+        '4jaar' => [48, 15], '5jaar' => [60, 20], '8jaar' => [96, 30],
     ];
 
     /** Prijs voor een termijn op basis van de maandprijs van het product. */
