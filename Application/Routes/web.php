@@ -270,3 +270,8 @@ $router->group('beheer', ['csrf', 'auth', 'admin'], static function ($router): v
 // Betaal-webhooks (zonder CSRF; verificatie bij de provider of via handtekening)
 $router->post('/betalen/mollie/webhook', 'Frontend\\WebhookController@mollie');
 $router->post('/betalen/cryptomus/webhook', 'Frontend\\WebhookController@cryptomus');
+
+// Korte publieke product-URL's; de oude /diensten/{slug}-links blijven redirects.
+$router->get('/{slug}', 'Frontend\\SiteController@product');
+$router->get('/{slug}/bestellen', 'Frontend\\SiteController@checkout');
+$router->post('/{slug}/bestellen', 'Frontend\\SiteController@order', ['csrf', 'throttle:bestellen,10,60']);

@@ -67,12 +67,12 @@ final class Product extends Model
         return $soort === 'Domeinnamen' ? 'Domeinextensies' : (string) $soort;
     }
 
-    /** Publieke URL: domeinextensies onder /extensies/{slug}, de rest onder /diensten/{slug}. */
+    /** Publieke URL: domeinextensies onder /domeinen, overige producten op hun eigen korte slug. */
     public static function pathFor(string $slug, ?string $soort, ?string $groep = null): string
     {
         $extension = $soort === 'Domeinnamen' || (($soort === null || $soort === '') && $groep === 'Domeinen');
 
-        return $extension ? '/domeinen' : '/diensten/' . $slug;
+        return $extension ? '/domeinen' : '/' . $slug;
     }
 
     /** Slug van een dienstsoort in het beheer (bv. ssl-certificaten); bij producten op de weergavenaam (domeinextensies). */

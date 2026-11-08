@@ -281,6 +281,12 @@ final class SiteController extends Controller
     public function checkout(Request $request): Response
     {
         $product = $this->findProduct($request);
+        $canonical = $product->path() . '/bestellen';
+        if ('/' . trim($request->path, '/') !== $canonical) {
+            $query = (string) ($_SERVER['QUERY_STRING'] ?? '');
+
+            return Response::redirect($canonical . ($query !== '' ? '?' . $query : ''), 301);
+        }
         $extPrijzen = [];
         foreach (DomainCheck::products() as $ext => $extProduct) {
             $extPrijzen[$ext] = ['prijs' => (int) $extProduct->Prijs, 'btw' => (float) $extProduct->BtwTarief];
@@ -467,6 +473,15 @@ final class SiteController extends Controller
     {
         $slug = (string) $request->param('slug');
         $product = Product::firstWhere(['Slug' => $slug, 'Zichtbaar' => 1]);
+        if ($product === null) {
+            $legacy = [
+                'smtp-relay-100' => 'smtp-starter',
+                'smtp-relay-250' => 'smtp-plus',
+                'smtp-relay-1000' => 'smtp-compleet',
+                'smtp-relay-2500' => 'smtp-maximaal',
+            ];
+            $product = isset($legacy[$slug]) ? Product::firstWhere(['Slug' => $legacy[$slug], 'Zichtbaar' => 1]) : null;
+        }
         if ($product === null && str_starts_with($slug, 'domein-')) {
             $product = Product::firstWhere(['Slug' => substr($slug, 7), 'Zichtbaar' => 1]);
         }
