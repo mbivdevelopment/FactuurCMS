@@ -72,8 +72,9 @@ function asset(string $path): string
 function branding_url(string $kind): string
 {
     $file = (string) setting('branding.' . $kind, '');
+    $path = App::instance()->path('Application/Theme/assets/branding/' . $file);
 
-    return $file !== '' && is_file(App::instance()->path('Application/Theme/assets/branding/' . $file)) ? url('assets/branding/' . $file) : '';
+    return $file !== '' && is_file($path) ? url('assets/branding/' . $file) . '?v=' . filemtime($path) : '';
 }
 
 function branding_path(string $kind): string

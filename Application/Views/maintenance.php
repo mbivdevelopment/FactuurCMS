@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Deze site is niet bereikbaar</title>
+    <?php $fav = branding_url('favicon'); ?>
+    <?php if ($fav !== ''): ?><link rel="icon" href="<?= e($fav) ?>"><?php endif; ?>
     <style>
         :root { color-scheme: light; font-family: Arial, Helvetica, sans-serif; color: #202124; background: #fff; }
         * { box-sizing: border-box; }
