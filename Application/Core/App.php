@@ -57,6 +57,12 @@ final class App
         $request = Request::capture();
 
         try {
+            $maintenance = $this->maintenanceResponse($request);
+            if ($maintenance !== null) {
+                $maintenance->send();
+
+                return;
+            }
             $response = $this->router->dispatch($request);
         } catch (ValidationException $e) {
             $response = $e->toResponse();
@@ -69,6 +75,24 @@ final class App
         }
 
         $response->send();
+    }
+
+    private function maintenanceResponse(Request $request): ?Response
+    {
+        if (!setting('website.onderhoud', false) || $this->maintenanceAllowed($request)) {
+            return null;
+        }
+
+        return Response::view('maintenance', ['company' => company_name()], 503);
+    }
+
+    private function maintenanceAllowed(Request $request): bool
+    {
+        if ($request->is('/beheer') || $request->is('/klant') || $request->is('/login') || $request->is('/uitloggen') || $request->is('/wachtwoord-vergeten') || $request->is('/wachtwoord-herstellen')) {
+            return true;
+        }
+
+        return false;
     }
 
     private function errorResponse(Request $request, int $status, string $message): Response

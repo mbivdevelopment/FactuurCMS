@@ -21,7 +21,7 @@ final class SettingsController extends Controller
         'facturatie' => ['facturatie.prefix_factuur', 'facturatie.prefix_offerte', 'facturatie.betaaltermijn', 'facturatie.offerte_geldig', 'facturatie.btw', 'facturatie.dagen_vooraf', 'facturatie.voettekst', 'facturatie.voettekst_offerte', 'cron.sleutel'],
         'email' => ['mail.methode', 'mail.afzender', 'mail.afzendernaam', 'mail.host', 'mail.poort', 'mail.beveiliging', 'mail.gebruiker'],
         'mailtemplates' => ['mailtpl.welkom.onderwerp', 'mailtpl.welkom.tekst', 'mailtpl.wachtwoord.onderwerp', 'mailtpl.wachtwoord.tekst', 'mailtpl.factuur.onderwerp', 'mailtpl.factuur.tekst', 'mailtpl.offerte.onderwerp', 'mailtpl.offerte.tekst', 'mailtpl.ticket.onderwerp', 'mailtpl.ticket.tekst'],
-        'website' => ['website.titel', 'website.intro', 'app.url', 'topbar.telefoon', 'topbar.email', 'topbar.slogan', 'links.webmail', 'links.paneel', 'home.label', 'home.titel', 'home.tekst', 'reviews.score', 'reviews.aantal', 'reviews.bron', 'reviews.url', 'hero.titel', 'hero.tekst', 'hero.extensies', 'over.titel', 'over.tekst', 'over.wie', 'over.hoe', 'over.missie', 'footer.tekst', 'social.linkedin', 'social.facebook', 'social.instagram'],
+        'website' => ['website.titel', 'website.intro', 'website.onderhoud', 'app.url', 'topbar.telefoon', 'topbar.email', 'topbar.slogan', 'links.webmail', 'links.paneel', 'home.label', 'home.titel', 'home.tekst', 'reviews.score', 'reviews.aantal', 'reviews.bron', 'reviews.url', 'hero.titel', 'hero.tekst', 'hero.extensies', 'over.titel', 'over.tekst', 'over.wie', 'over.hoe', 'over.missie', 'footer.tekst', 'social.linkedin', 'social.facebook', 'social.instagram'],
     ];
     private const BRANDING = ['logo' => 'Logo', 'logo_licht' => 'Logo (lichte variant, donkere achtergrond)', 'favicon' => 'Favicon', 'over' => 'Afbeelding "Over ons" (homepage)', 'hero' => 'Hero-foto homepage (bijv. server, liefst vrijstaand PNG)'];
 
@@ -63,7 +63,9 @@ final class SettingsController extends Controller
         foreach (self::KEYS[$tab] ?? [] as $key) {
             $field = str_replace('.', '_', $key);
             if ($request->has($field)) {
-                Setting::set($key, trim($request->string($field)));
+                Setting::set($key, $key === 'website.onderhoud' ? $request->bool($field) : trim($request->string($field)));
+            } elseif ($key === 'website.onderhoud') {
+                Setting::set($key, false);
             }
         }
         if ($tab === 'email' && $request->string('mail_wachtwoord') !== '') {

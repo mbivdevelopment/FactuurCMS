@@ -66,6 +66,7 @@
             <?= field('website_titel', 'Titel homepage', 'layout', $s('website.titel')) ?>
             <?= field('app_url', 'Website-URL (voor links in e-mail/PDF)', 'link', $s('app.url'), 'url', [], 'placeholder="https://www.jouwdomein.nl"') ?>
             <?= field('website_intro', 'Korte omschrijving (zoekmachines)', 'note', $s('website.intro'), 'textarea', [], 'rows="2"') ?>
+            <label class="switch field-full"><input type="checkbox" name="website_onderhoud" value="1" <?= $s('website.onderhoud', false) ? 'checked' : '' ?>> Onderhoudsmodus inschakelen <span class="small muted">Bezoekers zien: “Deze website is niet bereikbaar”. Beheer en klantportaal blijven beschikbaar.</span></label>
             <div class="field-full set-title"><?= icon('phone', 'icon icon-sm') ?> Topbar</div>
             <?= field('topbar_telefoon', 'Telefoonnummer (links)', 'phone', $s('topbar.telefoon')) ?>
             <?= field('topbar_email', 'E-mailadres (links)', 'mail', $s('topbar.email'), 'email') ?>
