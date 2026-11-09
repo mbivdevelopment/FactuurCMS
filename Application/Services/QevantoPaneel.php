@@ -12,6 +12,7 @@ final class QevantoPaneel
     /** Soort abonnement/pakket in het paneel => [label, productgroep, dienstsoort, icoon]. */
     public const KINDS = [
         'hosting' => ['Hosting', 'Hosting', 'Webhosting', 'server'],
+        'email' => ['E-mail Hosting', 'Hosting', 'E-mail Hosting', 'mail'],
         'reseller' => ['Reseller', 'Hosting', 'Reseller Hosting', 'users'],
         'vpn' => ['VPN', 'Overig', 'VPN', 'shield'],
         'workplace' => ['Werkplek', 'Overig', 'Werkplek Beheer', 'headset'],
@@ -24,7 +25,7 @@ final class QevantoPaneel
         return self::get('/api/subscriptions');
     }
 
-    /** Pakketten (hosting, reseller, VPN, werkplek en SMTP Relay). @return list<array<string, mixed>> */
+    /** Pakketten (hosting, E-mail Hosting, reseller, VPN, werkplek en SMTP Relay). @return list<array<string, mixed>> */
     public static function packages(): array
     {
         return self::get('/api/packages');
@@ -95,20 +96,23 @@ final class QevantoPaneel
     }
 
     private const FEATURES = [
-        'websites' => '%s websites', 'diskGb' => '%s GB opslag', 'bandwidthGb' => '%s GB dataverkeer', 'mailboxes' => '%s mailboxen',
+        'websites' => '%s websites', 'domains' => '%s domeinen', 'diskGb' => '%s GB opslag', 'bandwidthGb' => '%s GB dataverkeer', 'mailboxes' => '%s mailboxen',
+        'mailboxQuotaMb' => '%s MB opslag per mailbox', 'aliases' => '%s doorsturingen',
         'databases' => '%s databases', 'ftpAccounts' => '%s FTP-accounts', 'cronJobs' => '%s cronjobs', 'memoryMb' => '%s MB geheugen',
         'phpWorkers' => '%s PHP-workers', 'cpuPercent' => '%s%% CPU', 'netMbit' => '%s Mbit/s internetsnelheid', 'cacheMb' => '%s MB Redis-cache',
         'customers' => '%s klanten', 'subscriptions' => '%s abonnementen', 'peers' => '%s apparaten', 'workplaces' => '%s werkplekken',
         'monthlyLimit' => '%s berichten per maand', 'senderDomains' => '%s afzenderdomein(en)',
         'logRetentionDays' => '%s dagen verzendlogs', 'maxMessageMb' => '%s MB maximale berichtgrootte',
+        'outgoingLimit' => '%s uitgaande berichten per uur',
     ];
 
     private const FEATURE_ICONS = [
-        'websites' => 'globe', 'diskGb' => 'box', 'bandwidthGb' => 'zap', 'mailboxes' => 'mail', 'databases' => 'server',
+        'websites' => 'globe', 'domains' => 'globe', 'diskGb' => 'box', 'bandwidthGb' => 'zap', 'mailboxes' => 'mail',
+        'mailboxQuotaMb' => 'box', 'aliases' => 'link', 'databases' => 'server',
         'ftpAccounts' => 'link', 'cronJobs' => 'clock', 'memoryMb' => 'cpu', 'phpWorkers' => 'code', 'cpuPercent' => 'cpu',
         'netMbit' => 'zap', 'cacheMb' => 'zap', 'customers' => 'users', 'subscriptions' => 'server', 'peers' => 'shield',
         'workplaces' => 'headset', 'monthlyLimit' => 'send', 'senderDomains' => 'globe', 'logRetentionDays' => 'clock',
-        'maxMessageMb' => 'file',
+        'maxMessageMb' => 'file', 'outgoingLimit' => 'send',
     ];
 
     private const SINGULAR = ['websites' => 'website', 'mailboxen' => 'mailbox', 'databases' => 'database', 'FTP-accounts' => 'FTP-account', 'cronjobs' => 'cronjob', 'PHP-workers' => 'PHP-worker', 'klanten' => 'klant', 'abonnementen' => 'abonnement', 'apparaten' => 'apparaat', 'werkplekken' => 'werkplek'];
@@ -118,11 +122,19 @@ final class QevantoPaneel
     {
         $out = [];
         foreach (self::FEATURES as $key => $format) {
-            if (isset($limits[$key]) && is_numeric($limits[$key])) {
-                $n = (int) $limits[$key];
-                $text = $n === 0 ? 'Onbeperkt ' . trim(str_replace(['%s%%', '%s'], '', $format)) : sprintf($format, $n);
-                $out[] = ['icoon' => self::FEATURE_ICONS[$key] ?? 'check', 'tekst' => $n === 1 ? strtr($text, self::SINGULAR) : $text];
+            if (!array_key_exists($key, $limits)) {
+                continue;
             }
+            if ($limits[$key] === null) {
+                $out[] = ['icoon' => self::FEATURE_ICONS[$key] ?? 'check', 'tekst' => 'Onbeperkt ' . trim(str_replace(['%s%%', '%s'], '', $format))];
+                continue;
+            }
+            if (!is_numeric($limits[$key])) {
+                continue;
+            }
+            $n = (int) $limits[$key];
+            $text = $n === 0 ? 'Onbeperkt ' . trim(str_replace(['%s%%', '%s'], '', $format)) : sprintf($format, $n);
+            $out[] = ['icoon' => self::FEATURE_ICONS[$key] ?? 'check', 'tekst' => $n === 1 ? strtr($text, self::SINGULAR) : $text];
         }
         if (!empty($limits['backups'])) {
             $out[] = ['icoon' => 'refresh', 'tekst' => 'Dagelijkse back-ups'];
@@ -131,6 +143,9 @@ final class QevantoPaneel
             $out[] = ['icoon' => 'lock', 'tekst' => 'SSH-toegang'];
         }
         foreach ([
+            'webmail' => ['Webmail', 'mail'],
+            'imapPop3' => ['IMAP/POP3', 'mail'],
+            'smtpSubmission' => ['SMTP verzenden', 'send'],
             'smtpAccess' => ['SMTP-toegang', 'send'],
             'spf' => ['SPF', 'shield'],
             'dkim' => ['DKIM', 'lock'],
