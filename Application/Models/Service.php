@@ -97,6 +97,16 @@ final class Service extends Model
         return $soort !== null && in_array($soort, ['Webhosting', 'Reseller Hosting', 'E-mailhosting'], true);
     }
 
+    /** Is dit een E-mail Hosting-dienst in het Qevanto-paneel? */
+    public function isEmailHosting(): bool
+    {
+        if ((string) $this->Bron === 'qevanto' && (string) ($this->qevanto()['kind'] ?? '') === 'email') {
+            return true;
+        }
+
+        return $this->product()?->Dienstsoort === 'E-mail Hosting';
+    }
+
     /** Is dit een VPS/server-dienst (InterServer)? */
     public function isVps(): bool
     {
