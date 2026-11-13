@@ -100,6 +100,9 @@ final class Response
             if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
                 header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
             }
+            if (strtolower(trim(explode(',', (string) ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? ''))[0] ?? '')) === 'https') {
+                header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
+            }
             foreach ($this->headers as $name => $value) {
                 header($name . ': ' . $value);
             }

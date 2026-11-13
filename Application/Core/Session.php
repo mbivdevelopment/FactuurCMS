@@ -16,6 +16,8 @@ final class Session
         }
 
         session_name("factuurcms");
+        ini_set('session.use_strict_mode', '1');
+        ini_set('session.use_only_cookies', '1');
         $path = dirname(__DIR__, 2) . '/storage/sessions';
         if (!is_dir($path)) {
             @mkdir($path, 0775, true);
@@ -26,10 +28,13 @@ final class Session
         ini_set('session.gc_maxlifetime', (string) self::LIFETIME);
         ini_set('session.gc_probability', '1');
         ini_set('session.gc_divisor', '100');
+        $forwardedProto = strtolower(trim(explode(',', (string) ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? ''))[0] ?? ''));
         session_set_cookie_params([
             'lifetime' => 0,
             'path' => '/',
-            'secure' => str_starts_with((string) Config::get('app.url', ''), 'https://'),
+            'secure' => str_starts_with((string) Config::get('app.url', ''), 'https://')
+                || (($_SERVER['HTTPS'] ?? '') !== '' && ($_SERVER['HTTPS'] ?? '') !== 'off')
+                || $forwardedProto === 'https',
             'httponly' => true,
             'samesite' => 'Lax',
         ]);

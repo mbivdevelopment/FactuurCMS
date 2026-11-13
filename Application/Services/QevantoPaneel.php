@@ -196,6 +196,11 @@ final class QevantoPaneel
         if ($url === '' || $token === '') {
             throw new \RuntimeException('Stel eerst de URL en API-sleutel van het Qevanto hostingpaneel in.');
         }
+        $scheme = strtolower((string) parse_url($url, PHP_URL_SCHEME));
+        $host = strtolower((string) parse_url($url, PHP_URL_HOST));
+        if ($scheme !== 'https' && !in_array($host, ['localhost', '127.0.0.1'], true)) {
+            throw new \RuntimeException('De verbinding met Qevanto moet via HTTPS lopen.');
+        }
 
         return [$url, $token];
     }
